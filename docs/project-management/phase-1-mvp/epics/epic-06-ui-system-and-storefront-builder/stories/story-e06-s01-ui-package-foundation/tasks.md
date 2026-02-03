@@ -12,9 +12,9 @@ pnpm init
 
 **Files to create**:
 
-- [ ] `packages/ui/package.json`
-- [ ] `packages/ui/tsconfig.json`
-- [ ] `packages/ui/tsup.config.ts` (build config)
+- [x] `packages/ui/package.json`
+- [x] `packages/ui/tsconfig.json`
+- [x] `packages/ui/tsup.config.ts` (build config)
 
 **package.json requirements**:
 
@@ -48,11 +48,11 @@ pnpm init
 
 **Files**:
 
-- [ ] `src/tokens/types.ts` - TypeScript types
-- [ ] `src/tokens/schema.ts` - Token definitions with constraints
-- [ ] `src/tokens/defaults.ts` - Default token values
-- [ ] `src/tokens/presets.ts` - Theme presets (default, ocean, sunset, forest, minimal, playful)
-- [ ] `src/tokens/index.ts` - Exports
+- [x] `src/tokens/types.ts` - TypeScript types
+- [x] `src/tokens/schema.ts` - Token definitions with constraints
+- [x] `src/tokens/defaults.ts` - Default token values
+- [x] `src/tokens/presets.ts` - Theme presets (default, ocean, sunset, forest, minimal, playful)
+- [x] `src/tokens/index.ts` - Exports
 
 **Token categories**:
 
@@ -87,7 +87,7 @@ interface TokenConstraint<T> {
 
 **Files**:
 
-- [ ] `src/theme/css-generator.ts`
+- [x] `src/theme/css-generator.ts`
 
 **Functions**:
 
@@ -114,10 +114,10 @@ interface TokenConstraint<T> {
 
 **Files**:
 
-- [ ] `src/theme/context.ts` - Theme context definition
-- [ ] `src/theme/provider.tsx` - ThemeProvider component
-- [ ] `src/theme/use-theme.ts` - useTheme hook
-- [ ] `src/theme/index.ts` - Exports
+- [x] `src/theme/context.ts` - Theme context definition
+- [x] `src/theme/provider.tsx` - ThemeProvider component
+- [x] `src/theme/use-theme.ts` - useTheme hook
+- [x] `src/theme/index.ts` - Exports
 
 **ThemeProvider props**:
 
@@ -147,7 +147,7 @@ interface ThemeContextValue {
 
 **Files**:
 
-- [ ] `packages/ui/tailwind.config.ts`
+- [x] `packages/ui/tailwind.config.ts`
 
 **Requirements**:
 
@@ -186,10 +186,10 @@ export default {
 
 **Files**:
 
-- [ ] `src/utils/cn.ts` - clsx + tailwind-merge
-- [ ] `src/utils/deep-merge.ts` - Deep object merge for token updates
+- [x] `src/utils/cn.ts` - clsx + tailwind-merge
+- [x] `src/utils/deep-merge.ts` - Deep object merge for token updates
 - [ ] `src/utils/color.ts` - Color utilities (optional: lighten, darken, contrast)
-- [ ] `src/utils/index.ts` - Exports
+- [x] `src/utils/index.ts` - Exports
 
 **cn utility**:
 
@@ -210,7 +210,7 @@ export function cn(...inputs: ClassValue[]) {
 
 **Files**:
 
-- [ ] `src/index.ts`
+- [x] `src/index.ts`
 
 **Exports**:
 
@@ -231,8 +231,8 @@ export { cn } from './utils';
 
 **Estimate**: 30 minutes
 
-- [ ] Run `pnpm build` in packages/ui
-- [ ] Verify dist output
+- [x] Run `pnpm build` in packages/ui
+- [x] Verify dist output
 - [ ] Test import in a consuming app
 - [ ] Verify CSS variables are injected correctly
 

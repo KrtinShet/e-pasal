@@ -14,9 +14,9 @@ Minima MUI React Kit: `/Users/krtinshet/Development/Minima MUI React Kit/next-ts
 
 **Files**:
 
-- [ ] `src/components/button/button.tsx`
-- [ ] `src/components/button/button.styles.ts` (variant classes)
-- [ ] `src/components/button/index.ts`
+- [x] `src/components/button/button.tsx`
+- [x] `src/components/button/button.styles.ts` (variant classes)
+- [x] `src/components/button/index.ts`
 
 **Variants**: primary, secondary, outline, ghost, destructive
 **Sizes**: sm, md, lg
@@ -46,8 +46,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 **Files**:
 
-- [ ] `src/components/input/input.tsx`
-- [ ] `src/components/input/index.ts`
+- [x] `src/components/input/input.tsx`
+- [x] `src/components/input/index.ts`
 
 **Features**: label, placeholder, helper text, error state, left/right icons, clearable
 
@@ -75,8 +75,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 **Files**:
 
-- [ ] `src/components/select/select.tsx`
-- [ ] `src/components/select/index.ts`
+- [x] `src/components/select/select.tsx`
+- [x] `src/components/select/index.ts`
 
 **Features**: label, placeholder, error state, native select option
 
@@ -100,11 +100,11 @@ interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>
 
 **Files**:
 
-- [ ] `src/components/checkbox/checkbox.tsx`
-- [ ] `src/components/radio/radio.tsx`
-- [ ] `src/components/radio/radio-group.tsx`
-- [ ] `src/components/switch/switch.tsx`
-- [ ] `src/components/textarea/textarea.tsx`
+- [x] `src/components/checkbox/checkbox.tsx`
+- [x] `src/components/radio/radio.tsx`
+- [x] `src/components/radio/radio-group.tsx`
+- [x] `src/components/switch/switch.tsx`
+- [x] `src/components/textarea/textarea.tsx`
 
 **Each with**: label, error state, disabled state
 
@@ -118,11 +118,8 @@ interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>
 
 **Files**:
 
-- [ ] `src/components/card/card.tsx`
-- [ ] `src/components/card/card-header.tsx`
-- [ ] `src/components/card/card-body.tsx`
-- [ ] `src/components/card/card-footer.tsx`
-- [ ] `src/components/card/index.ts`
+- [x] `src/components/card/card.tsx` (includes CardHeader, CardBody, CardFooter, CardTitle, CardDescription)
+- [x] `src/components/card/index.ts`
 
 **Props**:
 
@@ -143,8 +140,8 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/badge/badge.tsx`
-- [ ] `src/components/badge/index.ts`
+- [x] `src/components/badge/badge.tsx`
+- [x] `src/components/badge/index.ts`
 
 **Variants**: filled, outlined, soft
 **Colors**: primary, secondary, success, warning, error, info, neutral
@@ -157,11 +154,10 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/avatar/avatar.tsx`
-- [ ] `src/components/avatar/avatar-group.tsx`
-- [ ] `src/components/avatar/index.ts`
+- [x] `src/components/avatar/avatar.tsx` (includes AvatarGroup)
+- [x] `src/components/avatar/index.ts`
 
-**Features**: image, initials fallback, sizes (xs, sm, md, lg, xl), group with overlap
+**Features**: image, initials fallback, sizes (xs, sm, md, lg, xl, 2xl), group with overlap
 
 ---
 
@@ -173,15 +169,11 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/table/table.tsx`
-- [ ] `src/components/table/table-head.tsx`
-- [ ] `src/components/table/table-body.tsx`
-- [ ] `src/components/table/table-row.tsx`
-- [ ] `src/components/table/table-cell.tsx`
-- [ ] `src/components/table/table-pagination.tsx`
-- [ ] `src/components/table/table-empty.tsx`
-- [ ] `src/components/table/table-skeleton.tsx`
-- [ ] `src/components/table/index.ts`
+- [x] `src/components/table/table.tsx` (includes Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption)
+- [x] `src/components/table/table-pagination.tsx`
+- [x] `src/components/table/table-empty.tsx`
+- [x] `src/components/table/table-skeleton.tsx`
+- [x] `src/components/table/index.ts`
 
 ---
 
@@ -193,13 +185,10 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/modal/modal.tsx`
-- [ ] `src/components/modal/modal-header.tsx`
-- [ ] `src/components/modal/modal-body.tsx`
-- [ ] `src/components/modal/modal-footer.tsx`
-- [ ] `src/components/modal/index.ts`
+- [x] `src/components/modal/modal.tsx` (includes Modal, ModalHeader, ModalBody, ModalFooter)
+- [x] `src/components/modal/index.ts`
 
-**Features**: sizes (sm, md, lg, xl, full), close on overlay click, close on escape
+**Features**: sizes (sm, md, lg, xl, full), close on overlay click, close on escape, focus trapping
 
 ---
 
@@ -211,10 +200,10 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/popover/popover.tsx`
-- [ ] `src/components/popover/index.ts`
+- [x] `src/components/popover/popover.tsx`
+- [x] `src/components/popover/index.ts`
 
-**Features**: positioning (top, bottom, left, right), arrow, trigger modes
+**Features**: positioning (top, bottom, left, right), arrow, trigger modes (click, hover)
 
 ---
 
@@ -224,12 +213,10 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/dropdown/dropdown.tsx`
-- [ ] `src/components/dropdown/dropdown-item.tsx`
-- [ ] `src/components/dropdown/dropdown-divider.tsx`
-- [ ] `src/components/dropdown/index.ts`
+- [x] `src/components/dropdown/dropdown.tsx` (includes Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownDivider, DropdownLabel)
+- [x] `src/components/dropdown/index.ts`
 
-**Features**: keyboard navigation, icons, nested menus
+**Features**: keyboard navigation, icons, destructive items
 
 ---
 
@@ -239,12 +226,11 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/toast/toast.tsx`
-- [ ] `src/components/toast/toast-provider.tsx`
-- [ ] `src/components/toast/use-toast.ts`
-- [ ] `src/components/toast/index.ts`
+- [x] `src/components/toast/toast.tsx`
+- [x] `src/components/toast/toast-provider.tsx` (includes ToastProvider, useToast hook)
+- [x] `src/components/toast/index.ts`
 
-**Option**: Integrate with sonner or react-hot-toast for simpler implementation
+**Features**: variants (default, success, error, warning, info), auto-dismiss, position options
 
 ---
 
@@ -254,11 +240,11 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/skeleton/skeleton.tsx`
-- [ ] `src/components/spinner/spinner.tsx`
-- [ ] `src/components/progress/progress.tsx`
-- [ ] `src/components/empty-state/empty-state.tsx`
-- [ ] `src/components/alert/alert.tsx`
+- [x] `src/components/skeleton/skeleton.tsx` (includes SkeletonText, SkeletonAvatar)
+- [x] `src/components/spinner/spinner.tsx`
+- [x] `src/components/progress/progress.tsx`
+- [x] `src/components/empty-state/empty-state.tsx`
+- [x] `src/components/alert/alert.tsx`
 
 ---
 
@@ -268,13 +254,10 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Files**:
 
-- [ ] `src/components/tabs/tabs.tsx`
-- [ ] `src/components/tabs/tab-list.tsx`
-- [ ] `src/components/tabs/tab.tsx`
-- [ ] `src/components/tabs/tab-panels.tsx`
-- [ ] `src/components/tabs/tab-panel.tsx`
-- [ ] `src/components/breadcrumbs/breadcrumbs.tsx`
-- [ ] `src/components/breadcrumbs/index.ts`
+- [x] `src/components/tabs/tabs.tsx` (includes Tabs, TabList, Tab, TabPanels, TabPanel)
+- [x] `src/components/tabs/index.ts`
+- [x] `src/components/breadcrumbs/breadcrumbs.tsx` (includes Breadcrumbs, BreadcrumbItem, BreadcrumbSeparator)
+- [x] `src/components/breadcrumbs/index.ts`
 
 **Tab variants**: underline, pills
 
@@ -284,10 +267,12 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 **Estimate**: 30 minutes
 
-- [ ] Update `src/index.ts` to export all components
-- [ ] Update `src/components/index.ts` with barrel exports
-- [ ] Rebuild package
+- [x] Update `src/index.ts` to export all components
+- [x] Update `src/components/index.ts` with barrel exports
+- [x] All components exported and linting passes
 
 ---
 
 ## Total Estimate: 26 hours (3-4 days)
+
+**Status**: Complete

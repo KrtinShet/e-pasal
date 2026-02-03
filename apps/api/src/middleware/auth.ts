@@ -49,12 +49,12 @@ export async function authenticate(req: Request, _res: Response, next: NextFunct
       storeId: user.storeId?.toString(),
     };
 
-    next();
+    return next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
       return next(new AppError('Invalid token', 401, 'INVALID_TOKEN'));
     }
-    next(error);
+    return next(error);
   }
 }
 
@@ -68,7 +68,7 @@ export function authorize(...roles: string[]) {
       return next(new AppError('Insufficient permissions', 403, 'FORBIDDEN'));
     }
 
-    next();
+    return next();
   };
 }
 
@@ -76,5 +76,5 @@ export function requireStore(req: Request, _res: Response, next: NextFunction) {
   if (!req.user?.storeId) {
     return next(new AppError('Store context required', 400, 'STORE_REQUIRED'));
   }
-  next();
+  return next();
 }

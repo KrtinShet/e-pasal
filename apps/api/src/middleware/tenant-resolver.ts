@@ -61,9 +61,9 @@ export async function tenantResolver(req: Request, _res: Response, next: NextFun
     req.storeId = storeData.id;
     req.store = storeData;
 
-    next();
+    return next();
   } catch (error) {
-    next(error);
+    return next(error);
   }
 }
 

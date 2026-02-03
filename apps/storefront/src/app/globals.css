@@ -26,6 +26,13 @@
   --accent: var(--coral);
   --accent-hover: var(--coral-dark);
 
+  --store-primary: var(--coral);
+  --store-primary-light: var(--coral-light);
+  --store-primary-dark: var(--coral-dark);
+  --store-accent: var(--amber);
+  --store-accent-light: #f7b84d;
+  --store-accent-dark: #d4910f;
+
   --section-gap: 160px;
   --container-max: 1280px;
   --container-padding: 24px;
@@ -501,4 +508,27 @@ body {
   line-height: 1.4;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }

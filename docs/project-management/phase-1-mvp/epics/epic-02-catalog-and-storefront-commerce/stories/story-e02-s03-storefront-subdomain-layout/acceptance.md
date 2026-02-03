@@ -1,8 +1,8 @@
 # E02-S03 Acceptance Criteria
 
-- [ ] Each subdomain resolves to the correct store branding/content.
-- [ ] Base storefront layout is responsive across major breakpoints.
-- [ ] Unknown subdomains are handled gracefully.
+- [x] Each subdomain resolves to the correct store branding/content.
+- [x] Base storefront layout is responsive across major breakpoints.
+- [x] Unknown subdomains are handled gracefully.
 
 ## Verification Notes
 

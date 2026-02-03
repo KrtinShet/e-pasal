@@ -62,7 +62,7 @@ export class PaymentController {
         });
       }
 
-      res.json({
+      return res.json({
         success: true,
         data: {
           paymentUrl: result.paymentUrl,
@@ -70,7 +70,7 @@ export class PaymentController {
         },
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -100,7 +100,7 @@ export class PaymentController {
       // TODO: Update order payment status in database
       // await orderService.updatePaymentStatus(query.oid, result.verified ? 'paid' : 'failed');
 
-      res.json({
+      return res.json({
         success: true,
         data: {
           verified: result.verified,
@@ -109,7 +109,7 @@ export class PaymentController {
         },
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -131,12 +131,12 @@ export class PaymentController {
       // 3. Update order status based on event type
       // 4. Return acknowledgment
 
-      res.json({
+      return res.json({
         success: true,
         message: 'Webhook received',
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -154,12 +154,12 @@ export class PaymentController {
 
       const result = await provider.verify(transactionId);
 
-      res.json({
+      return res.json({
         success: true,
         data: result,
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -178,12 +178,12 @@ export class PaymentController {
 
       const result = await provider.refund(transactionId, amount);
 
-      res.json({
+      return res.json({
         success: true,
         data: result,
       });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

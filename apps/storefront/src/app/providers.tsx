@@ -1,5 +1,23 @@
 'use client';
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+import type { ReactNode } from 'react';
+
+import type { StoreData } from '@/types/store';
+import { CartProvider } from '@/contexts/cart-context';
+import { StoreProvider } from '@/contexts/store-context';
+import { ThemeProvider } from '@/components/theme-provider';
+
+interface ProvidersProps {
+  children: ReactNode;
+  store: StoreData | null;
+}
+
+export function Providers({ children, store }: ProvidersProps) {
+  return (
+    <StoreProvider store={store}>
+      <ThemeProvider theme={store?.settings?.theme}>
+        <CartProvider>{children}</CartProvider>
+      </ThemeProvider>
+    </StoreProvider>
+  );
 }

@@ -4,18 +4,18 @@
 
 ## T1. Product listing experience
 
-- [ ] Render catalog grid with pagination or incremental loading
-- [ ] Implement category filter controls and URL query sync
-- [ ] Add search box with debounced API integration
+- [x] Render catalog grid with pagination or incremental loading
+- [x] Implement category filter controls and URL query sync
+- [x] Add search box with debounced API integration
 
 ## T2. Product detail experience
 
-- [ ] Render product gallery, description, and pricing
-- [ ] Display stock status and key product metadata
-- [ ] Add related products section or fallback recommendations
+- [x] Render product gallery, description, and pricing
+- [x] Display stock status and key product metadata
+- [x] Add related products section or fallback recommendations
 
 ## T3. Data and routing behavior
 
-- [ ] Implement SSR/ISR data fetching strategy for storefront pages
-- [ ] Add 404 handling for invalid product slugs
-- [ ] Cache responses with tenant-safe keys
+- [x] Implement SSR/ISR data fetching strategy for storefront pages
+- [x] Add 404 handling for invalid product slugs
+- [x] Cache responses with tenant-safe keys

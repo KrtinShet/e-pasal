@@ -2,37 +2,37 @@
 
 ## AC1: Package Structure
 
-- [ ] `packages/ui/` exists with proper monorepo setup
-- [ ] Package builds successfully with `pnpm build`
-- [ ] Package exports are correctly configured in package.json
-- [ ] TypeScript types are generated in dist/
+- [x] `packages/ui/` exists with proper monorepo setup
+- [x] Package builds successfully with `pnpm build`
+- [x] Package exports are correctly configured in package.json
+- [x] TypeScript types are generated in dist/
 
 ## AC2: Token Schema
 
-- [ ] All token categories defined (colors, radius, spacing, typography, shadows, transitions)
-- [ ] Each token has constraint metadata (type, default, label, min/max where applicable)
-- [ ] Default tokens produce a visually coherent theme
-- [ ] At least 3 presets defined (default, minimal, playful)
+- [x] All token categories defined (colors, radius, spacing, typography, shadows, transitions)
+- [x] Each token has constraint metadata (type, default, label, min/max where applicable)
+- [x] Default tokens produce a visually coherent theme
+- [x] At least 3 presets defined (default, minimal, playful) - 6 presets: default, ocean, sunset, forest, minimal, playful
 
 ## AC3: ThemeProvider
 
-- [ ] ThemeProvider injects CSS variables into DOM
-- [ ] `useTheme()` hook returns current tokens
-- [ ] `setTokens()` updates CSS variables in real-time (no page reload)
-- [ ] `resetTokens()` restores defaults
-- [ ] Initial tokens can be passed as prop
+- [x] ThemeProvider injects CSS variables into DOM
+- [x] `useTheme()` hook returns current tokens
+- [x] `setTokens()` updates CSS variables in real-time (no page reload)
+- [x] `resetTokens()` restores defaults
+- [x] Initial tokens can be passed as prop
 
 ## AC4: Tailwind Config
 
-- [ ] Shared config maps CSS variables to Tailwind utilities
-- [ ] `bg-primary`, `text-secondary`, etc. work correctly
-- [ ] `rounded-md`, `rounded-lg`, etc. use CSS variable values
-- [ ] Config can be imported and extended by apps
+- [x] Shared config maps CSS variables to Tailwind utilities
+- [x] `bg-primary`, `text-secondary`, etc. work correctly
+- [x] `rounded-md`, `rounded-lg`, etc. use CSS variable values
+- [x] Config can be imported and extended by apps
 
 ## AC5: Utilities
 
-- [ ] `cn()` function correctly merges Tailwind classes
-- [ ] Deep merge utility handles nested token objects
+- [x] `cn()` function correctly merges Tailwind classes
+- [x] Deep merge utility handles nested token objects
 
 ## Verification
 

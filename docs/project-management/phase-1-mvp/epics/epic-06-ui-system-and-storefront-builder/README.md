@@ -20,8 +20,8 @@ Implement a unified design system, shared component library, and AI-assisted sto
 
 | Story ID | Story                                                                                              | Sprint   | Planned Window | Status  |
 | -------- | -------------------------------------------------------------------------------------------------- | -------- | -------------- | ------- |
-| E06-S01  | [UI Package Foundation and Token System](./stories/story-e06-s01-ui-package-foundation/README.md)  | Sprint 2 | Week 3 Day 1-2 | Pending |
-| E06-S02  | [Core Components (Button, Input, Card, etc.)](./stories/story-e06-s02-core-components/README.md)   | Sprint 2 | Week 3 Day 3-5 | Pending |
+| E06-S01  | [UI Package Foundation and Token System](./stories/story-e06-s01-ui-package-foundation/README.md)  | Sprint 2 | Week 3 Day 1-2 | Done    |
+| E06-S02  | [Core Components (Button, Input, Card, etc.)](./stories/story-e06-s02-core-components/README.md)   | Sprint 2 | Week 3 Day 3-5 | Done    |
 | E06-S03  | [Layout Components (Dashboard, Auth, Simple)](./stories/story-e06-s03-layout-components/README.md) | Sprint 2 | Week 4 Day 1-2 | Pending |
 | E06-S04  | [Storefront Builder Package and Sections](./stories/story-e06-s04-storefront-builder/README.md)    | Sprint 3 | Week 4 Day 3-5 | Pending |
 | E06-S05  | [Theme Persistence and Editor UI](./stories/story-e06-s05-theme-editor/README.md)                  | Sprint 3 | Week 5 Day 1-2 | Pending |

@@ -1,23 +1,110 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+
+import { getStoreBySubdomain } from '@/lib/api';
+import { Header, Footer } from '@/components/layout';
+import { getStoreBaseUrl, generateStoreMetadata } from '@/lib/seo';
+import { WebSiteJsonLd, OrganizationJsonLd } from '@/components/seo';
 
 import { Providers } from './providers';
+import { StoreNotFound } from './store-not-found';
 
-export const metadata: Metadata = {
-  title: 'Baazarify Store',
-  description: 'Your premier online shopping destination',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers();
+  const subdomain = headersList.get('x-store-subdomain');
 
-export default function RootLayout({
+  if (!subdomain) {
+    return {
+      title: 'Baazarify Store',
+      description: 'Your premier online shopping destination',
+    };
+  }
+
+  try {
+    const store = await getStoreBySubdomain(subdomain);
+    if (store) {
+      const baseMetadata = generateStoreMetadata({ store, subdomain });
+      return {
+        ...baseMetadata,
+        icons: store.favicon ? { icon: store.favicon } : undefined,
+      };
+    }
+  } catch {
+    // Fall through to default
+  }
+
+  return {
+    title: 'Store Not Found',
+    description: 'The requested store could not be found',
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const subdomain = headersList.get('x-store-subdomain');
+
+  let store = null;
+  let storeError = false;
+
+  if (subdomain) {
+    try {
+      store = await getStoreBySubdomain(subdomain);
+      if (!store) {
+        storeError = true;
+      }
+    } catch {
+      storeError = true;
+    }
+  }
+
+  if (storeError) {
+    return (
+      <html lang="en">
+        <body className="antialiased">
+          <StoreNotFound />
+        </body>
+      </html>
+    );
+  }
+
+  const storeUrl = store && subdomain ? getStoreBaseUrl(store, subdomain) : null;
+
   return (
     <html lang="en">
+      <head>
+        {store && storeUrl && (
+          <>
+            <OrganizationJsonLd store={store} url={storeUrl} />
+            <WebSiteJsonLd store={store} url={storeUrl} />
+          </>
+        )}
+      </head>
       <body className="antialiased">
-        <Providers>{children}</Providers>
+        <Providers store={store}>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--charcoal)] focus:text-[var(--cream)] focus:rounded-lg focus:outline-none"
+          >
+            Skip to main content
+          </a>
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <main id="main-content" className="flex-1" role="main">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );

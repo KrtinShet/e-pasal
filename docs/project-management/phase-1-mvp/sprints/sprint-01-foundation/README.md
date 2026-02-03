@@ -1,5 +1,7 @@
 # Sprint 1 - Foundation
 
+## Status: Done
+
 ## Scope
 
 - Sprint ID: SPR-01
