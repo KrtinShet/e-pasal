@@ -10,6 +10,17 @@ export {
 } from './dashboard-layout';
 
 export {
+  UserMenu,
+  SearchBar,
+  DashboardHeader,
+  NotificationBell,
+  type UserMenuProps,
+  type SearchBarProps,
+  type DashboardHeaderProps,
+  type NotificationBellProps,
+} from './header';
+
+export {
   Sidebar,
   useSidebar,
   SidebarToggle,
@@ -20,17 +31,3 @@ export {
   type MobileSidebarProps,
   type SidebarProviderProps,
 } from './sidebar';
-
-export {
-  UserMenu,
-  SearchBar,
-  Breadcrumbs,
-  DashboardHeader,
-  NotificationBell,
-  type UserMenuProps,
-  type BreadcrumbItem,
-  type SearchBarProps,
-  type BreadcrumbsProps,
-  type DashboardHeaderProps,
-  type NotificationBellProps,
-} from './header';
