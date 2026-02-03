@@ -19,6 +19,8 @@ export interface CartState {
 
 export interface CartSummary {
   subtotal: number;
+  discount: number;
+  total: number;
   itemCount: number;
   totalItems: number;
 }

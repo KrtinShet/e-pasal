@@ -141,7 +141,7 @@ export default function CheckoutPage() {
 
       // Clear cart and redirect to confirmation
       clearCart();
-      router.push(`/checkout/confirmation?order=${orderNumber}&total=${summary.total}`);
+      router.push(`/checkout/confirmation?order=${orderNumber}&total=${summary.subtotal}`);
     } catch {
       setError('Failed to place order. Please try again.');
     } finally {

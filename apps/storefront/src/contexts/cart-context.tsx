@@ -199,10 +199,12 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const summary = useMemo<CartSummary>(() => {
     const subtotal = state.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const discount = 0; // TODO: Implement discount/coupon logic
+    const total = subtotal - discount;
     const itemCount = state.items.length;
     const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
 
-    return { subtotal, itemCount, totalItems };
+    return { subtotal, discount, total, itemCount, totalItems };
   }, [state.items]);
 
   const addItem = useCallback((item: Omit<CartItem, 'quantity'> & { quantity?: number }) => {
