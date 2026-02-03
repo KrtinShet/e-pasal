@@ -296,9 +296,3 @@ Theme customization via CSS variables. Token schema in `packages/ui/src/tokens/s
 - Section-based landing page builder with AI-assisted generation
 
 See: `docs/system-design/05-frontend/ui-system-design.md`
-
----
-
-## Notes
-
-- DO NOT INCLUDE Claude Signature or AI Signature, in git messages

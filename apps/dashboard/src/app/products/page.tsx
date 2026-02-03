@@ -1,6 +1,6 @@
 'use client';
 
-import type { FormEvent} from 'react';
+import type { FormEvent } from 'react';
 import { useMemo, useState, useEffect } from 'react';
 
 import { apiRequest } from '@/lib/api';
