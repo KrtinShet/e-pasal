@@ -104,11 +104,11 @@ graph TB
 
 ### Frontend Layer
 
-| App | Technology | Purpose | Deployment |
-|-----|------------|---------|------------|
-| **Storefront** | Next.js 14 | Customer-facing stores | Vercel / Railway |
-| **Merchant Dashboard** | React + Vite | Store management | Static hosting |
-| **Admin Dashboard** | React + Vite | Platform management | Static hosting |
+| App                    | Technology   | Purpose                | Deployment       |
+| ---------------------- | ------------ | ---------------------- | ---------------- |
+| **Storefront**         | Next.js 14   | Customer-facing stores | Vercel / Railway |
+| **Merchant Dashboard** | React + Vite | Store management       | Static hosting   |
+| **Admin Dashboard**    | React + Vite | Platform management    | Static hosting   |
 
 #### Storefront Routing
 
@@ -209,12 +209,12 @@ Services are **modules within the monolith**, not separate microservices:
 
 #### Redis (Cache & Sessions)
 
-| Use Case | TTL | Key Pattern |
-|----------|-----|-------------|
-| Session tokens | 7 days | `session:{token}` |
-| Store config | 1 hour | `store:{subdomain}` |
-| Product cache | 15 min | `products:{storeId}:{page}` |
-| Rate limit counters | 1 min | `ratelimit:{ip}:{endpoint}` |
+| Use Case            | TTL    | Key Pattern                 |
+| ------------------- | ------ | --------------------------- |
+| Session tokens      | 7 days | `session:{token}`           |
+| Store config        | 1 hour | `store:{subdomain}`         |
+| Product cache       | 15 min | `products:{storeId}:{page}` |
+| Rate limit counters | 1 min  | `ratelimit:{ip}:{endpoint}` |
 
 #### Object Storage (S3/DO Spaces)
 
@@ -235,13 +235,13 @@ Services are **modules within the monolith**, not separate microservices:
 
 Using **BullMQ** with Redis for job queues:
 
-| Queue | Jobs | Priority |
-|-------|------|----------|
-| `notifications` | SMS, WhatsApp, Email | High |
-| `orders` | Status sync, inventory update | High |
-| `analytics` | Daily reports, aggregations | Low |
-| `cleanup` | Temp file deletion, log rotation | Low |
-| `sync` | External service sync (Instagram, etc.) | Medium |
+| Queue           | Jobs                                    | Priority |
+| --------------- | --------------------------------------- | -------- |
+| `notifications` | SMS, WhatsApp, Email                    | High     |
+| `orders`        | Status sync, inventory update           | High     |
+| `analytics`     | Daily reports, aggregations             | Low      |
+| `cleanup`       | Temp file deletion, log rotation        | Low      |
+| `sync`          | External service sync (Instagram, etc.) | Medium   |
 
 ```mermaid
 graph LR
@@ -337,21 +337,21 @@ graph TD
 
 ### Authorization Roles
 
-| Role | Scope | Permissions |
-|------|-------|-------------|
-| `platform_admin` | Global | Full platform access |
-| `store_owner` | Store | Full store access |
-| `store_manager` | Store | Orders, products, customers |
-| `store_staff` | Store | Orders only |
-| `customer` | Store | Own orders, profile |
+| Role             | Scope  | Permissions                 |
+| ---------------- | ------ | --------------------------- |
+| `platform_admin` | Global | Full platform access        |
+| `store_owner`    | Store  | Full store access           |
+| `store_manager`  | Store  | Orders, products, customers |
+| `store_staff`    | Store  | Orders only                 |
+| `customer`       | Store  | Own orders, profile         |
 
 ### Data Isolation
 
 ```javascript
 // Every database query includes tenant scope
 const products = await Product.find({
-  storeId: req.tenant.id,  // Injected by middleware
-  status: 'active'
+  storeId: req.tenant.id, // Injected by middleware
+  status: 'active',
 });
 ```
 

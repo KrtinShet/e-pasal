@@ -93,6 +93,7 @@ Platform users (merchants, staff, admins).
 ```
 
 **Indexes:**
+
 ```javascript
 { email: 1 }                  // unique
 { storeId: 1, role: 1 }
@@ -223,6 +224,7 @@ Merchant stores (tenants).
 ```
 
 **Indexes:**
+
 ```javascript
 { slug: 1 }                   // unique
 { subdomain: 1 }              // unique
@@ -316,6 +318,7 @@ Store products.
 ```
 
 **Indexes:**
+
 ```javascript
 { storeId: 1, slug: 1 }       // unique compound
 { storeId: 1, status: 1 }
@@ -347,6 +350,7 @@ Product categories per store.
 ```
 
 **Indexes:**
+
 ```javascript
 { storeId: 1, slug: 1 }       // unique compound
 { storeId: 1, parentId: 1 }
@@ -406,6 +410,7 @@ Store customers.
 ```
 
 **Indexes:**
+
 ```javascript
 { storeId: 1, email: 1 }      // unique compound (sparse)
 { storeId: 1, phone: 1 }
@@ -535,6 +540,7 @@ Store orders.
 ```
 
 **Indexes:**
+
 ```javascript
 { storeId: 1, orderNumber: 1 }    // unique compound
 { storeId: 1, status: 1 }
@@ -583,6 +589,7 @@ Inventory tracking (separate from products for cleaner updates).
 ```
 
 **Indexes:**
+
 ```javascript
 { storeId: 1, productId: 1, variantId: 1 }  // unique compound
 { storeId: 1, sku: 1 }
@@ -648,6 +655,7 @@ Social channel conversations (WhatsApp, Instagram).
 ```
 
 **Indexes:**
+
 ```javascript
 { storeId: 1, channel: 1, externalId: 1 }  // unique compound
 { storeId: 1, status: 1, lastMessageAt: -1 }
@@ -670,13 +678,21 @@ db.createCollection('orders', {
         storeId: { bsonType: 'objectId' },
         orderNumber: { bsonType: 'string' },
         status: {
-          enum: ['pending', 'confirmed', 'processing', 'ready_for_pickup',
-                 'shipped', 'delivered', 'cancelled', 'refunded']
+          enum: [
+            'pending',
+            'confirmed',
+            'processing',
+            'ready_for_pickup',
+            'shipped',
+            'delivered',
+            'cancelled',
+            'refunded',
+          ],
         },
-        'totals.total': { bsonType: 'number', minimum: 0 }
-      }
-    }
-  }
+        'totals.total': { bsonType: 'number', minimum: 0 },
+      },
+    },
+  },
 });
 ```
 

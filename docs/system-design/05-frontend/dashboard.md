@@ -130,9 +130,7 @@ export function Layout({ children }) {
       {/* Main content */}
       <div className="lg:pl-64">
         <Header onMenuClick={() => setSidebarOpen(true)} />
-        <main className="py-6 px-4 sm:px-6 lg:px-8">
-          {children}
-        </main>
+        <main className="py-6 px-4 sm:px-6 lg:px-8">{children}</main>
       </div>
     </div>
   );
@@ -163,9 +161,7 @@ export function Sidebar() {
       {/* Store Logo */}
       <div className="flex items-center h-16 px-4 bg-teal-800">
         <img src={store.logo} alt={store.name} className="h-8 w-auto" />
-        <span className="ml-2 text-white font-semibold truncate">
-          {store.name}
-        </span>
+        <span className="ml-2 text-white font-semibold truncate">{store.name}</span>
       </div>
 
       {/* Navigation */}
@@ -177,9 +173,7 @@ export function Sidebar() {
               key={item.name}
               to={item.href}
               className={cn(
-                isActive
-                  ? 'bg-teal-800 text-white'
-                  : 'text-teal-100 hover:bg-teal-600',
+                isActive ? 'bg-teal-800 text-white' : 'text-teal-100 hover:bg-teal-600',
                 'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
               )}
             >
@@ -217,12 +211,12 @@ export function Sidebar() {
 export function Dashboard() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ['dashboard-stats'],
-    queryFn: () => api.get('/stores/me/stats?period=30d')
+    queryFn: () => api.get('/stores/me/stats?period=30d'),
   });
 
   const { data: recentOrders } = useQuery({
     queryKey: ['recent-orders'],
-    queryFn: () => api.get('/orders?limit=5&sort=-createdAt')
+    queryFn: () => api.get('/orders?limit=5&sort=-createdAt'),
   });
 
   if (isLoading) return <DashboardSkeleton />;
@@ -275,26 +269,10 @@ export function Dashboard() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <QuickAction
-          icon={PlusIcon}
-          label="Add Product"
-          href="/products/new"
-        />
-        <QuickAction
-          icon={PlusIcon}
-          label="Create Order"
-          href="/orders/new"
-        />
-        <QuickAction
-          icon={PencilIcon}
-          label="Edit Pages"
-          href="/pages"
-        />
-        <QuickAction
-          icon={ShareIcon}
-          label="Share Store"
-          onClick={handleShare}
-        />
+        <QuickAction icon={PlusIcon} label="Add Product" href="/products/new" />
+        <QuickAction icon={PlusIcon} label="Create Order" href="/orders/new" />
+        <QuickAction icon={PencilIcon} label="Edit Pages" href="/pages" />
+        <QuickAction icon={ShareIcon} label="Share Store" onClick={handleShare} />
       </div>
     </div>
   );
@@ -311,25 +289,21 @@ export function Orders() {
   const [filters, setFilters] = useState({
     status: '',
     source: '',
-    search: ''
+    search: '',
   });
 
   const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ['orders', filters],
-    queryFn: ({ pageParam = 1 }) =>
-      api.get('/orders', { params: { ...filters, page: pageParam } }),
+    queryFn: ({ pageParam = 1 }) => api.get('/orders', { params: { ...filters, page: pageParam } }),
     getNextPageParam: (lastPage) =>
-      lastPage.meta.page < lastPage.meta.totalPages
-        ? lastPage.meta.page + 1
-        : undefined
+      lastPage.meta.page < lastPage.meta.totalPages ? lastPage.meta.page + 1 : undefined,
   });
 
   const updateStatus = useMutation({
-    mutationFn: ({ id, status }) =>
-      api.put(`/orders/${id}/status`, { status }),
+    mutationFn: ({ id, status }) => api.put(`/orders/${id}/status`, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries(['orders']);
-    }
+    },
   });
 
   return (
@@ -399,9 +373,7 @@ export function Orders() {
                 <OrderRow
                   key={order.id}
                   order={order}
-                  onStatusChange={(status) =>
-                    updateStatus.mutate({ id: order.id, status })
-                  }
+                  onStatusChange={(status) => updateStatus.mutate({ id: order.id, status })}
                 />
               ))
             )}
@@ -432,12 +404,12 @@ export function Products() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['products'],
-    queryFn: () => api.get('/products')
+    queryFn: () => api.get('/products'),
   });
 
   const deleteProduct = useMutation({
     mutationFn: (id) => api.delete(`/products/${id}`),
-    onSuccess: () => queryClient.invalidateQueries(['products'])
+    onSuccess: () => queryClient.invalidateQueries(['products']),
   });
 
   return (
@@ -488,13 +460,13 @@ export function Inbox() {
   const { data: conversations } = useQuery({
     queryKey: ['conversations'],
     queryFn: () => api.get('/conversations'),
-    refetchInterval: 10000 // Poll every 10s
+    refetchInterval: 10000, // Poll every 10s
   });
 
   const sendReply = useMutation({
     mutationFn: ({ id, message }) =>
       api.post(`/conversations/${id}/reply`, { type: 'text', content: message }),
-    onSuccess: () => queryClient.invalidateQueries(['conversations'])
+    onSuccess: () => queryClient.invalidateQueries(['conversations']),
   });
 
   return (
@@ -518,16 +490,9 @@ export function Inbox() {
       <div className="flex-1 flex flex-col">
         {selected ? (
           <>
-            <ConversationHeader
-              conversation={selected}
-              onConvert={() => handleConvert(selected)}
-            />
+            <ConversationHeader conversation={selected} onConvert={() => handleConvert(selected)} />
             <MessageList messages={selected.messages} />
-            <MessageInput
-              onSend={(message) =>
-                sendReply.mutate({ id: selected.id, message })
-              }
-            />
+            <MessageInput onSend={(message) => sendReply.mutate({ id: selected.id, message })} />
           </>
         ) : (
           <EmptyState message="Select a conversation" />
@@ -548,7 +513,7 @@ import axios from 'axios';
 import { useAuthStore } from '../store/authStore';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://api.baazarify.com/v1'
+  baseURL: import.meta.env.VITE_API_URL || 'https://api.baazarify.com/v1',
 });
 
 // Request interceptor
@@ -569,10 +534,9 @@ api.interceptors.response.use(
 
       if (refreshToken) {
         try {
-          const response = await axios.post(
-            `${api.defaults.baseURL}/auth/refresh`,
-            { refreshToken }
-          );
+          const response = await axios.post(`${api.defaults.baseURL}/auth/refresh`, {
+            refreshToken,
+          });
           setTokens(response.data.data);
           return api(error.config);
         } catch {
@@ -607,23 +571,22 @@ export const useAuthStore = create(
       setAuth: ({ user, store, accessToken, refreshToken }) =>
         set({ user, store, accessToken, refreshToken }),
 
-      setTokens: ({ accessToken, refreshToken }) =>
-        set({ accessToken, refreshToken }),
+      setTokens: ({ accessToken, refreshToken }) => set({ accessToken, refreshToken }),
 
       logout: () =>
         set({
           user: null,
           store: null,
           accessToken: null,
-          refreshToken: null
-        })
+          refreshToken: null,
+        }),
     }),
     {
       name: 'auth-storage',
       partialize: (state) => ({
         accessToken: state.accessToken,
-        refreshToken: state.refreshToken
-      })
+        refreshToken: state.refreshToken,
+      }),
     }
   )
 );

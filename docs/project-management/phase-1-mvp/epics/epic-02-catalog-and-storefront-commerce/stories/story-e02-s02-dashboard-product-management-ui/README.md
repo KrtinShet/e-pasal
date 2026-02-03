@@ -5,7 +5,7 @@
 - Epic: [E02 - Catalog and Storefront Commerce](../../README.md)
 - Sprint: Sprint 1
 - Planned window: Week 2 Day 4-5
-- Status: Planned
+- Status: Done
 
 ## Goal
 

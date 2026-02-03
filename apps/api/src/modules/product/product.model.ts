@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import type { Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export interface IProductVariant {
   sku: string;
@@ -112,10 +113,12 @@ const productSchema = new Schema<IProduct>(
       type: Boolean,
       default: false,
     },
-    options: [{
-      name: String,
-      values: [String],
-    }],
+    options: [
+      {
+        name: String,
+        values: [String],
+      },
+    ],
     status: {
       type: String,
       enum: ['draft', 'active', 'archived'],

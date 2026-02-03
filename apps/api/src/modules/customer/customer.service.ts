@@ -1,5 +1,7 @@
-import { Customer, ICustomer } from './customer.model.js';
 import { NotFoundError, ConflictError } from '../../lib/errors.js';
+
+import { Customer } from './customer.model.js';
+import type { ICustomer } from './customer.model.js';
 
 interface CustomerQuery {
   storeId: string;

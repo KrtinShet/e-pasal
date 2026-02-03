@@ -1,8 +1,8 @@
 # E01-S02 Acceptance Criteria
 
-- [ ] Merchant can register, log in, refresh token, and fetch profile.
-- [ ] Invalid credentials and expired tokens are rejected correctly.
-- [ ] Authentication tests pass for expected happy and failure paths.
+- [x] Merchant can register, log in, refresh token, and fetch profile.
+- [x] Invalid credentials and expired tokens are rejected correctly.
+- [x] Authentication tests pass for expected happy and failure paths.
 
 ## Verification Notes
 

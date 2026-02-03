@@ -1,5 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { storeService } from './store.service.js';
 
 const updateStoreSchema = z.object({
@@ -7,26 +8,32 @@ const updateStoreSchema = z.object({
   description: z.string().optional(),
   logo: z.string().url().optional(),
   favicon: z.string().url().optional(),
-  contact: z.object({
-    email: z.string().email().optional(),
-    phone: z.string().optional(),
-    address: z.string().optional(),
-  }).optional(),
-  social: z.object({
-    facebook: z.string().url().optional(),
-    instagram: z.string().url().optional(),
-    tiktok: z.string().url().optional(),
-  }).optional(),
+  contact: z
+    .object({
+      email: z.string().email().optional(),
+      phone: z.string().optional(),
+      address: z.string().optional(),
+    })
+    .optional(),
+  social: z
+    .object({
+      facebook: z.string().url().optional(),
+      instagram: z.string().url().optional(),
+      tiktok: z.string().url().optional(),
+    })
+    .optional(),
 });
 
 const updateSettingsSchema = z.object({
   currency: z.string().optional(),
   timezone: z.string().optional(),
   language: z.string().optional(),
-  theme: z.object({
-    primaryColor: z.string().optional(),
-    accentColor: z.string().optional(),
-  }).optional(),
+  theme: z
+    .object({
+      primaryColor: z.string().optional(),
+      accentColor: z.string().optional(),
+    })
+    .optional(),
 });
 
 export class StoreController {

@@ -310,18 +310,24 @@ POST /v1/webhooks/whatsapp
 ```json
 {
   "object": "whatsapp_business_account",
-  "entry": [{
-    "changes": [{
-      "value": {
-        "messages": [{
-          "from": "9779801234567",
-          "type": "text",
-          "text": { "body": "Hi, I want to order the blue jacket" },
-          "timestamp": "1706600000"
-        }]
-      }
-    }]
-  }]
+  "entry": [
+    {
+      "changes": [
+        {
+          "value": {
+            "messages": [
+              {
+                "from": "9779801234567",
+                "type": "text",
+                "text": { "body": "Hi, I want to order the blue jacket" },
+                "timestamp": "1706600000"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -345,16 +351,20 @@ POST /v1/webhooks/instagram
 ```json
 {
   "object": "instagram",
-  "entry": [{
-    "messaging": [{
-      "sender": { "id": "123456789" },
-      "message": {
-        "mid": "msg_001",
-        "text": "Is this available?"
-      },
-      "timestamp": 1706600000
-    }]
-  }]
+  "entry": [
+    {
+      "messaging": [
+        {
+          "sender": { "id": "123456789" },
+          "message": {
+            "mid": "msg_001",
+            "text": "Is this available?"
+          },
+          "timestamp": 1706600000
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -407,9 +417,7 @@ Authorization: Bearer <token>
 
 ```json
 {
-  "items": [
-    { "productId": "prod_001", "quantity": 1 }
-  ],
+  "items": [{ "productId": "prod_001", "quantity": 1 }],
   "shippingAddress": {
     "street": "Thamel",
     "city": "Kathmandu"
@@ -470,7 +478,7 @@ class PaymentAdapter {
       orderId: order._id,
       productCode: order.orderNumber,
       successUrl: `${process.env.API_URL}/payment/success`,
-      failureUrl: `${process.env.API_URL}/payment/failure`
+      failureUrl: `${process.env.API_URL}/payment/failure`,
     });
   }
 
@@ -511,12 +519,12 @@ class LogisticsAdapter {
       recipientName: `${order.customer.firstName} ${order.customer.lastName}`,
       recipientPhone: order.customer.phone,
       recipientAddress: order.shippingAddress,
-      items: order.items.map(i => ({
+      items: order.items.map((i) => ({
         name: i.name,
         quantity: i.quantity,
-        price: i.price
+        price: i.price,
       })),
-      cod: order.payment.method === 'cod' ? order.totals.total : 0
+      cod: order.payment.method === 'cod' ? order.totals.total : 0,
     });
   }
 
@@ -551,7 +559,8 @@ const verifyWebhookSignature = (provider) => (req, res, next) => {
 
   // Prevent replay attacks
   const age = Date.now() - parseInt(timestamp);
-  if (age > 5 * 60 * 1000) { // 5 minutes
+  if (age > 5 * 60 * 1000) {
+    // 5 minutes
     return res.status(401).json({ error: 'Request too old' });
   }
 

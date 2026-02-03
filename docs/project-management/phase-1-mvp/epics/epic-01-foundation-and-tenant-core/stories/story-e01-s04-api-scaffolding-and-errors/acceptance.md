@@ -1,8 +1,8 @@
 # E01-S04 Acceptance Criteria
 
-- [ ] API routes use shared validation and error middleware stack.
-- [ ] Errors return a consistent shape with traceable request-id.
-- [ ] Health endpoints and smoke tests are in place.
+- [x] API routes use shared validation and error middleware stack.
+- [x] Errors return a consistent shape with traceable request-id.
+- [x] Health endpoints and smoke tests are in place.
 
 ## Verification Notes
 

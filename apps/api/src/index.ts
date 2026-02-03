@@ -1,23 +1,27 @@
 import 'dotenv/config';
-import express from 'express';
+
 import cors from 'cors';
 import helmet from 'helmet';
+import express from 'express';
 import compression from 'compression';
-import { connectDatabase } from './lib/database.js';
-import { connectRedis } from './lib/redis.js';
+
+import { env } from './config/env.js';
+import { router } from './routes/index.js';
+import { connectRedis, isRedisReady } from './lib/redis.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { requestLogger } from './middleware/request-logger.js';
 import { tenantResolver } from './middleware/tenant-resolver.js';
-import { router } from './routes/index.js';
-import { env } from './config/env.js';
+import { connectDatabase, isDatabaseReady } from './lib/database.js';
 
 const app = express();
 
 app.use(helmet());
-app.use(cors({
-  origin: [env.STOREFRONT_URL, env.DASHBOARD_URL, env.ADMIN_URL],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [env.STOREFRONT_URL, env.DASHBOARD_URL, env.ADMIN_URL],
+    credentials: true,
+  })
+);
 app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +30,27 @@ app.use(tenantResolver);
 
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.get('/ready', (_req, res) => {
+  const readiness = {
+    database: isDatabaseReady(),
+    redis: isRedisReady(),
+  };
+
+  if (!readiness.database || !readiness.redis) {
+    return res.status(503).json({
+      status: 'degraded',
+      readiness,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  return res.json({
+    status: 'ready',
+    readiness,
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.use(`/api/${env.API_VERSION}`, router);

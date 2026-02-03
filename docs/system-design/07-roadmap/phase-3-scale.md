@@ -18,32 +18,32 @@ Enterprise features and infrastructure scaling for 1000+ merchants.
 
 ### Enterprise Features
 
-| Feature | Value | Effort |
-|---------|-------|--------|
-| Dedicated databases | Data isolation | 2 weeks |
-| White-label | Agency reselling | 3 weeks |
-| API access | Custom integrations | 2 weeks |
-| POS integration | Omnichannel retail | 4 weeks |
-| B2B features | Wholesale support | 3 weeks |
-| Multi-store | Brand portfolios | 2 weeks |
+| Feature             | Value               | Effort  |
+| ------------------- | ------------------- | ------- |
+| Dedicated databases | Data isolation      | 2 weeks |
+| White-label         | Agency reselling    | 3 weeks |
+| API access          | Custom integrations | 2 weeks |
+| POS integration     | Omnichannel retail  | 4 weeks |
+| B2B features        | Wholesale support   | 3 weeks |
+| Multi-store         | Brand portfolios    | 2 weeks |
 
 ### Platform Features
 
-| Feature | Value | Effort |
-|---------|-------|--------|
-| Marketplace | Cross-store discovery | 4 weeks |
-| App ecosystem | Third-party plugins | 4 weeks |
-| Advanced analytics | BI dashboards | 3 weeks |
-| AI features | Smart automation | Ongoing |
+| Feature            | Value                 | Effort  |
+| ------------------ | --------------------- | ------- |
+| Marketplace        | Cross-store discovery | 4 weeks |
+| App ecosystem      | Third-party plugins   | 4 weeks |
+| Advanced analytics | BI dashboards         | 3 weeks |
+| AI features        | Smart automation      | Ongoing |
 
 ### Infrastructure
 
-| Feature | Value | Effort |
-|---------|-------|--------|
-| Kubernetes migration | Scalability | 3 weeks |
-| Multi-region | Performance | 2 weeks |
-| Read replicas | Query performance | 1 week |
-| CDN optimization | Global speed | 1 week |
+| Feature              | Value             | Effort  |
+| -------------------- | ----------------- | ------- |
+| Kubernetes migration | Scalability       | 3 weeks |
+| Multi-region         | Performance       | 2 weeks |
+| Read replicas        | Query performance | 1 week  |
+| CDN optimization     | Global speed      | 1 week  |
 
 ---
 
@@ -82,6 +82,7 @@ graph TB
 ```
 
 **Benefits:**
+
 - Complete data isolation
 - Custom backup schedules
 - Dedicated resources
@@ -315,13 +316,13 @@ MongoDB Architecture:
 
 ### Phase 3 Pricing (Proposed)
 
-| Plan | Price/Year | Features |
-|------|------------|----------|
-| Free | NPR 0 | 15 products, basic |
-| Starter | NPR 12,000 | 500 products, 1 staff |
-| Growth | NPR 24,000 | 2,000 products, 5 staff |
-| Pro | NPR 48,000 | 5,000 products, 25 staff, API |
-| Enterprise | Custom | Unlimited, dedicated, SLA |
+| Plan       | Price/Year | Features                      |
+| ---------- | ---------- | ----------------------------- |
+| Free       | NPR 0      | 15 products, basic            |
+| Starter    | NPR 12,000 | 500 products, 1 staff         |
+| Growth     | NPR 24,000 | 2,000 products, 5 staff       |
+| Pro        | NPR 48,000 | 5,000 products, 25 staff, API |
+| Enterprise | Custom     | Unlimited, dedicated, SLA     |
 
 ### White-Label Pricing
 

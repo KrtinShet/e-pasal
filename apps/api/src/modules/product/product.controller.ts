@@ -1,5 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { productService } from './product.service.js';
 
 const createProductSchema = z.object({
@@ -63,10 +64,7 @@ export class ProductController {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const product = await productService.getById(
-        req.user!.storeId!,
-        req.params.id
-      );
+      const product = await productService.getById(req.user!.storeId!, req.params.id);
 
       res.json({
         success: true,
@@ -80,11 +78,7 @@ export class ProductController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const data = updateProductSchema.parse(req.body);
-      const product = await productService.update(
-        req.user!.storeId!,
-        req.params.id,
-        data
-      );
+      const product = await productService.update(req.user!.storeId!, req.params.id, data);
 
       res.json({
         success: true,

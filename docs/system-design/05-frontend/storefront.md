@@ -133,7 +133,7 @@ function getSubdomain(hostname: string): string | null {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
 ```
 
@@ -152,13 +152,13 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: store.name,
     description: store.settings.description,
-    icons: { icon: store.settings.favicon }
+    icons: { icon: store.settings.favicon },
   };
 }
 
 export default async function StoreLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
   params: { subdomain: string };
@@ -172,11 +172,13 @@ export default async function StoreLayout({
   return (
     <StoreProvider store={store}>
       <div
-        style={{
-          '--color-primary': store.theme.colors.primary,
-          '--color-secondary': store.theme.colors.secondary,
-          '--color-accent': store.theme.colors.accent
-        } as React.CSSProperties}
+        style={
+          {
+            '--color-primary': store.theme.colors.primary,
+            '--color-secondary': store.theme.colors.secondary,
+            '--color-accent': store.theme.colors.accent,
+          } as React.CSSProperties
+        }
       >
         <Header />
         <main className="min-h-screen">{children}</main>
@@ -196,14 +198,10 @@ export default async function StoreLayout({
 import { getStore, getPage } from '@/lib/api';
 import { PageRenderer } from '@/components/store/PageRenderer';
 
-export default async function HomePage({
-  params
-}: {
-  params: { subdomain: string };
-}) {
+export default async function HomePage({ params }: { params: { subdomain: string } }) {
   const [store, page] = await Promise.all([
     getStore(params.subdomain),
-    getPage(params.subdomain, 'home')
+    getPage(params.subdomain, 'home'),
   ]);
 
   return <PageRenderer page={page} store={store} />;
@@ -222,14 +220,14 @@ import { CategoryFilter } from '@/components/store/CategoryFilter';
 
 export default async function ProductsPage({
   params,
-  searchParams
+  searchParams,
 }: {
   params: { subdomain: string };
   searchParams: { category?: string; search?: string };
 }) {
   const [products, categories] = await Promise.all([
     getProducts(params.subdomain, searchParams),
-    getCategories(params.subdomain)
+    getCategories(params.subdomain),
   ]);
 
   return (
@@ -237,31 +235,21 @@ export default async function ProductsPage({
       <div className="flex gap-8">
         {/* Sidebar Filters */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
-          <CategoryFilter
-            categories={categories}
-            selected={searchParams.category}
-          />
+          <CategoryFilter categories={categories} selected={searchParams.category} />
         </aside>
 
         {/* Products */}
         <div className="flex-1">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">
-              {searchParams.category || 'All Products'}
-            </h1>
-            <span className="text-gray-500">
-              {products.meta.total} products
-            </span>
+            <h1 className="text-2xl font-bold">{searchParams.category || 'All Products'}</h1>
+            <span className="text-gray-500">{products.meta.total} products</span>
           </div>
 
           <ProductGrid products={products.data} />
 
           {/* Pagination */}
           {products.meta.totalPages > 1 && (
-            <Pagination
-              current={products.meta.page}
-              total={products.meta.totalPages}
-            />
+            <Pagination current={products.meta.page} total={products.meta.totalPages} />
           )}
         </div>
       </div>
@@ -288,13 +276,13 @@ export async function generateMetadata({ params }: Props) {
     title: `${product.name} | Store`,
     description: product.shortDescription,
     openGraph: {
-      images: [product.images[0]?.url]
-    }
+      images: [product.images[0]?.url],
+    },
   };
 }
 
 export default async function ProductPage({
-  params
+  params,
 }: {
   params: { subdomain: string; slug: string };
 }) {
@@ -310,10 +298,9 @@ export default async function ProductPage({
       '@type': 'Offer',
       price: product.price,
       priceCurrency: 'NPR',
-      availability: product.stock > 0
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock'
-    }
+      availability:
+        product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    },
   };
 
   return (
@@ -336,10 +323,7 @@ export default async function ProductPage({
         {/* Related Products */}
         <section className="mt-16">
           <h2 className="text-xl font-bold mb-6">You may also like</h2>
-          <RelatedProducts
-            subdomain={params.subdomain}
-            productId={product.id}
-          />
+          <RelatedProducts subdomain={params.subdomain} productId={product.id} />
         </section>
       </div>
     </>
@@ -426,9 +410,9 @@ export default function CheckoutPage() {
       items: items.map((i) => ({
         productId: i.productId,
         variantId: i.variantId,
-        quantity: i.quantity
+        quantity: i.quantity,
       })),
-      payment: { method: formData.paymentMethod }
+      payment: { method: formData.paymentMethod },
     });
 
     if (order.payment.redirectUrl) {
@@ -514,9 +498,7 @@ export const useCart = create<CartStore>()(
       isOpen: false,
 
       addItem: (item) => {
-        const id = item.variantId
-          ? `${item.productId}-${item.variantId}`
-          : item.productId;
+        const id = item.variantId ? `${item.productId}-${item.variantId}` : item.productId;
 
         set((state) => {
           const existing = state.items.find((i) => i.id === id);
@@ -524,17 +506,15 @@ export const useCart = create<CartStore>()(
           if (existing) {
             return {
               items: state.items.map((i) =>
-                i.id === id
-                  ? { ...i, quantity: i.quantity + item.quantity }
-                  : i
+                i.id === id ? { ...i, quantity: i.quantity + item.quantity } : i
               ),
-              isOpen: true
+              isOpen: true,
             };
           }
 
           return {
             items: [...state.items, { ...item, id }],
-            isOpen: true
+            isOpen: true,
           };
         });
       },
@@ -545,15 +525,13 @@ export const useCart = create<CartStore>()(
           return;
         }
         set((state) => ({
-          items: state.items.map((i) =>
-            i.id === id ? { ...i, quantity } : i
-          )
+          items: state.items.map((i) => (i.id === id ? { ...i, quantity } : i)),
         }));
       },
 
       removeItem: (id) => {
         set((state) => ({
-          items: state.items.filter((i) => i.id !== id)
+          items: state.items.filter((i) => i.id !== id),
         }));
       },
 
@@ -563,14 +541,11 @@ export const useCart = create<CartStore>()(
       close: () => set({ isOpen: false }),
 
       get total() {
-        return get().items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0
-        );
-      }
+        return get().items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      },
     }),
     {
-      name: 'cart-storage'
+      name: 'cart-storage',
     }
   )
 );
@@ -584,17 +559,14 @@ export const useCart = create<CartStore>()(
 // lib/api.ts
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.baazarify.com/v1';
 
-async function fetchApi<T>(
-  endpoint: string,
-  options?: RequestInit
-): Promise<T> {
+async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...options?.headers
+      ...options?.headers,
     },
-    next: { revalidate: 60 } // Cache for 1 minute
+    next: { revalidate: 60 }, // Cache for 1 minute
   });
 
   if (!res.ok) {
@@ -629,7 +601,7 @@ export async function createOrder(data: CreateOrderInput) {
   return fetchApi('/storefront/orders', {
     method: 'POST',
     body: JSON.stringify(data),
-    cache: 'no-store'
+    cache: 'no-store',
   });
 }
 ```

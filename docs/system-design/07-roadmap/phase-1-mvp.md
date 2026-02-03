@@ -18,27 +18,27 @@ Build the core platform to onboard the first 50 paying merchants.
 
 ### Core Features (Must Have)
 
-| Feature | Priority | Effort |
-|---------|----------|--------|
-| Merchant registration & login | P0 | 1 week |
-| Store setup wizard | P0 | 1 week |
-| Product management (CRUD) | P0 | 1 week |
-| Basic storefront (SSR) | P0 | 2 weeks |
-| Shopping cart & checkout | P0 | 1.5 weeks |
-| Order management | P0 | 1.5 weeks |
-| Basic inventory tracking | P0 | 0.5 week |
-| Cash on Delivery | P0 | 0.5 week |
-| Subdomain routing | P0 | 0.5 week |
+| Feature                       | Priority | Effort    |
+| ----------------------------- | -------- | --------- |
+| Merchant registration & login | P0       | 1 week    |
+| Store setup wizard            | P0       | 1 week    |
+| Product management (CRUD)     | P0       | 1 week    |
+| Basic storefront (SSR)        | P0       | 2 weeks   |
+| Shopping cart & checkout      | P0       | 1.5 weeks |
+| Order management              | P0       | 1.5 weeks |
+| Basic inventory tracking      | P0       | 0.5 week  |
+| Cash on Delivery              | P0       | 0.5 week  |
+| Subdomain routing             | P0       | 0.5 week  |
 
 ### Secondary Features (Should Have)
 
-| Feature | Priority | Effort |
-|---------|----------|--------|
-| eSewa payment integration | P1 | 1 week |
-| Basic analytics dashboard | P1 | 1 week |
-| Customer management | P1 | 0.5 week |
-| Order notifications (email) | P1 | 0.5 week |
-| Mobile-responsive dashboard | P1 | 1 week |
+| Feature                     | Priority | Effort   |
+| --------------------------- | -------- | -------- |
+| eSewa payment integration   | P1       | 1 week   |
+| Basic analytics dashboard   | P1       | 1 week   |
+| Customer management         | P1       | 0.5 week |
+| Order notifications (email) | P1       | 0.5 week |
+| Mobile-responsive dashboard | P1       | 1 week   |
 
 ### Deferred to Phase 2
 
@@ -270,14 +270,14 @@ Week 10:
 ```javascript
 // Minimal schema for MVP
 collections: [
-  'users',       // Merchants only (no staff yet)
-  'stores',      // Store config (no page builder data yet)
-  'products',    // Basic products (no variants yet)
-  'categories',  // Product categories
-  'orders',      // Orders with items embedded
-  'customers',   // Customer records
-  'inventory'    // Stock tracking
-]
+  'users', // Merchants only (no staff yet)
+  'stores', // Store config (no page builder data yet)
+  'products', // Basic products (no variants yet)
+  'categories', // Product categories
+  'orders', // Orders with items embedded
+  'customers', // Customer records
+  'inventory', // Stock tracking
+];
 ```
 
 ---
@@ -334,16 +334,16 @@ Webhooks:
 
 ## MVP Cost Estimate
 
-| Service | Monthly Cost |
-|---------|-------------|
-| Railway (API + Worker) | $20 |
-| MongoDB Atlas (M0 → M2) | $0-25 |
-| Redis (Railway) | $5 |
-| DigitalOcean Spaces | $5 |
-| Cloudflare (Free) | $0 |
-| Sentry (Free tier) | $0 |
-| Domain | $1 |
-| **Total** | **~$30-55/month** |
+| Service                 | Monthly Cost      |
+| ----------------------- | ----------------- |
+| Railway (API + Worker)  | $20               |
+| MongoDB Atlas (M0 → M2) | $0-25             |
+| Redis (Railway)         | $5                |
+| DigitalOcean Spaces     | $5                |
+| Cloudflare (Free)       | $0                |
+| Sentry (Free tier)      | $0                |
+| Domain                  | $1                |
+| **Total**               | **~$30-55/month** |
 
 ---
 
@@ -366,12 +366,12 @@ Webhooks:
 
 ## Risk Mitigation
 
-| Risk | Mitigation |
-|------|------------|
-| Scope creep | Strict feature freeze after Sprint 3 |
+| Risk           | Mitigation                           |
+| -------------- | ------------------------------------ |
+| Scope creep    | Strict feature freeze after Sprint 3 |
 | Payment issues | Extensive testing with eSewa sandbox |
-| Performance | Load test with 100 concurrent users |
-| Security | Security audit before launch |
+| Performance    | Load test with 100 concurrent users  |
+| Security       | Security audit before launch         |
 
 ---
 

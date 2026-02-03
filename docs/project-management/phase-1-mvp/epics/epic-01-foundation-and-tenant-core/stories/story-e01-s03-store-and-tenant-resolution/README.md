@@ -5,7 +5,7 @@
 - Epic: [E01 - Foundation and Tenant Core](../../README.md)
 - Sprint: Sprint 1
 - Planned window: Week 1 Day 3-4
-- Status: Planned
+- Status: Done
 
 ## Goal
 
@@ -25,3 +25,4 @@ Create store onboarding flow and enforce tenant-aware request scoping.
 
 - [Task Breakdown](./tasks.md)
 - [Acceptance Criteria](./acceptance.md)
+- [Local Dev Tenant Notes](./tenant-local-dev.md)

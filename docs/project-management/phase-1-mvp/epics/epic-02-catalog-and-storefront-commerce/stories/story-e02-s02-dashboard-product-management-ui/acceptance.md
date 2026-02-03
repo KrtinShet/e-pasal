@@ -1,8 +1,8 @@
 # E02-S02 Acceptance Criteria
 
-- [ ] Merchant can complete product and category CRUD from dashboard.
-- [ ] Form validation errors and API errors are shown clearly.
-- [ ] Image upload and preview behavior works reliably.
+- [x] Merchant can complete product and category CRUD from dashboard.
+- [x] Form validation errors and API errors are shown clearly.
+- [x] Image upload and preview behavior works reliably.
 
 ## Verification Notes
 

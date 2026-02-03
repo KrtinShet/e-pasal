@@ -43,17 +43,17 @@ Authorization: Bearer <token>
 
 **Query Parameters:**
 
-| Param | Type | Description |
-|-------|------|-------------|
-| page | number | Page number |
-| limit | number | Items per page |
-| status | string | Filter by status (comma-separated) |
-| source | string | Filter by source: `website`, `whatsapp`, `instagram`, `manual` |
-| startDate | string | Filter from date (ISO 8601) |
-| endDate | string | Filter to date |
-| customer | string | Filter by customer ID |
-| search | string | Search by order number, customer name/phone |
-| sort | string | Sort field (default: `-createdAt`) |
+| Param     | Type   | Description                                                    |
+| --------- | ------ | -------------------------------------------------------------- |
+| page      | number | Page number                                                    |
+| limit     | number | Items per page                                                 |
+| status    | string | Filter by status (comma-separated)                             |
+| source    | string | Filter by source: `website`, `whatsapp`, `instagram`, `manual` |
+| startDate | string | Filter from date (ISO 8601)                                    |
+| endDate   | string | Filter to date                                                 |
+| customer  | string | Filter by customer ID                                          |
+| search    | string | Search by order number, customer name/phone                    |
+| sort      | string | Sort field (default: `-createdAt`)                             |
 
 **Example:**
 
@@ -254,7 +254,7 @@ Authorization: Bearer <token>
   "success": true,
   "data": {
     "id": "ord_002",
-    "orderNumber": "ORD-2024-0002",
+    "orderNumber": "ORD-2024-0002"
     // ... full order object
   }
 }
@@ -304,14 +304,14 @@ Authorization: Bearer <token>
 
 **Valid Status Transitions:**
 
-| From | To |
-|------|-----|
-| `pending` | `confirmed`, `cancelled` |
-| `confirmed` | `processing`, `cancelled` |
-| `processing` | `ready_for_pickup`, `cancelled` |
-| `ready_for_pickup` | `shipped` |
-| `shipped` | `delivered`, `refunded` |
-| `delivered` | `refunded` |
+| From               | To                              |
+| ------------------ | ------------------------------- |
+| `pending`          | `confirmed`, `cancelled`        |
+| `confirmed`        | `processing`, `cancelled`       |
+| `processing`       | `ready_for_pickup`, `cancelled` |
+| `ready_for_pickup` | `shipped`                       |
+| `shipped`          | `delivered`, `refunded`         |
+| `delivered`        | `refunded`                      |
 
 ---
 
@@ -352,6 +352,7 @@ Authorization: Bearer <token>
 ```
 
 This will:
+
 1. Update status to `shipped`
 2. Update shipping details
 3. Send notification to customer
@@ -522,12 +523,12 @@ Authorization: Bearer <token>
 
 **Query Parameters:**
 
-| Param | Type | Description |
-|-------|------|-------------|
-| format | string | `csv` or `xlsx` |
-| startDate | string | From date |
-| endDate | string | To date |
-| status | string | Filter by status |
+| Param     | Type   | Description      |
+| --------- | ------ | ---------------- |
+| format    | string | `csv` or `xlsx`  |
+| startDate | string | From date        |
+| endDate   | string | To date          |
+| status    | string | Filter by status |
 
 **Response:**
 
@@ -559,9 +560,7 @@ POST /v1/storefront/:subdomain/orders
     "state": "Bagmati",
     "country": "Nepal"
   },
-  "items": [
-    { "productId": "prod_001", "variantId": "var_002", "quantity": 1 }
-  ],
+  "items": [{ "productId": "prod_001", "variantId": "var_002", "quantity": 1 }],
   "shipping": {
     "method": "standard"
   },
@@ -599,10 +598,10 @@ GET /v1/storefront/:subdomain/orders/:orderNumber
 
 **Query Parameters:**
 
-| Param | Type | Description |
-|-------|------|-------------|
+| Param | Type   | Description                     |
+| ----- | ------ | ------------------------------- |
 | email | string | Customer email for verification |
-| phone | string | OR customer phone |
+| phone | string | OR customer phone               |
 
 **Response (200):**
 

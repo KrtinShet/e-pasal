@@ -1,9 +1,9 @@
 import type {
   PaymentProvider,
-  PaymentInitiateParams,
-  PaymentInitiateResult,
   PaymentVerifyResult,
   PaymentRefundResult,
+  PaymentInitiateParams,
+  PaymentInitiateResult,
 } from './payment.interface.js';
 
 export class KhaltiProvider implements PaymentProvider {

@@ -1,6 +1,7 @@
-import { Inventory } from './inventory.model.js';
 import { Product } from '../product/product.model.js';
 import { AppError, NotFoundError } from '../../lib/errors.js';
+
+import { Inventory } from './inventory.model.js';
 
 interface StockItem {
   productId: string;
@@ -27,7 +28,7 @@ export class InventoryService {
       { new: true, upsert: true }
     );
 
-    await Product.findByIdAndUpdate(productId, { stock: quantity });
+    await Product.findOneAndUpdate({ _id: productId, storeId }, { stock: quantity }, { new: true });
 
     return inventory;
   }
@@ -43,7 +44,11 @@ export class InventoryService {
       throw new AppError('Insufficient stock', 400, 'INSUFFICIENT_STOCK');
     }
 
-    await Product.findByIdAndUpdate(productId, { $inc: { stock: adjustment } });
+    await Product.findOneAndUpdate(
+      { _id: productId, storeId },
+      { $inc: { stock: adjustment } },
+      { new: true }
+    );
 
     return inventory;
   }
@@ -101,9 +106,11 @@ export class InventoryService {
         }
       );
 
-      await Product.findByIdAndUpdate(item.productId, {
-        $inc: { stock: -item.quantity },
-      });
+      await Product.findOneAndUpdate(
+        { _id: item.productId, storeId },
+        { $inc: { stock: -item.quantity } },
+        { new: true }
+      );
     }
   }
 

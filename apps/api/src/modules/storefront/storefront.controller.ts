@@ -1,11 +1,12 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { Store } from '../store/store.model.js';
+import { NotFoundError } from '../../lib/errors.js';
 import { Product } from '../product/product.model.js';
 import { Category } from '../category/category.model.js';
 import { orderService } from '../order/order.service.js';
 import { customerService } from '../customer/customer.service.js';
-import { NotFoundError } from '../../lib/errors.js';
 
 const listProductsQuerySchema = z.object({
   category: z.string().optional(),
@@ -16,11 +17,15 @@ const listProductsQuerySchema = z.object({
 });
 
 const checkoutSchema = z.object({
-  items: z.array(z.object({
-    productId: z.string(),
-    variantId: z.string().optional(),
-    quantity: z.number().min(1),
-  })).min(1),
+  items: z
+    .array(
+      z.object({
+        productId: z.string(),
+        variantId: z.string().optional(),
+        quantity: z.number().min(1),
+      })
+    )
+    .min(1),
   customer: z.object({
     name: z.string(),
     email: z.string().email().optional(),
@@ -44,7 +49,9 @@ export class StorefrontController {
       const store = await Store.findOne({
         subdomain,
         status: 'active',
-      }).select('-integrations').lean();
+      })
+        .select('-integrations')
+        .lean();
 
       if (!store) {
         throw new NotFoundError('Store');
@@ -228,10 +235,7 @@ export class StorefrontController {
         throw new NotFoundError('Store');
       }
 
-      const order = await orderService.getByOrderNumber(
-        store._id.toString(),
-        orderNumber
-      );
+      const order = await orderService.getByOrderNumber(store._id.toString(), orderNumber);
 
       res.json({
         success: true,

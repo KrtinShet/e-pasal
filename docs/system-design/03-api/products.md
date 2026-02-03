@@ -21,16 +21,16 @@ Authorization: Bearer <token>
 
 **Query Parameters:**
 
-| Param | Type | Description |
-|-------|------|-------------|
-| page | number | Page number (default: 1) |
-| limit | number | Items per page (default: 20, max: 100) |
-| status | string | Filter by status: `draft`, `active`, `archived` |
-| category | string | Filter by category ID |
-| search | string | Search in name, description |
-| minPrice | number | Minimum price |
-| maxPrice | number | Maximum price |
-| sort | string | Sort field (default: `-createdAt`) |
+| Param    | Type   | Description                                     |
+| -------- | ------ | ----------------------------------------------- |
+| page     | number | Page number (default: 1)                        |
+| limit    | number | Items per page (default: 20, max: 100)          |
+| status   | string | Filter by status: `draft`, `active`, `archived` |
+| category | string | Filter by category ID                           |
+| search   | string | Search in name, description                     |
+| minPrice | number | Minimum price                                   |
+| maxPrice | number | Maximum price                                   |
+| sort     | string | Sort field (default: `-createdAt`)              |
 
 **Example:**
 
@@ -118,9 +118,7 @@ Authorization: Bearer <token>
         "sku": "BDJ-S",
         "price": null,
         "stock": 10,
-        "attributes": [
-          { "name": "Size", "value": "S" }
-        ]
+        "attributes": [{ "name": "Size", "value": "S" }]
       },
       {
         "id": "var_002",
@@ -128,9 +126,7 @@ Authorization: Bearer <token>
         "sku": "BDJ-M",
         "price": null,
         "stock": 15,
-        "attributes": [
-          { "name": "Size", "value": "M" }
-        ]
+        "attributes": [{ "name": "Size", "value": "M" }]
       }
     ],
     "categories": [
@@ -238,7 +234,7 @@ Authorization: Bearer <token>
   "data": {
     "id": "prod_002",
     "name": "Cotton T-Shirt",
-    "slug": "cotton-t-shirt",
+    "slug": "cotton-t-shirt"
     // ... full product object
   }
 }
@@ -246,11 +242,11 @@ Authorization: Bearer <token>
 
 **Errors:**
 
-| Code | Reason |
-|------|--------|
-| 400 | Validation error |
-| 403 | Product limit reached |
-| 409 | SKU already exists |
+| Code | Reason                |
+| ---- | --------------------- |
+| 400  | Validation error      |
+| 403  | Product limit reached |
+| 409  | SKU already exists    |
 
 ---
 

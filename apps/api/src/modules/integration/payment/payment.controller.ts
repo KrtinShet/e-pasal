@@ -1,6 +1,7 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
-import { getPaymentProvider, isOnlinePayment, type PaymentMethod } from './payment.factory.js';
+import type { Request, Response, NextFunction } from 'express';
+
+import { isOnlinePayment, getPaymentProvider, type PaymentMethod } from './payment.factory.js';
 
 const initiateSchema = z.object({
   orderId: z.string(),

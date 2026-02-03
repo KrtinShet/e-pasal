@@ -5,7 +5,7 @@
 - Epic: [E01 - Foundation and Tenant Core](../../README.md)
 - Sprint: Sprint 1
 - Planned window: Week 1 Day 3-4
-- Status: Planned
+- Status: Done
 
 ## Goal
 

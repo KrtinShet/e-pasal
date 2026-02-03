@@ -72,11 +72,7 @@ Sentry.init({
   },
 
   // Ignore common errors
-  ignoreErrors: [
-    'Network request failed',
-    'Failed to fetch',
-    'Load failed'
-  ]
+  ignoreErrors: ['Network request failed', 'Failed to fetch', 'Load failed'],
 });
 
 export { Sentry };
@@ -116,7 +112,7 @@ const errorHandler = (err, req, res, next) => {
     scope.setContext('request', {
       body: req.body,
       query: req.query,
-      params: req.params
+      params: req.params,
     });
 
     Sentry.captureException(err);
@@ -149,14 +145,14 @@ const logger = winston.createLogger({
   ),
   defaultMeta: {
     service: 'baazarify-api',
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
   },
   transports: [
     new winston.transports.Console({
-      format: winston.format.simple()
+      format: winston.format.simple(),
     }),
-    new LogtailTransport(logtail)
-  ]
+    new LogtailTransport(logtail),
+  ],
 });
 
 export { logger };
@@ -182,7 +178,7 @@ const requestLogger = (req, res, next) => {
       store_id: req.tenant?.id,
       user_id: req.user?.id,
       ip: req.ip,
-      user_agent: req.get('user-agent')
+      user_agent: req.get('user-agent'),
     });
   });
 
@@ -198,20 +194,20 @@ logger.info('Order created', {
   order_id: order._id,
   store_id: order.storeId,
   total: order.totals.total,
-  source: order.source
+  source: order.source,
 });
 
 logger.error('Payment failed', {
   order_id: orderId,
   provider: 'esewa',
   error: err.message,
-  stack: err.stack
+  stack: err.stack,
 });
 
 logger.warn('Rate limit approaching', {
   store_id: storeId,
   current: 95,
-  limit: 100
+  limit: 100,
 });
 ```
 
@@ -221,11 +217,11 @@ logger.warn('Rate limit approaching', {
 
 ### Monitors
 
-| Monitor | URL | Check Interval |
-|---------|-----|----------------|
-| API Health | `https://api.baazarify.com/health` | 1 min |
-| Dashboard | `https://dashboard.baazarify.com` | 5 min |
-| Storefront | `https://demo.baazarify.com` | 5 min |
+| Monitor    | URL                                | Check Interval |
+| ---------- | ---------------------------------- | -------------- |
+| API Health | `https://api.baazarify.com/health` | 1 min          |
+| Dashboard  | `https://dashboard.baazarify.com`  | 5 min          |
+| Storefront | `https://demo.baazarify.com`       | 5 min          |
 
 ### Health Endpoint
 
@@ -236,7 +232,7 @@ router.get('/health', async (req, res) => {
     uptime: process.uptime(),
     timestamp: Date.now(),
     mongodb: 'unknown',
-    redis: 'unknown'
+    redis: 'unknown',
   };
 
   try {
@@ -259,7 +255,7 @@ router.get('/health', async (req, res) => {
 
   res.status(isHealthy ? 200 : 503).json({
     status: isHealthy ? 'healthy' : 'unhealthy',
-    checks
+    checks,
   });
 });
 ```
@@ -302,7 +298,7 @@ class Metrics {
     const data = {
       counters: Object.fromEntries(this.counters),
       gauges: Object.fromEntries(this.gauges),
-      histograms: this.calculateHistogramStats()
+      histograms: this.calculateHistogramStats(),
     };
 
     logger.info('Metrics flush', data);
@@ -327,13 +323,13 @@ const start = Date.now();
 await processRequest();
 metrics.histogram('api.latency', Date.now() - start, {
   endpoint: req.path,
-  method: req.method
+  method: req.method,
 });
 
 // Track orders
 metrics.increment('orders.created', {
   store_id: storeId,
-  source: 'website'
+  source: 'website',
 });
 
 // Track active stores
@@ -355,42 +351,44 @@ const slack = new WebClient(process.env.SLACK_TOKEN);
 const sendAlert = async (level, message, details = {}) => {
   const colors = {
     critical: '#dc2626', // red
-    warning: '#f59e0b',  // yellow
-    info: '#0d9488'      // teal
+    warning: '#f59e0b', // yellow
+    info: '#0d9488', // teal
   };
 
   await slack.chat.postMessage({
     channel: '#baazarify-alerts',
-    attachments: [{
-      color: colors[level],
-      title: `${level.toUpperCase()}: ${message}`,
-      fields: Object.entries(details).map(([key, value]) => ({
-        title: key,
-        value: String(value),
-        short: true
-      })),
-      ts: Math.floor(Date.now() / 1000)
-    }]
+    attachments: [
+      {
+        color: colors[level],
+        title: `${level.toUpperCase()}: ${message}`,
+        fields: Object.entries(details).map(([key, value]) => ({
+          title: key,
+          value: String(value),
+          short: true,
+        })),
+        ts: Math.floor(Date.now() / 1000),
+      },
+    ],
   });
 };
 
 // Usage
 await sendAlert('critical', 'Database connection lost', {
   host: 'mongodb.example.com',
-  error: err.message
+  error: err.message,
 });
 ```
 
 ### Alert Rules
 
-| Condition | Severity | Action |
-|-----------|----------|--------|
-| API down > 1 min | Critical | Slack + SMS |
-| Error rate > 5% | Critical | Slack |
-| Response time > 2s (p95) | Warning | Slack |
-| MongoDB slow query > 5s | Warning | Slack |
-| Disk usage > 80% | Warning | Slack |
-| Failed payment > 3 consecutive | Warning | Slack |
+| Condition                      | Severity | Action      |
+| ------------------------------ | -------- | ----------- |
+| API down > 1 min               | Critical | Slack + SMS |
+| Error rate > 5%                | Critical | Slack       |
+| Response time > 2s (p95)       | Warning  | Slack       |
+| MongoDB slow query > 5s        | Warning  | Slack       |
+| Disk usage > 80%               | Warning  | Slack       |
+| Failed payment > 3 consecutive | Warning  | Slack       |
 
 ---
 
@@ -438,23 +436,23 @@ mongoose.set('debug', (collectionName, methodName, ...args) => {
     collection: collectionName,
     method: methodName,
     query: JSON.stringify(args[0]),
-    duration: args[args.length - 1]
+    duration: args[args.length - 1],
   });
 });
 
 // Slow query alert
 mongoose.plugin((schema) => {
-  schema.pre(/^find/, function() {
+  schema.pre(/^find/, function () {
     this._startTime = Date.now();
   });
 
-  schema.post(/^find/, function() {
+  schema.post(/^find/, function () {
     const duration = Date.now() - this._startTime;
     if (duration > 1000) {
       logger.warn('Slow MongoDB query', {
         collection: this.mongooseCollection.name,
         query: this.getQuery(),
-        duration
+        duration,
       });
     }
   });
@@ -470,7 +468,7 @@ const redisWithMetrics = {
     const start = Date.now();
     const result = await redis.get(key);
     metrics.histogram('redis.latency', Date.now() - start, {
-      operation: 'get'
+      operation: 'get',
     });
     return result;
   },
@@ -488,16 +486,19 @@ const redisWithMetrics = {
 # Incident: [Title]
 
 ## Detection
+
 - Time detected:
 - How detected: (alert/customer report/monitoring)
 - Affected systems:
 
 ## Impact
+
 - Users affected:
 - Revenue impact:
 - Duration:
 
 ## Timeline
+
 - HH:MM - Issue detected
 - HH:MM - Investigation started
 - HH:MM - Root cause identified
@@ -505,12 +506,15 @@ const redisWithMetrics = {
 - HH:MM - Issue resolved
 
 ## Root Cause
+
 [Description of what went wrong]
 
 ## Resolution
+
 [What was done to fix it]
 
 ## Prevention
+
 [What will be done to prevent recurrence]
 ```
 

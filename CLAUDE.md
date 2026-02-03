@@ -23,6 +23,7 @@ packages/
 ### Key Patterns
 
 **API (apps/api)**
+
 - Modular architecture: `modules/{name}/{name}.model.ts|service.ts|controller.ts|routes.ts`
 - Multi-tenant via subdomain resolution middleware
 - JWT auth with role-based access (merchant, staff, admin)
@@ -31,6 +32,7 @@ packages/
 - Redis for caching and sessions
 
 **Frontend Apps**
+
 - Next.js 16 with App Router
 - Tailwind CSS v4 with custom design system
 - Path aliases: `@/*` maps to `src/*`
@@ -71,6 +73,7 @@ modules/{name}/
 ```
 
 Controller pattern:
+
 ```typescript
 export class FooController {
   async list(req: Request, res: Response, next: NextFunction) {
@@ -85,6 +88,7 @@ export class FooController {
 ```
 
 Routes pattern:
+
 ```typescript
 export const fooRouter = Router();
 fooRouter.use(authenticate, requireStore);
@@ -101,6 +105,7 @@ fooRouter.get('/', (req, res, next) => fooController.list(req, res, next));
 ## Environment
 
 API requires `.env` file:
+
 ```
 MONGODB_URI=mongodb://localhost:27017/baazarify
 REDIS_URL=redis://localhost:6379

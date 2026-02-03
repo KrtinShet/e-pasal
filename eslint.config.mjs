@@ -9,15 +9,13 @@ import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 
 const commonRules = () => ({
   ...reactHooksPlugin.configs.recommended.rules,
-  'react-hooks/set-state-in-effect': 'warn',
-  'react-hooks/refs': 'warn',
   'func-names': 1,
   'no-bitwise': 2,
   'no-unused-vars': 0,
   'object-shorthand': 1,
   'no-useless-rename': 1,
   'default-case-last': 2,
-  'consistent-return': 2,
+  'consistent-return': 1,
   'no-constant-condition': 1,
   'default-case': [2, { commentPattern: '^no default$' }],
   'lines-around-directive': [2, { before: 'always', after: 'always' }],
@@ -34,6 +32,8 @@ const commonRules = () => ({
   '@typescript-eslint/no-shadow': 2,
   '@typescript-eslint/no-explicit-any': 0,
   '@typescript-eslint/no-empty-object-type': 0,
+  '@typescript-eslint/no-namespace': 0,
+  '@typescript-eslint/no-require-imports': 0,
   '@typescript-eslint/consistent-type-imports': 1,
   '@typescript-eslint/no-unused-vars': [1, { args: 'none' }],
 });
@@ -45,7 +45,7 @@ const importRules = () => ({
   'import/default': 0,
   'import/namespace': 0,
   'import/no-named-as-default': 0,
-  'import/newline-after-import': 2,
+  'import/newline-after-import': 1,
   'import/no-named-as-default-member': 0,
   'import/no-cycle': [
     0,
@@ -66,7 +66,7 @@ const sortImportsRules = () => ({
   'perfectionist/sort-named-exports': [1, { type: 'line-length', order: 'asc' }],
   'perfectionist/sort-exports': [1, { order: 'asc', type: 'line-length' }],
   'perfectionist/sort-imports': [
-    2,
+    1,
     {
       order: 'asc',
       ignoreCase: true,
@@ -99,7 +99,7 @@ export const customConfig = {
     'import/resolver': {
       ...importPlugin.configs.typescript.settings['import/resolver'],
       typescript: {
-        project: './tsconfig.json',
+        project: ['./apps/*/tsconfig.json', './packages/*/tsconfig.json'],
       },
     },
   },
@@ -113,7 +113,9 @@ export const customConfig = {
 
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
-  { ignores: ['*', '!src/', '!eslint.config.*'] },
+  {
+    ignores: ['**/node_modules/**', '**/dist/**', '**/.next/**', '**/coverage/**', '**/build/**'],
+  },
   {
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },

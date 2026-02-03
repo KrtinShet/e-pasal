@@ -1,8 +1,11 @@
-import type { Request, Response, NextFunction } from 'express';
-import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
-import { s3Provider } from './s3.provider.js';
+import { randomUUID } from 'node:crypto';
+
+import type { Request, Response, NextFunction } from 'express';
+
 import { AppError } from '../../lib/errors.js';
+
+import { s3Provider } from './s3.provider.js';
 
 export class UploadController {
   async uploadImage(req: Request, res: Response, next: NextFunction) {
@@ -14,7 +17,7 @@ export class UploadController {
       }
 
       const ext = path.extname(file.originalname).toLowerCase();
-      const filename = `${uuidv4()}${ext}`;
+      const filename = `${randomUUID()}${ext}`;
       const filePath = `images/${req.user!.storeId || req.user!.id}/${filename}`;
 
       const result = await s3Provider.upload(file.buffer, filePath, file.mimetype);

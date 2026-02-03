@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import type { Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export interface IUser extends Document {
   email: string;
@@ -9,6 +10,7 @@ export interface IUser extends Document {
   storeId?: mongoose.Types.ObjectId;
   status: 'active' | 'inactive' | 'suspended';
   emailVerified: boolean;
+  refreshTokenId?: string;
   lastLoginAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -54,6 +56,10 @@ const userSchema = new Schema<IUser>(
     emailVerified: {
       type: Boolean,
       default: false,
+    },
+    refreshTokenId: {
+      type: String,
+      default: null,
     },
     lastLoginAt: Date,
   },

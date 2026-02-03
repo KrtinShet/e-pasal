@@ -1,20 +1,25 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { customerService } from './customer.service.js';
 
 const createCustomerSchema = z.object({
   name: z.string().min(1),
   email: z.string().email().optional(),
   phone: z.string().min(10),
-  addresses: z.array(z.object({
-    label: z.string().default('Home'),
-    address: z.string(),
-    city: z.string(),
-    state: z.string().optional(),
-    postalCode: z.string().optional(),
-    country: z.string().default('Nepal'),
-    isDefault: z.boolean().default(false),
-  })).optional(),
+  addresses: z
+    .array(
+      z.object({
+        label: z.string().default('Home'),
+        address: z.string(),
+        city: z.string(),
+        state: z.string().optional(),
+        postalCode: z.string().optional(),
+        country: z.string().default('Nepal'),
+        isDefault: z.boolean().default(false),
+      })
+    )
+    .optional(),
   tags: z.array(z.string()).optional(),
   notes: z.string().optional(),
   source: z.enum(['website', 'whatsapp', 'instagram', 'manual']).optional(),
@@ -63,10 +68,7 @@ export class CustomerController {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const customer = await customerService.getById(
-        req.user!.storeId!,
-        req.params.id
-      );
+      const customer = await customerService.getById(req.user!.storeId!, req.params.id);
 
       res.json({
         success: true,
@@ -80,11 +82,7 @@ export class CustomerController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const data = updateCustomerSchema.parse(req.body);
-      const customer = await customerService.update(
-        req.user!.storeId!,
-        req.params.id,
-        data
-      );
+      const customer = await customerService.update(req.user!.storeId!, req.params.id, data);
 
       res.json({
         success: true,

@@ -81,9 +81,7 @@ export function PageBuilderEditor({ pageData, onSave }) {
 
       // Canvas
       canvas: {
-        styles: [
-          'https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css'
-        ]
+        styles: ['https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css'],
       },
 
       // Panels
@@ -94,10 +92,10 @@ export function PageBuilderEditor({ pageData, onSave }) {
             buttons: [
               { id: 'desktop', command: 'set-device-desktop', active: true },
               { id: 'tablet', command: 'set-device-tablet' },
-              { id: 'mobile', command: 'set-device-mobile' }
-            ]
-          }
-        ]
+              { id: 'mobile', command: 'set-device-mobile' },
+            ],
+          },
+        ],
       },
 
       // Device Manager
@@ -105,13 +103,13 @@ export function PageBuilderEditor({ pageData, onSave }) {
         devices: [
           { name: 'Desktop', width: '' },
           { name: 'Tablet', width: '768px' },
-          { name: 'Mobile', width: '375px' }
-        ]
+          { name: 'Mobile', width: '375px' },
+        ],
       },
 
       // Block Manager
       blockManager: {
-        appendTo: '#blocks-panel'
+        appendTo: '#blocks-panel',
       },
 
       // Style Manager
@@ -121,26 +119,26 @@ export function PageBuilderEditor({ pageData, onSave }) {
           {
             name: 'Layout',
             open: true,
-            properties: ['display', 'flex-direction', 'justify-content', 'align-items', 'gap']
+            properties: ['display', 'flex-direction', 'justify-content', 'align-items', 'gap'],
           },
           {
             name: 'Spacing',
-            properties: ['margin', 'padding']
+            properties: ['margin', 'padding'],
           },
           {
             name: 'Typography',
-            properties: ['font-family', 'font-size', 'font-weight', 'color', 'text-align']
+            properties: ['font-family', 'font-size', 'font-weight', 'color', 'text-align'],
           },
           {
             name: 'Background',
-            properties: ['background-color', 'background-image']
+            properties: ['background-color', 'background-image'],
           },
           {
             name: 'Border',
-            properties: ['border', 'border-radius']
-          }
-        ]
-      }
+            properties: ['border', 'border-radius'],
+          },
+        ],
+      },
     });
 
     editorRef.current = editor;
@@ -157,9 +155,9 @@ export function PageBuilderEditor({ pageData, onSave }) {
           html,
           css,
           components: JSON.stringify(components),
-          styles: JSON.stringify(styles)
+          styles: JSON.stringify(styles),
         });
-      }
+      },
     });
 
     return () => {
@@ -225,7 +223,7 @@ export default function ecommerceBlocks(editor) {
         </div>
       </section>
     `,
-    attributes: { class: 'fa fa-image' }
+    attributes: { class: 'fa fa-image' },
   });
 
   // Product Grid Block
@@ -237,10 +235,10 @@ export default function ecommerceBlocks(editor) {
       attributes: {
         'data-products': '8',
         'data-category': '',
-        'data-columns': '4'
-      }
+        'data-columns': '4',
+      },
     },
-    attributes: { class: 'fa fa-th' }
+    attributes: { class: 'fa fa-th' },
   });
 
   // Register Product Grid Component
@@ -250,20 +248,20 @@ export default function ecommerceBlocks(editor) {
         tagName: 'div',
         droppable: false,
         attributes: {
-          class: 'product-grid'
+          class: 'product-grid',
         },
         traits: [
           {
             type: 'number',
             name: 'data-products',
             label: 'Products to show',
-            default: 8
+            default: 8,
           },
           {
             type: 'select',
             name: 'data-category',
             label: 'Category',
-            options: [] // Populated dynamically
+            options: [], // Populated dynamically
           },
           {
             type: 'select',
@@ -272,11 +270,11 @@ export default function ecommerceBlocks(editor) {
             options: [
               { value: '2', name: '2 Columns' },
               { value: '3', name: '3 Columns' },
-              { value: '4', name: '4 Columns' }
-            ]
-          }
-        ]
-      }
+              { value: '4', name: '4 Columns' },
+            ],
+          },
+        ],
+      },
     },
     view: {
       onRender() {
@@ -285,17 +283,22 @@ export default function ecommerceBlocks(editor) {
 
         this.el.innerHTML = `
           <div class="grid grid-cols-${cols} gap-4 p-4">
-            ${Array(parseInt(count)).fill(0).map((_, i) => `
+            ${Array(parseInt(count))
+              .fill(0)
+              .map(
+                (_, i) => `
               <div class="bg-gray-100 rounded-lg p-4">
                 <div class="aspect-square bg-gray-200 rounded mb-4"></div>
                 <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
                 <div class="h-4 bg-gray-200 rounded w-1/2"></div>
               </div>
-            `).join('')}
+            `
+              )
+              .join('')}
           </div>
         `;
-      }
-    }
+      },
+    },
   });
 
   // Featured Collection Block
@@ -312,7 +315,7 @@ export default function ecommerceBlocks(editor) {
         </div>
       </section>
     `,
-    attributes: { class: 'fa fa-star' }
+    attributes: { class: 'fa fa-star' },
   });
 
   // Testimonials Block
@@ -326,7 +329,9 @@ export default function ecommerceBlocks(editor) {
             What Our Customers Say
           </h2>
           <div class="grid grid-cols-3 gap-6">
-            ${[1, 2, 3].map(() => `
+            ${[1, 2, 3]
+              .map(
+                () => `
               <div class="bg-white p-6 rounded-lg shadow">
                 <div class="flex items-center mb-4">
                   <div class="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
@@ -339,12 +344,14 @@ export default function ecommerceBlocks(editor) {
                   "Amazing products and fast delivery. Highly recommended!"
                 </p>
               </div>
-            `).join('')}
+            `
+              )
+              .join('')}
           </div>
         </div>
       </section>
     `,
-    attributes: { class: 'fa fa-comments' }
+    attributes: { class: 'fa fa-comments' },
   });
 
   // Store Info Block
@@ -374,7 +381,7 @@ export default function ecommerceBlocks(editor) {
         </div>
       </section>
     `,
-    attributes: { class: 'fa fa-info-circle' }
+    attributes: { class: 'fa fa-info-circle' },
   });
 
   // Contact Form Block
@@ -398,7 +405,7 @@ export default function ecommerceBlocks(editor) {
         </div>
       </section>
     `,
-    attributes: { class: 'fa fa-envelope' }
+    attributes: { class: 'fa fa-envelope' },
   });
 }
 ```
@@ -416,24 +423,15 @@ interface PageContent {
   css: string;
 }
 
-export function PageRenderer({
-  page,
-  store
-}: {
-  page: { content: PageContent };
-  store: Store;
-}) {
+export function PageRenderer({ page, store }: { page: { content: PageContent }; store: Store }) {
   const processedHtml = useMemo(() => {
     let html = page.content.html;
 
     // Replace product grid placeholders with actual products
-    html = html.replace(
-      /<div[^>]*data-gjs-type="product-grid"[^>]*><\/div>/g,
-      (match) => {
-        const count = match.match(/data-products="(\d+)"/)?.[1] || '8';
-        return `<product-grid data-count="${count}"></product-grid>`;
-      }
-    );
+    html = html.replace(/<div[^>]*data-gjs-type="product-grid"[^>]*><\/div>/g, (match) => {
+      const count = match.match(/data-products="(\d+)"/)?.[1] || '8';
+      return `<product-grid data-count="${count}"></product-grid>`;
+    });
 
     return html;
   }, [page.content.html]);
@@ -441,17 +439,14 @@ export function PageRenderer({
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: page.content.css }} />
-      <div
-        dangerouslySetInnerHTML={{ __html: processedHtml }}
-        className="page-content"
-      />
+      <div dangerouslySetInnerHTML={{ __html: processedHtml }} className="page-content" />
       <ProductGridHydrator />
     </>
   );
 }
 
 // Client component to hydrate product grids
-'use client';
+('use client');
 
 function ProductGridHydrator() {
   useEffect(() => {
@@ -488,19 +483,19 @@ export function PageBuilder() {
 
   const { data: pages } = useQuery({
     queryKey: ['pages'],
-    queryFn: () => api.get('/pages')
+    queryFn: () => api.get('/pages'),
   });
 
   const { data: pageData } = useQuery({
     queryKey: ['page', selectedPage],
-    queryFn: () => api.get(`/pages/${selectedPage}`)
+    queryFn: () => api.get(`/pages/${selectedPage}`),
   });
 
   const savePage = useMutation({
     mutationFn: (content) => api.put(`/pages/${selectedPage}`, { content }),
     onSuccess: () => {
       toast.success('Page saved successfully');
-    }
+    },
   });
 
   return (

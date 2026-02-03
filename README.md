@@ -8,13 +8,13 @@ Baazarify enables small-to-medium online sellers to create customizable online s
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **API** | Node.js 20, Express.js, MongoDB 7, Redis 7 |
-| **Storefront** | Next.js 16, React 19, Tailwind CSS 4 |
-| **Dashboard** | Next.js 16, React 19, Tailwind CSS 4 |
-| **Admin** | Next.js 16, React 19, Tailwind CSS 4 |
-| **Shared** | TypeScript, Zod |
+| Layer          | Technology                                 |
+| -------------- | ------------------------------------------ |
+| **API**        | Node.js 20, Express.js, MongoDB 7, Redis 7 |
+| **Storefront** | Next.js 16, React 19, Tailwind CSS 4       |
+| **Dashboard**  | Next.js 16, React 19, Tailwind CSS 4       |
+| **Admin**      | Next.js 16, React 19, Tailwind CSS 4       |
+| **Shared**     | TypeScript, Zod                            |
 
 ## Project Structure
 
@@ -52,6 +52,10 @@ docker-compose up -d
 cp apps/api/.env.example apps/api/.env
 # Edit apps/api/.env with your values
 
+# Optional frontend environment files
+cp apps/dashboard/.env.example apps/dashboard/.env.local
+cp apps/storefront/.env.example apps/storefront/.env.local
+
 # Run all apps
 pnpm dev
 ```
@@ -74,19 +78,19 @@ pnpm fix:all          # Lint + format
 
 ## API Endpoints
 
-| Route | Description |
-|-------|-------------|
-| `POST /api/v1/auth/register` | Register merchant + create store |
-| `POST /api/v1/auth/login` | Login |
-| `GET /api/v1/stores/me` | Get current store |
-| `GET /api/v1/products` | List products |
-| `POST /api/v1/products` | Create product |
-| `GET /api/v1/orders` | List orders |
-| `PATCH /api/v1/orders/:id/status` | Update order status |
-| `GET /api/v1/customers` | List customers |
-| `GET /api/v1/inventory/low-stock` | Get low stock alerts |
-| `GET /api/v1/analytics/dashboard` | Dashboard stats |
-| `GET /api/v1/storefront/:subdomain` | Public store API |
+| Route                               | Description                      |
+| ----------------------------------- | -------------------------------- |
+| `POST /api/v1/auth/register`        | Register merchant + create store |
+| `POST /api/v1/auth/login`           | Login                            |
+| `GET /api/v1/stores/me`             | Get current store                |
+| `GET /api/v1/products`              | List products                    |
+| `POST /api/v1/products`             | Create product                   |
+| `GET /api/v1/orders`                | List orders                      |
+| `PATCH /api/v1/orders/:id/status`   | Update order status              |
+| `GET /api/v1/customers`             | List customers                   |
+| `GET /api/v1/inventory/low-stock`   | Get low stock alerts             |
+| `GET /api/v1/analytics/dashboard`   | Dashboard stats                  |
+| `GET /api/v1/storefront/:subdomain` | Public store API                 |
 
 ## Environment Variables
 
@@ -111,6 +115,13 @@ S3_SECRET_KEY=
 STOREFRONT_URL=http://localhost:3000
 DASHBOARD_URL=http://localhost:5173
 ADMIN_URL=http://localhost:5174
+```
+
+### Dashboard (`apps/dashboard/.env.local`)
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:4000/api/v1
+NEXT_PUBLIC_AUTH_TOKEN=
 ```
 
 ## Architecture

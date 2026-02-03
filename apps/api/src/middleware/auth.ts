@@ -1,5 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import type { Request, Response, NextFunction } from 'express';
+
 import { env } from '../config/env.js';
 import { AppError } from '../lib/errors.js';
 import { User } from '../modules/auth/user.model.js';
@@ -24,11 +25,7 @@ interface JwtPayload {
   storeId?: string;
 }
 
-export async function authenticate(
-  req: Request,
-  _res: Response,
-  next: NextFunction
-) {
+export async function authenticate(req: Request, _res: Response, next: NextFunction) {
   try {
     const authHeader = req.headers.authorization;
 

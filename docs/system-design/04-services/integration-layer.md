@@ -84,9 +84,7 @@ class EsewaProvider extends PaymentGateway {
     super();
     this.merchantId = config.merchantId;
     this.secretKey = config.secretKey;
-    this.baseUrl = config.testMode
-      ? 'https://rc-epay.esewa.com.np'
-      : 'https://epay.esewa.com.np';
+    this.baseUrl = config.testMode ? 'https://rc-epay.esewa.com.np' : 'https://epay.esewa.com.np';
   }
 
   async initiate(order, returnUrls) {
@@ -100,7 +98,7 @@ class EsewaProvider extends PaymentGateway {
       product_delivery_charge: order.totals.shipping,
       success_url: returnUrls.success,
       failure_url: returnUrls.failure,
-      signed_field_names: 'total_amount,transaction_uuid,product_code'
+      signed_field_names: 'total_amount,transaction_uuid,product_code',
     };
 
     // Generate signature
@@ -110,7 +108,7 @@ class EsewaProvider extends PaymentGateway {
     return {
       method: 'POST',
       url: `${this.baseUrl}/api/epay/main/v2/form`,
-      params
+      params,
     };
   }
 
@@ -124,33 +122,27 @@ class EsewaProvider extends PaymentGateway {
     }
 
     // Check transaction status
-    const response = await axios.get(
-      `${this.baseUrl}/api/epay/transaction/status`,
-      {
-        params: {
-          product_code: this.merchantId,
-          total_amount: data.total_amount,
-          transaction_uuid: data.transaction_uuid
-        },
-        headers: {
-          Authorization: `Bearer ${this.secretKey}`
-        }
-      }
-    );
+    const response = await axios.get(`${this.baseUrl}/api/epay/transaction/status`, {
+      params: {
+        product_code: this.merchantId,
+        total_amount: data.total_amount,
+        transaction_uuid: data.transaction_uuid,
+      },
+      headers: {
+        Authorization: `Bearer ${this.secretKey}`,
+      },
+    });
 
     return {
       success: response.data.status === 'COMPLETE',
       transactionId: response.data.transaction_code,
       amount: parseFloat(response.data.total_amount),
-      raw: response.data
+      raw: response.data,
     };
   }
 
   generateSignature(message) {
-    return crypto
-      .createHmac('sha256', this.secretKey)
-      .update(message)
-      .digest('base64');
+    return crypto.createHmac('sha256', this.secretKey).update(message).digest('base64');
   }
 }
 ```
@@ -164,9 +156,7 @@ class KhaltiProvider extends PaymentGateway {
     super();
     this.secretKey = config.secretKey;
     this.publicKey = config.publicKey;
-    this.baseUrl = config.testMode
-      ? 'https://a.khalti.com'
-      : 'https://khalti.com';
+    this.baseUrl = config.testMode ? 'https://a.khalti.com' : 'https://khalti.com';
   }
 
   async initiate(order, returnUrls) {
@@ -181,20 +171,20 @@ class KhaltiProvider extends PaymentGateway {
         customer_info: {
           name: `${order.customer.firstName} ${order.customer.lastName}`,
           email: order.customer.email,
-          phone: order.customer.phone
-        }
+          phone: order.customer.phone,
+        },
       },
       {
         headers: {
-          Authorization: `Key ${this.secretKey}`
-        }
+          Authorization: `Key ${this.secretKey}`,
+        },
       }
     );
 
     return {
       method: 'REDIRECT',
       url: response.data.payment_url,
-      pidx: response.data.pidx
+      pidx: response.data.pidx,
     };
   }
 
@@ -204,8 +194,8 @@ class KhaltiProvider extends PaymentGateway {
       { pidx: transactionData.pidx },
       {
         headers: {
-          Authorization: `Key ${this.secretKey}`
-        }
+          Authorization: `Key ${this.secretKey}`,
+        },
       }
     );
 
@@ -213,7 +203,7 @@ class KhaltiProvider extends PaymentGateway {
       success: response.data.status === 'Completed',
       transactionId: response.data.transaction_id,
       amount: response.data.total_amount / 100,
-      raw: response.data
+      raw: response.data,
     };
   }
 }
@@ -291,14 +281,11 @@ class PathaoProvider extends LogisticsProvider {
   async authenticate() {
     if (this.accessToken) return;
 
-    const response = await axios.post(
-      `${this.baseUrl}/aladdin/api/v1/issue-token`,
-      {
-        client_id: this.apiKey,
-        client_secret: this.secretKey,
-        grant_type: 'client_credentials'
-      }
-    );
+    const response = await axios.post(`${this.baseUrl}/aladdin/api/v1/issue-token`, {
+      client_id: this.apiKey,
+      client_secret: this.secretKey,
+      grant_type: 'client_credentials',
+    });
 
     this.accessToken = response.data.access_token;
   }
@@ -314,7 +301,7 @@ class PathaoProvider extends LogisticsProvider {
         delivery_type: 48, // Normal delivery
         item_weight: pkg.weight,
         recipient_city: destination.cityId,
-        recipient_zone: destination.zoneId
+        recipient_zone: destination.zoneId,
       },
       { headers: this.getHeaders() }
     );
@@ -325,9 +312,9 @@ class PathaoProvider extends LogisticsProvider {
         {
           service: 'normal',
           price: response.data.data.price,
-          estimatedDays: 2
-        }
-      ]
+          estimatedDays: 2,
+        },
+      ],
     };
   }
 
@@ -349,7 +336,7 @@ class PathaoProvider extends LogisticsProvider {
         item_quantity: order.items.reduce((sum, i) => sum + i.quantity, 0),
         item_weight: 0.5,
         amount_to_collect: order.payment.method === 'cod' ? order.totals.total : 0,
-        item_description: order.items.map(i => i.name).join(', ')
+        item_description: order.items.map((i) => i.name).join(', '),
       },
       { headers: this.getHeaders() }
     );
@@ -358,37 +345,37 @@ class PathaoProvider extends LogisticsProvider {
       shipmentId: response.data.data.consignment_id,
       trackingNumber: response.data.data.consignment_id,
       trackingUrl: `https://pathao.com/tracking?consignment_id=${response.data.data.consignment_id}`,
-      label: null // Pathao doesn't provide downloadable labels via API
+      label: null, // Pathao doesn't provide downloadable labels via API
     };
   }
 
   async track(trackingNumber) {
     await this.authenticate();
 
-    const response = await axios.get(
-      `${this.baseUrl}/aladdin/api/v1/orders/${trackingNumber}`,
-      { headers: this.getHeaders() }
-    );
+    const response = await axios.get(`${this.baseUrl}/aladdin/api/v1/orders/${trackingNumber}`, {
+      headers: this.getHeaders(),
+    });
 
     const data = response.data.data;
     return {
       status: this.mapStatus(data.order_status),
       currentLocation: data.current_location,
-      events: data.history?.map(h => ({
-        status: h.status,
-        location: h.location,
-        timestamp: h.created_at
-      })) || []
+      events:
+        data.history?.map((h) => ({
+          status: h.status,
+          location: h.location,
+          timestamp: h.created_at,
+        })) || [],
     };
   }
 
   mapStatus(pathaoStatus) {
     const statusMap = {
-      'Pending': 'pending',
-      'Picked': 'picked_up',
+      Pending: 'pending',
+      Picked: 'picked_up',
       'In Transit': 'in_transit',
-      'Delivered': 'delivered',
-      'Returned': 'returned'
+      Delivered: 'delivered',
+      Returned: 'returned',
     };
     return statusMap[pathaoStatus] || 'unknown';
   }
@@ -396,7 +383,7 @@ class PathaoProvider extends LogisticsProvider {
   getHeaders() {
     return {
       Authorization: `Bearer ${this.accessToken}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
   }
 }
@@ -444,12 +431,12 @@ class TwilioWhatsAppProvider extends MessagingProvider {
     const response = await this.client.messages.create({
       from: this.fromNumber,
       to: `whatsapp:${recipient}`,
-      body: message
+      body: message,
     });
 
     return {
       messageId: response.sid,
-      status: response.status
+      status: response.status,
     };
   }
 
@@ -459,12 +446,12 @@ class TwilioWhatsAppProvider extends MessagingProvider {
       from: this.fromNumber,
       to: `whatsapp:${recipient}`,
       contentSid: this.templates[templateName],
-      contentVariables: JSON.stringify(params)
+      contentVariables: JSON.stringify(params),
     });
 
     return {
       messageId: response.sid,
-      status: response.status
+      status: response.status,
     };
   }
 
@@ -473,7 +460,7 @@ class TwilioWhatsAppProvider extends MessagingProvider {
       1: order.orderNumber,
       2: order.customer.firstName,
       3: `NPR ${order.totals.total.toLocaleString()}`,
-      4: order.items.length.toString()
+      4: order.items.length.toString(),
     });
   }
 
@@ -481,7 +468,7 @@ class TwilioWhatsAppProvider extends MessagingProvider {
     return this.sendTemplate(recipient, 'shipping_update', {
       1: order.orderNumber,
       2: tracking.trackingNumber,
-      3: tracking.trackingUrl
+      3: tracking.trackingUrl,
     });
   }
 
@@ -491,10 +478,15 @@ class TwilioWhatsAppProvider extends MessagingProvider {
       to: payload.To.replace('whatsapp:', ''),
       body: payload.Body,
       messageId: payload.MessageSid,
-      media: payload.NumMedia > 0 ? [{
-        url: payload.MediaUrl0,
-        type: payload.MediaContentType0
-      }] : []
+      media:
+        payload.NumMedia > 0
+          ? [
+              {
+                url: payload.MediaUrl0,
+                type: payload.MediaContentType0,
+              },
+            ]
+          : [],
     };
   }
 }
@@ -517,16 +509,16 @@ class InstagramProvider extends MessagingProvider {
       `${this.baseUrl}/${this.pageId}/messages`,
       {
         recipient: { id: recipient },
-        message: { text: message }
+        message: { text: message },
       },
       {
-        params: { access_token: this.accessToken }
+        params: { access_token: this.accessToken },
       }
     );
 
     return {
       messageId: response.data.message_id,
-      status: 'sent'
+      status: 'sent',
     };
   }
 
@@ -540,22 +532,26 @@ class InstagramProvider extends MessagingProvider {
             type: 'template',
             payload: {
               template_type: 'generic',
-              elements: [{
-                title: product.name,
-                subtitle: `NPR ${product.price.toLocaleString()}`,
-                image_url: product.images[0]?.url,
-                buttons: [{
-                  type: 'web_url',
-                  url: product.url,
-                  title: 'View Product'
-                }]
-              }]
-            }
-          }
-        }
+              elements: [
+                {
+                  title: product.name,
+                  subtitle: `NPR ${product.price.toLocaleString()}`,
+                  image_url: product.images[0]?.url,
+                  buttons: [
+                    {
+                      type: 'web_url',
+                      url: product.url,
+                      title: 'View Product',
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
       },
       {
-        params: { access_token: this.accessToken }
+        params: { access_token: this.accessToken },
       }
     );
 
@@ -573,7 +569,7 @@ class InstagramProvider extends MessagingProvider {
       to: messaging.recipient.id,
       body: messaging.message?.text,
       messageId: messaging.message?.mid,
-      timestamp: messaging.timestamp
+      timestamp: messaging.timestamp,
     };
   }
 }
@@ -599,9 +595,7 @@ class NotificationService {
 
     // WhatsApp to customer
     if (order.customer.phone) {
-      tasks.push(
-        this.whatsapp.sendOrderConfirmation(order.customer.phone, order)
-      );
+      tasks.push(this.whatsapp.sendOrderConfirmation(order.customer.phone, order));
     }
 
     // Email to customer
@@ -610,7 +604,7 @@ class NotificationService {
         this.email.send({
           to: order.customer.email,
           template: 'order-confirmation',
-          data: { order }
+          data: { order },
         })
       );
     }
@@ -621,7 +615,7 @@ class NotificationService {
         type: 'new_order',
         title: 'New Order',
         body: `Order ${order.orderNumber} received`,
-        data: { orderId: order._id }
+        data: { orderId: order._id },
       })
     );
 
@@ -630,11 +624,7 @@ class NotificationService {
 
   async orderShipped(order) {
     if (order.customer.phone) {
-      await this.whatsapp.sendShippingUpdate(
-        order.customer.phone,
-        order,
-        order.shipping
-      );
+      await this.whatsapp.sendShippingUpdate(order.customer.phone, order, order.shipping);
     }
   }
 
@@ -657,31 +647,35 @@ const notificationQueue = new Queue('notifications', {
   connection: redisConnection,
   defaultJobOptions: {
     attempts: 3,
-    backoff: { type: 'exponential', delay: 1000 }
-  }
+    backoff: { type: 'exponential', delay: 1000 },
+  },
 });
 
 // Producer
 const queueNotification = async (type, data) => {
   await notificationQueue.add(type, data, {
-    priority: type === 'order_placed' ? 1 : 2
+    priority: type === 'order_placed' ? 1 : 2,
   });
 };
 
 // Consumer
-const notificationWorker = new Worker('notifications', async (job) => {
-  const notificationService = new NotificationService(config);
+const notificationWorker = new Worker(
+  'notifications',
+  async (job) => {
+    const notificationService = new NotificationService(config);
 
-  switch (job.name) {
-    case 'order_placed':
-      await notificationService.orderPlaced(job.data.order);
-      break;
-    case 'order_shipped':
-      await notificationService.orderShipped(job.data.order);
-      break;
-    // ... other notification types
-  }
-}, { connection: redisConnection });
+    switch (job.name) {
+      case 'order_placed':
+        await notificationService.orderPlaced(job.data.order);
+        break;
+      case 'order_shipped':
+        await notificationService.orderShipped(job.data.order);
+        break;
+      // ... other notification types
+    }
+  },
+  { connection: redisConnection }
+);
 ```
 
 ---

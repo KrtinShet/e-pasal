@@ -1,5 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { analyticsService } from './analytics.service.js';
 
 const revenueQuerySchema = z.object({

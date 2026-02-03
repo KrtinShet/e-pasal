@@ -42,11 +42,11 @@ graph TB
 
 ## Environment Architecture
 
-| Environment | Purpose | URL |
-|-------------|---------|-----|
-| Local | Development | `localhost:3000` |
-| Staging | Testing | `staging.baazarify.com` |
-| Production | Live | `baazarify.com` |
+| Environment | Purpose     | URL                     |
+| ----------- | ----------- | ----------------------- |
+| Local       | Development | `localhost:3000`        |
+| Staging     | Testing     | `staging.baazarify.com` |
+| Production  | Live        | `baazarify.com`         |
 
 ---
 
@@ -285,7 +285,7 @@ services:
   api:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - MONGODB_URI=mongodb://mongo:27017/baazarify
       - REDIS_URL=redis://redis:6379
@@ -295,7 +295,7 @@ services:
 
   worker:
     build: .
-    command: ["node", "dist/worker.js"]
+    command: ['node', 'dist/worker.js']
     environment:
       - MONGODB_URI=mongodb://mongo:27017/baazarify
       - REDIS_URL=redis://redis:6379
@@ -308,12 +308,12 @@ services:
     volumes:
       - mongo_data:/data/db
     ports:
-      - "27017:27017"
+      - '27017:27017'
 
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
 
 volumes:
   mongo_data:
@@ -384,9 +384,9 @@ const provisionSSL = async (domain) => {
       method: 'http',
       type: 'dv',
       settings: {
-        min_tls_version: '1.2'
-      }
-    }
+        min_tls_version: '1.2',
+      },
+    },
   });
 
   return response;

@@ -1,7 +1,8 @@
+import mongoose from 'mongoose';
+
 import { Order } from '../order/order.model.js';
 import { Product } from '../product/product.model.js';
 import { Customer } from '../customer/customer.model.js';
-import mongoose from 'mongoose';
 
 interface DashboardStats {
   totalOrders: number;
@@ -34,25 +35,20 @@ export class AnalyticsService {
   async getDashboardStats(storeId: string): Promise<DashboardStats> {
     const storeObjectId = new mongoose.Types.ObjectId(storeId);
 
-    const [
-      totalOrders,
-      revenueResult,
-      totalCustomers,
-      totalProducts,
-      recentOrdersCount,
-    ] = await Promise.all([
-      Order.countDocuments({ storeId: storeObjectId }),
-      Order.aggregate([
-        { $match: { storeId: storeObjectId, status: { $nin: ['cancelled', 'refunded'] } } },
-        { $group: { _id: null, total: { $sum: '$total' } } },
-      ]),
-      Customer.countDocuments({ storeId: storeObjectId }),
-      Product.countDocuments({ storeId: storeObjectId }),
-      Order.countDocuments({
-        storeId: storeObjectId,
-        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-      }),
-    ]);
+    const [totalOrders, revenueResult, totalCustomers, totalProducts, recentOrdersCount] =
+      await Promise.all([
+        Order.countDocuments({ storeId: storeObjectId }),
+        Order.aggregate([
+          { $match: { storeId: storeObjectId, status: { $nin: ['cancelled', 'refunded'] } } },
+          { $group: { _id: null, total: { $sum: '$total' } } },
+        ]),
+        Customer.countDocuments({ storeId: storeObjectId }),
+        Product.countDocuments({ storeId: storeObjectId }),
+        Order.countDocuments({
+          storeId: storeObjectId,
+          createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        }),
+      ]);
 
     return {
       totalOrders,

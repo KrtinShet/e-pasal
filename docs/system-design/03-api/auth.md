@@ -86,10 +86,10 @@ POST /v1/auth/register
 
 **Errors:**
 
-| Code | Reason |
-|------|--------|
-| 400 | Validation error |
-| 409 | Email or subdomain already exists |
+| Code | Reason                            |
+| ---- | --------------------------------- |
+| 400  | Validation error                  |
+| 409  | Email or subdomain already exists |
 
 ---
 
@@ -139,10 +139,10 @@ POST /v1/auth/login
 
 **Errors:**
 
-| Code | Reason |
-|------|--------|
-| 401 | Invalid credentials |
-| 403 | Account suspended |
+| Code | Reason              |
+| ---- | ------------------- |
+| 401  | Invalid credentials |
+| 403  | Account suspended   |
 
 ---
 
@@ -179,9 +179,9 @@ POST /v1/auth/refresh
 
 **Errors:**
 
-| Code | Reason |
-|------|--------|
-| 401 | Invalid or expired refresh token |
+| Code | Reason                           |
+| ---- | -------------------------------- |
+| 401  | Invalid or expired refresh token |
 
 ---
 
@@ -276,9 +276,9 @@ POST /v1/auth/reset-password
 
 **Errors:**
 
-| Code | Reason |
-|------|--------|
-| 400 | Invalid or expired token |
+| Code | Reason                   |
+| ---- | ------------------------ |
+| 400  | Invalid or expired token |
 
 ---
 
@@ -388,7 +388,7 @@ const generateTokens = async (user) => {
       email: user.email,
       role: user.role,
       storeId: user.storeId,
-      permissions: user.permissions
+      permissions: user.permissions,
     },
     process.env.JWT_SECRET,
     { expiresIn: '15m' }
@@ -396,16 +396,13 @@ const generateTokens = async (user) => {
 
   // Refresh token: long-lived, random string
   const refreshToken = crypto.randomBytes(32).toString('hex');
-  const refreshTokenHash = crypto
-    .createHash('sha256')
-    .update(refreshToken)
-    .digest('hex');
+  const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
 
   // Store refresh token hash
   await RefreshToken.create({
     userId: user._id,
     tokenHash: refreshTokenHash,
-    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 
   return { accessToken, refreshToken };
@@ -422,7 +419,7 @@ const authenticate = async (req, res, next) => {
   if (!authHeader?.startsWith('Bearer ')) {
     return res.status(401).json({
       success: false,
-      error: { code: 'AUTH_REQUIRED', message: 'Authentication required' }
+      error: { code: 'AUTH_REQUIRED', message: 'Authentication required' },
     });
   }
 
@@ -443,7 +440,7 @@ const authenticate = async (req, res, next) => {
       email: user.email,
       role: user.role,
       storeId: user.storeId,
-      permissions: user.permissions
+      permissions: user.permissions,
     };
 
     next();
@@ -451,13 +448,13 @@ const authenticate = async (req, res, next) => {
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({
         success: false,
-        error: { code: 'TOKEN_EXPIRED', message: 'Access token expired' }
+        error: { code: 'TOKEN_EXPIRED', message: 'Access token expired' },
       });
     }
 
     return res.status(401).json({
       success: false,
-      error: { code: 'AUTH_INVALID', message: 'Invalid token' }
+      error: { code: 'AUTH_INVALID', message: 'Invalid token' },
     });
   }
 };
@@ -472,7 +469,7 @@ const authorize = (...allowedRoles) => {
     if (!allowedRoles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        error: { code: 'FORBIDDEN', message: 'Insufficient permissions' }
+        error: { code: 'FORBIDDEN', message: 'Insufficient permissions' },
       });
     }
     next();
@@ -480,11 +477,7 @@ const authorize = (...allowedRoles) => {
 };
 
 // Usage
-router.delete('/stores/:id',
-  authenticate,
-  authorize('platform_admin'),
-  deleteStore
-);
+router.delete('/stores/:id', authenticate, authorize('platform_admin'), deleteStore);
 ```
 
 ### Permission Checking
@@ -514,18 +507,14 @@ const checkPermission = (resource, action) => {
       success: false,
       error: {
         code: 'FORBIDDEN',
-        message: `Missing permission: ${required}`
-      }
+        message: `Missing permission: ${required}`,
+      },
     });
   };
 };
 
 // Usage
-router.delete('/orders/:id',
-  authenticate,
-  checkPermission('orders', 'delete'),
-  deleteOrder
-);
+router.delete('/orders/:id', authenticate, checkPermission('orders', 'delete'), deleteOrder);
 ```
 
 ---
@@ -540,7 +529,8 @@ router.delete('/orders/:id',
 - At least one number
 
 ```javascript
-const passwordSchema = z.string()
+const passwordSchema = z
+  .string()
   .min(8, 'Password must be at least 8 characters')
   .regex(/[A-Z]/, 'Must contain uppercase letter')
   .regex(/[a-z]/, 'Must contain lowercase letter')
@@ -549,12 +539,12 @@ const passwordSchema = z.string()
 
 ### Rate Limiting
 
-| Endpoint | Limit |
-|----------|-------|
-| `/auth/login` | 5 attempts / 15 min |
-| `/auth/register` | 3 attempts / hour |
-| `/auth/forgot-password` | 3 attempts / hour |
-| `/auth/reset-password` | 5 attempts / hour |
+| Endpoint                | Limit               |
+| ----------------------- | ------------------- |
+| `/auth/login`           | 5 attempts / 15 min |
+| `/auth/register`        | 3 attempts / hour   |
+| `/auth/forgot-password` | 3 attempts / hour   |
+| `/auth/reset-password`  | 5 attempts / hour   |
 
 ### Brute Force Protection
 

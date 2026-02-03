@@ -73,23 +73,23 @@ graph LR
 
 ## Success Metrics
 
-| Metric | MVP Target | Year 1 Target |
-|--------|------------|---------------|
-| Active Stores | 50 | 500 |
-| Monthly Orders Processed | 5,000 | 100,000 |
-| Merchant Retention (90-day) | 60% | 75% |
-| Average Store Monthly GMV | NPR 50,000 | NPR 100,000 |
-| Platform Uptime | 99% | 99.5% |
+| Metric                      | MVP Target | Year 1 Target |
+| --------------------------- | ---------- | ------------- |
+| Active Stores               | 50         | 500           |
+| Monthly Orders Processed    | 5,000      | 100,000       |
+| Merchant Retention (90-day) | 60%        | 75%           |
+| Average Store Monthly GMV   | NPR 50,000 | NPR 100,000   |
+| Platform Uptime             | 99%        | 99.5%         |
 
 ---
 
 ## Competitive Landscape
 
-| Platform | Strengths | Weaknesses |
-|----------|-----------|------------|
-| **Blanxer** | Local focus, established | Limited customization |
-| **Shopify** | Powerful, extensive apps | Expensive, no NPR payments |
-| **WooCommerce** | Flexible, open source | Requires technical skills |
+| Platform         | Strengths                 | Weaknesses                   |
+| ---------------- | ------------------------- | ---------------------------- |
+| **Blanxer**      | Local focus, established  | Limited customization        |
+| **Shopify**      | Powerful, extensive apps  | Expensive, no NPR payments   |
+| **WooCommerce**  | Flexible, open source     | Requires technical skills    |
 | **Daraz Seller** | Large marketplace traffic | High commission, no branding |
 
 ### Baazarify Differentiation
@@ -106,6 +106,7 @@ graph LR
 ### 1. Zero to Selling in 10 Minutes
 
 A new merchant should be able to:
+
 - Sign up
 - Add first product
 - Share store link

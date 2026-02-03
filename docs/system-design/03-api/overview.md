@@ -15,11 +15,11 @@
 
 ### Base URLs
 
-| Environment | URL |
-|-------------|-----|
-| Production | `https://api.baazarify.com/v1` |
-| Staging | `https://api.staging.baazarify.com/v1` |
-| Development | `http://localhost:3000/v1` |
+| Environment | URL                                    |
+| ----------- | -------------------------------------- |
+| Production  | `https://api.baazarify.com/v1`         |
+| Staging     | `https://api.staging.baazarify.com/v1` |
+| Development | `http://localhost:3000/v1`             |
 
 ### Storefront API
 
@@ -177,19 +177,19 @@ X-Store-Subdomain: mystore          # Optional, for cross-store admin
 
 ### HTTP Status Codes
 
-| Code | Meaning | Usage |
-|------|---------|-------|
-| 200 | OK | Successful GET, PUT |
-| 201 | Created | Successful POST |
-| 204 | No Content | Successful DELETE |
-| 400 | Bad Request | Validation error |
-| 401 | Unauthorized | Missing/invalid token |
-| 403 | Forbidden | No permission |
-| 404 | Not Found | Resource not found |
-| 409 | Conflict | Duplicate resource |
-| 422 | Unprocessable | Business logic error |
-| 429 | Too Many Requests | Rate limited |
-| 500 | Server Error | Unexpected error |
+| Code | Meaning           | Usage                 |
+| ---- | ----------------- | --------------------- |
+| 200  | OK                | Successful GET, PUT   |
+| 201  | Created           | Successful POST       |
+| 204  | No Content        | Successful DELETE     |
+| 400  | Bad Request       | Validation error      |
+| 401  | Unauthorized      | Missing/invalid token |
+| 403  | Forbidden         | No permission         |
+| 404  | Not Found         | Resource not found    |
+| 409  | Conflict          | Duplicate resource    |
+| 422  | Unprocessable     | Business logic error  |
+| 429  | Too Many Requests | Rate limited          |
+| 500  | Server Error      | Unexpected error      |
 
 ---
 
@@ -203,11 +203,11 @@ GET /v1/products?page=2&limit=20&sort=-createdAt
 
 ### Parameters
 
-| Param | Type | Default | Max |
-|-------|------|---------|-----|
-| `page` | number | 1 | - |
-| `limit` | number | 20 | 100 |
-| `sort` | string | -createdAt | - |
+| Param   | Type   | Default    | Max |
+| ------- | ------ | ---------- | --- |
+| `page`  | number | 1          | -   |
+| `limit` | number | 20         | 100 |
+| `sort`  | string | -createdAt | -   |
 
 ### Response
 
@@ -238,12 +238,12 @@ GET /v1/products?status=active&category=123&minPrice=100&maxPrice=500
 
 ### Common Filters
 
-| Resource | Filters |
-|----------|---------|
-| Products | `status`, `category`, `minPrice`, `maxPrice`, `search` |
-| Orders | `status`, `source`, `startDate`, `endDate`, `customer` |
-| Customers | `search`, `source`, `hasOrders` |
-| Conversations | `status`, `channel`, `assignedTo` |
+| Resource      | Filters                                                |
+| ------------- | ------------------------------------------------------ |
+| Products      | `status`, `category`, `minPrice`, `maxPrice`, `search` |
+| Orders        | `status`, `source`, `startDate`, `endDate`, `customer` |
+| Customers     | `search`, `source`, `hasOrders`                        |
+| Conversations | `status`, `channel`, `assignedTo`                      |
 
 ---
 
@@ -305,13 +305,13 @@ Link: <https://docs.baazarify.com/migration/v2>; rel="deprecation"
 
 ### Limits by Plan
 
-| Plan | Requests/min | Requests/day |
-|------|--------------|--------------|
-| Free | 60 | 1,000 |
-| Basic | 120 | 10,000 |
-| Premium | 300 | 50,000 |
-| Business | 600 | 100,000 |
-| Platinum+ | 1,200 | Unlimited |
+| Plan      | Requests/min | Requests/day |
+| --------- | ------------ | ------------ |
+| Free      | 60           | 1,000        |
+| Basic     | 120          | 10,000       |
+| Premium   | 300          | 50,000       |
+| Business  | 600          | 100,000      |
+| Platinum+ | 1,200        | Unlimited    |
 
 ### Rate Limit Headers
 
@@ -393,20 +393,20 @@ app.use(errorHandler);
 
 ## Error Codes
 
-| Code | Description |
-|------|-------------|
-| `VALIDATION_ERROR` | Request validation failed |
-| `AUTH_REQUIRED` | Authentication required |
-| `AUTH_INVALID` | Invalid credentials |
-| `TOKEN_EXPIRED` | Access token expired |
-| `FORBIDDEN` | No permission for action |
-| `NOT_FOUND` | Resource not found |
-| `DUPLICATE` | Resource already exists |
-| `PLAN_LIMIT` | Plan limit exceeded |
-| `RATE_LIMITED` | Too many requests |
-| `PAYMENT_FAILED` | Payment processing failed |
-| `INTEGRATION_ERROR` | External service error |
-| `SERVER_ERROR` | Unexpected server error |
+| Code                | Description               |
+| ------------------- | ------------------------- |
+| `VALIDATION_ERROR`  | Request validation failed |
+| `AUTH_REQUIRED`     | Authentication required   |
+| `AUTH_INVALID`      | Invalid credentials       |
+| `TOKEN_EXPIRED`     | Access token expired      |
+| `FORBIDDEN`         | No permission for action  |
+| `NOT_FOUND`         | Resource not found        |
+| `DUPLICATE`         | Resource already exists   |
+| `PLAN_LIMIT`        | Plan limit exceeded       |
+| `RATE_LIMITED`      | Too many requests         |
+| `PAYMENT_FAILED`    | Payment processing failed |
+| `INTEGRATION_ERROR` | External service error    |
+| `SERVER_ERROR`      | Unexpected server error   |
 
 ---
 

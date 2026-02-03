@@ -243,10 +243,10 @@ Authorization: Bearer <token>
 
 **Errors:**
 
-| Code | Reason |
-|------|--------|
-| 403 | Custom domains require Premium+ plan |
-| 409 | Domain already in use |
+| Code | Reason                               |
+| ---- | ------------------------------------ |
+| 403  | Custom domains require Premium+ plan |
+| 409  | Domain already in use                |
 
 ---
 
@@ -293,8 +293,8 @@ Authorization: Bearer <token>
 
 **Query Parameters:**
 
-| Param | Type | Options |
-|-------|------|---------|
+| Param  | Type   | Options                   |
+| ------ | ------ | ------------------------- |
 | period | string | `7d`, `30d`, `90d`, `12m` |
 
 **Response (200):**
@@ -450,21 +450,21 @@ Authorization: Bearer <token>
 
 ## Available Permissions
 
-| Permission | Description |
-|------------|-------------|
-| `orders.read` | View orders |
-| `orders.write` | Create/update orders |
-| `orders.delete` | Cancel/delete orders |
-| `products.read` | View products |
-| `products.write` | Create/update products |
-| `products.delete` | Delete products |
-| `customers.read` | View customers |
-| `customers.write` | Update customers |
-| `inventory.read` | View inventory |
-| `inventory.write` | Update stock |
-| `analytics.read` | View reports |
-| `settings.read` | View settings |
-| `settings.write` | Update settings |
+| Permission        | Description            |
+| ----------------- | ---------------------- |
+| `orders.read`     | View orders            |
+| `orders.write`    | Create/update orders   |
+| `orders.delete`   | Cancel/delete orders   |
+| `products.read`   | View products          |
+| `products.write`  | Create/update products |
+| `products.delete` | Delete products        |
+| `customers.read`  | View customers         |
+| `customers.write` | Update customers       |
+| `inventory.read`  | View inventory         |
+| `inventory.write` | Update stock           |
+| `analytics.read`  | View reports           |
+| `settings.read`   | View settings          |
+| `settings.write`  | Update settings        |
 
 Use `*` for full access or `resource.*` for all actions on a resource.
 

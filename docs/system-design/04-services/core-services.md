@@ -85,14 +85,14 @@ class AuthService {
       firstName: data.firstName,
       lastName: data.lastName,
       phone: data.phone,
-      role: 'merchant'
+      role: 'merchant',
     });
 
     // Create store
     const store = await this.storeService.create({
       name: data.storeName,
       subdomain: data.storeSubdomain,
-      ownerId: user._id
+      ownerId: user._id,
     });
 
     // Update user with storeId
@@ -110,7 +110,7 @@ class AuthService {
   async login(email, password) {
     const user = await this.userRepo.findByEmail(email);
 
-    if (!user || !await bcrypt.compare(password, user.passwordHash)) {
+    if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
       throw new AuthError('Invalid credentials');
     }
 
@@ -122,9 +122,7 @@ class AuthService {
     await this.userRepo.update(user._id, { lastLoginAt: new Date() });
 
     // Get store
-    const store = user.storeId
-      ? await this.storeRepo.findById(user.storeId)
-      : null;
+    const store = user.storeId ? await this.storeRepo.findById(user.storeId) : null;
 
     // Generate tokens
     const tokens = await this.generateTokens(user);
@@ -159,7 +157,7 @@ class AuthService {
         email: user.email,
         role: user.role,
         storeId: user.storeId,
-        permissions: user.permissions || ['*']
+        permissions: user.permissions || ['*'],
       },
       config.jwtSecret,
       { expiresIn: '15m' }
@@ -171,7 +169,7 @@ class AuthService {
     await this.tokenRepo.create({
       userId: user._id,
       tokenHash,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
     return { accessToken, refreshToken, expiresIn: 900 };
@@ -216,7 +214,7 @@ class StoreService {
       settings: {
         currency: 'NPR',
         timezone: 'Asia/Kathmandu',
-        language: 'en'
+        language: 'en',
       },
       theme: {
         templateId: 'default',
@@ -225,9 +223,9 @@ class StoreService {
           secondary: '#115e59',
           accent: '#14b8a6',
           background: '#ffffff',
-          text: '#1f2937'
-        }
-      }
+          text: '#1f2937',
+        },
+      },
     });
 
     return store;
@@ -274,9 +272,9 @@ class StoreService {
           $group: {
             _id: null,
             count: { $sum: 1 },
-            revenue: { $sum: '$totals.total' }
-          }
-        }
+            revenue: { $sum: '$totals.total' },
+          },
+        },
       ]),
       this.orderRepo.aggregate([
         {
@@ -284,18 +282,18 @@ class StoreService {
             storeId,
             createdAt: {
               $gte: this.subtractPeriod(startDate, period),
-              $lte: startDate
-            }
-          }
+              $lte: startDate,
+            },
+          },
         },
         {
           $group: {
             _id: null,
             count: { $sum: 1 },
-            revenue: { $sum: '$totals.total' }
-          }
-        }
-      ])
+            revenue: { $sum: '$totals.total' },
+          },
+        },
+      ]),
     ]);
 
     return {
@@ -303,20 +301,12 @@ class StoreService {
       summary: {
         totalOrders: orders[0]?.count || 0,
         totalRevenue: orders[0]?.revenue || 0,
-        averageOrderValue: orders[0]
-          ? Math.round(orders[0].revenue / orders[0].count)
-          : 0
+        averageOrderValue: orders[0] ? Math.round(orders[0].revenue / orders[0].count) : 0,
       },
       comparison: {
-        orders: this.calculateChange(
-          orders[0]?.count,
-          previousOrders[0]?.count
-        ),
-        revenue: this.calculateChange(
-          orders[0]?.revenue,
-          previousOrders[0]?.revenue
-        )
-      }
+        orders: this.calculateChange(orders[0]?.count, previousOrders[0]?.count),
+        revenue: this.calculateChange(orders[0]?.revenue, previousOrders[0]?.revenue),
+      },
     };
   }
 }
@@ -346,7 +336,7 @@ class ProductService {
     if (count >= store.limits.products) {
       throw new PlanLimitError('Product limit reached', {
         limit: store.limits.products,
-        current: count
+        current: count,
       });
     }
 
@@ -354,7 +344,7 @@ class ProductService {
     let slug = slugify(data.name, { lower: true, strict: true });
     const existing = await this.productRepo.findOne({
       storeId: this.storeId,
-      slug
+      slug,
     });
     if (existing) {
       slug = `${slug}-${Date.now()}`;
@@ -365,7 +355,7 @@ class ProductService {
       ...data,
       storeId: this.storeId,
       slug,
-      status: data.status || 'draft'
+      status: data.status || 'draft',
     });
 
     // Create inventory records
@@ -376,7 +366,7 @@ class ProductService {
           productId: product._id,
           variantId: variant._id,
           sku: variant.sku,
-          quantity: variant.stock || 0
+          quantity: variant.stock || 0,
         });
       }
     } else {
@@ -385,7 +375,7 @@ class ProductService {
         productId: product._id,
         variantId: null,
         sku: product.sku,
-        quantity: product.stock || 0
+        quantity: product.stock || 0,
       });
     }
 
@@ -395,7 +385,7 @@ class ProductService {
   async update(productId, data) {
     const product = await this.productRepo.findOne({
       _id: productId,
-      storeId: this.storeId
+      storeId: this.storeId,
     });
 
     if (!product) {
@@ -418,7 +408,7 @@ class ProductService {
   async uploadImages(productId, files) {
     const product = await this.productRepo.findOne({
       _id: productId,
-      storeId: this.storeId
+      storeId: this.storeId,
     });
 
     if (!product) {
@@ -436,20 +426,20 @@ class ProductService {
       files.map(async (file, index) => {
         const key = `products/${this.storeId}/${productId}/${Date.now()}-${index}.jpg`;
         const url = await this.imageService.upload(file, key, {
-          resize: { width: 1200, height: 1200, fit: 'inside' }
+          resize: { width: 1200, height: 1200, fit: 'inside' },
         });
         return {
           _id: new ObjectId(),
           url,
           alt: '',
-          position: currentCount + index
+          position: currentCount + index,
         };
       })
     );
 
     // Update product
     await this.productRepo.update(productId, {
-      $push: { images: { $each: images } }
+      $push: { images: { $each: images } },
     });
 
     return images;
@@ -458,7 +448,7 @@ class ProductService {
   async delete(productId) {
     const product = await this.productRepo.findOne({
       _id: productId,
-      storeId: this.storeId
+      storeId: this.storeId,
     });
 
     if (!product) {
@@ -468,7 +458,7 @@ class ProductService {
     // Check if product has orders
     const orderCount = await this.orderRepo.count({
       storeId: this.storeId,
-      'items.productId': productId
+      'items.productId': productId,
     });
 
     if (orderCount > 0) {
@@ -480,7 +470,7 @@ class ProductService {
     // Delete product and inventory
     await Promise.all([
       this.productRepo.delete(productId),
-      this.inventoryService.deleteByProduct(productId)
+      this.inventoryService.deleteByProduct(productId),
     ]);
 
     // Delete images from S3
@@ -520,7 +510,7 @@ class OrderService {
     // Find or create customer
     const customer = await this.customerService.findOrCreate({
       storeId: this.storeId,
-      ...data.customer
+      ...data.customer,
     });
 
     // Generate order number
@@ -535,7 +525,7 @@ class OrderService {
         firstName: customer.firstName,
         lastName: customer.lastName,
         email: customer.email,
-        phone: customer.phone
+        phone: customer.phone,
       },
       shippingAddress: data.shippingAddress,
       items,
@@ -543,20 +533,22 @@ class OrderService {
       source: data.source || 'website',
       sourceRef: data.sourceRef,
       status: 'pending',
-      statusHistory: [{
-        status: 'pending',
-        note: 'Order placed',
-        changedAt: new Date()
-      }],
+      statusHistory: [
+        {
+          status: 'pending',
+          note: 'Order placed',
+          changedAt: new Date(),
+        },
+      ],
       payment: {
         method: data.payment.method,
-        status: 'pending'
+        status: 'pending',
       },
       shipping: {
         method: data.shipping.method,
-        cost: data.shipping.cost
+        cost: data.shipping.cost,
       },
-      customerNote: data.customerNote
+      customerNote: data.customerNote,
     });
 
     // Reserve inventory
@@ -571,7 +563,7 @@ class OrderService {
   async updateStatus(orderId, status, note, userId) {
     const order = await this.orderRepo.findOne({
       _id: orderId,
-      storeId: this.storeId
+      storeId: this.storeId,
     });
 
     if (!order) {
@@ -580,9 +572,7 @@ class OrderService {
 
     // Validate transition
     if (!this.isValidTransition(order.status, status)) {
-      throw new ValidationError(
-        `Cannot transition from ${order.status} to ${status}`
-      );
+      throw new ValidationError(`Cannot transition from ${order.status} to ${status}`);
     }
 
     // Update order
@@ -593,9 +583,9 @@ class OrderService {
           status,
           note,
           changedBy: userId,
-          changedAt: new Date()
-        }
-      }
+          changedAt: new Date(),
+        },
+      },
     });
 
     // Handle status-specific actions
@@ -642,7 +632,7 @@ class OrderService {
         productId: item.productId,
         variantId: item.variantId,
         quantity: item.quantity,
-        orderId: order._id
+        orderId: order._id,
       });
     }
   }
@@ -659,7 +649,7 @@ class OrderService {
       discountCode: discount?.code,
       shipping: shippingCost,
       tax,
-      total: subtotal - discountAmount + shippingCost + tax
+      total: subtotal - discountAmount + shippingCost + tax,
     };
   }
 
@@ -667,7 +657,7 @@ class OrderService {
     const year = new Date().getFullYear();
     const count = await this.orderRepo.count({
       storeId: this.storeId,
-      orderNumber: { $regex: `^ORD-${year}` }
+      orderNumber: { $regex: `^ORD-${year}` },
     });
     return `ORD-${year}-${String(count + 1).padStart(4, '0')}`;
   }
@@ -679,7 +669,7 @@ class OrderService {
       processing: ['ready_for_pickup', 'cancelled'],
       ready_for_pickup: ['shipped'],
       shipped: ['delivered', 'refunded'],
-      delivered: ['refunded']
+      delivered: ['refunded'],
     };
     return transitions[from]?.includes(to);
   }
@@ -704,7 +694,7 @@ class InventoryService {
     const inventory = await this.inventoryRepo.findOne({
       storeId: this.storeId,
       productId,
-      variantId
+      variantId,
     });
     return inventory?.quantity || 0;
   }
@@ -713,7 +703,7 @@ class InventoryService {
     const inventory = await this.inventoryRepo.findOne({
       storeId: this.storeId,
       productId,
-      variantId
+      variantId,
     });
 
     if (!inventory || inventory.quantity < quantity) {
@@ -727,9 +717,9 @@ class InventoryService {
           type: 'reservation',
           quantity,
           orderId,
-          changedAt: new Date()
-        }
-      }
+          changedAt: new Date(),
+        },
+      },
     });
   }
 
@@ -737,12 +727,12 @@ class InventoryService {
     const reservations = await this.inventoryRepo.find({
       storeId: this.storeId,
       'history.orderId': orderId,
-      'history.type': 'reservation'
+      'history.type': 'reservation',
     });
 
     for (const inv of reservations) {
       const reservation = inv.history.find(
-        h => h.orderId.equals(orderId) && h.type === 'reservation'
+        (h) => h.orderId.equals(orderId) && h.type === 'reservation'
       );
       if (reservation) {
         await this.inventoryRepo.update(inv._id, {
@@ -752,9 +742,9 @@ class InventoryService {
               type: 'release',
               quantity: reservation.quantity,
               orderId,
-              changedAt: new Date()
-            }
-          }
+              changedAt: new Date(),
+            },
+          },
         });
       }
     }
@@ -764,27 +754,27 @@ class InventoryService {
     const reservations = await this.inventoryRepo.find({
       storeId: this.storeId,
       'history.orderId': orderId,
-      'history.type': 'reservation'
+      'history.type': 'reservation',
     });
 
     for (const inv of reservations) {
       const reservation = inv.history.find(
-        h => h.orderId.equals(orderId) && h.type === 'reservation'
+        (h) => h.orderId.equals(orderId) && h.type === 'reservation'
       );
       if (reservation) {
         await this.inventoryRepo.update(inv._id, {
           $inc: {
             quantity: -reservation.quantity,
-            reserved: -reservation.quantity
+            reserved: -reservation.quantity,
           },
           $push: {
             history: {
               type: 'sale',
               quantity: -reservation.quantity,
               orderId,
-              changedAt: new Date()
-            }
-          }
+              changedAt: new Date(),
+            },
+          },
         });
       }
     }
@@ -794,7 +784,7 @@ class InventoryService {
     const inventory = await this.inventoryRepo.findOne({
       storeId: this.storeId,
       productId,
-      variantId
+      variantId,
     });
 
     if (!inventory) {
@@ -809,16 +799,16 @@ class InventoryService {
           quantity,
           note,
           changedBy: userId,
-          changedAt: new Date()
-        }
-      }
+          changedAt: new Date(),
+        },
+      },
     });
   }
 
   async getLowStock(threshold = 5) {
     return this.inventoryRepo.find({
       storeId: this.storeId,
-      quantity: { $lte: threshold }
+      quantity: { $lte: threshold },
     });
   }
 }

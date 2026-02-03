@@ -8,9 +8,9 @@
 
 Baazarify uses a **hybrid multi-tenancy** model:
 
-| Tier | Isolation | Use Case |
-|------|-----------|----------|
-| Free → Business | Shared Database | 95% of merchants |
+| Tier                | Isolation          | Use Case                      |
+| ------------------- | ------------------ | ----------------------------- |
+| Free → Business     | Shared Database    | 95% of merchants              |
 | Platinum/Enterprise | Dedicated Database | High-volume, compliance needs |
 
 ```mermaid
@@ -84,11 +84,8 @@ const tenantResolver = async (req, res, next) => {
   if (!store) {
     // Cache miss - query database
     store = await Store.findOne({
-      $or: [
-        { subdomain },
-        { customDomain: host }
-      ],
-      status: 'active'
+      $or: [{ subdomain }, { customDomain: host }],
+      status: 'active',
     });
 
     if (store) {
@@ -109,7 +106,7 @@ const tenantResolver = async (req, res, next) => {
     subdomain: store.subdomain,
     plan: store.plan,
     isEnterprise: store.isEnterprise,
-    dedicatedDb: store.dedicatedDb
+    dedicatedDb: store.dedicatedDb,
   };
 
   next();
@@ -129,22 +126,22 @@ class ProductService {
 
   async findAll(filters = {}) {
     return Product.find({
-      storeId: this.tenantId,  // Always scoped
-      ...filters
+      storeId: this.tenantId, // Always scoped
+      ...filters,
     });
   }
 
   async findById(id) {
     return Product.findOne({
       _id: id,
-      storeId: this.tenantId  // Prevents cross-tenant access
+      storeId: this.tenantId, // Prevents cross-tenant access
     });
   }
 
   async create(data) {
     return Product.create({
       ...data,
-      storeId: this.tenantId  // Auto-assign tenant
+      storeId: this.tenantId, // Auto-assign tenant
     });
   }
 }
@@ -156,14 +153,14 @@ class ProductService {
 // middleware/tenantSecurity.js
 const tenantSecurity = (model) => {
   // Pre-find hook: Always add storeId filter
-  model.schema.pre(/^find/, function() {
+  model.schema.pre(/^find/, function () {
     if (this._tenantId) {
       this.where({ storeId: this._tenantId });
     }
   });
 
   // Pre-save hook: Always set storeId
-  model.schema.pre('save', function(next) {
+  model.schema.pre('save', function (next) {
     if (this._tenantId && !this.storeId) {
       this.storeId = this._tenantId;
     }
@@ -171,7 +168,7 @@ const tenantSecurity = (model) => {
   });
 
   // Prevent updates without storeId
-  model.schema.pre(/^update/, function() {
+  model.schema.pre(/^update/, function () {
     if (this._tenantId) {
       this.where({ storeId: this._tenantId });
     }
@@ -236,9 +233,7 @@ const provisionEnterpriseDb = async (storeId) => {
   const dbName = `baazarify_${store.slug}`;
 
   // Create database with collections
-  const conn = await mongoose.createConnection(
-    `${process.env.MONGODB_BASE_URI}/${dbName}`
-  );
+  const conn = await mongoose.createConnection(`${process.env.MONGODB_BASE_URI}/${dbName}`);
 
   // Create collections with indexes
   await createCollections(conn);
@@ -252,7 +247,7 @@ const provisionEnterpriseDb = async (storeId) => {
     { _id: storeId },
     {
       isEnterprise: true,
-      dedicatedDb: dbName
+      dedicatedDb: dbName,
     }
   );
 
@@ -290,8 +285,12 @@ sequenceDiagram
 ```javascript
 const migrateToEnterprise = async (storeId) => {
   const collections = [
-    'products', 'categories', 'customers',
-    'orders', 'inventory', 'conversations'
+    'products',
+    'categories',
+    'customers',
+    'orders',
+    'inventory',
+    'conversations',
   ];
 
   const store = await Store.findById(storeId);
@@ -358,9 +357,9 @@ class AdminService {
         $group: {
           _id: null,
           totalOrders: { $sum: 1 },
-          totalRevenue: { $sum: '$totals.total' }
-        }
-      }
+          totalRevenue: { $sum: '$totals.total' },
+        },
+      },
     ]);
   }
 }
@@ -379,14 +378,14 @@ const checkPlanLimits = (resource) => async (req, res, next) => {
   switch (resource) {
     case 'products':
       const productCount = await Product.countDocuments({
-        storeId: req.tenant.id
+        storeId: req.tenant.id,
       });
       if (productCount >= limits.products) {
         return res.status(403).json({
           error: 'Product limit reached',
           limit: limits.products,
           current: productCount,
-          upgrade: true
+          upgrade: true,
         });
       }
       break;
@@ -394,12 +393,12 @@ const checkPlanLimits = (resource) => async (req, res, next) => {
     case 'staff':
       const staffCount = await User.countDocuments({
         storeId: req.tenant.id,
-        role: 'staff'
+        role: 'staff',
       });
       if (staffCount >= limits.staff) {
         return res.status(403).json({
           error: 'Staff limit reached',
-          limit: limits.staff
+          limit: limits.staff,
         });
       }
       break;
@@ -408,11 +407,11 @@ const checkPlanLimits = (resource) => async (req, res, next) => {
       const monthStart = startOfMonth(new Date());
       const orderCount = await Order.countDocuments({
         storeId: req.tenant.id,
-        createdAt: { $gte: monthStart }
+        createdAt: { $gte: monthStart },
       });
       if (orderCount >= limits.ordersPerMonth) {
         return res.status(403).json({
-          error: 'Monthly order limit reached'
+          error: 'Monthly order limit reached',
         });
       }
       break;
@@ -428,7 +427,7 @@ const PLAN_LIMITS = {
   premium: { products: 2500, staff: 25, ordersPerMonth: 50000 },
   business: { products: 3000, staff: 25, ordersPerMonth: 75000 },
   platinum: { products: 5000, staff: 50, ordersPerMonth: Infinity },
-  enterprise: { products: Infinity, staff: Infinity, ordersPerMonth: Infinity }
+  enterprise: { products: Infinity, staff: Infinity, ordersPerMonth: Infinity },
 };
 ```
 
@@ -443,7 +442,7 @@ const cacheKeys = {
   products: (storeId, page) => `products:${storeId}:${page}`,
   product: (storeId, slug) => `product:${storeId}:${slug}`,
   categories: (storeId) => `categories:${storeId}`,
-  cart: (storeId, sessionId) => `cart:${storeId}:${sessionId}`
+  cart: (storeId, sessionId) => `cart:${storeId}:${sessionId}`,
 };
 
 // Cache invalidation on update
@@ -472,20 +471,20 @@ describe('Multi-tenancy', () => {
   it('prevents cross-tenant product access', async () => {
     const product = await Product.create({
       storeId: store1._id,
-      name: 'Test Product'
+      name: 'Test Product',
     });
 
     // Access with correct tenant
     const found = await Product.findOne({
       _id: product._id,
-      storeId: store1._id
+      storeId: store1._id,
     });
     expect(found).toBeTruthy();
 
     // Access with wrong tenant
     const notFound = await Product.findOne({
       _id: product._id,
-      storeId: store2._id
+      storeId: store2._id,
     });
     expect(notFound).toBeNull();
   });

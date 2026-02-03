@@ -1,5 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { inventoryService } from './inventory.service.js';
 
 const setStockSchema = z.object({

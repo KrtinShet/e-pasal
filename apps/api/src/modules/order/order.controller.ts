@@ -1,13 +1,18 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { orderService } from './order.service.js';
 
 const createOrderSchema = z.object({
-  items: z.array(z.object({
-    productId: z.string(),
-    variantId: z.string().optional(),
-    quantity: z.number().min(1),
-  })).min(1),
+  items: z
+    .array(
+      z.object({
+        productId: z.string(),
+        variantId: z.string().optional(),
+        quantity: z.number().min(1),
+      })
+    )
+    .min(1),
   shipping: z.object({
     name: z.string(),
     phone: z.string(),
@@ -34,8 +39,14 @@ const listQuerySchema = z.object({
 
 const updateStatusSchema = z.object({
   status: z.enum([
-    'pending', 'confirmed', 'processing', 'ready_for_pickup',
-    'shipped', 'delivered', 'cancelled', 'refunded',
+    'pending',
+    'confirmed',
+    'processing',
+    'ready_for_pickup',
+    'shipped',
+    'delivered',
+    'cancelled',
+    'refunded',
   ]),
 });
 
@@ -74,10 +85,7 @@ export class OrderController {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const order = await orderService.getById(
-        req.user!.storeId!,
-        req.params.id
-      );
+      const order = await orderService.getById(req.user!.storeId!, req.params.id);
 
       res.json({
         success: true,
@@ -91,11 +99,7 @@ export class OrderController {
   async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { status } = updateStatusSchema.parse(req.body);
-      const order = await orderService.updateStatus(
-        req.user!.storeId!,
-        req.params.id,
-        status
-      );
+      const order = await orderService.updateStatus(req.user!.storeId!, req.params.id, status);
 
       res.json({
         success: true,

@@ -1,6 +1,8 @@
-import { Store, IStore } from './store.model.js';
-import { NotFoundError, ConflictError } from '../../lib/errors.js';
 import { redis } from '../../lib/redis.js';
+import { NotFoundError, ConflictError } from '../../lib/errors.js';
+
+import { Store } from './store.model.js';
+import type { IStore } from './store.model.js';
 
 export class StoreService {
   async getById(id: string) {

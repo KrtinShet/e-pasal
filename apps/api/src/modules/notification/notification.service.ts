@@ -1,5 +1,7 @@
-import { Notification, INotification, NotificationType } from './notification.model.js';
 import { NotFoundError } from '../../lib/errors.js';
+
+import { Notification } from './notification.model.js';
+import type { NotificationType } from './notification.model.js';
 
 interface CreateNotificationInput {
   type: NotificationType;
@@ -72,10 +74,7 @@ export class NotificationService {
   }
 
   async markAllAsRead(storeId: string) {
-    const result = await Notification.updateMany(
-      { storeId, read: false },
-      { read: true }
-    );
+    const result = await Notification.updateMany({ storeId, read: false }, { read: true });
 
     return { modifiedCount: result.modifiedCount };
   }

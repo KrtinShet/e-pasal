@@ -37,10 +37,7 @@ export function formatOrderNumber(number: number): string {
   return `ORD-${number.toString().padStart(6, '0')}`;
 }
 
-export function calculateDiscount(
-  originalPrice: number,
-  compareAtPrice?: number
-): number {
+export function calculateDiscount(originalPrice: number, compareAtPrice?: number): number {
   if (!compareAtPrice || compareAtPrice <= originalPrice) return 0;
   return Math.round(((compareAtPrice - originalPrice) / compareAtPrice) * 100);
 }

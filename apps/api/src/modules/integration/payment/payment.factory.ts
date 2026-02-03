@@ -1,6 +1,6 @@
-import type { PaymentProvider } from './payment.interface.js';
 import { esewaProvider } from './esewa.provider.js';
 import { khaltiProvider } from './khalti.provider.js';
+import type { PaymentProvider } from './payment.interface.js';
 
 export type PaymentMethod = 'esewa' | 'khalti' | 'fonepay' | 'bank_transfer' | 'cod';
 

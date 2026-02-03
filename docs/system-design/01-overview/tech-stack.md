@@ -54,6 +54,7 @@ graph TB
 ### React 18
 
 **Why React:**
+
 - Large ecosystem and community
 - Familiar to most developers (easy to hire)
 - Excellent tooling (React DevTools, testing libraries)
@@ -61,23 +62,25 @@ graph TB
 
 **Key Libraries:**
 
-| Library | Purpose |
-|---------|---------|
-| `react-router-dom` | Client-side routing |
+| Library                 | Purpose                 |
+| ----------------------- | ----------------------- |
+| `react-router-dom`      | Client-side routing     |
 | `@tanstack/react-query` | Server state management |
-| `zustand` | Client state management |
-| `react-hook-form` | Form handling |
-| `zod` | Schema validation |
+| `zustand`               | Client state management |
+| `react-hook-form`       | Form handling           |
+| `zod`                   | Schema validation       |
 
 ### Next.js 14 (Storefront Only)
 
 **Why Next.js for Storefront:**
+
 - Server-side rendering for SEO (product pages need to be indexed)
 - Automatic code splitting
 - Image optimization built-in
 - Edge caching for fast global delivery
 
 **Why NOT Next.js for Dashboard:**
+
 - Dashboard doesn't need SEO
 - SPA is simpler for authenticated apps
 - Faster development iteration
@@ -85,6 +88,7 @@ graph TB
 ### TailwindCSS
 
 **Why Tailwind:**
+
 - Rapid UI development
 - Consistent design system
 - Small production bundle (purged CSS)
@@ -92,16 +96,17 @@ graph TB
 
 **Supporting UI Libraries:**
 
-| Library | Purpose |
-|---------|---------|
+| Library             | Purpose                  |
+| ------------------- | ------------------------ |
 | `@headlessui/react` | Accessible UI primitives |
-| `lucide-react` | Icon library |
-| `recharts` | Analytics charts |
-| `@dnd-kit/core` | Drag and drop |
+| `lucide-react`      | Icon library             |
+| `recharts`          | Analytics charts         |
+| `@dnd-kit/core`     | Drag and drop            |
 
 ### GrapeJS (Page Builder)
 
 **Why GrapeJS:**
+
 - Mature, battle-tested (used by Mailchimp, others)
 - Extensible block system
 - Storage adapter for any backend
@@ -120,7 +125,7 @@ const ecommerceBlocks = [
   'hero-banner',
   'testimonials',
   'store-info',
-  'contact-form'
+  'contact-form',
 ];
 ```
 
@@ -131,6 +136,7 @@ const ecommerceBlocks = [
 ### Node.js 20 LTS
 
 **Why Node.js:**
+
 - JavaScript everywhere (frontend + backend)
 - Excellent for I/O-heavy workloads (our use case)
 - Huge npm ecosystem
@@ -148,6 +154,7 @@ const ecommerceBlocks = [
 ### Express.js
 
 **Why Express (vs. Fastify, Koa, etc.):**
+
 - Most popular, well-documented
 - Massive middleware ecosystem
 - Simple mental model
@@ -157,18 +164,19 @@ const ecommerceBlocks = [
 
 ```javascript
 // Key middleware stack
-app.use(helmet());              // Security headers
-app.use(cors(corsOptions));     // CORS handling
-app.use(compression());         // Gzip responses
-app.use(express.json());        // JSON parsing
-app.use(rateLimiter);           // Rate limiting
-app.use(tenantResolver);        // Multi-tenancy
-app.use(authMiddleware);        // JWT verification
+app.use(helmet()); // Security headers
+app.use(cors(corsOptions)); // CORS handling
+app.use(compression()); // Gzip responses
+app.use(express.json()); // JSON parsing
+app.use(rateLimiter); // Rate limiting
+app.use(tenantResolver); // Multi-tenancy
+app.use(authMiddleware); // JWT verification
 ```
 
 ### BullMQ (Job Queue)
 
 **Why BullMQ:**
+
 - Redis-backed (already using Redis)
 - Reliable job processing with retries
 - Dashboard for monitoring (Bull Board)
@@ -181,7 +189,7 @@ const queues = {
   notifications: { priority: 1, attempts: 3 },
   orders: { priority: 1, attempts: 5 },
   analytics: { priority: 3, attempts: 2 },
-  sync: { priority: 2, attempts: 3 }
+  sync: { priority: 2, attempts: 3 },
 };
 ```
 
@@ -192,6 +200,7 @@ const queues = {
 ### MongoDB 7
 
 **Why MongoDB:**
+
 - Flexible schema (good for evolving product)
 - Native JSON (matches our API responses)
 - Good for document-heavy data (products, orders)
@@ -223,6 +232,7 @@ const queues = {
 ### Redis 7
 
 **Why Redis:**
+
 - Fast in-memory cache
 - Session storage
 - BullMQ job queue backend
@@ -230,13 +240,13 @@ const queues = {
 
 **Memory Planning:**
 
-| Use Case | Estimated Memory |
-|----------|------------------|
-| Sessions (1000 concurrent) | ~50 MB |
-| Store cache (500 stores) | ~25 MB |
-| Rate limiting | ~10 MB |
-| Job queues | ~50 MB |
-| **Total** | **~150 MB** |
+| Use Case                   | Estimated Memory |
+| -------------------------- | ---------------- |
+| Sessions (1000 concurrent) | ~50 MB           |
+| Store cache (500 stores)   | ~25 MB           |
+| Rate limiting              | ~10 MB           |
+| Job queues                 | ~50 MB           |
+| **Total**                  | **~150 MB**      |
 
 ---
 
@@ -258,6 +268,7 @@ graph LR
 ```
 
 **Why Railway for MVP:**
+
 - Simple deployment from Git
 - Managed MongoDB and Redis
 - Automatic HTTPS
@@ -293,6 +304,7 @@ graph TB
 ### CDN: Cloudflare
 
 **Why Cloudflare:**
+
 - Free tier is generous
 - DDoS protection
 - SSL termination
@@ -301,16 +313,17 @@ graph TB
 
 **Caching Strategy:**
 
-| Content Type | Cache Duration |
-|--------------|----------------|
-| Static assets (JS, CSS, images) | 1 year |
-| Product images | 1 week |
-| API responses | No cache (dynamic) |
-| Storefront pages | 5 min (edge) |
+| Content Type                    | Cache Duration     |
+| ------------------------------- | ------------------ |
+| Static assets (JS, CSS, images) | 1 year             |
+| Product images                  | 1 week             |
+| API responses                   | No cache (dynamic) |
+| Storefront pages                | 5 min (edge)       |
 
 ### Object Storage: S3-Compatible
 
 **Options:**
+
 - DigitalOcean Spaces (preferred - cheaper)
 - AWS S3
 - Cloudflare R2
@@ -336,43 +349,43 @@ baazarify-assets/
 
 ### Code Quality
 
-| Tool | Purpose |
-|------|---------|
-| ESLint | Linting |
-| Prettier | Code formatting |
-| Husky | Git hooks |
+| Tool        | Purpose           |
+| ----------- | ----------------- |
+| ESLint      | Linting           |
+| Prettier    | Code formatting   |
+| Husky       | Git hooks         |
 | lint-staged | Pre-commit checks |
 
 ### Testing
 
-| Tool | Purpose |
-|------|---------|
-| Vitest | Unit tests |
-| Supertest | API integration tests |
-| Playwright | E2E tests |
-| MSW | API mocking |
+| Tool       | Purpose               |
+| ---------- | --------------------- |
+| Vitest     | Unit tests            |
+| Supertest  | API integration tests |
+| Playwright | E2E tests             |
+| MSW        | API mocking           |
 
 ### Monitoring (Post-MVP)
 
-| Tool | Purpose |
-|------|---------|
-| Sentry | Error tracking |
-| Logtail | Log aggregation |
-| UptimeRobot | Uptime monitoring |
-| Railway Metrics | Basic metrics |
+| Tool            | Purpose           |
+| --------------- | ----------------- |
+| Sentry          | Error tracking    |
+| Logtail         | Log aggregation   |
+| UptimeRobot     | Uptime monitoring |
+| Railway Metrics | Basic metrics     |
 
 ---
 
 ## Version Decisions
 
-| Technology | Version | Reason |
-|------------|---------|--------|
-| Node.js | 20 LTS | Long-term support until 2026 |
-| React | 18.x | Stable, concurrent features |
-| Next.js | 14.x | App Router stable |
-| MongoDB | 7.x | Latest features |
-| Redis | 7.x | Latest stable |
-| Express | 4.x | Stable, v5 still RC |
+| Technology | Version | Reason                       |
+| ---------- | ------- | ---------------------------- |
+| Node.js    | 20 LTS  | Long-term support until 2026 |
+| React      | 18.x    | Stable, concurrent features  |
+| Next.js    | 14.x    | App Router stable            |
+| MongoDB    | 7.x     | Latest features              |
+| Redis      | 7.x     | Latest stable                |
+| Express    | 4.x     | Stable, v5 still RC          |
 
 ---
 

@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: Baazarify API
+  version: 1.0.0
+  description: Starter OpenAPI spec for MVP API routes.
+servers:
+  - url: http://localhost:4000/api/v1
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Service is up
+  /ready:
+    get:
+      summary: Readiness check
+      responses:
+        '200':
+          description: Service dependencies are ready
+        '503':
+          description: Dependency not ready
+  /auth/register:
+    post:
+      summary: Register merchant account and store
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Registered
+  /auth/login:
+    post:
+      summary: Login merchant
+      responses:
+        '200':
+          description: Authenticated
+  /stores/me:
+    get:
+      summary: Get current merchant store
+      responses:
+        '200':
+          description: Store details
+  /products:
+    get:
+      summary: List products
+      responses:
+        '200':
+          description: Product list
+    post:
+      summary: Create product
+      responses:
+        '201':
+          description: Product created
+  /categories:
+    get:
+      summary: List categories
+      responses:
+        '200':
+          description: Category list
+    post:
+      summary: Create category
+      responses:
+        '201':
+          description: Category created

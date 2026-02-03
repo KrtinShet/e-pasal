@@ -1,22 +1,27 @@
-import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import type { Request, Response, NextFunction } from 'express';
+
 import { authService } from './auth.service.js';
 
-const registerSchema = z.object({
+export const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   name: z.string().min(2),
   phone: z.string().optional(),
   storeName: z.string().min(2),
-  subdomain: z.string().min(3).max(30).regex(/^[a-z0-9-]+$/),
+  subdomain: z
+    .string()
+    .min(3)
+    .max(30)
+    .regex(/^[a-z0-9-]+$/),
 });
 
-const loginSchema = z.object({
+export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 });
 
-const refreshSchema = z.object({
+export const refreshSchema = z.object({
   refreshToken: z.string(),
 });
 

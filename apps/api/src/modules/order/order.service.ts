@@ -1,7 +1,9 @@
-import { Order, IOrder } from './order.model.js';
 import { Product } from '../product/product.model.js';
+import { AppError, NotFoundError } from '../../lib/errors.js';
 import { inventoryService } from '../inventory/inventory.service.js';
-import { NotFoundError, AppError } from '../../lib/errors.js';
+
+import { Order } from './order.model.js';
+import type { IOrder } from './order.model.js';
 
 interface CreateOrderInput {
   items: Array<{
@@ -44,7 +46,7 @@ export class OrderService {
 
     await inventoryService.reserveStock(
       storeId,
-      items.map(item => ({
+      items.map((item) => ({
         productId: item.productId.toString(),
         quantity: item.quantity,
       }))
@@ -128,7 +130,7 @@ export class OrderService {
     if (status === 'cancelled') {
       await inventoryService.releaseStock(
         storeId,
-        order.items.map(item => ({
+        order.items.map((item) => ({
           productId: item.productId.toString(),
           quantity: item.quantity,
         }))
@@ -138,7 +140,7 @@ export class OrderService {
     if (status === 'delivered') {
       await inventoryService.confirmStock(
         storeId,
-        order.items.map(item => ({
+        order.items.map((item) => ({
           productId: item.productId.toString(),
           quantity: item.quantity,
         }))
@@ -190,15 +192,15 @@ export class OrderService {
   }
 
   private async resolveOrderItems(storeId: string, items: CreateOrderInput['items']) {
-    const productIds = items.map(item => item.productId);
+    const productIds = items.map((item) => item.productId);
     const products = await Product.find({
       _id: { $in: productIds },
       storeId,
     }).lean();
 
-    const productMap = new Map(products.map(p => [p._id.toString(), p]));
+    const productMap = new Map(products.map((p) => [p._id.toString(), p]));
 
-    return items.map(item => {
+    return items.map((item) => {
       const product = productMap.get(item.productId);
       if (!product) {
         throw new NotFoundError(`Product ${item.productId}`);
@@ -206,7 +208,9 @@ export class OrderService {
 
       return {
         productId: product._id,
-        variantId: item.variantId ? new (require('mongoose').Types.ObjectId)(item.variantId) : undefined,
+        variantId: item.variantId
+          ? new (require('mongoose').Types.ObjectId)(item.variantId)
+          : undefined,
         name: product.name,
         sku: product.sku,
         price: product.price,

@@ -18,34 +18,34 @@ Expand features to support 500+ merchants and increase platform stickiness.
 
 ### High Priority
 
-| Feature | Value | Effort |
-|---------|-------|--------|
-| Page builder (GrapeJS) | Brand differentiation | 3 weeks |
-| WhatsApp integration | Order capture | 2 weeks |
-| Instagram integration | Order capture | 2 weeks |
-| Khalti + Fonepay | More payment options | 1 week |
-| Product variants | Complex products | 1.5 weeks |
-| Staff accounts | Team collaboration | 1 week |
+| Feature                | Value                 | Effort    |
+| ---------------------- | --------------------- | --------- |
+| Page builder (GrapeJS) | Brand differentiation | 3 weeks   |
+| WhatsApp integration   | Order capture         | 2 weeks   |
+| Instagram integration  | Order capture         | 2 weeks   |
+| Khalti + Fonepay       | More payment options  | 1 week    |
+| Product variants       | Complex products      | 1.5 weeks |
+| Staff accounts         | Team collaboration    | 1 week    |
 
 ### Medium Priority
 
-| Feature | Value | Effort |
-|---------|-------|--------|
-| Pathao logistics | Shipping automation | 1.5 weeks |
-| SMS notifications | Customer engagement | 1 week |
-| Discount codes | Marketing tool | 1 week |
-| Custom domains | Branding | 1 week |
-| Advanced analytics | Insights | 1.5 weeks |
-| Bulk operations | Efficiency | 1 week |
+| Feature            | Value               | Effort    |
+| ------------------ | ------------------- | --------- |
+| Pathao logistics   | Shipping automation | 1.5 weeks |
+| SMS notifications  | Customer engagement | 1 week    |
+| Discount codes     | Marketing tool      | 1 week    |
+| Custom domains     | Branding            | 1 week    |
+| Advanced analytics | Insights            | 1.5 weeks |
+| Bulk operations    | Efficiency          | 1 week    |
 
 ### Lower Priority
 
-| Feature | Value | Effort |
-|---------|-------|--------|
-| Product reviews | Social proof | 1 week |
-| Wishlist | Engagement | 0.5 week |
-| Multi-language | Accessibility | 1 week |
-| Export/import | Data management | 1 week |
+| Feature         | Value           | Effort   |
+| --------------- | --------------- | -------- |
+| Product reviews | Social proof    | 1 week   |
+| Wishlist        | Engagement      | 0.5 week |
+| Multi-language  | Accessibility   | 1 week   |
+| Export/import   | Data management | 1 week   |
 
 ---
 
@@ -69,6 +69,7 @@ Components:
 ```
 
 **User Flow:**
+
 1. Merchant opens Page Builder
 2. Drags blocks onto canvas
 3. Customizes text, colors, images
@@ -91,6 +92,7 @@ sequenceDiagram
 ```
 
 **Instagram Flow:**
+
 - Connect Instagram Business account
 - Receive DMs in unified inbox
 - Convert conversations to orders
@@ -113,6 +115,7 @@ sequenceDiagram
 ```
 
 **UI:**
+
 - Variant generator (Color × Size matrix)
 - Individual SKU/price/stock per variant
 - Variant images
@@ -150,10 +153,12 @@ Permissions:
 ```
 
 **Supported Providers (Phase 2):**
+
 - Pathao
 - Dash
 
 **Webhook Events:**
+
 - `shipment.picked_up`
 - `shipment.in_transit`
 - `shipment.delivered`
@@ -402,14 +407,14 @@ DigitalOcean:
 
 ## Success Metrics
 
-| Metric | Target |
-|--------|--------|
-| Active stores | 500 |
-| Monthly orders | 25,000 |
-| WhatsApp orders | 30% of total |
+| Metric                | Target        |
+| --------------------- | ------------- |
+| Active stores         | 500           |
+| Monthly orders        | 25,000        |
+| WhatsApp orders       | 30% of total  |
 | Page builder adoption | 50% of stores |
-| Staff accounts | 200 |
-| Custom domains | 50 |
+| Staff accounts        | 200           |
+| Custom domains        | 50            |
 
 ---
 

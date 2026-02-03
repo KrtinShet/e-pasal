@@ -6,7 +6,7 @@
 
 **Nepal's Modern E-Commerce Platform**
 
-*Build your online store, manage orders, grow your business*
+_Build your online store, manage orders, grow your business_
 
 </div>
 
@@ -14,15 +14,15 @@
 
 ## Quick Navigation
 
-| Section | Description |
-|---------|-------------|
-| [Overview](./01-overview/vision.md) | Product vision, architecture, tech stack |
-| [Database](./02-database/schema.md) | Schema design, indexing, multi-tenancy |
-| [API](./03-api/overview.md) | RESTful endpoints, authentication |
-| [Services](./04-services/core-services.md) | Business logic, integrations |
-| [Frontend](./05-frontend/dashboard.md) | Dashboard, storefront, page builder |
-| [Infrastructure](./06-infrastructure/deployment.md) | Deployment, monitoring |
-| [Roadmap](./07-roadmap/phase-1-mvp.md) | MVP → Growth → Scale |
+| Section                                             | Description                              |
+| --------------------------------------------------- | ---------------------------------------- |
+| [Overview](./01-overview/vision.md)                 | Product vision, architecture, tech stack |
+| [Database](./02-database/schema.md)                 | Schema design, indexing, multi-tenancy   |
+| [API](./03-api/overview.md)                         | RESTful endpoints, authentication        |
+| [Services](./04-services/core-services.md)          | Business logic, integrations             |
+| [Frontend](./05-frontend/dashboard.md)              | Dashboard, storefront, page builder      |
+| [Infrastructure](./06-infrastructure/deployment.md) | Deployment, monitoring                   |
+| [Roadmap](./07-roadmap/phase-1-mvp.md)              | MVP → Growth → Scale                     |
 
 ---
 
@@ -94,33 +94,36 @@ graph TB
 
 ## Tech Stack Summary
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | React 18, Next.js 14 (storefront), TailwindCSS |
-| **Page Builder** | GrapeJS with custom e-commerce blocks |
-| **Backend** | Node.js, Express.js |
-| **Database** | MongoDB (primary), Redis (cache/sessions) |
-| **Storage** | S3-compatible (DigitalOcean Spaces / AWS S3) |
-| **Messaging** | Twilio (WhatsApp), Instagram Graph API |
-| **Payments** | Pluggable (eSewa, Khalti, Fonepay) |
-| **Logistics** | Pluggable (Pathao, Dash, NCM) |
-| **Hosting** | Railway / Render (MVP), VPS (scale) |
+| Layer            | Technology                                     |
+| ---------------- | ---------------------------------------------- |
+| **Frontend**     | React 18, Next.js 14 (storefront), TailwindCSS |
+| **Page Builder** | GrapeJS with custom e-commerce blocks          |
+| **Backend**      | Node.js, Express.js                            |
+| **Database**     | MongoDB (primary), Redis (cache/sessions)      |
+| **Storage**      | S3-compatible (DigitalOcean Spaces / AWS S3)   |
+| **Messaging**    | Twilio (WhatsApp), Instagram Graph API         |
+| **Payments**     | Pluggable (eSewa, Khalti, Fonepay)             |
+| **Logistics**    | Pluggable (Pathao, Dash, NCM)                  |
+| **Hosting**      | Railway / Render (MVP), VPS (scale)            |
 
 ---
 
 ## Development Phases
 
 ### Phase 1: MVP
+
 Core platform with essential features for first 50 merchants.
 
 → [Phase 1 Details](./07-roadmap/phase-1-mvp.md)
 
 ### Phase 2: Growth
+
 Advanced features, more integrations, optimization.
 
 → [Phase 2 Details](./07-roadmap/phase-2-growth.md)
 
 ### Phase 3: Scale
+
 Enterprise features, dedicated databases, white-label.
 
 → [Phase 3 Details](./07-roadmap/phase-3-scale.md)

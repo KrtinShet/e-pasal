@@ -1,4 +1,5 @@
 import Redis from 'ioredis';
+
 import { env } from '../config/env.js';
 
 export let redis: Redis;
@@ -24,4 +25,8 @@ export async function connectRedis() {
 
 export async function disconnectRedis() {
   await redis.quit();
+}
+
+export function isRedisReady() {
+  return Boolean(redis) && redis.status === 'ready';
 }

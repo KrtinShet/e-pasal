@@ -1,5 +1,7 @@
-import { Product, IProduct } from './product.model.js';
 import { NotFoundError, ConflictError } from '../../lib/errors.js';
+
+import { Product } from './product.model.js';
+import type { IProduct } from './product.model.js';
 
 interface ProductQuery {
   storeId: string;

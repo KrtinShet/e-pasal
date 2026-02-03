@@ -1,67 +1,49 @@
-import {
-  S3Client,
-  PutObjectCommand,
-  DeleteObjectCommand,
-  GetObjectCommand,
-} from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import path from 'node:path';
+import { promises as fs } from 'node:fs';
+
 import { env } from '../../config/env.js';
-import type { StorageProvider, UploadResult } from './storage.interface.js';
+
+import type { UploadResult, StorageProvider } from './storage.interface.js';
 
 class S3Provider implements StorageProvider {
-  private client: S3Client;
-  private bucket: string;
+  private readonly bucket: string;
+  private readonly baseDir: string;
 
   constructor() {
-    this.bucket = env.S3_BUCKET || '';
-    this.client = new S3Client({
-      endpoint: env.S3_ENDPOINT,
-      region: env.S3_REGION,
-      credentials: {
-        accessKeyId: env.S3_ACCESS_KEY || '',
-        secretAccessKey: env.S3_SECRET_KEY || '',
-      },
-      forcePathStyle: true,
-    });
+    this.bucket = env.S3_BUCKET || 'uploads';
+    this.baseDir = path.resolve(process.cwd(), 'tmp', this.bucket);
   }
 
-  async upload(file: Buffer, path: string, contentType: string): Promise<UploadResult> {
-    const command = new PutObjectCommand({
-      Bucket: this.bucket,
-      Key: path,
-      Body: file,
-      ContentType: contentType,
-      ACL: 'public-read',
-    });
+  async upload(file: Buffer, key: string, contentType: string): Promise<UploadResult> {
+    const filePath = path.join(this.baseDir, key);
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.writeFile(filePath, file);
 
-    await this.client.send(command);
-
-    const url = `${env.S3_ENDPOINT}/${this.bucket}/${path}`;
+    const url = this.toPublicUrl(key);
 
     return {
-      key: path,
+      key,
       url,
       size: file.length,
       contentType,
     };
   }
 
-  async delete(path: string): Promise<void> {
-    const command = new DeleteObjectCommand({
-      Bucket: this.bucket,
-      Key: path,
-    });
-
-    await this.client.send(command);
+  async delete(key: string): Promise<void> {
+    const filePath = path.join(this.baseDir, key);
+    await fs.rm(filePath, { force: true });
   }
 
-  async getSignedUrl(path: string, expiresIn = 3600): Promise<string> {
-    const command = new GetObjectCommand({
-      Bucket: this.bucket,
-      Key: path,
-    });
+  async getSignedUrl(key: string): Promise<string> {
+    return this.toPublicUrl(key);
+  }
 
-    return getSignedUrl(this.client, command, { expiresIn });
+  private toPublicUrl(key: string) {
+    if (env.S3_ENDPOINT) {
+      return `${env.S3_ENDPOINT.replace(/\/$/, '')}/${this.bucket}/${key}`;
+    }
+
+    return `/uploads/${this.bucket}/${key}`;
   }
 }
 

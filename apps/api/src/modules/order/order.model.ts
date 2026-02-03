@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import type { Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export interface IOrderItem {
   productId: mongoose.Types.ObjectId;
@@ -21,7 +22,15 @@ export interface IOrder extends Document {
   shippingCost: number;
   tax: number;
   total: number;
-  status: 'pending' | 'confirmed' | 'processing' | 'ready_for_pickup' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
+  status:
+    | 'pending'
+    | 'confirmed'
+    | 'processing'
+    | 'ready_for_pickup'
+    | 'shipped'
+    | 'delivered'
+    | 'cancelled'
+    | 'refunded';
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
   paymentMethod: 'cod' | 'esewa' | 'khalti' | 'fonepay' | 'bank_transfer';
   paymentDetails?: {
@@ -92,7 +101,16 @@ const orderSchema = new Schema<IOrder>(
     total: { type: Number, required: true, min: 0 },
     status: {
       type: String,
-      enum: ['pending', 'confirmed', 'processing', 'ready_for_pickup', 'shipped', 'delivered', 'cancelled', 'refunded'],
+      enum: [
+        'pending',
+        'confirmed',
+        'processing',
+        'ready_for_pickup',
+        'shipped',
+        'delivered',
+        'cancelled',
+        'refunded',
+      ],
       default: 'pending',
     },
     paymentStatus: {

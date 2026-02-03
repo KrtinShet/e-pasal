@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import { env } from '../config/env.js';
 
 export async function connectDatabase() {
@@ -21,4 +22,8 @@ export async function connectDatabase() {
 
 export async function disconnectDatabase() {
   await mongoose.disconnect();
+}
+
+export function isDatabaseReady() {
+  return mongoose.connection.readyState === 1;
 }

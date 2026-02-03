@@ -1,9 +1,13 @@
+import { randomUUID } from 'node:crypto';
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { User } from './user.model.js';
-import { Store } from '../store/store.model.js';
+
 import { env } from '../../config/env.js';
+import { Store } from '../store/store.model.js';
 import { AppError, ConflictError, UnauthorizedError } from '../../lib/errors.js';
+
+import { User } from './user.model.js';
 
 interface RegisterInput {
   email: string;
@@ -48,6 +52,7 @@ export class AuthService {
       role: 'merchant',
       storeId: store._id,
       status: 'active',
+      refreshTokenId: randomUUID(),
     });
 
     const tokens = this.generateTokens(user);
@@ -87,6 +92,9 @@ export class AuthService {
     user.lastLoginAt = new Date();
     await user.save();
 
+    user.refreshTokenId = randomUUID();
+    await user.save();
+
     const tokens = this.generateTokens(user);
 
     return {
@@ -103,7 +111,11 @@ export class AuthService {
 
   async refreshToken(refreshToken: string) {
     try {
-      const decoded = jwt.verify(refreshToken, env.JWT_SECRET) as { sub: string; type: string };
+      const decoded = jwt.verify(refreshToken, env.JWT_SECRET) as {
+        sub: string;
+        type: string;
+        tokenId?: string;
+      };
 
       if (decoded.type !== 'refresh') {
         throw new UnauthorizedError('Invalid token type');
@@ -113,6 +125,13 @@ export class AuthService {
       if (!user || user.status !== 'active') {
         throw new UnauthorizedError('User not found or inactive');
       }
+
+      if (!decoded.tokenId || user.refreshTokenId !== decoded.tokenId) {
+        throw new UnauthorizedError('Refresh token has been revoked');
+      }
+
+      user.refreshTokenId = randomUUID();
+      await user.save();
 
       return this.generateTokens(user);
     } catch {
@@ -133,7 +152,7 @@ export class AuthService {
     );
 
     const refreshToken = jwt.sign(
-      { sub: user._id, type: 'refresh' },
+      { sub: user._id, type: 'refresh', tokenId: user.refreshTokenId },
       env.JWT_SECRET,
       { expiresIn: env.JWT_REFRESH_EXPIRES_IN }
     );
