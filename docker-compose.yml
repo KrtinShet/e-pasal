@@ -4,7 +4,7 @@ services:
     container_name: baazarify-mongo
     restart: unless-stopped
     ports:
-      - '27017:27017'
+      - '27117:27017'
     volumes:
       - mongodb_data:/data/db
     environment:
@@ -15,7 +15,7 @@ services:
     container_name: baazarify-redis
     restart: unless-stopped
     ports:
-      - '6379:6379'
+      - '6479:6379'
     volumes:
       - redis_data:/data
     command: redis-server --appendonly yes

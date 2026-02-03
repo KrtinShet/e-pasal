@@ -98,7 +98,7 @@ fooRouter.get('/', (req, res, next) => fooController.list(req, res, next));
 ## Database
 
 - MongoDB 7 via `docker-compose up -d`
-- Connection: `mongodb://localhost:27017/baazarify`
+- Connection: `mongodb://localhost:27117/baazarify`
 - All queries scoped by `storeId` for multi-tenancy
 - Indexes always include `storeId` as first field
 
@@ -107,8 +107,8 @@ fooRouter.get('/', (req, res, next) => fooController.list(req, res, next));
 API requires `.env` file:
 
 ```
-MONGODB_URI=mongodb://localhost:27017/baazarify
-REDIS_URL=redis://localhost:6379
+MONGODB_URI=mongodb://localhost:27117/baazarify
+REDIS_URL=redis://localhost:6479
 JWT_SECRET=<min-32-chars>
 ```
 
