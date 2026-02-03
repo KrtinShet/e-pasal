@@ -1,0 +1,34 @@
+# Baazarify Local Development Proxy
+#
+# Usage: caddy run --config Caddyfile
+#
+# Access:
+#   - http://dashboard.localhost  → Merchant dashboard
+#   - http://admin.localhost      → Platform admin
+#   - http://api.localhost        → API server
+#   - http://*.localhost          → Storefront (any other subdomain)
+#
+# Examples:
+#   - http://mystore.localhost    → Storefront for "mystore"
+#   - http://demo.localhost       → Storefront for "demo"
+
+# Dashboard - Merchant portal
+dashboard.localhost {
+	reverse_proxy localhost:5173
+}
+
+# Admin - Platform administration
+admin.localhost {
+	reverse_proxy localhost:5174
+}
+
+# API - Backend services
+api.localhost {
+	reverse_proxy localhost:4000
+}
+
+# Storefront - Wildcard for all tenant stores
+# Any subdomain not matching above routes here
+*.localhost {
+	reverse_proxy localhost:3000
+}

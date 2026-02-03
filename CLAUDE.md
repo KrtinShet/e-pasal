@@ -41,6 +41,8 @@ packages/
 
 ```bash
 pnpm dev              # Run all apps
+pnpm dev:proxy        # Run Caddy proxy (requires: brew install caddy)
+pnpm dev:all          # Run all apps + Caddy proxy together
 pnpm dev:api          # API only (port 4000)
 pnpm dev:storefront   # Storefront only (port 3000)
 pnpm dev:dashboard    # Dashboard only (port 5173)
@@ -51,6 +53,21 @@ pnpm format           # Prettier format
 pnpm fix:all          # Lint + format
 docker-compose up -d  # Start MongoDB + Redis
 ```
+
+## Local Development URLs
+
+With Caddy proxy running (`pnpm dev:all`):
+
+| App | URL |
+|-----|-----|
+| Dashboard | http://dashboard.localhost |
+| Admin | http://admin.localhost |
+| API | http://api.localhost |
+| Storefront | http://{store-subdomain}.localhost |
+
+Example storefronts:
+- `http://mystore.localhost` → loads "mystore" tenant
+- `http://demo.localhost` → loads "demo" tenant
 
 ## Code Style
 
