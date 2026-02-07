@@ -25,17 +25,36 @@
 
 ## Exit Criteria
 
-- [ ] Platform landing page live at main domain with signup CTA.
-- [ ] Merchants can register and log in to dashboard.
-- [ ] New merchants complete onboarding wizard to set up their store.
-- [ ] Orders are manageable from dashboard.
-- [ ] Inventory updates on order change.
-- [ ] Dashboard shows operational stats.
-- [ ] Core dashboard screens are mobile-responsive.
-- [ ] `@baazarify/storefront-builder` package with sections.
-- [ ] Theme editor UI for merchants.
-- [ ] AI-assisted landing page generation working.
-- [ ] All apps using shared `@baazarify/ui` components.
+- [x] Platform landing page live at main domain with signup CTA.
+- [x] Merchants can register and log in to dashboard.
+- [x] New merchants complete onboarding wizard to set up their store.
+- [x] Orders are manageable from dashboard.
+- [x] Inventory updates on order change.
+- [x] Dashboard shows operational stats.
+- [x] Core dashboard screens are mobile-responsive.
+- [x] `@baazarify/storefront-builder` package with sections.
+- [x] Theme editor UI for merchants.
+- [x] AI-assisted landing page generation working.
+- [x] All apps using shared `@baazarify/ui` components.
+
+## Completion Summary
+
+**Status**: ✅ Done (2026-02-06)
+
+All 12 stories across 3 epics completed successfully:
+
+- **E07** (Landing & Auth): 3 stories - Landing page, auth pages (login/register/forgot-password/reset), onboarding wizard
+- **E03** (Orders & Merchant Ops): 5 stories - Orders API with statusHistory, dashboard order UI, metrics/revenue chart, customer management, merchant settings, audit logging
+- **E06** (UI & Storefront Builder): 4 stories - @baazarify/storefront-builder package (11 sections), theme editor UI, AI page generation (Anthropic SDK), app integration
+
+**Key Implementation Details**:
+- Register endpoint refactored: creates user only, store creation moved to /onboarding/complete
+- Dashboard uses route groups: (landing), (auth), (onboarding), (dashboard)
+- Auth flow: JWT tokens in localStorage, 401 interceptor with refresh, ProtectedRoute component
+- Order model: statusHistory[] for timeline tracking
+- Store model: settings.theme.tokens (Mixed), landingPage.config/draftConfig
+- Storefront builder: sections auto-register via registry, each has Zod schema + defaults
+- AI integration: Anthropic SDK, rate limited 10/hr, saves as draft
 
 ## Detailed Plan
 
