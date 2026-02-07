@@ -24,7 +24,7 @@ export default function NavList({ data, depth, slotProps }: NavListProps) {
 
   useEffect(() => {
     if (openMenu) setOpenMenu(false);
-  }, [pathname]);
+  }, [pathname, openMenu]);
 
   const updatePosition = useCallback(() => {
     if (!navRef.current) return;

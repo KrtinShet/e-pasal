@@ -238,10 +238,11 @@ export class StoreController {
   async generateLandingPage(req: Request, res: Response, next: NextFunction) {
     try {
       if (env.AI_PROVIDER === 'none') {
-        return res.status(503).json({
+        res.status(503).json({
           success: false,
           error: { code: 'AI_NOT_CONFIGURED', message: 'AI generation is not configured' },
         });
+        return;
       }
 
       const input = generatePageSchema.parse(req.body);

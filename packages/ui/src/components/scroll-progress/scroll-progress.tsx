@@ -1,8 +1,8 @@
 'use client';
 
 import type { HTMLAttributes } from 'react';
-import { m, useSpring } from 'framer-motion';
-import type { MotionValue } from 'framer-motion';
+import { m, useSpring } from 'motion/react';
+import type { MotionValue } from 'motion/react';
 
 import { cn } from '../../utils';
 

@@ -25,7 +25,7 @@ function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return undefined;
 
     const mql = window.matchMedia(query);
     setMatches(mql.matches);

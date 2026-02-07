@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { m, domMax, LazyMotion } from 'framer-motion';
+import { m, domMax, LazyMotion } from 'motion/react';
 
 export interface MotionLazyProps {
   children: ReactNode;

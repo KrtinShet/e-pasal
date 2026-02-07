@@ -149,3 +149,5 @@
   --divider: rgba(26, 26, 26, 0.12);
   --backdrop: rgba(26, 26, 26, 0.5);
 }
+
+@import './shared-components.css';

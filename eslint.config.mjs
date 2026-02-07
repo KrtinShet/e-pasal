@@ -114,7 +114,14 @@ export const customConfig = {
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.next/**', '**/coverage/**', '**/build/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.next/**',
+      '**/coverage/**',
+      '**/build/**',
+      '**/next-env.d.ts',
+    ],
   },
   {
     languageOptions: {

@@ -1,8 +1,8 @@
 'use client';
 
-import { m } from 'framer-motion';
+import { m } from 'motion/react';
 import type { ReactNode } from 'react';
-import type { HTMLMotionProps } from 'framer-motion';
+import type { HTMLMotionProps } from 'motion/react';
 
 import { varContainer } from './variants';
 
