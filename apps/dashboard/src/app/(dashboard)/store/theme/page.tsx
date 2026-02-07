@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { PageHeader } from '@baazarify/ui';
+import { useState, useEffect } from 'react';
 
 import { apiRequest } from '@/lib/api';
 import { ThemeEditor } from '@/components/theme-editor/theme-editor';
@@ -27,7 +27,10 @@ export default function ThemeEditorPage() {
   if (loading) {
     return (
       <div>
-        <PageHeader title="Theme Editor" description="Customize the look and feel of your storefront." />
+        <PageHeader
+          title="Theme Editor"
+          description="Customize the look and feel of your storefront."
+        />
         <div className="flex h-64 items-center justify-center">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--color-primary)] border-t-transparent" />
         </div>
@@ -37,7 +40,10 @@ export default function ThemeEditorPage() {
 
   return (
     <div>
-      <PageHeader title="Theme Editor" description="Customize the look and feel of your storefront." />
+      <PageHeader
+        title="Theme Editor"
+        description="Customize the look and feel of your storefront."
+      />
       <ThemeEditor initialTheme={theme || undefined} />
     </div>
   );

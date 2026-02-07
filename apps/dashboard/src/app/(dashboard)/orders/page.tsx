@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
+import { Input, Select, PageHeader, ContentSection } from '@baazarify/ui';
 
 import { apiRequest } from '@/lib/api';
-import { PageHeader, ContentSection, Input, Select } from '@baazarify/ui';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { PaymentStatusBadge } from '@/components/orders/payment-status-badge';
 
@@ -255,8 +255,12 @@ export default function OrdersPage() {
                       </p>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="text-sm text-[var(--color-text-primary)]">{order.shipping.name}</p>
-                      <p className="text-xs text-[var(--color-text-muted)]">{order.shipping.city}</p>
+                      <p className="text-sm text-[var(--color-text-primary)]">
+                        {order.shipping.name}
+                      </p>
+                      <p className="text-xs text-[var(--color-text-muted)]">
+                        {order.shipping.city}
+                      </p>
                     </td>
                     <td className="px-4 py-3">
                       <OrderStatusBadge status={order.status} />

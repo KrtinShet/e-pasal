@@ -1,8 +1,8 @@
 'use client';
 
+import { PageHeader } from '@baazarify/ui';
 import { useState, useEffect } from 'react';
 import type { PageConfig } from '@baazarify/storefront-builder';
-import { PageHeader } from '@baazarify/ui';
 
 import { apiRequest } from '@/lib/api';
 import { PageEditor } from '@/components/landing-page-editor/page-editor';
@@ -21,7 +21,10 @@ export default function LandingPageEditorPage() {
   if (loading) {
     return (
       <div>
-        <PageHeader title="Landing Page Editor" description="Build your store landing page with drag-and-drop sections." />
+        <PageHeader
+          title="Landing Page Editor"
+          description="Build your store landing page with drag-and-drop sections."
+        />
         <div className="flex h-64 items-center justify-center">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--color-primary)] border-t-transparent" />
         </div>
@@ -31,7 +34,10 @@ export default function LandingPageEditorPage() {
 
   return (
     <div>
-      <PageHeader title="Landing Page Editor" description="Build your store landing page with drag-and-drop sections." />
+      <PageHeader
+        title="Landing Page Editor"
+        description="Build your store landing page with drag-and-drop sections."
+      />
       <PageEditor initialConfig={config} />
     </div>
   );

@@ -60,10 +60,16 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
     return (
       <aside
         ref={ref}
-        style={{ width: collapsed ? NAV.W_MINI : NAV.W_VERTICAL }}
+        style={{
+          width: collapsed ? NAV.W_MINI : NAV.W_VERTICAL,
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column' as const,
+          flexShrink: 0,
+        }}
         className={cn(
-          'flex flex-col h-full shrink-0 bg-[var(--color-background)] border-r border-[var(--color-border)]',
-          'transition-all duration-[var(--transition-normal)]',
+          'bg-[var(--color-background)] border-r border-[var(--color-border)]',
+          'transition-[width] duration-[var(--transition-normal)]',
           className
         )}
         data-collapsed={collapsed}
@@ -71,22 +77,22 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
       >
         {header && (
           <div
-            style={{ height: HEADER.H_DESKTOP }}
+            style={{ height: HEADER.H_DESKTOP, minHeight: HEADER.H_DESKTOP }}
             className={cn(
-              'flex items-center px-4 border-b border-[var(--color-border)]',
+              'flex items-center shrink-0 px-4 border-b border-[var(--color-border)]',
               collapsed && 'justify-center px-2'
             )}
           >
             {header}
           </div>
         )}
-        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex-1 min-h-0 overflow-y-auto py-4 px-3 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {children}
         </div>
         {footer && (
           <div
             className={cn(
-              'border-t border-[var(--color-border)] p-4',
+              'shrink-0 border-t border-[var(--color-border)] p-4',
               collapsed && 'px-2 flex justify-center'
             )}
           >

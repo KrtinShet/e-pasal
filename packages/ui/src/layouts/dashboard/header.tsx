@@ -32,7 +32,7 @@ export const DashboardHeader = forwardRef<HTMLElement, DashboardHeaderProps>(
         alignItems: 'center',
         justifyContent: 'space-between',
         flexShrink: 0,
-        padding: '0 16px',
+        padding: '0 24px',
         background: 'color-mix(in srgb, var(--color-background) 80%, transparent)',
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid var(--color-border)',
@@ -234,9 +234,9 @@ export const UserMenu = forwardRef<HTMLDivElement, UserMenuProps>(
         {open && (
           <div
             className={cn(
-              'absolute right-0 top-full mt-1 w-56 py-1',
+              'absolute right-0 top-full mt-1.5 w-64 py-1',
               'bg-[var(--color-background)] border border-[var(--color-border)] rounded-[var(--radius-lg)]',
-              'shadow-[var(--shadow-lg)] z-50'
+              'shadow-[var(--shadow-dropdown)] z-[100]'
             )}
             role="menu"
           >

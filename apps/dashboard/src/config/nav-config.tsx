@@ -24,9 +24,7 @@ export interface NavSection {
 export const navSections: NavSection[] = [
   {
     subheader: 'Overview',
-    items: [
-      { icon: <LayoutDashboard size={20} />, title: 'Dashboard', path: '/dashboard' },
-    ],
+    items: [{ icon: <LayoutDashboard size={20} />, title: 'Dashboard', path: '/dashboard' }],
   },
   {
     subheader: 'Management',

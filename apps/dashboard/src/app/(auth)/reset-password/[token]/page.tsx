@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
 import { Input, Alert, Button } from '@baazarify/ui';
-import { Eye, EyeOff, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
+import { Eye, EyeOff, ArrowLeft, ShieldCheck } from 'lucide-react';
 
 import { resetPasswordApi } from '@/lib/auth-api';
 
@@ -51,9 +51,7 @@ export default function ResetPasswordPage() {
       </div>
 
       <div className="mb-10">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
-          Reset your password
-        </h1>
+        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Reset your password</h1>
         <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
           Enter your new password below.
         </p>

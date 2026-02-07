@@ -10,27 +10,27 @@ interface KpiCardProps {
 
 export function KpiCard({ title, value, icon, change, changeType = 'neutral' }: KpiCardProps) {
   return (
-    <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] p-6 transition-all hover:shadow-[var(--shadow-card)]">
+    <div className="bg-[var(--color-background)] rounded-[var(--radius-lg)] border border-[var(--color-border)] p-5 transition-shadow hover:shadow-[var(--shadow-card)]">
       <div className="flex items-start justify-between mb-4">
-        <div className="w-10 h-10 rounded-xl bg-[var(--peach-light)] text-[var(--coral)] flex items-center justify-center">
+        <div className="w-10 h-10 rounded-[var(--radius-md)] bg-[var(--primary-lighter)] text-[var(--color-primary)] flex items-center justify-center">
           {icon}
         </div>
         {change && (
           <span
             className={`text-xs font-medium px-2 py-1 rounded-full ${
               changeType === 'positive'
-                ? 'bg-green-50 text-green-600'
+                ? 'bg-[var(--success-lighter)] text-[var(--success-dark)]'
                 : changeType === 'negative'
-                  ? 'bg-red-50 text-red-600'
-                  : 'bg-[var(--cream-dark)] text-[var(--slate)]'
+                  ? 'bg-[var(--error-lighter)] text-[var(--error-dark)]'
+                  : 'bg-[var(--grey-200)] text-[var(--color-text-secondary)]'
             }`}
           >
             {change}
           </span>
         )}
       </div>
-      <p className="text-2xl font-bold text-[var(--charcoal)]">{value}</p>
-      <p className="text-sm text-[var(--slate)] mt-1">{title}</p>
+      <p className="text-2xl font-bold text-[var(--color-text-primary)]">{value}</p>
+      <p className="text-sm text-[var(--color-text-secondary)] mt-1">{title}</p>
     </div>
   );
 }

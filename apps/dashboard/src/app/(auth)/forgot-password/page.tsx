@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
-import { Input, Alert, Button } from '@baazarify/ui';
 import { KeyRound, ArrowLeft } from 'lucide-react';
+import { Input, Alert, Button } from '@baazarify/ui';
 
 import { forgotPasswordApi } from '@/lib/auth-api';
 

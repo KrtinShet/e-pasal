@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 import { Input, Alert, Button } from '@baazarify/ui';
-import { Eye, EyeOff } from 'lucide-react';
 
 import { useAuth } from '@/contexts/auth-context';
 

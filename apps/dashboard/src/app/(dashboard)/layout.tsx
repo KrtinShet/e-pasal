@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { LogOut, User, Settings, Sparkles } from 'lucide-react';
+import { User, LogOut, Settings, Sparkles } from 'lucide-react';
 import {
   NavItem,
   NavGroup,

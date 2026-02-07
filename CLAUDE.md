@@ -43,10 +43,10 @@ packages/
 pnpm dev              # Run all apps
 pnpm dev:proxy        # Run Caddy proxy (requires: brew install caddy)
 pnpm dev:all          # Run all apps + Caddy proxy together
-pnpm dev:api          # API only (port 4000)
-pnpm dev:storefront   # Storefront only (port 3000)
-pnpm dev:dashboard    # Dashboard only (port 5173)
-pnpm dev:admin        # Admin only (port 5174)
+pnpm dev:api          # API only (port 7100)
+pnpm dev:storefront   # Storefront only (port 7103)
+pnpm dev:dashboard    # Dashboard only (port 7102)
+pnpm dev:admin        # Admin only (port 7101)
 pnpm lint             # ESLint check
 pnpm lint:fix         # ESLint auto-fix
 pnpm format           # Prettier format

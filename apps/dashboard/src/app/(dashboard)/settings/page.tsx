@@ -94,7 +94,10 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <PageHeader title="Settings" description="Manage your store profile, contact details, and theme" />
+      <PageHeader
+        title="Settings"
+        description="Manage your store profile, contact details, and theme"
+      />
 
       <Tabs defaultValue="profile">
         <TabList className="border-b border-[var(--color-border)]/20 gap-0">

@@ -13,14 +13,14 @@ interface RecentOrder {
 }
 
 const statusColors: Record<string, string> = {
-  pending: 'bg-yellow-50 text-yellow-700',
-  confirmed: 'bg-blue-50 text-blue-700',
-  processing: 'bg-indigo-50 text-indigo-700',
-  ready_for_pickup: 'bg-purple-50 text-purple-700',
-  shipped: 'bg-sky-50 text-sky-700',
-  delivered: 'bg-green-50 text-green-700',
-  cancelled: 'bg-red-50 text-red-700',
-  refunded: 'bg-[var(--cream-dark)] text-[var(--slate)]',
+  pending: 'bg-[var(--warning-lighter)] text-[var(--warning-dark)]',
+  confirmed: 'bg-[var(--info-lighter)] text-[var(--info-dark)]',
+  processing: 'bg-[var(--secondary-lighter)] text-[var(--secondary-dark)]',
+  ready_for_pickup: 'bg-[var(--secondary-lighter)] text-[var(--secondary-dark)]',
+  shipped: 'bg-[var(--info-lighter)] text-[var(--info-dark)]',
+  delivered: 'bg-[var(--success-lighter)] text-[var(--success-dark)]',
+  cancelled: 'bg-[var(--error-lighter)] text-[var(--error-dark)]',
+  refunded: 'bg-[var(--grey-200)] text-[var(--color-text-secondary)]',
 };
 
 function formatPrice(price: number): string {
@@ -47,7 +47,7 @@ function formatStatus(status: string): string {
 export function RecentOrdersTable({ orders }: { orders: RecentOrder[] }) {
   if (orders.length === 0) {
     return (
-      <div className="text-center py-8 text-[var(--slate)]">
+      <div className="text-center py-8 text-[var(--color-text-muted)]">
         <p className="text-sm">No orders yet</p>
       </div>
     );
@@ -57,7 +57,7 @@ export function RecentOrdersTable({ orders }: { orders: RecentOrder[] }) {
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead>
-          <tr className="text-left text-xs font-medium text-[var(--slate)] uppercase tracking-wider">
+          <tr className="text-left text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
             <th className="pb-3 pr-4">Order</th>
             <th className="pb-3 pr-4">Customer</th>
             <th className="pb-3 pr-4">Status</th>
@@ -65,31 +65,31 @@ export function RecentOrdersTable({ orders }: { orders: RecentOrder[] }) {
             <th className="pb-3 text-right">Date</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[var(--mist)]/20">
+        <tbody className="divide-y divide-[var(--color-border)]">
           {orders.map((order) => (
             <tr key={order._id} className="group">
               <td className="py-3 pr-4">
                 <Link
                   href={`/orders/${order._id}`}
-                  className="text-sm font-medium text-[var(--charcoal)] hover:text-[var(--coral)] transition-colors"
+                  className="text-sm font-medium text-[var(--color-text-primary)] hover:text-[var(--color-primary)] transition-colors"
                 >
                   {order.orderNumber}
                 </Link>
               </td>
-              <td className="py-3 pr-4 text-sm text-[var(--graphite)]">
+              <td className="py-3 pr-4 text-sm text-[var(--color-text-secondary)]">
                 {order.shipping?.name || 'N/A'}
               </td>
               <td className="py-3 pr-4">
                 <span
-                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[order.status] || 'bg-[var(--cream-dark)] text-[var(--slate)]'}`}
+                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[order.status] || 'bg-[var(--grey-200)] text-[var(--color-text-secondary)]'}`}
                 >
                   {formatStatus(order.status)}
                 </span>
               </td>
-              <td className="py-3 pr-4 text-sm font-medium text-[var(--charcoal)] text-right">
+              <td className="py-3 pr-4 text-sm font-medium text-[var(--color-text-primary)] text-right">
                 {formatPrice(order.total)}
               </td>
-              <td className="py-3 text-sm text-[var(--slate)] text-right">
+              <td className="py-3 text-sm text-[var(--color-text-muted)] text-right">
                 {formatDate(order.createdAt)}
               </td>
             </tr>

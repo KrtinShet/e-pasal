@@ -2,8 +2,7 @@
 
 import type { FormEvent } from 'react';
 import { useMemo, useState, useEffect } from 'react';
-
-import { PageHeader, ContentSection, Input, Select, Button, Alert } from '@baazarify/ui';
+import { Input, Alert, Select, Button, PageHeader, ContentSection } from '@baazarify/ui';
 
 import { apiRequest } from '@/lib/api';
 import type { Product, Category, Pagination } from '@/types/catalog';
@@ -570,9 +569,7 @@ export default function ProductsPage() {
               </div>
             ) : null}
 
-            <Button type="submit">
-              {productForm.id ? 'Update Product' : 'Create Product'}
-            </Button>
+            <Button type="submit">{productForm.id ? 'Update Product' : 'Create Product'}</Button>
           </form>
         </ContentSection>
 
@@ -613,9 +610,7 @@ export default function ProductsPage() {
               />
             </div>
 
-            <Button type="submit">
-              {categoryForm.id ? 'Update Category' : 'Create Category'}
-            </Button>
+            <Button type="submit">{categoryForm.id ? 'Update Category' : 'Create Category'}</Button>
           </form>
 
           <div className="mt-6">

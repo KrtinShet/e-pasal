@@ -14,21 +14,21 @@
 
 # Dashboard - Merchant portal
 dashboard.localhost {
-	reverse_proxy localhost:5173
+	reverse_proxy localhost:7102
 }
 
 # Admin - Platform administration
 admin.localhost {
-	reverse_proxy localhost:5174
+	reverse_proxy localhost:7101
 }
 
 # API - Backend services
 api.localhost {
-	reverse_proxy localhost:4000
+	reverse_proxy localhost:7100
 }
 
 # Storefront - Wildcard for all tenant stores
 # Any subdomain not matching above routes here
 *.localhost {
-	reverse_proxy localhost:3000
+	reverse_proxy localhost:7103
 }

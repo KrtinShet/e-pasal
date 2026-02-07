@@ -26,14 +26,10 @@ export default function AuthGroupLayout({ children }: { children: ReactNode }) {
 
   return (
     <AuthLayout
-      logo={
-        <span className="text-2xl font-bold text-[var(--color-text-primary)]">Baazarify</span>
-      }
+      logo={<span className="text-2xl font-bold text-[var(--color-text-primary)]">Baazarify</span>}
       illustration={
         <div className="text-white text-center space-y-6">
-          <h2 className="text-3xl font-bold leading-tight">
-            Hi, Welcome back
-          </h2>
+          <h2 className="text-3xl font-bold leading-tight">Hi, Welcome back</h2>
           <p className="text-lg opacity-80 max-w-[320px] mx-auto">
             Launch your e-commerce business in Nepal with Baazarify.
           </p>
