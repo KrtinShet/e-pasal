@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
+import { PageHeader, ContentSection } from '@baazarify/ui';
 import { apiRequest } from '@/lib/api';
 import { KpiCard } from '@/components/dashboard/kpi-card';
 import { RevenueChart } from '@/components/dashboard/revenue-chart';
@@ -130,25 +131,22 @@ export default function DashboardHomePage() {
     return (
       <div className="space-y-6">
         <div>
-          <div className="h-8 bg-[var(--mist)]/20 rounded w-48 mb-2" />
-          <div className="h-4 bg-[var(--mist)]/20 rounded w-72" />
+          <div className="h-8 bg-[var(--color-border)]/20 rounded w-48 mb-2" />
+          <div className="h-4 bg-[var(--color-border)]/20 rounded w-72" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-32 bg-[var(--mist)]/20 rounded-2xl animate-pulse" />
+            <div key={i} className="h-32 bg-[var(--color-border)]/20 rounded-2xl animate-pulse" />
           ))}
         </div>
-        <div className="h-80 bg-[var(--mist)]/20 rounded-2xl animate-pulse" />
+        <div className="h-80 bg-[var(--color-border)]/20 rounded-2xl animate-pulse" />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-[var(--charcoal)]">Dashboard</h1>
-        <p className="text-sm text-[var(--slate)] mt-1">Overview of your store performance</p>
-      </div>
+      <PageHeader title="Dashboard" description="Overview of your store performance" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
@@ -175,18 +173,19 @@ export default function DashboardHomePage() {
 
       <RevenueChart />
 
-      <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-[var(--charcoal)]">Recent Orders</h3>
+      <ContentSection
+        title="Recent Orders"
+        action={
           <Link
             href="/orders"
-            className="text-sm font-medium text-[var(--coral)] hover:text-[var(--coral-dark)] transition-colors"
+            className="text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
           >
             View All
           </Link>
-        </div>
+        }
+      >
         <RecentOrdersTable orders={recentOrders} />
-      </div>
+      </ContentSection>
     </div>
   );
 }

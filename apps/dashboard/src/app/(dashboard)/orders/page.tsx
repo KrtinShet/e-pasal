@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
 
 import { apiRequest } from '@/lib/api';
+import { PageHeader, ContentSection, Input, Select } from '@baazarify/ui';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { PaymentStatusBadge } from '@/components/orders/payment-status-badge';
 
@@ -133,66 +134,52 @@ export default function OrdersPage() {
   }, [search, status, paymentStatus, dateFrom, dateTo]);
 
   return (
-    <div className="p-6 lg:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--charcoal)]">Orders</h1>
-          <p className="text-sm text-[var(--slate)] mt-1">
-            {pagination ? `${pagination.total} total orders` : 'Manage your orders'}
-          </p>
-        </div>
-      </div>
+    <div>
+      <PageHeader
+        title="Orders"
+        description={pagination ? `${pagination.total} total orders` : 'Manage your orders'}
+      />
 
-      <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] mb-6">
-        <div className="p-4 space-y-3">
+      <ContentSection className="mb-6">
+        <div className="space-y-3">
           <div className="flex flex-col sm:flex-row gap-3">
-            <input
+            <Input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search orders by number or customer..."
-              className="flex-1 h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="flex-1"
             />
-            <select
+            <Select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 appearance-none cursor-pointer min-w-[160px]"
-            >
-              {orderStatuses.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-            <select
+              options={orderStatuses}
+              className="min-w-[160px]"
+            />
+            <Select
               value={paymentStatus}
               onChange={(e) => setPaymentStatus(e.target.value)}
-              className="h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 appearance-none cursor-pointer min-w-[160px]"
-            >
-              {paymentStatuses.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
+              options={paymentStatuses}
+              className="min-w-[160px]"
+            />
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex items-center gap-2">
-              <label className="text-xs text-[var(--stone)]">From:</label>
-              <input
+              <label className="text-xs text-[var(--color-text-muted)]">From:</label>
+              <Input
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="h-9 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30"
+                inputSize="sm"
               />
             </div>
             <div className="flex items-center gap-2">
-              <label className="text-xs text-[var(--stone)]">To:</label>
-              <input
+              <label className="text-xs text-[var(--color-text-muted)]">To:</label>
+              <Input
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="h-9 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30"
+                inputSize="sm"
               />
             </div>
             {(search || status || paymentStatus || dateFrom || dateTo) && (
@@ -204,48 +191,48 @@ export default function OrdersPage() {
                   setDateFrom('');
                   setDateTo('');
                 }}
-                className="text-xs font-medium text-[var(--coral)] hover:text-[var(--coral-dark)] transition-colors"
+                className="text-xs font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
               >
                 Clear Filters
               </button>
             )}
           </div>
         </div>
-      </div>
+      </ContentSection>
 
-      <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] overflow-hidden">
+      <ContentSection noPadding>
         {loading ? (
           <div className="p-8 text-center">
-            <div className="w-6 h-6 border-2 border-[var(--coral)] border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="w-6 h-6 border-2 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin mx-auto" />
           </div>
         ) : orders.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-sm text-[var(--slate)]">No orders found</p>
+            <p className="text-sm text-[var(--color-text-secondary)]">No orders found</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[var(--mist)]/20">
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--stone)] uppercase tracking-wider">
+                <tr className="border-b border-[var(--color-border)]">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
                     Order
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--stone)] uppercase tracking-wider">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
                     Customer
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--stone)] uppercase tracking-wider">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--stone)] uppercase tracking-wider">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
                     Payment
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--stone)] uppercase tracking-wider">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
                     Method
                   </th>
-                  <th className="text-right px-4 py-3 text-xs font-medium text-[var(--stone)] uppercase tracking-wider">
+                  <th className="text-right px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
                     Total
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--stone)] uppercase tracking-wider">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
                     Date
                   </th>
                 </tr>
@@ -254,22 +241,22 @@ export default function OrdersPage() {
                 {orders.map((order) => (
                   <tr
                     key={order._id}
-                    className="border-b border-[var(--mist)]/10 hover:bg-[var(--cream)]/50 transition-colors"
+                    className="border-b border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-colors"
                   >
                     <td className="px-4 py-3">
                       <Link
                         href={`/orders/${order._id}`}
-                        className="text-sm font-medium text-[var(--coral)] hover:text-[var(--coral-dark)] transition-colors"
+                        className="text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
                       >
                         {order.orderNumber}
                       </Link>
-                      <p className="text-xs text-[var(--stone)] mt-0.5">
+                      <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
                         {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                       </p>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="text-sm text-[var(--charcoal)]">{order.shipping.name}</p>
-                      <p className="text-xs text-[var(--stone)]">{order.shipping.city}</p>
+                      <p className="text-sm text-[var(--color-text-primary)]">{order.shipping.name}</p>
+                      <p className="text-xs text-[var(--color-text-muted)]">{order.shipping.city}</p>
                     </td>
                     <td className="px-4 py-3">
                       <OrderStatusBadge status={order.status} />
@@ -278,17 +265,17 @@ export default function OrdersPage() {
                       <PaymentStatusBadge status={order.paymentStatus} />
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-xs text-[var(--slate)]">
+                      <span className="text-xs text-[var(--color-text-secondary)]">
                         {formatPaymentMethod(order.paymentMethod)}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <span className="text-sm font-medium text-[var(--charcoal)]">
+                      <span className="text-sm font-medium text-[var(--color-text-primary)]">
                         {formatPrice(order.total)}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="text-xs text-[var(--slate)]">
+                      <span className="text-xs text-[var(--color-text-secondary)]">
                         {formatDate(order.createdAt)}
                       </span>
                     </td>
@@ -300,29 +287,29 @@ export default function OrdersPage() {
         )}
 
         {pagination && pagination.pages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--mist)]/20">
-            <p className="text-xs text-[var(--stone)]">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--color-border)]">
+            <p className="text-xs text-[var(--color-text-muted)]">
               Page {pagination.page} of {pagination.pages}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="px-3 py-1.5 text-xs font-medium text-[var(--charcoal)] bg-[var(--cream-dark)] rounded-lg hover:bg-[var(--mist)]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-3 py-1.5 text-xs font-medium text-[var(--color-text-primary)] bg-[var(--color-surface)] rounded-lg hover:bg-[var(--color-border)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Previous
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(pagination.pages, p + 1))}
                 disabled={page >= pagination.pages}
-                className="px-3 py-1.5 text-xs font-medium text-[var(--charcoal)] bg-[var(--cream-dark)] rounded-lg hover:bg-[var(--mist)]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-3 py-1.5 text-xs font-medium text-[var(--color-text-primary)] bg-[var(--color-surface)] rounded-lg hover:bg-[var(--color-border)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Next
               </button>
             </div>
           </div>
         )}
-      </div>
+      </ContentSection>
     </div>
   );
 }

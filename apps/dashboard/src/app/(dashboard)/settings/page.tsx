@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Tab, Tabs, TabList, TabPanel, TabPanels } from '@baazarify/ui';
+import { Tab, Tabs, TabList, TabPanel, TabPanels, PageHeader } from '@baazarify/ui';
 
 import { apiRequest } from '@/lib/api';
 import { ThemeSettings } from '@/components/settings/theme-settings';
@@ -61,20 +61,20 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="p-6 lg:p-8">
+      <div>
         <div className="mb-8">
-          <div className="h-8 w-48 bg-[var(--cream-dark)] rounded-lg animate-pulse" />
-          <div className="h-5 w-72 bg-[var(--cream-dark)] rounded-lg animate-pulse mt-2" />
+          <div className="h-8 w-48 bg-[var(--color-surface)] rounded-lg animate-pulse" />
+          <div className="h-5 w-72 bg-[var(--color-surface)] rounded-lg animate-pulse mt-2" />
         </div>
-        <div className="h-12 w-full bg-[var(--cream-dark)] rounded-lg animate-pulse" />
-        <div className="h-96 w-full bg-[var(--cream-dark)] rounded-lg animate-pulse mt-6" />
+        <div className="h-12 w-full bg-[var(--color-surface)] rounded-lg animate-pulse" />
+        <div className="h-96 w-full bg-[var(--color-surface)] rounded-lg animate-pulse mt-6" />
       </div>
     );
   }
 
   if (error || !store) {
     return (
-      <div className="p-6 lg:p-8">
+      <div>
         <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
           <p className="text-red-600">{error || 'Store not found'}</p>
           <button
@@ -93,37 +93,32 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[var(--charcoal)]">Settings</h1>
-        <p className="text-sm text-[var(--slate)] mt-1">
-          Manage your store profile, contact details, and theme
-        </p>
-      </div>
+    <div>
+      <PageHeader title="Settings" description="Manage your store profile, contact details, and theme" />
 
       <Tabs defaultValue="profile">
-        <TabList className="border-b border-[var(--mist)]/20 gap-0">
+        <TabList className="border-b border-[var(--color-border)]/20 gap-0">
           <Tab
             value="profile"
-            className="text-[var(--slate)] data-[state=active]:text-[var(--charcoal)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--coral)] -mb-px transition-colors hover:text-[var(--charcoal)]"
+            className="text-[var(--color-text-secondary)] data-[state=active]:text-[var(--color-text-primary)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--color-primary)] -mb-px transition-colors hover:text-[var(--color-text-primary)]"
           >
             Store Profile
           </Tab>
           <Tab
             value="contact"
-            className="text-[var(--slate)] data-[state=active]:text-[var(--charcoal)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--coral)] -mb-px transition-colors hover:text-[var(--charcoal)]"
+            className="text-[var(--color-text-secondary)] data-[state=active]:text-[var(--color-text-primary)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--color-primary)] -mb-px transition-colors hover:text-[var(--color-text-primary)]"
           >
             Contact & Social
           </Tab>
           <Tab
             value="theme"
-            className="text-[var(--slate)] data-[state=active]:text-[var(--charcoal)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--coral)] -mb-px transition-colors hover:text-[var(--charcoal)]"
+            className="text-[var(--color-text-secondary)] data-[state=active]:text-[var(--color-text-primary)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--color-primary)] -mb-px transition-colors hover:text-[var(--color-text-primary)]"
           >
             Theme
           </Tab>
           <Tab
             value="merchant"
-            className="text-[var(--slate)] data-[state=active]:text-[var(--charcoal)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--coral)] -mb-px transition-colors hover:text-[var(--charcoal)]"
+            className="text-[var(--color-text-secondary)] data-[state=active]:text-[var(--color-text-primary)] px-4 py-3 text-sm font-medium border-b-2 border-transparent data-[state=active]:border-[var(--color-primary)] -mb-px transition-colors hover:text-[var(--color-text-primary)]"
           >
             Merchant Profile
           </Tab>

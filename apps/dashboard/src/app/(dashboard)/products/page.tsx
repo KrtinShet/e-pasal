@@ -3,6 +3,8 @@
 import type { FormEvent } from 'react';
 import { useMemo, useState, useEffect } from 'react';
 
+import { PageHeader, ContentSection, Input, Select, Button, Alert } from '@baazarify/ui';
+
 import { apiRequest } from '@/lib/api';
 import type { Product, Category, Pagination } from '@/types/catalog';
 
@@ -325,17 +327,13 @@ export default function ProductsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--cream)]">
-      <div className="container-main py-12 space-y-8">
-        <header className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="text-4xl font-display">Catalog Manager</h1>
-            <p className="text-[var(--muted)]">
-              Manage products, categories, and inventory from one place.
-            </p>
-          </div>
-          <button
-            className="btn-secondary"
+    <div className="space-y-6">
+      <PageHeader
+        title="Catalog Manager"
+        description="Manage products, categories, and inventory from one place."
+        action={
+          <Button
+            variant="outline"
             onClick={() => {
               setProductForm(EMPTY_PRODUCT_FORM);
               setProductErrors({});
@@ -343,367 +341,328 @@ export default function ProductsPage() {
             type="button"
           >
             Reset Product Form
-          </button>
-        </header>
+          </Button>
+        }
+      />
 
-        {notice ? (
-          <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-emerald-700">
-            {notice}
-          </div>
-        ) : null}
-        {error ? (
-          <div className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-red-700">
-            {error}
-          </div>
-        ) : null}
+      {notice ? <Alert variant="success">{notice}</Alert> : null}
+      {error ? <Alert variant="error">{error}</Alert> : null}
 
-        <section className="card p-6">
-          <h2 className="font-display text-2xl mb-4">Products</h2>
+      <ContentSection title="Products">
+        <div className="grid gap-3 md:grid-cols-4 mb-4">
+          <Input
+            placeholder="Search products"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <Select
+            value={statusFilter}
+            onChange={(event) => setStatusFilter(event.target.value)}
+            options={[
+              { value: '', label: 'All statuses' },
+              { value: 'draft', label: 'Draft' },
+              { value: 'active', label: 'Active' },
+              { value: 'archived', label: 'Archived' },
+            ]}
+          />
+          <Select
+            value={sortBy}
+            onChange={(event) => setSortBy(event.target.value as typeof sortBy)}
+            options={[
+              { value: 'created_desc', label: 'Newest first' },
+              { value: 'name_asc', label: 'Name A-Z' },
+              { value: 'price_desc', label: 'Price high-low' },
+            ]}
+          />
+          <Button type="button" onClick={() => loadProducts(1)}>
+            Apply Filters
+          </Button>
+        </div>
 
-          <div className="grid gap-3 md:grid-cols-4 mb-4">
-            <input
-              className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-              placeholder="Search products"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
-            <select
-              className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value)}
-            >
-              <option value="">All statuses</option>
-              <option value="draft">Draft</option>
-              <option value="active">Active</option>
-              <option value="archived">Archived</option>
-            </select>
-            <select
-              className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-              value={sortBy}
-              onChange={(event) => setSortBy(event.target.value as typeof sortBy)}
-            >
-              <option value="created_desc">Newest first</option>
-              <option value="name_asc">Name A-Z</option>
-              <option value="price_desc">Price high-low</option>
-            </select>
-            <button className="btn-primary" type="button" onClick={() => loadProducts(1)}>
-              Apply Filters
-            </button>
-          </div>
+        {loadingProducts ? <p>Loading products...</p> : null}
+        {!loadingProducts && sortedProducts.length === 0 ? <p>No products found.</p> : null}
 
-          {loadingProducts ? <p>Loading products...</p> : null}
-          {!loadingProducts && sortedProducts.length === 0 ? <p>No products found.</p> : null}
-
-          {!loadingProducts && sortedProducts.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-[var(--mist)]">
-                    <th className="py-2 pr-4">Name</th>
-                    <th className="py-2 pr-4">Price</th>
-                    <th className="py-2 pr-4">Stock</th>
-                    <th className="py-2 pr-4">Status</th>
-                    <th className="py-2 pr-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedProducts.map((product) => (
-                    <tr className="border-b border-[var(--cream-dark)]" key={product._id}>
-                      <td className="py-2 pr-4">{product.name}</td>
-                      <td className="py-2 pr-4">NPR {product.price}</td>
-                      <td className="py-2 pr-4">{product.stock}</td>
-                      <td className="py-2 pr-4">{product.status}</td>
-                      <td className="py-2 pr-4 flex gap-2">
-                        <button
-                          className="btn-secondary !px-4 !py-2"
-                          onClick={() => handleEditProduct(product)}
-                          type="button"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="rounded-full border border-red-200 px-4 py-2 text-red-700"
-                          onClick={() => handleProductDelete(product._id)}
-                          type="button"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : null}
-
-          <div className="mt-4 flex items-center justify-between text-sm">
-            <span>
-              Page {pagination.page} / {Math.max(1, pagination.pages)}
-            </span>
-            <div className="flex gap-2">
-              <button
-                className="btn-secondary !px-4 !py-2"
-                disabled={pagination.page <= 1}
-                onClick={() => loadProducts(Math.max(1, pagination.page - 1))}
-                type="button"
-              >
-                Prev
-              </button>
-              <button
-                className="btn-secondary !px-4 !py-2"
-                disabled={pagination.page >= pagination.pages}
-                onClick={() => loadProducts(Math.min(pagination.pages, pagination.page + 1))}
-                type="button"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <section className="grid gap-8 lg:grid-cols-2">
-          <article className="card p-6">
-            <h2 className="font-display text-2xl mb-4">
-              {productForm.id ? 'Edit Product' : 'Create Product'}
-            </h2>
-            <form className="space-y-3" onSubmit={handleProductSubmit}>
-              <label className="block">
-                <span className="text-sm">Product Name</span>
-                <input
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                  value={productForm.name}
-                  onChange={(event) =>
-                    setProductForm((previous) => ({ ...previous, name: event.target.value }))
-                  }
-                />
-                {productErrors.name ? (
-                  <small className="text-red-700">{productErrors.name}</small>
-                ) : null}
-              </label>
-
-              <label className="block">
-                <span className="text-sm">Description</span>
-                <textarea
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                  rows={3}
-                  value={productForm.description}
-                  onChange={(event) =>
-                    setProductForm((previous) => ({ ...previous, description: event.target.value }))
-                  }
-                />
-              </label>
-
-              <div className="grid gap-3 md:grid-cols-2">
-                <label className="block">
-                  <span className="text-sm">Price</span>
-                  <input
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={productForm.price}
-                    onChange={(event) =>
-                      setProductForm((previous) => ({ ...previous, price: event.target.value }))
-                    }
-                  />
-                  {productErrors.price ? (
-                    <small className="text-red-700">{productErrors.price}</small>
-                  ) : null}
-                </label>
-
-                <label className="block">
-                  <span className="text-sm">Stock</span>
-                  <input
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                    type="number"
-                    min="0"
-                    value={productForm.stock}
-                    onChange={(event) =>
-                      setProductForm((previous) => ({ ...previous, stock: event.target.value }))
-                    }
-                  />
-                  {productErrors.stock ? (
-                    <small className="text-red-700">{productErrors.stock}</small>
-                  ) : null}
-                </label>
-              </div>
-
-              <div className="grid gap-3 md:grid-cols-2">
-                <label className="block">
-                  <span className="text-sm">Status</span>
-                  <select
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                    value={productForm.status}
-                    onChange={(event) =>
-                      setProductForm((previous) => ({
-                        ...previous,
-                        status: event.target.value as Product['status'],
-                      }))
-                    }
-                  >
-                    <option value="draft">Draft</option>
-                    <option value="active">Active</option>
-                    <option value="archived">Archived</option>
-                  </select>
-                </label>
-
-                <label className="block">
-                  <span className="text-sm">Category</span>
-                  <select
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                    value={productForm.categoryId}
-                    onChange={(event) =>
-                      setProductForm((previous) => ({
-                        ...previous,
-                        categoryId: event.target.value,
-                      }))
-                    }
-                  >
-                    <option value="">No category</option>
-                    {categories.map((category) => (
-                      <option key={category._id} value={category._id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              <label className="block">
-                <span className="text-sm">Images</span>
-                <input
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(event) => void handleImageUpload(event.target.files)}
-                />
-                {uploading ? <small>Uploading image...</small> : null}
-              </label>
-
-              {productForm.images.length > 0 ? (
-                <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
-                  {productForm.images.map((url) => (
-                    <div
-                      className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] p-2"
-                      key={url}
-                    >
-                      <img alt="Product" className="h-24 w-full rounded object-cover" src={url} />
-                      <button
-                        className="mt-2 w-full rounded-lg border border-red-200 py-1 text-sm text-red-700"
-                        onClick={() => removeImage(url)}
+        {!loadingProducts && sortedProducts.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-[var(--color-border)]">
+                  <th className="py-2 pr-4">Name</th>
+                  <th className="py-2 pr-4">Price</th>
+                  <th className="py-2 pr-4">Stock</th>
+                  <th className="py-2 pr-4">Status</th>
+                  <th className="py-2 pr-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedProducts.map((product) => (
+                  <tr className="border-b border-[var(--color-border)]" key={product._id}>
+                    <td className="py-2 pr-4">{product.name}</td>
+                    <td className="py-2 pr-4">NPR {product.price}</td>
+                    <td className="py-2 pr-4">{product.stock}</td>
+                    <td className="py-2 pr-4">{product.status}</td>
+                    <td className="py-2 pr-4 flex gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => handleEditProduct(product)}
                         type="button"
                       >
-                        Remove
+                        Edit
+                      </Button>
+                      <button
+                        className="rounded-full border border-red-200 px-4 py-2 text-red-700"
+                        onClick={() => handleProductDelete(product._id)}
+                        type="button"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : null}
+
+        <div className="mt-4 flex items-center justify-between text-sm">
+          <span>
+            Page {pagination.page} / {Math.max(1, pagination.pages)}
+          </span>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              disabled={pagination.page <= 1}
+              onClick={() => loadProducts(Math.max(1, pagination.page - 1))}
+              type="button"
+            >
+              Prev
+            </Button>
+            <Button
+              variant="outline"
+              disabled={pagination.page >= pagination.pages}
+              onClick={() => loadProducts(Math.min(pagination.pages, pagination.page + 1))}
+              type="button"
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      </ContentSection>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <ContentSection title={productForm.id ? 'Edit Product' : 'Create Product'}>
+          <form className="space-y-3" onSubmit={handleProductSubmit}>
+            <Input
+              label="Product Name"
+              value={productForm.name}
+              error={productErrors.name}
+              onChange={(event) =>
+                setProductForm((previous) => ({ ...previous, name: event.target.value }))
+              }
+            />
+
+            <label className="block">
+              <span className="text-sm font-medium text-[var(--color-text-primary)]">
+                Description
+              </span>
+              <textarea
+                className="mt-1.5 w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-2 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] transition-all focus:outline-none focus:ring-2 focus:ring-offset-0 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]/30"
+                rows={3}
+                value={productForm.description}
+                onChange={(event) =>
+                  setProductForm((previous) => ({ ...previous, description: event.target.value }))
+                }
+              />
+            </label>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <Input
+                label="Price"
+                type="number"
+                min="0"
+                step="0.01"
+                value={productForm.price}
+                error={productErrors.price}
+                onChange={(event) =>
+                  setProductForm((previous) => ({ ...previous, price: event.target.value }))
+                }
+              />
+
+              <Input
+                label="Stock"
+                type="number"
+                min="0"
+                value={productForm.stock}
+                error={productErrors.stock}
+                onChange={(event) =>
+                  setProductForm((previous) => ({ ...previous, stock: event.target.value }))
+                }
+              />
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <Select
+                label="Status"
+                value={productForm.status}
+                onChange={(event) =>
+                  setProductForm((previous) => ({
+                    ...previous,
+                    status: event.target.value as Product['status'],
+                  }))
+                }
+                options={[
+                  { value: 'draft', label: 'Draft' },
+                  { value: 'active', label: 'Active' },
+                  { value: 'archived', label: 'Archived' },
+                ]}
+              />
+
+              <Select
+                label="Category"
+                value={productForm.categoryId}
+                onChange={(event) =>
+                  setProductForm((previous) => ({
+                    ...previous,
+                    categoryId: event.target.value,
+                  }))
+                }
+                options={[
+                  { value: '', label: 'No category' },
+                  ...categories.map((category) => ({
+                    value: category._id,
+                    label: category.name,
+                  })),
+                ]}
+              />
+            </div>
+
+            <label className="block">
+              <span className="text-sm font-medium text-[var(--color-text-primary)]">Images</span>
+              <input
+                className="mt-1.5 w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-2 text-[var(--color-text-primary)]"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(event) => void handleImageUpload(event.target.files)}
+              />
+              {uploading ? (
+                <small className="text-[var(--color-text-muted)]">Uploading image...</small>
+              ) : null}
+            </label>
+
+            {productForm.images.length > 0 ? (
+              <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
+                {productForm.images.map((url) => (
+                  <div
+                    className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-2"
+                    key={url}
+                  >
+                    <img alt="Product" className="h-24 w-full rounded object-cover" src={url} />
+                    <button
+                      className="mt-2 w-full rounded-lg border border-red-200 py-1 text-sm text-red-700"
+                      onClick={() => removeImage(url)}
+                      type="button"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            <Button type="submit">
+              {productForm.id ? 'Update Product' : 'Create Product'}
+            </Button>
+          </form>
+        </ContentSection>
+
+        <ContentSection title="Category Management">
+          <form className="space-y-3" onSubmit={handleCategorySubmit}>
+            <Input
+              label="Category Name"
+              value={categoryForm.name}
+              onChange={(event) =>
+                setCategoryForm((previous) => ({ ...previous, name: event.target.value }))
+              }
+            />
+
+            <div className="grid gap-3 md:grid-cols-2">
+              <Select
+                label="Status"
+                value={categoryForm.status}
+                onChange={(event) =>
+                  setCategoryForm((previous) => ({
+                    ...previous,
+                    status: event.target.value as Category['status'],
+                  }))
+                }
+                options={[
+                  { value: 'active', label: 'Active' },
+                  { value: 'inactive', label: 'Inactive' },
+                ]}
+              />
+
+              <Input
+                label="Display Order"
+                type="number"
+                min="0"
+                value={categoryForm.order}
+                onChange={(event) =>
+                  setCategoryForm((previous) => ({ ...previous, order: event.target.value }))
+                }
+              />
+            </div>
+
+            <Button type="submit">
+              {categoryForm.id ? 'Update Category' : 'Create Category'}
+            </Button>
+          </form>
+
+          <div className="mt-6">
+            {loadingCategories ? <p>Loading categories...</p> : null}
+            {!loadingCategories && categories.length === 0 ? <p>No categories found.</p> : null}
+
+            {!loadingCategories && categories.length > 0 ? (
+              <div className="space-y-2">
+                {categories.map((category) => (
+                  <div
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2"
+                    key={category._id}
+                  >
+                    <div>
+                      <p className="font-medium">{category.name}</p>
+                      <p className="text-sm text-[var(--color-text-muted)]">{category.status}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        onClick={() =>
+                          setCategoryForm({
+                            id: category._id,
+                            name: category.name,
+                            status: category.status,
+                            order: String(category.order ?? 0),
+                          })
+                        }
+                        type="button"
+                      >
+                        Edit
+                      </Button>
+                      <button
+                        className="rounded-lg border border-red-200 px-3 py-1 text-sm text-red-700"
+                        onClick={() => handleCategoryDelete(category._id)}
+                        type="button"
+                      >
+                        Delete
                       </button>
                     </div>
-                  ))}
-                </div>
-              ) : null}
-
-              <button className="btn-primary" type="submit">
-                {productForm.id ? 'Update Product' : 'Create Product'}
-              </button>
-            </form>
-          </article>
-
-          <article className="card p-6">
-            <h2 className="font-display text-2xl mb-4">Category Management</h2>
-            <form className="space-y-3" onSubmit={handleCategorySubmit}>
-              <label className="block">
-                <span className="text-sm">Category Name</span>
-                <input
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                  value={categoryForm.name}
-                  onChange={(event) =>
-                    setCategoryForm((previous) => ({ ...previous, name: event.target.value }))
-                  }
-                />
-              </label>
-
-              <div className="grid gap-3 md:grid-cols-2">
-                <label className="block">
-                  <span className="text-sm">Status</span>
-                  <select
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                    value={categoryForm.status}
-                    onChange={(event) =>
-                      setCategoryForm((previous) => ({
-                        ...previous,
-                        status: event.target.value as Category['status'],
-                      }))
-                    }
-                  >
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </label>
-
-                <label className="block">
-                  <span className="text-sm">Display Order</span>
-                  <input
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                    type="number"
-                    min="0"
-                    value={categoryForm.order}
-                    onChange={(event) =>
-                      setCategoryForm((previous) => ({ ...previous, order: event.target.value }))
-                    }
-                  />
-                </label>
+                  </div>
+                ))}
               </div>
-
-              <button className="btn-primary" type="submit">
-                {categoryForm.id ? 'Update Category' : 'Create Category'}
-              </button>
-            </form>
-
-            <div className="mt-6">
-              {loadingCategories ? <p>Loading categories...</p> : null}
-              {!loadingCategories && categories.length === 0 ? <p>No categories found.</p> : null}
-
-              {!loadingCategories && categories.length > 0 ? (
-                <div className="space-y-2">
-                  {categories.map((category) => (
-                    <div
-                      className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
-                      key={category._id}
-                    >
-                      <div>
-                        <p className="font-medium">{category.name}</p>
-                        <p className="text-sm text-[var(--muted)]">{category.status}</p>
-                      </div>
-                      <div className="flex gap-2">
-                        <button
-                          className="btn-secondary !px-3 !py-1"
-                          onClick={() =>
-                            setCategoryForm({
-                              id: category._id,
-                              name: category.name,
-                              status: category.status,
-                              order: String(category.order ?? 0),
-                            })
-                          }
-                          type="button"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="rounded-lg border border-red-200 px-3 py-1 text-sm text-red-700"
-                          onClick={() => handleCategoryDelete(category._id)}
-                          type="button"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </article>
-        </section>
-      </div>
-    </main>
+            ) : null}
+          </div>
+        </ContentSection>
+      </section>
+    </div>
   );
 }

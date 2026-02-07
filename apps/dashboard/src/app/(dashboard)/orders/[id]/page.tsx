@@ -3,7 +3,17 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
-import { Tab, Tabs, TabList, TabPanel, TabPanels } from '@baazarify/ui';
+import {
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Breadcrumbs,
+  BreadcrumbItem,
+  Input,
+  Button,
+} from '@baazarify/ui';
 
 import { apiRequest } from '@/lib/api';
 import { OrderActions } from '@/components/orders/order-actions';
@@ -160,21 +170,21 @@ export default function OrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="p-6 lg:p-8">
-        <div className="h-8 w-48 bg-[var(--cream-dark)] rounded-lg animate-pulse" />
-        <div className="h-96 w-full bg-[var(--cream-dark)] rounded-lg animate-pulse mt-6" />
+      <div>
+        <div className="h-8 w-48 bg-[var(--color-surface)] rounded-lg animate-pulse" />
+        <div className="h-96 w-full bg-[var(--color-surface)] rounded-lg animate-pulse mt-6" />
       </div>
     );
   }
 
   if (error || !order) {
     return (
-      <div className="p-6 lg:p-8">
+      <div>
         <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
           <p className="text-red-600">{error || 'Order not found'}</p>
           <Link
             href="/orders"
-            className="mt-4 inline-block px-4 py-2 text-sm font-medium text-[var(--coral)] hover:text-[var(--coral-dark)]"
+            className="mt-4 inline-block px-4 py-2 text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)]"
           >
             Back to Orders
           </Link>
@@ -184,41 +194,35 @@ export default function OrderDetailPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
-      <div className="flex items-center gap-3 mb-6">
-        <Link
-          href="/orders"
-          className="text-sm text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
-        >
-          Orders
-        </Link>
-        <span className="text-[var(--mist)]">/</span>
-        <span className="text-sm font-medium text-[var(--charcoal)]">{order.orderNumber}</span>
-      </div>
+    <div>
+      <Breadcrumbs className="mb-6">
+        <BreadcrumbItem href="/orders">Orders</BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>{order.orderNumber}</BreadcrumbItem>
+      </Breadcrumbs>
 
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-6">
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-[var(--charcoal)]">{order.orderNumber}</h1>
+                <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">{order.orderNumber}</h1>
                 <OrderStatusBadge status={order.status} />
                 <PaymentStatusBadge status={order.paymentStatus} />
               </div>
-              <p className="text-sm text-[var(--slate)] mt-1">
+              <p className="text-sm text-[var(--color-text-secondary)] mt-1">
                 Placed on {formatDate(order.createdAt)} via {order.source}
               </p>
             </div>
             <Link
               href={`/orders/${orderId}/invoice`}
-              className="px-4 py-2 text-sm font-medium text-[var(--charcoal)] bg-[var(--ivory)] border border-[var(--mist)]/30 rounded-lg hover:bg-[var(--cream-dark)] transition-colors"
+              className="px-4 py-2 text-sm font-medium text-[var(--color-text-primary)] bg-[var(--color-background)] border border-[var(--color-border)]/30 rounded-lg hover:bg-[var(--color-surface)] transition-colors"
             >
               View Invoice
             </Link>
           </div>
 
           <Tabs defaultValue="details">
-            <TabList className="border-b border-[var(--mist)]/20 gap-0">
+            <TabList className="border-b border-[var(--color-border)]/20 gap-0">
               <Tab value="details">Details</Tab>
               <Tab value="timeline">Timeline</Tab>
               <Tab value="fulfillment">Fulfillment</Tab>
@@ -227,36 +231,36 @@ export default function OrderDetailPage() {
             <TabPanels className="mt-6">
               <TabPanel value="details">
                 <div className="space-y-6">
-                  <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 overflow-hidden">
-                    <div className="px-4 py-3 border-b border-[var(--mist)]/10">
-                      <h3 className="text-sm font-semibold text-[var(--charcoal)]">
+                  <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 overflow-hidden">
+                    <div className="px-4 py-3 border-b border-[var(--color-border)]/10">
+                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
                         Items ({order.items.length})
                       </h3>
                     </div>
                     <table className="w-full">
                       <thead>
-                        <tr className="border-b border-[var(--mist)]/10">
-                          <th className="text-left px-4 py-2 text-xs font-medium text-[var(--stone)]">
+                        <tr className="border-b border-[var(--color-border)]/10">
+                          <th className="text-left px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
                             Product
                           </th>
-                          <th className="text-center px-4 py-2 text-xs font-medium text-[var(--stone)]">
+                          <th className="text-center px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
                             Qty
                           </th>
-                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--stone)]">
+                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
                             Price
                           </th>
-                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--stone)]">
+                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
                             Total
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         {order.items.map((item, i) => (
-                          <tr key={i} className="border-b border-[var(--mist)]/10 last:border-0">
+                          <tr key={i} className="border-b border-[var(--color-border)]/10 last:border-0">
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-3">
                                 {item.image && (
-                                  <div className="w-10 h-10 rounded-lg bg-[var(--cream-dark)] overflow-hidden flex-shrink-0">
+                                  <div className="w-10 h-10 rounded-lg bg-[var(--color-surface)] overflow-hidden flex-shrink-0">
                                     <img
                                       src={item.image}
                                       alt={item.name}
@@ -265,115 +269,115 @@ export default function OrderDetailPage() {
                                   </div>
                                 )}
                                 <div>
-                                  <p className="text-sm font-medium text-[var(--charcoal)]">
+                                  <p className="text-sm font-medium text-[var(--color-text-primary)]">
                                     {item.name}
                                   </p>
                                   {item.sku && (
-                                    <p className="text-xs text-[var(--stone)]">SKU: {item.sku}</p>
+                                    <p className="text-xs text-[var(--color-text-muted)]">SKU: {item.sku}</p>
                                   )}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-4 py-3 text-center text-sm text-[var(--charcoal)]">
+                            <td className="px-4 py-3 text-center text-sm text-[var(--color-text-primary)]">
                               {item.quantity}
                             </td>
-                            <td className="px-4 py-3 text-right text-sm text-[var(--slate)]">
+                            <td className="px-4 py-3 text-right text-sm text-[var(--color-text-secondary)]">
                               {formatPrice(item.price)}
                             </td>
-                            <td className="px-4 py-3 text-right text-sm font-medium text-[var(--charcoal)]">
+                            <td className="px-4 py-3 text-right text-sm font-medium text-[var(--color-text-primary)]">
                               {formatPrice(item.total)}
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-                    <div className="px-4 py-3 bg-[var(--cream)]/50 space-y-1.5">
+                    <div className="px-4 py-3 bg-[var(--color-surface)]/50 space-y-1.5">
                       <div className="flex justify-between text-sm">
-                        <span className="text-[var(--slate)]">Subtotal</span>
-                        <span className="text-[var(--charcoal)]">
+                        <span className="text-[var(--color-text-secondary)]">Subtotal</span>
+                        <span className="text-[var(--color-text-primary)]">
                           {formatPrice(order.subtotal)}
                         </span>
                       </div>
                       {order.discount > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-[var(--slate)]">Discount</span>
+                          <span className="text-[var(--color-text-secondary)]">Discount</span>
                           <span className="text-green-600">-{formatPrice(order.discount)}</span>
                         </div>
                       )}
                       {order.shippingCost > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-[var(--slate)]">Shipping</span>
-                          <span className="text-[var(--charcoal)]">
+                          <span className="text-[var(--color-text-secondary)]">Shipping</span>
+                          <span className="text-[var(--color-text-primary)]">
                             {formatPrice(order.shippingCost)}
                           </span>
                         </div>
                       )}
                       {order.tax > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-[var(--slate)]">Tax</span>
-                          <span className="text-[var(--charcoal)]">{formatPrice(order.tax)}</span>
+                          <span className="text-[var(--color-text-secondary)]">Tax</span>
+                          <span className="text-[var(--color-text-primary)]">{formatPrice(order.tax)}</span>
                         </div>
                       )}
-                      <div className="flex justify-between text-sm font-semibold pt-1.5 border-t border-[var(--mist)]/20">
-                        <span className="text-[var(--charcoal)]">Total</span>
-                        <span className="text-[var(--charcoal)]">{formatPrice(order.total)}</span>
+                      <div className="flex justify-between text-sm font-semibold pt-1.5 border-t border-[var(--color-border)]/20">
+                        <span className="text-[var(--color-text-primary)]">Total</span>
+                        <span className="text-[var(--color-text-primary)]">{formatPrice(order.total)}</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4">
-                      <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-3">
+                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4">
+                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-3">
                         Shipping Address
                       </h3>
                       <div className="space-y-1 text-sm">
-                        <p className="font-medium text-[var(--charcoal)]">{order.shipping.name}</p>
-                        <p className="text-[var(--slate)]">{order.shipping.address}</p>
-                        <p className="text-[var(--slate)]">
+                        <p className="font-medium text-[var(--color-text-primary)]">{order.shipping.name}</p>
+                        <p className="text-[var(--color-text-secondary)]">{order.shipping.address}</p>
+                        <p className="text-[var(--color-text-secondary)]">
                           {order.shipping.city}
                           {order.shipping.state && `, ${order.shipping.state}`}
                           {order.shipping.postalCode && ` ${order.shipping.postalCode}`}
                         </p>
-                        <p className="text-[var(--slate)]">{order.shipping.country}</p>
-                        <p className="text-[var(--slate)] pt-1">{order.shipping.phone}</p>
+                        <p className="text-[var(--color-text-secondary)]">{order.shipping.country}</p>
+                        <p className="text-[var(--color-text-secondary)] pt-1">{order.shipping.phone}</p>
                         {order.shipping.email && (
-                          <p className="text-[var(--slate)]">{order.shipping.email}</p>
+                          <p className="text-[var(--color-text-secondary)]">{order.shipping.email}</p>
                         )}
                         {order.shipping.notes && (
-                          <p className="text-[var(--stone)] italic pt-1">
+                          <p className="text-[var(--color-text-muted)] italic pt-1">
                             Note: {order.shipping.notes}
                           </p>
                         )}
                       </div>
                     </div>
 
-                    <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4">
-                      <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-3">
+                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4">
+                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-3">
                         Payment Details
                       </h3>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-[var(--slate)]">Method</span>
-                          <span className="text-[var(--charcoal)]">
+                          <span className="text-[var(--color-text-secondary)]">Method</span>
+                          <span className="text-[var(--color-text-primary)]">
                             {formatPaymentMethod(order.paymentMethod)}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[var(--slate)]">Status</span>
+                          <span className="text-[var(--color-text-secondary)]">Status</span>
                           <PaymentStatusBadge status={order.paymentStatus} />
                         </div>
                         {order.paymentDetails?.transactionId && (
                           <div className="flex justify-between">
-                            <span className="text-[var(--slate)]">Transaction ID</span>
-                            <span className="text-[var(--charcoal)] font-mono text-xs">
+                            <span className="text-[var(--color-text-secondary)]">Transaction ID</span>
+                            <span className="text-[var(--color-text-primary)] font-mono text-xs">
                               {order.paymentDetails.transactionId}
                             </span>
                           </div>
                         )}
                         {order.paymentDetails?.paidAt && (
                           <div className="flex justify-between">
-                            <span className="text-[var(--slate)]">Paid At</span>
-                            <span className="text-[var(--charcoal)]">
+                            <span className="text-[var(--color-text-secondary)]">Paid At</span>
+                            <span className="text-[var(--color-text-primary)]">
                               {formatDate(order.paymentDetails.paidAt)}
                             </span>
                           </div>
@@ -383,9 +387,9 @@ export default function OrderDetailPage() {
                   </div>
 
                   {order.notes && (
-                    <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4">
-                      <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-2">Notes</h3>
-                      <p className="text-sm text-[var(--slate)]">{order.notes}</p>
+                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4">
+                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-2">Notes</h3>
+                      <p className="text-sm text-[var(--color-text-secondary)]">{order.notes}</p>
                     </div>
                   )}
 
@@ -401,8 +405,8 @@ export default function OrderDetailPage() {
               </TabPanel>
 
               <TabPanel value="timeline">
-                <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6">
-                  <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-4">
+                <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6">
+                  <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
                     Status History
                   </h3>
                   <OrderTimeline history={order.statusHistory} />
@@ -410,67 +414,51 @@ export default function OrderDetailPage() {
               </TabPanel>
 
               <TabPanel value="fulfillment">
-                <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 max-w-lg">
-                  <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-4">
+                <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6 max-w-lg">
+                  <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
                     Fulfillment Details
                   </h3>
                   <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--charcoal)] mb-1.5">
-                        Shipping Provider
-                      </label>
-                      <input
-                        type="text"
-                        value={fulfillmentForm.provider}
-                        onChange={(e) =>
-                          setFulfillmentForm((f) => ({ ...f, provider: e.target.value }))
-                        }
-                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
-                        placeholder="e.g., Nepal Post, Pathao"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--charcoal)] mb-1.5">
-                        Tracking Number
-                      </label>
-                      <input
-                        type="text"
-                        value={fulfillmentForm.trackingNumber}
-                        onChange={(e) =>
-                          setFulfillmentForm((f) => ({ ...f, trackingNumber: e.target.value }))
-                        }
-                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
-                        placeholder="Tracking number"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--charcoal)] mb-1.5">
-                        Tracking URL
-                      </label>
-                      <input
-                        type="url"
-                        value={fulfillmentForm.trackingUrl}
-                        onChange={(e) =>
-                          setFulfillmentForm((f) => ({ ...f, trackingUrl: e.target.value }))
-                        }
-                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
-                        placeholder="https://tracking.example.com/..."
-                      />
-                    </div>
-                    <button
+                    <Input
+                      label="Shipping Provider"
+                      value={fulfillmentForm.provider}
+                      onChange={(e) =>
+                        setFulfillmentForm((f) => ({ ...f, provider: e.target.value }))
+                      }
+                      placeholder="e.g., Nepal Post, Pathao"
+                    />
+                    <Input
+                      label="Tracking Number"
+                      value={fulfillmentForm.trackingNumber}
+                      onChange={(e) =>
+                        setFulfillmentForm((f) => ({ ...f, trackingNumber: e.target.value }))
+                      }
+                      placeholder="Tracking number"
+                    />
+                    <Input
+                      label="Tracking URL"
+                      type="url"
+                      value={fulfillmentForm.trackingUrl}
+                      onChange={(e) =>
+                        setFulfillmentForm((f) => ({ ...f, trackingUrl: e.target.value }))
+                      }
+                      placeholder="https://tracking.example.com/..."
+                    />
+                    <Button
+                      variant="primary"
                       onClick={handleFulfillmentUpdate}
+                      loading={fulfillmentSaving}
                       disabled={fulfillmentSaving}
-                      className="px-4 py-2 text-sm font-medium text-white bg-[var(--charcoal)] rounded-lg hover:bg-[var(--charcoal-light)] disabled:opacity-50 transition-colors"
                     >
                       {fulfillmentSaving ? 'Saving...' : 'Update Fulfillment'}
-                    </button>
+                    </Button>
                     {order.fulfillment?.shippedAt && (
-                      <p className="text-xs text-[var(--stone)]">
+                      <p className="text-xs text-[var(--color-text-muted)]">
                         Shipped on {formatDate(order.fulfillment.shippedAt)}
                       </p>
                     )}
                     {order.fulfillment?.deliveredAt && (
-                      <p className="text-xs text-[var(--stone)]">
+                      <p className="text-xs text-[var(--color-text-muted)]">
                         Delivered on {formatDate(order.fulfillment.deliveredAt)}
                       </p>
                     )}
@@ -482,8 +470,8 @@ export default function OrderDetailPage() {
         </div>
 
         <div className="lg:w-72 flex-shrink-0">
-          <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4 sticky top-6">
-            <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-4">Actions</h3>
+          <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4 sticky top-6">
+            <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">Actions</h3>
             <OrderActions
               orderId={orderId}
               currentStatus={order.status}
