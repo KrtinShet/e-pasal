@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
 import { Input, Alert, Button } from '@baazarify/ui';
+import { KeyRound, ArrowLeft } from 'lucide-react';
 
 import { forgotPasswordApi } from '@/lib/auth-api';
 
@@ -29,41 +30,60 @@ export default function ForgotPasswordPage() {
 
   if (success) {
     return (
-      <>
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Check your email</h1>
-          <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-            If an account with that email exists, we&apos;ve sent a password reset link.
-          </p>
+      <div className="text-center">
+        <div className="flex justify-center mb-6">
+          <div className="w-24 h-24 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center">
+            <KeyRound className="w-12 h-12 text-[var(--color-primary)]" />
+          </div>
         </div>
 
-        <Link href="/login">
-          <Button variant="outline" fullWidth>
-            Back to login
-          </Button>
+        <h1 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">
+          Request sent successfully!
+        </h1>
+        <p className="text-sm text-[var(--color-text-secondary)] mb-8">
+          We&apos;ve sent a password reset link to your email.
+          <br />
+          Please check your inbox and follow the link to reset your password.
+        </p>
+
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-text-primary)] hover:text-[var(--color-primary)]"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Return to sign in
         </Link>
-      </>
+      </div>
     );
   }
 
   return (
     <>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Forgot password?</h1>
+      <div className="flex justify-center mb-6">
+        <div className="w-24 h-24 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center">
+          <KeyRound className="w-12 h-12 text-[var(--color-primary)]" />
+        </div>
+      </div>
+
+      <div className="mb-10">
+        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
+          Forgot your password?
+        </h1>
         <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-          Enter your email and we&apos;ll send you a reset link.
+          Please enter the email address associated with your account and we&apos;ll email you a
+          link to reset your password.
         </p>
       </div>
 
       {error && (
-        <div className="mb-4">
+        <div className="mb-5">
           <Alert variant="error">{error}</Alert>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <Input
-          label="Email"
+          label="Email address"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -73,15 +93,19 @@ export default function ForgotPasswordPage() {
         />
 
         <Button type="submit" fullWidth loading={loading}>
-          Send reset link
+          Send request
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[var(--color-text-secondary)]">
-        <Link href="/login" className="text-[var(--color-primary)] font-medium hover:underline">
-          Back to login
+      <div className="mt-6 text-center">
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-text-primary)] hover:text-[var(--color-primary)]"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Return to sign in
         </Link>
-      </p>
+      </div>
     </>
   );
 }
