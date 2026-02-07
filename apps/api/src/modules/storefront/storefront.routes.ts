@@ -22,3 +22,9 @@ storefrontRouter.post('/:subdomain/checkout', (req, res, next) =>
 storefrontRouter.get('/:subdomain/orders/:orderNumber', (req, res, next) =>
   storefrontController.trackOrder(req, res, next)
 );
+storefrontRouter.get('/:subdomain/theme', (req, res, next) =>
+  storefrontController.getTheme(req, res, next)
+);
+storefrontRouter.get('/:subdomain/landing-page', (req, res, next) =>
+  storefrontController.getLandingPage(req, res, next)
+);

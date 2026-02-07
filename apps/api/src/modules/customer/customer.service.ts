@@ -1,3 +1,4 @@
+import { Order } from '../order/order.model.js';
 import { NotFoundError, ConflictError } from '../../lib/errors.js';
 
 import { Customer } from './customer.model.js';
@@ -6,6 +7,10 @@ import type { ICustomer } from './customer.model.js';
 interface CustomerQuery {
   storeId: string;
   search?: string;
+  tag?: string;
+  source?: string;
+  sortBy?: 'lastOrderAt' | 'totalSpent' | 'totalOrders' | 'createdAt';
+  sortOrder?: 'asc' | 'desc';
   page?: number;
   limit?: number;
 }
@@ -26,7 +31,16 @@ export class CustomerService {
   }
 
   async list(query: CustomerQuery) {
-    const { storeId, search, page = 1, limit = 20 } = query;
+    const {
+      storeId,
+      search,
+      tag,
+      source,
+      sortBy = 'lastOrderAt',
+      sortOrder = 'desc',
+      page = 1,
+      limit = 20,
+    } = query;
 
     const filter: any = { storeId };
 
@@ -38,9 +52,23 @@ export class CustomerService {
       ];
     }
 
+    if (tag) {
+      filter.tags = tag;
+    }
+
+    if (source) {
+      filter.source = source;
+    }
+
+    const sort: Record<string, 1 | -1> = {};
+    sort[sortBy] = sortOrder === 'asc' ? 1 : -1;
+    if (sortBy !== 'createdAt') {
+      sort.createdAt = -1;
+    }
+
     const [customers, total] = await Promise.all([
       Customer.find(filter)
-        .sort({ lastOrderAt: -1, createdAt: -1 })
+        .sort(sort)
         .skip((page - 1) * limit)
         .limit(limit)
         .lean(),
@@ -84,6 +112,20 @@ export class CustomerService {
     }
 
     return customer;
+  }
+
+  async getCustomerWithOrders(storeId: string, customerId: string) {
+    const customer = await Customer.findOne({ _id: customerId, storeId }).lean();
+    if (!customer) {
+      throw new NotFoundError('Customer');
+    }
+
+    const orders = await Order.find({ storeId, customerId })
+      .sort({ createdAt: -1 })
+      .select('orderNumber status total paymentStatus createdAt items')
+      .lean();
+
+    return { customer, orders };
   }
 
   async update(storeId: string, id: string, data: Partial<ICustomer>) {

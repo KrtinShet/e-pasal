@@ -10,7 +10,10 @@ export interface IUser extends Document {
   storeId?: mongoose.Types.ObjectId;
   status: 'active' | 'inactive' | 'suspended';
   emailVerified: boolean;
+  onboardingCompleted: boolean;
   refreshTokenId?: string;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
   lastLoginAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -57,9 +60,21 @@ const userSchema = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
+    onboardingCompleted: {
+      type: Boolean,
+      default: false,
+    },
     refreshTokenId: {
       type: String,
       default: null,
+    },
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+    passwordResetExpires: {
+      type: Date,
+      select: false,
     },
     lastLoginAt: Date,
   },

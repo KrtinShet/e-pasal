@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import { Order } from '../order/order.model.js';
 import { Product } from '../product/product.model.js';
 import { Customer } from '../customer/customer.model.js';
+import { redis, isRedisReady } from '../../lib/redis.js';
+import { Inventory } from '../inventory/inventory.model.js';
 
 interface DashboardStats {
   totalOrders: number;
@@ -10,6 +12,8 @@ interface DashboardStats {
   totalCustomers: number;
   totalProducts: number;
   recentOrdersCount: number;
+  pendingOrdersCount: number;
+  lowStockCount: number;
 }
 
 interface RevenueByPeriod {
@@ -31,32 +35,81 @@ interface OrdersByStatus {
   count: number;
 }
 
+const CACHE_TTL = 300;
+
 export class AnalyticsService {
+  private async getCached<T>(key: string): Promise<T | null> {
+    if (!isRedisReady()) return null;
+    try {
+      const cached = await redis.get(key);
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private async setCache(key: string, data: unknown): Promise<void> {
+    if (!isRedisReady()) return;
+    try {
+      await redis.set(key, JSON.stringify(data), 'EX', CACHE_TTL);
+    } catch {
+      // Ignore cache write failures
+    }
+  }
+
   async getDashboardStats(storeId: string): Promise<DashboardStats> {
+    const cacheKey = `analytics:dashboard:${storeId}`;
+    const cached = await this.getCached<DashboardStats>(cacheKey);
+    if (cached) return cached;
+
     const storeObjectId = new mongoose.Types.ObjectId(storeId);
 
-    const [totalOrders, revenueResult, totalCustomers, totalProducts, recentOrdersCount] =
-      await Promise.all([
-        Order.countDocuments({ storeId: storeObjectId }),
-        Order.aggregate([
-          { $match: { storeId: storeObjectId, status: { $nin: ['cancelled', 'refunded'] } } },
-          { $group: { _id: null, total: { $sum: '$total' } } },
-        ]),
-        Customer.countDocuments({ storeId: storeObjectId }),
-        Product.countDocuments({ storeId: storeObjectId }),
-        Order.countDocuments({
-          storeId: storeObjectId,
-          createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-        }),
-      ]);
+    const [
+      totalOrders,
+      revenueResult,
+      totalCustomers,
+      totalProducts,
+      recentOrdersCount,
+      pendingOrdersCount,
+      lowStockCount,
+    ] = await Promise.all([
+      Order.countDocuments({ storeId: storeObjectId }),
+      Order.aggregate([
+        { $match: { storeId: storeObjectId, status: { $nin: ['cancelled', 'refunded'] } } },
+        { $group: { _id: null, total: { $sum: '$total' } } },
+      ]),
+      Customer.countDocuments({ storeId: storeObjectId }),
+      Product.countDocuments({ storeId: storeObjectId }),
+      Order.countDocuments({
+        storeId: storeObjectId,
+        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+      }),
+      Order.countDocuments({ storeId: storeObjectId, status: 'pending' }),
+      this.getLowStockCount(storeObjectId),
+    ]);
 
-    return {
+    const stats: DashboardStats = {
       totalOrders,
       totalRevenue: revenueResult[0]?.total || 0,
       totalCustomers,
       totalProducts,
       recentOrdersCount,
+      pendingOrdersCount,
+      lowStockCount,
     };
+
+    await this.setCache(cacheKey, stats);
+    return stats;
+  }
+
+  async getRecentOrders(storeId: string, limit: number = 5) {
+    const storeObjectId = new mongoose.Types.ObjectId(storeId);
+
+    return Order.find({ storeId: storeObjectId })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .select('orderNumber status paymentStatus total shipping.name createdAt')
+      .lean();
   }
 
   async getRevenueByPeriod(
@@ -191,6 +244,14 @@ export class AnalyticsService {
       { $sort: { count: -1 } },
     ]);
 
+    return result;
+  }
+
+  private async getLowStockCount(storeObjectId: mongoose.Types.ObjectId): Promise<number> {
+    const result = await Inventory.countDocuments({
+      storeId: storeObjectId,
+      $expr: { $lte: ['$available', '$lowStockThreshold'] },
+    });
     return result;
   }
 }

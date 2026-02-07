@@ -58,17 +58,50 @@ export interface Product {
   status: 'draft' | 'active' | 'archived';
 }
 
+export interface OrderStatusHistoryEntry {
+  status: string;
+  timestamp: string;
+  note?: string;
+  changedBy?: string;
+}
+
+export interface OrderFulfillment {
+  provider?: string;
+  trackingNumber?: string;
+  trackingUrl?: string;
+  shippedAt?: string;
+  deliveredAt?: string;
+}
+
+export interface OrderPaymentDetails {
+  transactionId?: string;
+  paidAt?: string;
+  refundedAt?: string;
+}
+
 export interface Order {
   id: string;
   storeId: string;
   orderNumber: string;
+  customerId?: string;
   items: OrderItem[];
   subtotal: number;
+  discount: number;
+  shippingCost: number;
+  tax: number;
   total: number;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod;
+  paymentDetails?: OrderPaymentDetails;
   shipping: ShippingAddress;
+  fulfillment?: OrderFulfillment;
+  statusHistory: OrderStatusHistoryEntry[];
+  source: OrderSource;
+  notes?: string;
+  cancelReason?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface OrderItem {
@@ -104,6 +137,8 @@ export type OrderStatus =
 export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
 
 export type PaymentMethod = 'cod' | 'esewa' | 'khalti' | 'fonepay' | 'bank_transfer';
+
+export type OrderSource = 'website' | 'whatsapp' | 'instagram' | 'manual';
 
 export interface Customer {
   id: string;

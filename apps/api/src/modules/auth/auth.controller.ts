@@ -8,12 +8,6 @@ export const registerSchema = z.object({
   password: z.string().min(8),
   name: z.string().min(2),
   phone: z.string().optional(),
-  storeName: z.string().min(2),
-  subdomain: z
-    .string()
-    .min(3)
-    .max(30)
-    .regex(/^[a-z0-9-]+$/),
 });
 
 export const loginSchema = z.object({
@@ -23,6 +17,15 @@ export const loginSchema = z.object({
 
 export const refreshSchema = z.object({
   refreshToken: z.string(),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string(),
+  password: z.string().min(8),
 });
 
 export class AuthController {
@@ -68,11 +71,58 @@ export class AuthController {
     }
   }
 
-  async me(req: Request, res: Response) {
-    res.json({
-      success: true,
-      data: req.user,
-    });
+  async me(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await authService.me(req.user!.id);
+
+      res.json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = forgotPasswordSchema.parse(req.body);
+      await authService.forgotPassword(email);
+
+      res.json({
+        success: true,
+        data: { message: 'If the email exists, a password reset link has been sent.' },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { token, password } = resetPasswordSchema.parse(req.body);
+      const result = await authService.resetPassword(token, password);
+
+      res.json({
+        success: true,
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      await authService.logout(req.user!.id);
+
+      res.json({
+        success: true,
+        data: { message: 'Logged out successfully' },
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 }
 

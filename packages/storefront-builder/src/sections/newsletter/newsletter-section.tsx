@@ -1,0 +1,44 @@
+'use client';
+
+import { cn } from '@baazarify/ui';
+
+import type { BaseSectionProps } from '../types';
+
+export interface NewsletterSectionProps extends BaseSectionProps {
+  title?: string;
+  description?: string;
+  placeholder?: string;
+  buttonText?: string;
+}
+
+export function NewsletterSection({
+  className,
+  title = 'Stay Updated',
+  description,
+  placeholder = 'Enter your email',
+  buttonText = 'Subscribe',
+}: NewsletterSectionProps) {
+  return (
+    <section className={cn('bg-[var(--color-surface)] py-16', className)}>
+      <div className="mx-auto max-w-2xl px-6 text-center">
+        <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
+          {title}
+        </h2>
+        {description && <p className="mt-4 text-[var(--color-text-secondary)]">{description}</p>}
+        <form className="mt-8 flex flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="email"
+            placeholder={placeholder}
+            className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-3 text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-[var(--color-primary)] px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            {buttonText}
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}

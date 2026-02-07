@@ -58,14 +58,15 @@ docker-compose up -d  # Start MongoDB + Redis
 
 With Caddy proxy running (`pnpm dev:all`):
 
-| App | URL |
-|-----|-----|
-| Dashboard | http://dashboard.localhost |
-| Admin | http://admin.localhost |
-| API | http://api.localhost |
+| App        | URL                                |
+| ---------- | ---------------------------------- |
+| Dashboard  | http://dashboard.localhost         |
+| Admin      | http://admin.localhost             |
+| API        | http://api.localhost               |
 | Storefront | http://{store-subdomain}.localhost |
 
 Example storefronts:
+
 - `http://mystore.localhost` → loads "mystore" tenant
 - `http://demo.localhost` → loads "demo" tenant
 

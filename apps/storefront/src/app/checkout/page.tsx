@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useCart } from '@/contexts/cart-context';
+import { useStore } from '@/contexts/store-context';
 import type { CustomerInfo, ShippingAddress } from '@/types/order';
 
 function formatPrice(price: number): string {
@@ -58,6 +59,7 @@ function TruckIcon() {
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const { store } = useStore();
   const { items, summary, clearCart, isHydrated } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -118,30 +120,48 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
 
     try {
-      const orderItems = items.map((item) => ({
-        productId: item.productId,
-        variantId: item.variantId,
-        name: item.name,
-        slug: item.slug,
-        image: item.image,
-        price: item.price,
-        quantity: item.quantity,
-        sku: item.sku,
-        variantName: item.variantName,
-      }));
+      const subdomain = store?.subdomain;
+      if (!subdomain) {
+        setError('Store information is not available. Please refresh the page.');
+        setIsSubmitting(false);
+        return;
+      }
 
-      // TODO: Replace with actual API call when order API is ready
-      // Order data to be sent:
-      // { items: orderItems, customerInfo, shippingAddress, paymentMethod: 'cod', notes }
-      void orderItems; // Will be used in API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000/api/v1';
 
-      // Generate a mock order number
-      const orderNumber = `ORD-${Date.now().toString(36).toUpperCase()}`;
+      const response = await fetch(`${apiBaseUrl}/storefront/${subdomain}/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            productId: item.productId,
+            variantId: item.variantId,
+            quantity: item.quantity,
+          })),
+          customer: {
+            name: customerInfo.name,
+            email: customerInfo.email || undefined,
+            phone: customerInfo.phone,
+          },
+          shipping: {
+            address: shippingAddress.address,
+            city: shippingAddress.city,
+            state: shippingAddress.state || undefined,
+            postalCode: shippingAddress.postalCode || undefined,
+            notes: notes || undefined,
+          },
+          paymentMethod: 'cod',
+        }),
+      });
 
-      // Clear cart and redirect to confirmation
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error?.message || 'Failed to place order');
+      }
+
       clearCart();
-      router.push(`/checkout/confirmation?order=${orderNumber}&total=${summary.subtotal}`);
+      router.push(`/checkout/confirmation?order=${data.data.orderNumber}&total=${data.data.total}`);
     } catch {
       setError('Failed to place order. Please try again.');
     } finally {

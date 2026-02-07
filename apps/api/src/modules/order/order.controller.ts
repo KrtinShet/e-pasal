@@ -33,6 +33,11 @@ const listQuerySchema = z.object({
   status: z.string().optional(),
   paymentStatus: z.string().optional(),
   customerId: z.string().optional(),
+  search: z.string().optional(),
+  dateFrom: z.string().optional(),
+  dateTo: z.string().optional(),
+  paymentMethod: z.string().optional(),
+  source: z.string().optional(),
   page: z.coerce.number().min(1).default(1),
   limit: z.coerce.number().min(1).max(100).default(20),
 });
@@ -48,6 +53,24 @@ const updateStatusSchema = z.object({
     'cancelled',
     'refunded',
   ]),
+  note: z.string().optional(),
+  cancelReason: z.string().optional(),
+});
+
+const updateFulfillmentSchema = z.object({
+  provider: z.string().optional(),
+  trackingNumber: z.string().optional(),
+  trackingUrl: z.string().url().optional(),
+});
+
+const updatePaymentStatusSchema = z.object({
+  paymentStatus: z.enum(['pending', 'paid', 'failed', 'refunded']),
+  transactionId: z.string().optional(),
+  note: z.string().optional(),
+});
+
+const addNoteSchema = z.object({
+  note: z.string().min(1),
 });
 
 export class OrderController {
@@ -98,8 +121,69 @@ export class OrderController {
 
   async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
-      const { status } = updateStatusSchema.parse(req.body);
-      const order = await orderService.updateStatus(req.user!.storeId!, req.params.id, status);
+      const { status, note, cancelReason } = updateStatusSchema.parse(req.body);
+      const order = await orderService.updateStatus(req.user!.storeId!, req.params.id, status, {
+        note,
+        cancelReason,
+        changedBy: req.user!.id,
+      });
+
+      res.json({
+        success: true,
+        data: order,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateFulfillment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = updateFulfillmentSchema.parse(req.body);
+      const order = await orderService.updateFulfillment(
+        req.user!.storeId!,
+        req.params.id,
+        data,
+        req.user!.id
+      );
+
+      res.json({
+        success: true,
+        data: order,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updatePaymentStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { paymentStatus, transactionId, note } = updatePaymentStatusSchema.parse(req.body);
+      const order = await orderService.updatePaymentStatus(
+        req.user!.storeId!,
+        req.params.id,
+        paymentStatus,
+        { transactionId, note, changedBy: req.user!.id }
+      );
+
+      res.json({
+        success: true,
+        data: order,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async addNote(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { note } = addNoteSchema.parse(req.body);
+      const order = await orderService.addNote(
+        req.user!.storeId!,
+        req.params.id,
+        note,
+        req.user!.id
+      );
 
       res.json({
         success: true,

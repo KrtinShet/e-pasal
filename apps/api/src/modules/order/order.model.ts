@@ -12,6 +12,13 @@ export interface IOrderItem {
   image?: string;
 }
 
+export interface IStatusHistoryEntry {
+  status: string;
+  timestamp: Date;
+  note?: string;
+  changedBy?: mongoose.Types.ObjectId;
+}
+
 export interface IOrder extends Document {
   storeId: mongoose.Types.ObjectId;
   orderNumber: string;
@@ -56,6 +63,7 @@ export interface IOrder extends Document {
     shippedAt?: Date;
     deliveredAt?: Date;
   };
+  statusHistory: IStatusHistoryEntry[];
   source: 'website' | 'whatsapp' | 'instagram' | 'manual';
   notes?: string;
   cancelReason?: string;
@@ -73,6 +81,16 @@ const orderItemSchema = new Schema<IOrderItem>(
     quantity: { type: Number, required: true, min: 1 },
     total: { type: Number, required: true, min: 0 },
     image: String,
+  },
+  { _id: false }
+);
+
+const statusHistorySchema = new Schema<IStatusHistoryEntry>(
+  {
+    status: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now },
+    note: String,
+    changedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   { _id: false }
 );
@@ -146,6 +164,7 @@ const orderSchema = new Schema<IOrder>(
       shippedAt: Date,
       deliveredAt: Date,
     },
+    statusHistory: [statusHistorySchema],
     source: {
       type: String,
       enum: ['website', 'whatsapp', 'instagram', 'manual'],
@@ -163,5 +182,7 @@ orderSchema.index({ storeId: 1, orderNumber: 1 }, { unique: true });
 orderSchema.index({ storeId: 1, status: 1 });
 orderSchema.index({ storeId: 1, customerId: 1 });
 orderSchema.index({ storeId: 1, createdAt: -1 });
+orderSchema.index({ storeId: 1, paymentMethod: 1 });
+orderSchema.index({ storeId: 1, source: 1 });
 
 export const Order = mongoose.model<IOrder>('Order', orderSchema);

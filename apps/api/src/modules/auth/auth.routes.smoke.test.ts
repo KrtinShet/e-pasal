@@ -6,14 +6,19 @@ vi.mock('./auth.controller.js', () => ({
     login: vi.fn(),
     refresh: vi.fn(),
     me: vi.fn(),
+    forgotPassword: vi.fn(),
+    resetPassword: vi.fn(),
+    logout: vi.fn(),
   },
   registerSchema: { parse: (v: unknown) => v },
   loginSchema: { parse: (v: unknown) => v },
   refreshSchema: { parse: (v: unknown) => v },
+  forgotPasswordSchema: { parse: (v: unknown) => v },
+  resetPasswordSchema: { parse: (v: unknown) => v },
 }));
 
 vi.mock('../../middleware/auth.js', () => ({
-  authenticate: vi.fn((_req, _res, next) => next()),
+  authenticate: vi.fn((_req: unknown, _res: unknown, next: () => void) => next()),
 }));
 
 import { authRouter } from './auth.routes.js';
@@ -32,7 +37,10 @@ describe('auth routes smoke', () => {
         { path: '/register', methods: ['post'] },
         { path: '/login', methods: ['post'] },
         { path: '/refresh', methods: ['post'] },
+        { path: '/forgot-password', methods: ['post'] },
+        { path: '/reset-password', methods: ['post'] },
         { path: '/me', methods: ['get'] },
+        { path: '/logout', methods: ['post'] },
       ])
     );
   });

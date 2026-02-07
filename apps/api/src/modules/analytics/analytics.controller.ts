@@ -70,6 +70,19 @@ export class AnalyticsController {
       next(error);
     }
   }
+
+  async recentOrders(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await analyticsService.getRecentOrders(req.user!.storeId!);
+
+      res.json({
+        success: true,
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const analyticsController = new AnalyticsController();

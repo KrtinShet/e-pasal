@@ -9,6 +9,7 @@ import { categoryRouter } from '../modules/category/category.routes.js';
 import { customerRouter } from '../modules/customer/customer.routes.js';
 import { inventoryRouter } from '../modules/inventory/inventory.routes.js';
 import { analyticsRouter } from '../modules/analytics/analytics.routes.js';
+import { onboardingRouter } from '../modules/onboarding/onboarding.routes.js';
 import { storefrontRouter } from '../modules/storefront/storefront.routes.js';
 import { notificationRouter } from '../modules/notification/notification.routes.js';
 
@@ -25,3 +26,4 @@ router.use('/storefront', storefrontRouter);
 router.use('/notifications', notificationRouter);
 router.use('/analytics', analyticsRouter);
 router.use('/upload', uploadRouter);
+router.use('/onboarding', onboardingRouter);

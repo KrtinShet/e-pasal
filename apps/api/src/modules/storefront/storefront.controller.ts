@@ -6,6 +6,7 @@ import { NotFoundError } from '../../lib/errors.js';
 import { Product } from '../product/product.model.js';
 import { Category } from '../category/category.model.js';
 import { orderService } from '../order/order.service.js';
+import { storeService } from '../store/store.service.js';
 import { customerService } from '../customer/customer.service.js';
 
 const listProductsQuerySchema = z.object({
@@ -249,6 +250,25 @@ export class StorefrontController {
           createdAt: order.createdAt,
         },
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getTheme(req: Request, res: Response, next: NextFunction) {
+    try {
+      const subdomain = req.params.subdomain as string;
+      const theme = await storeService.getPublicTheme(subdomain);
+      res.json({ success: true, data: theme });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getLandingPage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const subdomain = req.params.subdomain as string;
+      const config = await storeService.getPublicLandingPage(subdomain);
+      res.json({ success: true, data: config });
     } catch (error) {
       next(error);
     }

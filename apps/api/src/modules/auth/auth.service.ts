@@ -1,11 +1,10 @@
-import { randomUUID } from 'node:crypto';
+import crypto, { randomUUID } from 'node:crypto';
 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import { env } from '../../config/env.js';
-import { Store } from '../store/store.model.js';
-import { AppError, ConflictError, UnauthorizedError } from '../../lib/errors.js';
+import { AppError, ConflictError, NotFoundError, UnauthorizedError } from '../../lib/errors.js';
 
 import { User } from './user.model.js';
 
@@ -14,8 +13,6 @@ interface RegisterInput {
   password: string;
   name: string;
   phone?: string;
-  storeName: string;
-  subdomain: string;
 }
 
 interface LoginInput {
@@ -30,19 +27,7 @@ export class AuthService {
       throw new ConflictError('Email already registered');
     }
 
-    const existingSubdomain = await Store.findOne({ subdomain: input.subdomain });
-    if (existingSubdomain) {
-      throw new ConflictError('Subdomain already taken');
-    }
-
     const hashedPassword = await bcrypt.hash(input.password, 12);
-
-    const store = await Store.create({
-      name: input.storeName,
-      subdomain: input.subdomain,
-      status: 'active',
-      plan: 'free',
-    });
 
     const user = await User.create({
       email: input.email,
@@ -50,7 +35,6 @@ export class AuthService {
       name: input.name,
       phone: input.phone,
       role: 'merchant',
-      storeId: store._id,
       status: 'active',
       refreshTokenId: randomUUID(),
     });
@@ -63,11 +47,8 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role,
-      },
-      store: {
-        id: store._id,
-        name: store.name,
-        subdomain: store.subdomain,
+        hasStore: false,
+        onboardingCompleted: false,
       },
       tokens,
     };
@@ -90,8 +71,6 @@ export class AuthService {
     }
 
     user.lastLoginAt = new Date();
-    await user.save();
-
     user.refreshTokenId = randomUUID();
     await user.save();
 
@@ -104,6 +83,8 @@ export class AuthService {
         name: user.name,
         role: user.role,
         storeId: user.storeId,
+        hasStore: !!user.storeId,
+        onboardingCompleted: user.onboardingCompleted,
       },
       tokens,
     };
@@ -139,7 +120,86 @@ export class AuthService {
     }
   }
 
-  private generateTokens(user: any) {
+  async me(userId: string) {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError('User');
+    }
+
+    return {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      phone: user.phone,
+      role: user.role,
+      storeId: user.storeId,
+      hasStore: !!user.storeId,
+      onboardingCompleted: user.onboardingCompleted,
+      emailVerified: user.emailVerified,
+      lastLoginAt: user.lastLoginAt,
+      createdAt: user.createdAt,
+    };
+  }
+
+  async forgotPassword(email: string) {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return;
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    await User.findByIdAndUpdate(user._id, {
+      passwordResetToken: hashedToken,
+      passwordResetExpires: new Date(Date.now() + 60 * 60 * 1000),
+    });
+
+    const resetUrl = `${env.DASHBOARD_URL}/reset-password/${resetToken}`;
+
+    if (env.NODE_ENV === 'development') {
+      console.log(`[DEV] Password reset URL for ${email}: ${resetUrl}`);
+    }
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: new Date() },
+    }).select('+passwordResetToken +passwordResetExpires');
+
+    if (!user) {
+      throw new AppError('Invalid or expired reset token', 400, 'INVALID_RESET_TOKEN');
+    }
+
+    user.password = await bcrypt.hash(newPassword, 12);
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    user.refreshTokenId = randomUUID();
+    await user.save();
+
+    const tokens = this.generateTokens(user);
+
+    return {
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        hasStore: !!user.storeId,
+        onboardingCompleted: user.onboardingCompleted,
+      },
+      tokens,
+    };
+  }
+
+  async logout(userId: string) {
+    await User.findByIdAndUpdate(userId, { refreshTokenId: null });
+  }
+
+  generateTokens(user: any) {
     const accessToken = jwt.sign(
       {
         sub: user._id,
@@ -148,13 +208,13 @@ export class AuthService {
         storeId: user.storeId,
       },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_ACCESS_EXPIRES_IN }
+      { expiresIn: env.JWT_ACCESS_EXPIRES_IN as jwt.SignOptions['expiresIn'] }
     );
 
     const refreshToken = jwt.sign(
       { sub: user._id, type: 'refresh', tokenId: user.refreshTokenId },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_REFRESH_EXPIRES_IN }
+      { expiresIn: env.JWT_REFRESH_EXPIRES_IN as jwt.SignOptions['expiresIn'] }
     );
 
     return { accessToken, refreshToken };

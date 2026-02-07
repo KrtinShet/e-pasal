@@ -18,7 +18,18 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: [env.STOREFRONT_URL, env.DASHBOARD_URL, env.ADMIN_URL],
+    origin: (origin, callback) => {
+      const allowed = [env.STOREFRONT_URL, env.DASHBOARD_URL, env.ADMIN_URL];
+      if (
+        !origin ||
+        allowed.includes(origin) ||
+        /^https?:\/\/[\w-]+\.localhost(:\d+)?$/.test(origin)
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );

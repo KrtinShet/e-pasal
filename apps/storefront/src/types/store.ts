@@ -26,6 +26,11 @@ export interface StoreSocial {
   tiktok?: string;
 }
 
+export interface StoreLandingPage {
+  config?: Record<string, unknown>;
+  draftConfig?: Record<string, unknown>;
+}
+
 export interface StoreData {
   _id: string;
   name: string;
@@ -39,6 +44,7 @@ export interface StoreData {
   settings: StoreSettings;
   contact: StoreContact;
   social: StoreSocial;
+  landingPage?: StoreLandingPage;
   createdAt: string;
   updatedAt: string;
 }

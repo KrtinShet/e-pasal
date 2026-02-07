@@ -18,3 +18,6 @@ analyticsRouter.get('/top-products', (req, res, next) =>
 analyticsRouter.get('/orders-by-status', (req, res, next) =>
   analyticsController.ordersByStatus(req, res, next)
 );
+analyticsRouter.get('/recent-orders', (req, res, next) =>
+  analyticsController.recentOrders(req, res, next)
+);

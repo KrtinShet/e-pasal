@@ -21,6 +21,9 @@ const envSchema = z.object({
   STOREFRONT_URL: z.string().url().default('http://localhost:3000'),
   DASHBOARD_URL: z.string().url().default('http://localhost:5173'),
   ADMIN_URL: z.string().url().default('http://localhost:5174'),
+
+  AI_PROVIDER: z.enum(['anthropic', 'none']).default('none'),
+  ANTHROPIC_API_KEY: z.string().optional(),
 });
 
 export const env = envSchema.parse(process.env);

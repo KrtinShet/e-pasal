@@ -29,6 +29,10 @@ const updateCustomerSchema = createCustomerSchema.partial();
 
 const listQuerySchema = z.object({
   search: z.string().optional(),
+  tag: z.string().optional(),
+  source: z.enum(['website', 'whatsapp', 'instagram', 'manual']).optional(),
+  sortBy: z.enum(['lastOrderAt', 'totalSpent', 'totalOrders', 'createdAt']).optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
   page: z.coerce.number().min(1).default(1),
   limit: z.coerce.number().min(1).max(100).default(20),
 });
@@ -73,6 +77,19 @@ export class CustomerController {
       res.json({
         success: true,
         data: customer,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getWithOrders(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await customerService.getCustomerWithOrders(req.user!.storeId!, req.params.id);
+
+      res.json({
+        success: true,
+        data: result,
       });
     } catch (error) {
       next(error);

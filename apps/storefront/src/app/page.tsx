@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { PageRenderer, type PageConfig } from '@baazarify/storefront-builder';
 
 import { useStore } from '@/contexts/store-context';
 
@@ -169,6 +170,10 @@ export default function HomePage() {
 
   if (!store) {
     return <WelcomeContent />;
+  }
+
+  if (store.landingPage?.config) {
+    return <PageRenderer config={store.landingPage.config as unknown as PageConfig} />;
   }
 
   return <StoreContent storeName={store.name} storeDescription={store.description} />;

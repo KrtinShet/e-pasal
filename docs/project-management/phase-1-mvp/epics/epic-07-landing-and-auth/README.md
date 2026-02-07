@@ -8,11 +8,11 @@ Build the main landing page for the platform, merchant authentication flows, and
 
 ## Stories
 
-| Story ID | Story                                                                           | Sprint   | Planned Window  | Status  |
-| -------- | ------------------------------------------------------------------------------- | -------- | --------------- | ------- |
-| E07-S01  | [Platform Landing Page](./stories/story-e07-s01-landing-page/README.md)         | Sprint 3 | Week 5 Day 1    | Pending |
-| E07-S02  | [Merchant Auth Pages](./stories/story-e07-s02-auth-pages/README.md)             | Sprint 3 | Week 5 Day 1-2  | Pending |
-| E07-S03  | [Merchant Onboarding Flow](./stories/story-e07-s03-onboarding/README.md)        | Sprint 3 | Week 5 Day 2-3  | Pending |
+| Story ID | Story                                                                    | Sprint   | Planned Window | Status  |
+| -------- | ------------------------------------------------------------------------ | -------- | -------------- | ------- |
+| E07-S01  | [Platform Landing Page](./stories/story-e07-s01-landing-page/README.md)  | Sprint 3 | Week 5 Day 1   | Pending |
+| E07-S02  | [Merchant Auth Pages](./stories/story-e07-s02-auth-pages/README.md)      | Sprint 3 | Week 5 Day 1-2 | Pending |
+| E07-S03  | [Merchant Onboarding Flow](./stories/story-e07-s03-onboarding/README.md) | Sprint 3 | Week 5 Day 2-3 | Pending |
 
 ## User Journey
 

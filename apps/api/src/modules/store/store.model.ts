@@ -17,6 +17,8 @@ export interface IStore extends Document {
     theme: {
       primaryColor: string;
       accentColor: string;
+      preset?: string;
+      tokens?: Record<string, unknown>;
     };
   };
   contact: {
@@ -33,6 +35,10 @@ export interface IStore extends Document {
     payments: string[];
     logistics: string[];
     messaging: string[];
+  };
+  landingPage: {
+    config?: Record<string, unknown>;
+    draftConfig?: Record<string, unknown>;
   };
   createdAt: Date;
   updatedAt: Date;
@@ -77,7 +83,13 @@ const storeSchema = new Schema<IStore>(
       theme: {
         primaryColor: { type: String, default: '#2563eb' },
         accentColor: { type: String, default: '#f59e0b' },
+        preset: { type: String },
+        tokens: { type: Schema.Types.Mixed },
       },
+    },
+    landingPage: {
+      config: { type: Schema.Types.Mixed },
+      draftConfig: { type: Schema.Types.Mixed },
     },
     contact: {
       email: String,

@@ -15,6 +15,7 @@ interface CreateOrderInput {
   paymentMethod: IOrder['paymentMethod'];
   source?: IOrder['source'];
   notes?: string;
+  customerId?: string;
 }
 
 interface OrderQuery {
@@ -22,8 +23,19 @@ interface OrderQuery {
   status?: string;
   paymentStatus?: string;
   customerId?: string;
+  search?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  paymentMethod?: string;
+  source?: string;
   page?: number;
   limit?: number;
+}
+
+interface UpdateFulfillmentInput {
+  provider?: string;
+  trackingNumber?: string;
+  trackingUrl?: string;
 }
 
 const STATUS_TRANSITIONS: Record<string, string[]> = {
@@ -52,32 +64,80 @@ export class OrderService {
       }))
     );
 
-    const order = await Order.create({
-      storeId,
-      orderNumber,
-      items,
-      subtotal,
-      discount: 0,
-      shippingCost: 0,
-      tax: 0,
-      total: subtotal,
-      shipping: input.shipping,
-      paymentMethod: input.paymentMethod,
-      source: input.source || 'website',
-      notes: input.notes,
-    });
+    try {
+      const order = await Order.create({
+        storeId,
+        orderNumber,
+        customerId: input.customerId,
+        items,
+        subtotal,
+        discount: 0,
+        shippingCost: 0,
+        tax: 0,
+        total: subtotal,
+        shipping: input.shipping,
+        paymentMethod: input.paymentMethod,
+        source: input.source || 'website',
+        notes: input.notes,
+        statusHistory: [
+          {
+            status: 'pending',
+            timestamp: new Date(),
+            note: 'Order placed',
+          },
+        ],
+      });
 
-    return order;
+      return order;
+    } catch (error) {
+      await inventoryService.releaseStock(
+        storeId,
+        items.map((item) => ({
+          productId: item.productId.toString(),
+          quantity: item.quantity,
+        }))
+      );
+      throw error;
+    }
   }
 
   async list(query: OrderQuery) {
-    const { storeId, status, paymentStatus, customerId, page = 1, limit = 20 } = query;
+    const {
+      storeId,
+      status,
+      paymentStatus,
+      customerId,
+      search,
+      dateFrom,
+      dateTo,
+      paymentMethod,
+      source,
+      page = 1,
+      limit = 20,
+    } = query;
 
     const filter: any = { storeId };
 
     if (status) filter.status = status;
     if (paymentStatus) filter.paymentStatus = paymentStatus;
     if (customerId) filter.customerId = customerId;
+    if (paymentMethod) filter.paymentMethod = paymentMethod;
+    if (source) filter.source = source;
+
+    if (search) {
+      filter.$or = [
+        { orderNumber: { $regex: search, $options: 'i' } },
+        { 'shipping.name': { $regex: search, $options: 'i' } },
+        { 'shipping.phone': { $regex: search, $options: 'i' } },
+        { 'shipping.email': { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    if (dateFrom || dateTo) {
+      filter.createdAt = {};
+      if (dateFrom) filter.createdAt.$gte = new Date(dateFrom);
+      if (dateTo) filter.createdAt.$lte = new Date(dateTo);
+    }
 
     const [orders, total] = await Promise.all([
       Order.find(filter)
@@ -115,7 +175,12 @@ export class OrderService {
     return order;
   }
 
-  async updateStatus(storeId: string, id: string, status: string) {
+  async updateStatus(
+    storeId: string,
+    id: string,
+    status: string,
+    options?: { note?: string; cancelReason?: string; changedBy?: string }
+  ) {
     const order = await this.getById(storeId, id);
 
     const allowedTransitions = STATUS_TRANSITIONS[order.status];
@@ -149,6 +214,10 @@ export class OrderService {
 
     order.status = status as IOrder['status'];
 
+    if (status === 'cancelled' && options?.cancelReason) {
+      order.cancelReason = options.cancelReason;
+    }
+
     if (status === 'shipped') {
       order.fulfillment = {
         ...order.fulfillment,
@@ -163,6 +232,15 @@ export class OrderService {
       };
     }
 
+    order.statusHistory.push({
+      status,
+      timestamp: new Date(),
+      note: options?.note || `Status changed to ${status}`,
+      changedBy: options?.changedBy
+        ? new (require('mongoose').Types.ObjectId)(options.changedBy)
+        : undefined,
+    });
+
     await order.save();
 
     return order;
@@ -172,7 +250,7 @@ export class OrderService {
     storeId: string,
     id: string,
     paymentStatus: string,
-    transactionId?: string
+    options?: { transactionId?: string; note?: string; changedBy?: string }
   ) {
     const order = await this.getById(storeId, id);
 
@@ -181,10 +259,68 @@ export class OrderService {
     if (paymentStatus === 'paid') {
       order.paymentDetails = {
         ...order.paymentDetails,
-        transactionId,
+        transactionId: options?.transactionId,
         paidAt: new Date(),
       };
     }
+
+    if (paymentStatus === 'refunded') {
+      order.paymentDetails = {
+        ...order.paymentDetails,
+        refundedAt: new Date(),
+      };
+    }
+
+    order.statusHistory.push({
+      status: `payment_${paymentStatus}`,
+      timestamp: new Date(),
+      note: options?.note || `Payment status changed to ${paymentStatus}`,
+      changedBy: options?.changedBy
+        ? new (require('mongoose').Types.ObjectId)(options.changedBy)
+        : undefined,
+    });
+
+    await order.save();
+
+    return order;
+  }
+
+  async updateFulfillment(
+    storeId: string,
+    id: string,
+    input: UpdateFulfillmentInput,
+    changedBy?: string
+  ) {
+    const order = await this.getById(storeId, id);
+
+    order.fulfillment = {
+      ...order.fulfillment,
+      ...input,
+    };
+
+    order.statusHistory.push({
+      status: 'fulfillment_updated',
+      timestamp: new Date(),
+      note: input.trackingNumber
+        ? `Tracking number updated: ${input.trackingNumber}`
+        : 'Fulfillment details updated',
+      changedBy: changedBy ? new (require('mongoose').Types.ObjectId)(changedBy) : undefined,
+    });
+
+    await order.save();
+
+    return order;
+  }
+
+  async addNote(storeId: string, id: string, note: string, changedBy?: string) {
+    const order = await this.getById(storeId, id);
+
+    order.statusHistory.push({
+      status: 'note',
+      timestamp: new Date(),
+      note,
+      changedBy: changedBy ? new (require('mongoose').Types.ObjectId)(changedBy) : undefined,
+    });
 
     await order.save();
 
@@ -222,10 +358,9 @@ export class OrderService {
   }
 
   private async generateOrderNumber(storeId: string): Promise<string> {
-    const count = await Order.countDocuments({ storeId });
-    const prefix = 'ORD';
-    const number = (count + 1).toString().padStart(6, '0');
-    return `${prefix}-${number}`;
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `ORD-${timestamp}-${random}`;
   }
 }
 
