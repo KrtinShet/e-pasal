@@ -27,12 +27,12 @@ export function SectionList({
           className={`flex items-center gap-2 rounded-md border px-3 py-2 ${
             selectedId === section.id
               ? 'border-blue-500 bg-blue-50'
-              : 'border-gray-200 bg-white hover:bg-gray-50'
+              : 'border-[var(--color-border)] bg-[var(--ivory)] hover:bg-[var(--cream-dark)]'
           } ${!section.visible ? 'opacity-50' : ''}`}
         >
           <button
             type="button"
-            className="flex-1 text-left text-sm font-medium text-gray-700"
+            className="flex-1 text-left text-sm font-medium text-[var(--charcoal)]"
             onClick={() => onSelect(section.id)}
           >
             {section.type}
@@ -43,7 +43,7 @@ export function SectionList({
               type="button"
               onClick={() => onMove(section.id, 'up')}
               disabled={index === 0}
-              className="rounded p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30"
+              className="rounded p-1 text-[var(--stone)] hover:text-[var(--slate)] disabled:opacity-30"
               title="Move up"
             >
               <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,7 +59,7 @@ export function SectionList({
               type="button"
               onClick={() => onMove(section.id, 'down')}
               disabled={index === sections.length - 1}
-              className="rounded p-1 text-gray-400 hover:text-gray-600 disabled:opacity-30"
+              className="rounded p-1 text-[var(--stone)] hover:text-[var(--slate)] disabled:opacity-30"
               title="Move down"
             >
               <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +74,7 @@ export function SectionList({
             <button
               type="button"
               onClick={() => onToggleVisibility(section.id)}
-              className="rounded p-1 text-gray-400 hover:text-gray-600"
+              className="rounded p-1 text-[var(--stone)] hover:text-[var(--slate)]"
               title={section.visible ? 'Hide' : 'Show'}
             >
               {section.visible ? (
@@ -106,7 +106,7 @@ export function SectionList({
             <button
               type="button"
               onClick={() => onDelete(section.id)}
-              className="rounded p-1 text-gray-400 hover:text-red-600"
+              className="rounded p-1 text-[var(--stone)] hover:text-red-600"
               title="Delete"
             >
               <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

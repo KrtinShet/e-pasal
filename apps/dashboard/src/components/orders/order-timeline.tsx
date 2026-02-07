@@ -38,7 +38,7 @@ export function OrderTimeline({ history }: { history: StatusHistoryEntry[] }) {
               className={`w-3 h-3 rounded-full border-2 ${
                 index === 0
                   ? 'bg-[var(--coral)] border-[var(--coral)]'
-                  : 'bg-white border-[var(--mist)]'
+                  : 'bg-[var(--ivory)] border-[var(--mist)]'
               }`}
             />
             {index < sorted.length - 1 && <div className="w-px flex-1 bg-[var(--mist)]/30 mt-1" />}

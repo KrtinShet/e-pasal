@@ -146,9 +146,9 @@ export function PageEditor({ initialConfig }: PageEditorProps) {
   return (
     <div className="flex h-[calc(100vh-120px)] gap-4">
       {/* Left sidebar: Section list */}
-      <div className="flex w-64 flex-shrink-0 flex-col rounded-lg border border-gray-200 bg-white">
-        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-          <h3 className="text-sm font-semibold text-gray-900">Sections</h3>
+      <div className="flex w-64 flex-shrink-0 flex-col rounded-lg border border-[var(--color-border)] bg-[var(--ivory)]">
+        <div className="flex items-center justify-between border-b border-[var(--color-border)] px-4 py-3">
+          <h3 className="text-sm font-semibold text-[var(--charcoal)]">Sections</h3>
           <button
             type="button"
             onClick={() => setShowAddModal(true)}
@@ -167,7 +167,7 @@ export function PageEditor({ initialConfig }: PageEditorProps) {
             onDelete={handleDeleteSection}
           />
           {config.sections.length === 0 && (
-            <p className="py-8 text-center text-sm text-gray-400">
+            <p className="py-8 text-center text-sm text-[var(--stone)]">
               No sections yet. Click + Add to get started.
             </p>
           )}
@@ -175,10 +175,10 @@ export function PageEditor({ initialConfig }: PageEditorProps) {
       </div>
 
       {/* Center: Preview */}
-      <div className="flex-1 overflow-y-auto rounded-lg border border-gray-200 bg-white">
-        <div className="border-b border-gray-200 px-4 py-3">
+      <div className="flex-1 overflow-y-auto rounded-lg border border-[var(--color-border)] bg-[var(--ivory)]">
+        <div className="border-b border-[var(--color-border)] px-4 py-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-gray-900">Preview</h3>
+            <h3 className="text-sm font-semibold text-[var(--charcoal)]">Preview</h3>
             <div className="flex items-center gap-2">
               {message && (
                 <span
@@ -198,7 +198,7 @@ export function PageEditor({ initialConfig }: PageEditorProps) {
                 type="button"
                 onClick={handleSaveDraft}
                 disabled={saving}
-                className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-xs font-medium text-[var(--charcoal)] hover:bg-[var(--cream-dark)] disabled:opacity-50"
               >
                 {saving ? 'Saving...' : 'Save Draft'}
               </button>
@@ -223,7 +223,7 @@ export function PageEditor({ initialConfig }: PageEditorProps) {
               onSectionDelete={handleDeleteSection}
             />
           ) : (
-            <div className="flex h-96 items-center justify-center text-gray-400">
+            <div className="flex h-96 items-center justify-center text-[var(--stone)]">
               <div className="text-center">
                 <p className="text-lg">Your landing page is empty</p>
                 <p className="mt-1 text-sm">Add sections to build your page</p>
@@ -235,7 +235,7 @@ export function PageEditor({ initialConfig }: PageEditorProps) {
 
       {/* Right sidebar: Section settings */}
       {selectedSection && (
-        <div className="w-72 flex-shrink-0 overflow-y-auto rounded-lg border border-gray-200 bg-white p-4">
+        <div className="w-72 flex-shrink-0 overflow-y-auto rounded-lg border border-[var(--color-border)] bg-[var(--ivory)] p-4">
           <SectionSettings section={selectedSection} onChange={handleUpdateProps} />
         </div>
       )}

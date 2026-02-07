@@ -83,7 +83,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
         <div>
           <h3 className="text-base font-semibold text-[var(--charcoal)]">Contact Information</h3>
           <p className="text-sm text-[var(--slate)] mt-0.5">How customers can reach you</p>
@@ -102,7 +102,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="store@example.com"
             />
           </div>
@@ -119,7 +119,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="+977-9800000000"
             />
           </div>
@@ -136,14 +136,14 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               rows={2}
-              className="w-full rounded-lg border border-[var(--mist)]/30 bg-white px-3 py-2 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all resize-none"
+              className="w-full rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 py-2 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all resize-none"
               placeholder="Kathmandu, Nepal"
             />
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
         <div>
           <h3 className="text-base font-semibold text-[var(--charcoal)]">Social Media</h3>
           <p className="text-sm text-[var(--slate)] mt-0.5">Connect your social media accounts</p>
@@ -162,7 +162,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="url"
               value={facebook}
               onChange={(e) => setFacebook(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="https://facebook.com/yourstore"
             />
           </div>
@@ -179,7 +179,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="url"
               value={instagram}
               onChange={(e) => setInstagram(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="https://instagram.com/yourstore"
             />
           </div>
@@ -196,7 +196,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="url"
               value={tiktok}
               onChange={(e) => setTiktok(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="https://tiktok.com/@yourstore"
             />
           </div>

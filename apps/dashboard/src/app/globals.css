@@ -1,50 +1,33 @@
 @import 'tailwindcss';
+@import '@baazarify/ui/styles';
 
 :root {
-  --cream: #fdfbf7;
-  --cream-dark: #f7f4ed;
+  /* ── Dashboard-specific colors (not in global tokens) ── */
   --ivory: #faf8f3;
-  --charcoal: #1a1a1a;
-  --charcoal-light: #2d2d2d;
   --graphite: #4a4a4a;
   --slate: #6b6b6b;
   --stone: #8f8f8f;
   --mist: #b8b8b8;
-
-  --coral: #e8654a;
-  --coral-light: #f08872;
-  --coral-dark: #c94e36;
   --peach: #ffe4d6;
   --peach-light: #fff2ec;
-  --amber: #f5a623;
-  --sage: #7fb069;
-  --sky: #5ba4e5;
-
-  --background: var(--cream);
-  --foreground: var(--charcoal);
   --muted: var(--slate);
-  --accent: var(--coral);
-  --accent-hover: var(--coral-dark);
 
+  /* ── Layout ── */
   --section-gap: 160px;
   --container-max: 1280px;
   --container-padding: 24px;
 
-  --shadow-sm: 0 2px 8px rgba(26, 26, 26, 0.04);
-  --shadow-md: 0 8px 32px rgba(26, 26, 26, 0.06);
-  --shadow-lg: 0 24px 64px rgba(26, 26, 26, 0.08);
-  --shadow-xl: 0 32px 80px rgba(26, 26, 26, 0.12);
-
+  /* ── Easings ── */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
-  --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
+  --color-background: var(--grey-50);
+  --color-foreground: var(--grey-900);
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 * {

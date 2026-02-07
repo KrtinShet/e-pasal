@@ -163,7 +163,7 @@ export default function InvoicePage() {
 
       <div
         id="invoice-content"
-        className="bg-white rounded-xl border border-[var(--mist)]/20 p-8 max-w-3xl mx-auto"
+        className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-8 max-w-3xl mx-auto"
       >
         <div className="flex justify-between items-start mb-8">
           <div>

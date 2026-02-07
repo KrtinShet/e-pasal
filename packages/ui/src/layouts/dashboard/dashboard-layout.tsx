@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import { cn } from '../../utils';
+import { MAIN } from '../../styles/config-layout';
 
 import { DashboardHeader } from './header';
 import { Sidebar, useSidebar, MobileSidebar, SidebarToggle, SidebarProvider } from './sidebar';
@@ -47,10 +48,16 @@ function DashboardLayoutInner({
   return (
     <div
       ref={innerRef}
-      className={cn('flex h-screen bg-[var(--color-surface)]', className)}
+      style={{
+        display: 'flex',
+        width: '100%',
+        height: '100vh',
+        background: 'var(--color-surface)',
+      }}
+      className={cn(className)}
       {...props}
     >
-      <div className="hidden lg:block">
+      <div className="hidden lg:block" style={{ flexShrink: 0, height: '100%' }}>
         <Sidebar header={sidebarHeader} footer={sidebarFooter}>
           {sidebarContent}
         </Sidebar>
@@ -65,7 +72,7 @@ function DashboardLayoutInner({
         {sidebarContent}
       </MobileSidebar>
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         <DashboardHeader
           onMenuClick={openMobileSidebar}
           leftContent={
@@ -80,10 +87,11 @@ function DashboardLayoutInner({
         />
 
         <main
-          className={cn(
-            'flex-1 overflow-y-auto p-4 lg:p-6',
-            'transition-all duration-[var(--transition-normal)]'
-          )}
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            padding: `${MAIN.PADDING_TOP}px ${MAIN.PADDING_X_MOBILE}px`,
+          }}
         >
           {children}
         </main>

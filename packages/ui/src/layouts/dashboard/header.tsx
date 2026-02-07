@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import { cn } from '../../utils';
+import { HEADER } from '../../styles/config-layout';
 
 export interface DashboardHeaderProps extends HTMLAttributes<HTMLElement> {
   leftContent?: ReactNode;
@@ -22,11 +23,21 @@ export const DashboardHeader = forwardRef<HTMLElement, DashboardHeaderProps>(
   ({ className, leftContent, rightContent, onMenuClick, showMenuButton = true, ...props }, ref) => (
     <header
       ref={ref}
-      className={cn(
-        'sticky top-0 z-30 flex items-center justify-between h-16 px-4 lg:px-6',
-        'bg-[var(--color-background)] border-b border-[var(--color-border)]',
-        className
-      )}
+      style={{
+        height: HEADER.H_DESKTOP,
+        position: 'sticky',
+        top: 0,
+        zIndex: 30,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexShrink: 0,
+        padding: '0 16px',
+        background: 'color-mix(in srgb, var(--color-background) 80%, transparent)',
+        backdropFilter: 'blur(12px)',
+        borderBottom: '1px solid var(--color-border)',
+      }}
+      className={cn(className)}
       {...props}
     >
       <div className="flex items-center gap-4">

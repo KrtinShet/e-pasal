@@ -11,6 +11,7 @@ import {
 } from 'react';
 
 import { cn } from '../../utils';
+import { NAV, HEADER } from '../../styles/config-layout';
 
 interface SidebarContextValue {
   collapsed: boolean;
@@ -59,10 +60,10 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
     return (
       <aside
         ref={ref}
+        style={{ width: collapsed ? NAV.W_MINI : NAV.W_VERTICAL }}
         className={cn(
-          'flex flex-col h-full bg-[var(--color-background)] border-r border-[var(--color-border)]',
+          'flex flex-col h-full shrink-0 bg-[var(--color-background)] border-r border-[var(--color-border)]',
           'transition-all duration-[var(--transition-normal)]',
-          collapsed ? 'w-[72px]' : 'w-[280px]',
           className
         )}
         data-collapsed={collapsed}
@@ -70,15 +71,18 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
       >
         {header && (
           <div
+            style={{ height: HEADER.H_DESKTOP }}
             className={cn(
-              'flex items-center h-16 px-4 border-b border-[var(--color-border)]',
+              'flex items-center px-4 border-b border-[var(--color-border)]',
               collapsed && 'justify-center px-2'
             )}
           >
             {header}
           </div>
         )}
-        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6">{children}</div>
+        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {children}
+        </div>
         {footer && (
           <div
             className={cn(
@@ -164,8 +168,9 @@ export const MobileSidebar = forwardRef<HTMLDivElement, MobileSidebarProps>(
       )}
       <aside
         ref={ref}
+        style={{ width: NAV.W_MOBILE }}
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex flex-col w-[280px] bg-[var(--color-background)]',
+          'fixed inset-y-0 left-0 z-50 flex flex-col bg-[var(--color-background)]',
           'transform transition-transform duration-[var(--transition-normal)] lg:hidden',
           open ? 'translate-x-0' : '-translate-x-full',
           className
@@ -173,7 +178,10 @@ export const MobileSidebar = forwardRef<HTMLDivElement, MobileSidebarProps>(
         {...props}
       >
         {header && (
-          <div className="flex items-center justify-between h-16 px-4 border-b border-[var(--color-border)]">
+          <div
+            style={{ height: HEADER.H_DESKTOP }}
+            className="flex items-center justify-between px-4 border-b border-[var(--color-border)]"
+          >
             {header}
             <button
               type="button"
@@ -197,7 +205,9 @@ export const MobileSidebar = forwardRef<HTMLDivElement, MobileSidebarProps>(
             </button>
           </div>
         )}
-        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6">{children}</div>
+        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {children}
+        </div>
         {footer && <div className="border-t border-[var(--color-border)] p-4">{footer}</div>}
       </aside>
     </>

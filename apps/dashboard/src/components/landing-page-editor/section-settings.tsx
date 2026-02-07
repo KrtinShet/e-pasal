@@ -19,12 +19,12 @@ function PropField({
   if (typeof value === 'boolean') {
     return (
       <div className="flex items-center justify-between">
-        <label className="text-sm text-gray-700">{name}</label>
+        <label className="text-sm text-[var(--charcoal)]">{name}</label>
         <input
           type="checkbox"
           checked={value}
           onChange={(e) => onChange(e.target.checked)}
-          className="h-4 w-4 rounded border-gray-300"
+          className="h-4 w-4 rounded border-[var(--color-border)]"
         />
       </div>
     );
@@ -33,12 +33,12 @@ function PropField({
   if (typeof value === 'number') {
     return (
       <div>
-        <label className="mb-1 block text-sm text-gray-700">{name}</label>
+        <label className="mb-1 block text-sm text-[var(--charcoal)]">{name}</label>
         <input
           type="number"
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+          className="w-full rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm"
         />
       </div>
     );
@@ -48,24 +48,24 @@ function PropField({
     if (value.length > 100 || name === 'content' || name === 'description') {
       return (
         <div>
-          <label className="mb-1 block text-sm text-gray-700">{name}</label>
+          <label className="mb-1 block text-sm text-[var(--charcoal)]">{name}</label>
           <textarea
             value={value}
             onChange={(e) => onChange(e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+            className="w-full rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm"
           />
         </div>
       );
     }
     return (
       <div>
-        <label className="mb-1 block text-sm text-gray-700">{name}</label>
+        <label className="mb-1 block text-sm text-[var(--charcoal)]">{name}</label>
         <input
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+          className="w-full rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm"
         />
       </div>
     );
@@ -88,22 +88,22 @@ export function SectionSettings({ section, onChange }: SectionSettingsProps) {
 
   return (
     <div className="space-y-4">
-      <div className="border-b border-gray-200 pb-3">
-        <h3 className="text-sm font-semibold text-gray-900">
+      <div className="border-b border-[var(--color-border)] pb-3">
+        <h3 className="text-sm font-semibold text-[var(--charcoal)]">
           {definition?.name || section.type} Settings
         </h3>
         {definition?.description && (
-          <p className="mt-1 text-xs text-gray-500">{definition.description}</p>
+          <p className="mt-1 text-xs text-[var(--slate)]">{definition.description}</p>
         )}
       </div>
 
       {definition?.variants && definition.variants.length > 0 && (
         <div>
-          <label className="mb-1 block text-sm text-gray-700">Variant</label>
+          <label className="mb-1 block text-sm text-[var(--charcoal)]">Variant</label>
           <select
             value={(props.variant as string) || definition.variants[0]}
             onChange={(e) => handlePropChange('variant', e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+            className="w-full rounded-md border border-[var(--color-border)] px-3 py-1.5 text-sm"
           >
             {definition.variants.map((v) => (
               <option key={v} value={v}>
@@ -127,7 +127,7 @@ export function SectionSettings({ section, onChange }: SectionSettingsProps) {
       })}
 
       {editableEntries.length === 0 && (
-        <p className="text-sm text-gray-500">No editable properties for this section.</p>
+        <p className="text-sm text-[var(--slate)]">No editable properties for this section.</p>
       )}
     </div>
   );

@@ -175,7 +175,7 @@ export default function DashboardHomePage() {
 
       <RevenueChart />
 
-      <div className="bg-white rounded-2xl border border-[var(--mist)]/20 p-6">
+      <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-[var(--charcoal)]">Recent Orders</h3>
           <Link

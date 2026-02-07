@@ -8,7 +8,7 @@ export function MerchantProfileInfo() {
   if (!user) {
     return (
       <div className="max-w-2xl">
-        <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 text-center text-sm text-[var(--slate)]">
+        <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 text-center text-sm text-[var(--slate)]">
           Unable to load profile information
         </div>
       </div>
@@ -17,7 +17,7 @@ export function MerchantProfileInfo() {
 
   return (
     <div className="max-w-2xl space-y-6">
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
         <div>
           <h3 className="text-base font-semibold text-[var(--charcoal)]">Merchant Profile</h3>
           <p className="text-sm text-[var(--slate)] mt-0.5">Your account information</p>
@@ -73,7 +73,7 @@ export function MerchantProfileInfo() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 space-y-4">
+      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-4">
         <div>
           <h3 className="text-base font-semibold text-[var(--charcoal)]">Account Status</h3>
           <p className="text-sm text-[var(--slate)] mt-0.5">Your account details</p>

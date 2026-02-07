@@ -70,11 +70,11 @@ export function AIGenerateModal({ open, onClose, onGenerated }: AIGenerateModalP
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="mx-4 w-full max-w-lg rounded-xl bg-white shadow-xl">
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+      <div className="mx-4 w-full max-w-lg rounded-xl bg-[var(--ivory)] shadow-xl">
+        <div className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Generate with AI</h2>
-            <p className="text-sm text-gray-500">
+            <h2 className="text-lg font-semibold text-[var(--charcoal)]">Generate with AI</h2>
+            <p className="text-sm text-[var(--slate)]">
               Describe your business and we will create a landing page for you.
             </p>
           </div>
@@ -82,7 +82,7 @@ export function AIGenerateModal({ open, onClose, onGenerated }: AIGenerateModalP
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="rounded-md p-1 text-gray-400 hover:text-gray-600"
+            className="rounded-md p-1 text-[var(--stone)] hover:text-[var(--slate)]"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -97,13 +97,13 @@ export function AIGenerateModal({ open, onClose, onGenerated }: AIGenerateModalP
 
         <div className="space-y-4 p-6">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label className="mb-1 block text-sm font-medium text-[var(--charcoal)]">
               Business Type <span className="text-red-500">*</span>
             </label>
             <select
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+              className="w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm"
             >
               <option value="">Select a business type</option>
               {businessTypes.map((type) => (
@@ -119,17 +119,19 @@ export function AIGenerateModal({ open, onClose, onGenerated }: AIGenerateModalP
                 value={customBusinessType}
                 onChange={(e) => setCustomBusinessType(e.target.value)}
                 placeholder="Describe your business type"
-                className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="mt-2 w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm"
               />
             )}
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Tone (optional)</label>
+            <label className="mb-1 block text-sm font-medium text-[var(--charcoal)]">
+              Tone (optional)
+            </label>
             <select
               value={tone}
               onChange={(e) => setTone(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+              className="w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm"
             >
               <option value="">Auto-detect</option>
               {toneOptions.map((t) => (
@@ -141,7 +143,7 @@ export function AIGenerateModal({ open, onClose, onGenerated }: AIGenerateModalP
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label className="mb-1 block text-sm font-medium text-[var(--charcoal)]">
               Target Audience (optional)
             </label>
             <input
@@ -149,19 +151,19 @@ export function AIGenerateModal({ open, onClose, onGenerated }: AIGenerateModalP
               value={targetAudience}
               onChange={(e) => setTargetAudience(e.target.value)}
               placeholder="e.g., Young professionals in Kathmandu"
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+              className="w-full rounded-md border border-[var(--color-border)] px-3 py-2 text-sm"
             />
           </div>
 
           {error && <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">{error}</div>}
         </div>
 
-        <div className="flex items-center justify-end gap-3 border-t border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-end gap-3 border-t border-[var(--color-border)] px-6 py-4">
           <button
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            className="rounded-md border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-[var(--charcoal)] hover:bg-[var(--cream-dark)] disabled:opacity-50"
           >
             Cancel
           </button>

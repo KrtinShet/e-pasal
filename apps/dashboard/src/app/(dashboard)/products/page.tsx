@@ -362,13 +362,13 @@ export default function ProductsPage() {
 
           <div className="grid gap-3 md:grid-cols-4 mb-4">
             <input
-              className="rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+              className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
               placeholder="Search products"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
             <select
-              className="rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+              className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
             >
@@ -378,7 +378,7 @@ export default function ProductsPage() {
               <option value="archived">Archived</option>
             </select>
             <select
-              className="rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+              className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
               value={sortBy}
               onChange={(event) => setSortBy(event.target.value as typeof sortBy)}
             >
@@ -470,7 +470,7 @@ export default function ProductsPage() {
               <label className="block">
                 <span className="text-sm">Product Name</span>
                 <input
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                   value={productForm.name}
                   onChange={(event) =>
                     setProductForm((previous) => ({ ...previous, name: event.target.value }))
@@ -484,7 +484,7 @@ export default function ProductsPage() {
               <label className="block">
                 <span className="text-sm">Description</span>
                 <textarea
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                   rows={3}
                   value={productForm.description}
                   onChange={(event) =>
@@ -497,7 +497,7 @@ export default function ProductsPage() {
                 <label className="block">
                   <span className="text-sm">Price</span>
                   <input
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                     type="number"
                     min="0"
                     step="0.01"
@@ -514,7 +514,7 @@ export default function ProductsPage() {
                 <label className="block">
                   <span className="text-sm">Stock</span>
                   <input
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                     type="number"
                     min="0"
                     value={productForm.stock}
@@ -532,7 +532,7 @@ export default function ProductsPage() {
                 <label className="block">
                   <span className="text-sm">Status</span>
                   <select
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                     value={productForm.status}
                     onChange={(event) =>
                       setProductForm((previous) => ({
@@ -550,7 +550,7 @@ export default function ProductsPage() {
                 <label className="block">
                   <span className="text-sm">Category</span>
                   <select
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                     value={productForm.categoryId}
                     onChange={(event) =>
                       setProductForm((previous) => ({
@@ -572,7 +572,7 @@ export default function ProductsPage() {
               <label className="block">
                 <span className="text-sm">Images</span>
                 <input
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                   type="file"
                   accept="image/*"
                   multiple
@@ -584,7 +584,10 @@ export default function ProductsPage() {
               {productForm.images.length > 0 ? (
                 <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
                   {productForm.images.map((url) => (
-                    <div className="rounded-xl border border-[var(--mist)] bg-white p-2" key={url}>
+                    <div
+                      className="rounded-xl border border-[var(--mist)] bg-[var(--cream)] p-2"
+                      key={url}
+                    >
                       <img alt="Product" className="h-24 w-full rounded object-cover" src={url} />
                       <button
                         className="mt-2 w-full rounded-lg border border-red-200 py-1 text-sm text-red-700"
@@ -610,7 +613,7 @@ export default function ProductsPage() {
               <label className="block">
                 <span className="text-sm">Category Name</span>
                 <input
-                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                  className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                   value={categoryForm.name}
                   onChange={(event) =>
                     setCategoryForm((previous) => ({ ...previous, name: event.target.value }))
@@ -622,7 +625,7 @@ export default function ProductsPage() {
                 <label className="block">
                   <span className="text-sm">Status</span>
                   <select
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                     value={categoryForm.status}
                     onChange={(event) =>
                       setCategoryForm((previous) => ({
@@ -639,7 +642,7 @@ export default function ProductsPage() {
                 <label className="block">
                   <span className="text-sm">Display Order</span>
                   <input
-                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                     type="number"
                     min="0"
                     value={categoryForm.order}
@@ -663,7 +666,7 @@ export default function ProductsPage() {
                 <div className="space-y-2">
                   {categories.map((category) => (
                     <div
-                      className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[var(--mist)] bg-white px-3 py-2"
+                      className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[var(--mist)] bg-[var(--cream)] px-3 py-2"
                       key={category._id}
                     >
                       <div>

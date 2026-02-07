@@ -69,7 +69,7 @@ export function RevenueChart() {
   }, [range]);
 
   return (
-    <div className="bg-white rounded-2xl border border-[var(--mist)]/20 p-6">
+    <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-[var(--charcoal)]">Revenue</h3>
         <div className="flex gap-1 bg-[var(--cream-dark)] rounded-lg p-1">
@@ -79,7 +79,7 @@ export function RevenueChart() {
               onClick={() => setRange(option.value)}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
                 range === option.value
-                  ? 'bg-white text-[var(--charcoal)] shadow-sm'
+                  ? 'bg-[var(--ivory)] text-[var(--charcoal)] shadow-sm'
                   : 'text-[var(--slate)] hover:text-[var(--charcoal)]'
               }`}
             >

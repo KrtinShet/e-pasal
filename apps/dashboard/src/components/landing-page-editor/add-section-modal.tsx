@@ -31,13 +31,13 @@ export function AddSectionModal({ open, onClose, onAdd }: AddSectionModalProps) 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="mx-4 w-full max-w-2xl rounded-xl bg-white shadow-xl">
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
-          <h2 className="text-lg font-semibold text-gray-900">Add Section</h2>
+      <div className="mx-4 w-full max-w-2xl rounded-xl bg-[var(--ivory)] shadow-xl">
+        <div className="flex items-center justify-between border-b border-[var(--color-border)] px-6 py-4">
+          <h2 className="text-lg font-semibold text-[var(--charcoal)]">Add Section</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1 text-gray-400 hover:text-gray-600"
+            className="rounded-md p-1 text-[var(--stone)] hover:text-[var(--slate)]"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -53,7 +53,7 @@ export function AddSectionModal({ open, onClose, onAdd }: AddSectionModalProps) 
         <div className="max-h-[60vh] overflow-y-auto p-6">
           {Object.entries(grouped).map(([category, secs]) => (
             <div key={category} className="mb-6 last:mb-0">
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--slate)]">
                 {categoryLabels[category] || category}
               </h3>
               <div className="grid grid-cols-2 gap-3">
@@ -65,12 +65,12 @@ export function AddSectionModal({ open, onClose, onAdd }: AddSectionModalProps) 
                       onAdd(section.type);
                       onClose();
                     }}
-                    className="rounded-lg border border-gray-200 p-4 text-left transition-colors hover:border-blue-300 hover:bg-blue-50"
+                    className="rounded-lg border border-[var(--color-border)] p-4 text-left transition-colors hover:border-blue-300 hover:bg-[var(--cream-dark)]"
                   >
-                    <p className="font-medium text-gray-900">{section.name}</p>
-                    <p className="mt-1 text-xs text-gray-500">{section.description}</p>
+                    <p className="font-medium text-[var(--charcoal)]">{section.name}</p>
+                    <p className="mt-1 text-xs text-[var(--slate)]">{section.description}</p>
                     {section.variants && section.variants.length > 0 && (
-                      <p className="mt-2 text-xs text-gray-400">
+                      <p className="mt-2 text-xs text-[var(--stone)]">
                         Variants: {section.variants.join(', ')}
                       </p>
                     )}

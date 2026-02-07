@@ -123,7 +123,7 @@ export function OrderActions({
                 key={status}
                 onClick={() => handleStatusUpdate(status)}
                 disabled={loading}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors disabled:opacity-50 ${statusButtonStyles[status] || 'bg-gray-100 text-gray-700'}`}
+                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors disabled:opacity-50 ${statusButtonStyles[status] || 'bg-[var(--cream-dark)] text-[var(--charcoal)]'}`}
               >
                 {statusLabels[status] || status}
               </button>
@@ -139,7 +139,7 @@ export function OrderActions({
             value={cancelReason}
             onChange={(e) => setCancelReason(e.target.value)}
             placeholder="Reason for cancellation..."
-            className="w-full h-9 rounded-lg border border-red-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-300"
+            className="w-full h-9 rounded-lg border border-red-200 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-300"
           />
           <div className="flex gap-2">
             <button
@@ -185,7 +185,7 @@ export function OrderActions({
               onChange={(e) => setNote(e.target.value)}
               rows={2}
               placeholder="Add a note..."
-              className="w-full rounded-lg border border-[var(--mist)]/30 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 resize-none"
+              className="w-full rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 resize-none"
             />
             <div className="flex gap-2">
               <button

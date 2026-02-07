@@ -48,6 +48,7 @@ All 12 stories across 3 epics completed successfully:
 - **E06** (UI & Storefront Builder): 4 stories - @baazarify/storefront-builder package (11 sections), theme editor UI, AI page generation (Anthropic SDK), app integration
 
 **Key Implementation Details**:
+
 - Register endpoint refactored: creates user only, store creation moved to /onboarding/complete
 - Dashboard uses route groups: (landing), (auth), (onboarding), (dashboard)
 - Auth flow: JWT tokens in localStorage, 401 interceptor with refresh, ProtectedRoute component

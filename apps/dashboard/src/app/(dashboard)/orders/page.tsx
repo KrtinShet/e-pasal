@@ -143,7 +143,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 mb-6">
+      <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] mb-6">
         <div className="p-4 space-y-3">
           <div className="flex flex-col sm:flex-row gap-3">
             <input
@@ -151,12 +151,12 @@ export default function OrdersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search orders by number or customer..."
-              className="flex-1 h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="flex-1 h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
             />
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 appearance-none cursor-pointer min-w-[160px]"
+              className="h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 appearance-none cursor-pointer min-w-[160px]"
             >
               {orderStatuses.map((s) => (
                 <option key={s.value} value={s.value}>
@@ -167,7 +167,7 @@ export default function OrdersPage() {
             <select
               value={paymentStatus}
               onChange={(e) => setPaymentStatus(e.target.value)}
-              className="h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 appearance-none cursor-pointer min-w-[160px]"
+              className="h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 appearance-none cursor-pointer min-w-[160px]"
             >
               {paymentStatuses.map((s) => (
                 <option key={s.value} value={s.value}>
@@ -183,7 +183,7 @@ export default function OrdersPage() {
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="h-9 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30"
+                className="h-9 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export default function OrdersPage() {
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="h-9 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30"
+                className="h-9 rounded-lg border border-[var(--mist)]/30 bg-[var(--cream)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30"
               />
             </div>
             {(search || status || paymentStatus || dateFrom || dateTo) && (
@@ -213,7 +213,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 overflow-hidden">
+      <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] overflow-hidden">
         {loading ? (
           <div className="p-8 text-center">
             <div className="w-6 h-6 border-2 border-[var(--coral)] border-t-transparent rounded-full animate-spin mx-auto" />

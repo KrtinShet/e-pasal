@@ -10,7 +10,7 @@ interface KpiCardProps {
 
 export function KpiCard({ title, value, icon, change, changeType = 'neutral' }: KpiCardProps) {
   return (
-    <div className="bg-white rounded-2xl border border-[var(--mist)]/20 p-6 transition-all hover:shadow-[var(--shadow-sm)]">
+    <div className="bg-[var(--ivory)] rounded-3xl border border-[rgba(26,26,26,0.04)] p-6 transition-all hover:shadow-[var(--shadow-card)]">
       <div className="flex items-start justify-between mb-4">
         <div className="w-10 h-10 rounded-xl bg-[var(--peach-light)] text-[var(--coral)] flex items-center justify-center">
           {icon}
@@ -22,7 +22,7 @@ export function KpiCard({ title, value, icon, change, changeType = 'neutral' }: 
                 ? 'bg-green-50 text-green-600'
                 : changeType === 'negative'
                   ? 'bg-red-50 text-red-600'
-                  : 'bg-gray-50 text-gray-500'
+                  : 'bg-[var(--cream-dark)] text-[var(--slate)]'
             }`}
           >
             {change}

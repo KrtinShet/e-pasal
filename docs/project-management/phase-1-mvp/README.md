@@ -24,6 +24,7 @@ This folder translates the roadmap into a hierarchical project-management struct
 | E05     | [Launch and Reliability](./epics/epic-05-launch-and-reliability/README.md)                     | Sprint 5           | 5       |
 | E06     | [UI System and Storefront Builder](./epics/epic-06-ui-system-and-storefront-builder/README.md) | Sprint 2, Sprint 3 | 7       |
 | E07     | [Landing Page and Merchant Auth](./epics/epic-07-landing-and-auth/README.md)                   | Sprint 3           | 3       |
+| E08     | [Design System Consolidation](./epics/epic-08-design-system-consolidation/README.md)           | Sprint 3           | 6       |
 
 ## Sprint Breakdown
 

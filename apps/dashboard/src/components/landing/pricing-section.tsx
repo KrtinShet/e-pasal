@@ -142,7 +142,7 @@ export function PricingSection() {
                 href="/register"
                 className={`block text-center w-full py-3 px-6 rounded-full font-medium text-sm transition-all ${
                   plan.highlighted
-                    ? 'bg-white text-[var(--charcoal)] hover:bg-[var(--cream)]'
+                    ? 'bg-[var(--ivory)] text-[var(--charcoal)] hover:bg-[var(--cream)]'
                     : 'btn-secondary'
                 }`}
               >

@@ -188,14 +188,16 @@ docs/project-management/
 
 ### Current Epics
 
-| ID  | Epic                             | Status      |
-| --- | -------------------------------- | ----------- |
-| E01 | Foundation and Tenant Core       | Done        |
-| E02 | Catalog and Storefront Commerce  | In Progress |
-| E03 | Orders and Merchant Operations   | Pending     |
-| E04 | Payments, Analytics, and Polish  | Pending     |
-| E05 | Launch and Reliability           | Pending     |
-| E06 | UI System and Storefront Builder | Pending     |
+| ID  | Epic                             | Status  |
+| --- | -------------------------------- | ------- |
+| E01 | Foundation and Tenant Core       | Done    |
+| E02 | Catalog and Storefront Commerce  | Done    |
+| E03 | Orders and Merchant Operations   | Done    |
+| E04 | Payments, Analytics, and Polish  | Pending |
+| E05 | Launch and Reliability           | Pending |
+| E06 | UI System and Storefront Builder | Done    |
+| E07 | Landing Page and Merchant Auth   | Done    |
+| E08 | Design System Consolidation      | Done    |
 
 ### Workflow: Updating Project Management
 

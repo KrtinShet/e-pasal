@@ -168,8 +168,8 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2">
-        <div className="rounded-lg border border-gray-200 bg-white">
-          <div className="flex border-b border-gray-200">
+        <div className="rounded-lg border border-[var(--color-border)] bg-[var(--ivory)]">
+          <div className="flex border-b border-[var(--color-border)]">
             {tabs.map((tab) => (
               <button
                 key={tab.key}
@@ -178,7 +178,7 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
                 className={`px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === tab.key
                     ? 'border-b-2 border-blue-500 text-blue-600'
-                    : 'text-gray-500 hover:text-gray-700'
+                    : 'text-[var(--slate)] hover:text-[var(--charcoal)]'
                 }`}
               >
                 {tab.label}
@@ -189,7 +189,7 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
           <div className="p-6">
             {activeTab === 'presets' && (
               <div>
-                <p className="mb-4 text-sm text-gray-600">
+                <p className="mb-4 text-sm text-[var(--slate)]">
                   Choose a preset to quickly style your store, or customize individual settings.
                 </p>
                 <PresetSelector
@@ -202,7 +202,7 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
 
             {activeTab === 'colors' && (
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-gray-900">Brand Colors</h3>
+                <h3 className="text-sm font-semibold text-[var(--charcoal)]">Brand Colors</h3>
                 <ColorPicker
                   label="Primary"
                   value={mergedTokens.colors.primary}
@@ -222,7 +222,7 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
                   description={tokenSchema.colors.accent.description}
                 />
 
-                <h3 className="mt-6 text-sm font-semibold text-gray-900">Background</h3>
+                <h3 className="mt-6 text-sm font-semibold text-[var(--charcoal)]">Background</h3>
                 <ColorPicker
                   label="Background"
                   value={mergedTokens.colors.background}
@@ -239,7 +239,7 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
                   onChange={(v) => updateColor('border', v)}
                 />
 
-                <h3 className="mt-6 text-sm font-semibold text-gray-900">Text Colors</h3>
+                <h3 className="mt-6 text-sm font-semibold text-[var(--charcoal)]">Text Colors</h3>
                 <ColorPicker
                   label="Primary Text"
                   value={mergedTokens.colors.text.primary}
@@ -314,12 +314,12 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
             )}
           </div>
 
-          <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-between border-t border-[var(--color-border)] px-6 py-4">
             <button
               type="button"
               onClick={handleReset}
               disabled={saving}
-              className="text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50"
+              className="text-sm text-[var(--slate)] hover:text-[var(--charcoal)] disabled:opacity-50"
             >
               Reset to defaults
             </button>
@@ -346,7 +346,7 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
 
       <div>
         <div className="sticky top-6">
-          <h3 className="mb-3 text-sm font-medium text-gray-700">Preview</h3>
+          <h3 className="mb-3 text-sm font-medium text-[var(--charcoal)]">Preview</h3>
           <ThemePreview tokens={mergedTokens} />
         </div>
       </div>

@@ -11,7 +11,8 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./tailwind.config": "./tailwind.config.ts"
+    "./tailwind.config": "./tailwind.config.ts",
+    "./styles": "./src/styles/global-tokens.css"
   },
   "scripts": {
     "build": "tsup",
@@ -26,11 +27,40 @@
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "date-fns": "^3.0.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^11.0.0",
+    "next": "^16.0.0",
+    "react-dropzone": "^14.4.0",
+    "react-hook-form": "^7.71.0",
     "tsup": "^8.3.5",
     "typescript": "^5.7.0"
   },
   "peerDependencies": {
+    "date-fns": ">=3.0.0",
+    "embla-carousel-react": ">=8.0.0",
+    "framer-motion": ">=11.0.0",
+    "next": ">=14.0.0",
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react-dom": ">=18.0.0",
+    "react-dropzone": ">=14.0.0",
+    "react-hook-form": ">=7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "date-fns": {
+      "optional": true
+    },
+    "embla-carousel-react": {
+      "optional": true
+    },
+    "framer-motion": {
+      "optional": true
+    },
+    "react-dropzone": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    }
   }
 }

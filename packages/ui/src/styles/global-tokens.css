@@ -1,0 +1,151 @@
+:root {
+  /* ── Grey scale ── */
+  --grey-50: #fdfbf7;
+  --grey-100: #f7f4ed;
+  --grey-200: #f0ebe2;
+  --grey-300: #e0dbd2;
+  --grey-400: #b0aaa1;
+  --grey-500: #8a847b;
+  --grey-600: #6b6560;
+  --grey-700: #4a4540;
+  --grey-800: #2d2d2d;
+  --grey-900: #1a1a1a;
+
+  /* ── Legacy aliases (backward compat) ── */
+  --cream: var(--grey-50);
+  --cream-dark: var(--grey-100);
+  --ivory: #faf8f3;
+  --charcoal: var(--grey-900);
+  --charcoal-light: var(--grey-800);
+  --graphite: var(--grey-700);
+  --slate: var(--grey-600);
+  --stone: var(--grey-500);
+  --mist: var(--grey-400);
+  --peach: #ffe4d6;
+  --peach-light: #fff2ec;
+
+  /* ── Primary (coral) ── */
+  --primary-lighter: #fde8e3;
+  --primary-light: #f08872;
+  --primary-main: #e8654a;
+  --primary-dark: #c94e36;
+  --primary-darker: #a33d2a;
+  --coral: var(--primary-main);
+  --coral-light: var(--primary-light);
+  --coral-dark: var(--primary-dark);
+
+  /* ── Secondary ── */
+  --secondary-lighter: #efd6ff;
+  --secondary-light: #c684ff;
+  --secondary-main: #8e33ff;
+  --secondary-dark: #5119b7;
+  --secondary-darker: #27097a;
+
+  /* ── Info (sky) ── */
+  --info-lighter: #d6eaff;
+  --info-light: #84b8f0;
+  --info-main: #5ba4e5;
+  --info-dark: #3a7bc8;
+  --info-darker: #1e5aab;
+  --sky: var(--info-main);
+
+  /* ── Success (sage) ── */
+  --success-lighter: #d8f5e0;
+  --success-light: #a3d9a5;
+  --success-main: #7fb069;
+  --success-dark: #5c8a4a;
+  --success-darker: #3a6630;
+  --sage: var(--success-main);
+
+  /* ── Warning (amber) ── */
+  --warning-lighter: #fef3d5;
+  --warning-light: #f9c96b;
+  --warning-main: #f5a623;
+  --warning-dark: #c8841a;
+  --warning-darker: #9a6312;
+  --amber: var(--warning-main);
+
+  /* ── Error ── */
+  --error-lighter: #fee2e2;
+  --error-light: #f87171;
+  --error-main: #ef4444;
+  --error-dark: #dc2626;
+  --error-darker: #b91c1c;
+
+  /* ── Semantic mappings (UI component convention) ── */
+  --color-primary: var(--primary-main);
+  --color-secondary: var(--secondary-main);
+  --color-accent: var(--primary-main);
+  --color-background: var(--grey-50);
+  --color-surface: var(--ivory);
+  --color-border: var(--grey-300);
+  --color-text-primary: var(--grey-900);
+  --color-text-secondary: var(--grey-600);
+  --color-text-muted: var(--grey-500);
+  --color-error: var(--error-main);
+  --color-warning: var(--warning-main);
+  --color-success: var(--success-main);
+  --color-info: var(--info-main);
+
+  /* ── Legacy semantic aliases ── */
+  --background: var(--color-background);
+  --foreground: var(--color-text-primary);
+  --muted: var(--slate);
+  --accent: var(--color-accent);
+  --accent-hover: var(--primary-dark);
+
+  /* ── Layout legacy ── */
+  --section-gap: 160px;
+  --container-max: 1280px;
+  --container-padding: 24px;
+
+  /* ── Easing legacy ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+
+  /* ── Typography ── */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 2px 8px -2px rgb(0 0 0 / 0.08), 0 1px 3px -1px rgb(0 0 0 / 0.06);
+  --shadow-dropdown: 0 10px 40px -4px rgb(0 0 0 / 0.12), 0 4px 12px -2px rgb(0 0 0 / 0.06);
+  --shadow-dialog: 0 24px 48px -12px rgb(0 0 0 / 0.18);
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+
+  /* ── Radius ── */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* ── Layout ── */
+  --header-h-mobile: 64px;
+  --header-h-desktop: 72px;
+  --nav-w-vertical: 280px;
+  --nav-w-mini: 88px;
+  --nav-w-mobile: 320px;
+
+  /* ── Misc ── */
+  --divider: rgba(26, 26, 26, 0.12);
+  --backdrop: rgba(26, 26, 26, 0.5);
+}

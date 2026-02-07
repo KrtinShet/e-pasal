@@ -20,7 +20,7 @@ const statusColors: Record<string, string> = {
   shipped: 'bg-sky-50 text-sky-700',
   delivered: 'bg-green-50 text-green-700',
   cancelled: 'bg-red-50 text-red-700',
-  refunded: 'bg-gray-50 text-gray-700',
+  refunded: 'bg-[var(--cream-dark)] text-[var(--slate)]',
 };
 
 function formatPrice(price: number): string {
@@ -81,7 +81,7 @@ export function RecentOrdersTable({ orders }: { orders: RecentOrder[] }) {
               </td>
               <td className="py-3 pr-4">
                 <span
-                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[order.status] || 'bg-gray-50 text-gray-700'}`}
+                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[order.status] || 'bg-[var(--cream-dark)] text-[var(--slate)]'}`}
                 >
                   {formatStatus(order.status)}
                 </span>

@@ -107,7 +107,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
         <div>
           <h3 className="text-base font-semibold text-[var(--charcoal)]">Theme Colors</h3>
           <p className="text-sm text-[var(--slate)] mt-0.5">Customize your storefront appearance</p>
@@ -145,7 +145,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
                 type="text"
                 value={primaryColor}
                 onChange={(e) => setPrimaryColor(e.target.value)}
-                className="w-28 h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+                className="w-28 h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
                 placeholder="#000000"
               />
             </div>
@@ -182,7 +182,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
                 type="text"
                 value={accentColor}
                 onChange={(e) => setAccentColor(e.target.value)}
-                className="w-28 h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+                className="w-28 h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
                 placeholder="#000000"
               />
             </div>
@@ -216,7 +216,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
         <div>
           <h3 className="text-base font-semibold text-[var(--charcoal)]">Store Preferences</h3>
           <p className="text-sm text-[var(--slate)] mt-0.5">
@@ -236,7 +236,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
               id="currency"
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
             >
               {currencyOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -257,7 +257,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
               id="timezone"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
             >
               {timezoneOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -278,7 +278,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
               id="language"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
             >
               {languageOptions.map((option) => (
                 <option key={option.value} value={option.value}>

@@ -75,7 +75,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-      <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
         <div>
           <h3 className="text-base font-semibold text-[var(--charcoal)]">Store Profile</h3>
           <p className="text-sm text-[var(--slate)] mt-0.5">Basic information about your store</p>
@@ -96,7 +96,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               onChange={(e) => setName(e.target.value)}
               required
               minLength={2}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="Your store name"
             />
           </div>
@@ -137,7 +137,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full rounded-lg border border-[var(--mist)]/30 bg-white px-3 py-2 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all resize-none"
+              className="w-full rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 py-2 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all resize-none"
               placeholder="Describe your store..."
             />
           </div>
@@ -154,7 +154,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               type="url"
               value={logo}
               onChange={(e) => setLogo(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="https://example.com/logo.png"
             />
           </div>
@@ -171,7 +171,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               type="url"
               value={favicon}
               onChange={(e) => setFavicon(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
               placeholder="https://example.com/favicon.ico"
             />
           </div>

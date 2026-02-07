@@ -211,7 +211,7 @@ export default function OrderDetailPage() {
             </div>
             <Link
               href={`/orders/${orderId}/invoice`}
-              className="px-4 py-2 text-sm font-medium text-[var(--charcoal)] bg-white border border-[var(--mist)]/30 rounded-lg hover:bg-[var(--cream-dark)] transition-colors"
+              className="px-4 py-2 text-sm font-medium text-[var(--charcoal)] bg-[var(--ivory)] border border-[var(--mist)]/30 rounded-lg hover:bg-[var(--cream-dark)] transition-colors"
             >
               View Invoice
             </Link>
@@ -227,7 +227,7 @@ export default function OrderDetailPage() {
             <TabPanels className="mt-6">
               <TabPanel value="details">
                 <div className="space-y-6">
-                  <div className="bg-white rounded-xl border border-[var(--mist)]/20 overflow-hidden">
+                  <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 overflow-hidden">
                     <div className="px-4 py-3 border-b border-[var(--mist)]/10">
                       <h3 className="text-sm font-semibold text-[var(--charcoal)]">
                         Items ({order.items.length})
@@ -322,7 +322,7 @@ export default function OrderDetailPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-4">
+                    <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4">
                       <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-3">
                         Shipping Address
                       </h3>
@@ -347,7 +347,7 @@ export default function OrderDetailPage() {
                       </div>
                     </div>
 
-                    <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-4">
+                    <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4">
                       <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-3">
                         Payment Details
                       </h3>
@@ -383,7 +383,7 @@ export default function OrderDetailPage() {
                   </div>
 
                   {order.notes && (
-                    <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-4">
+                    <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4">
                       <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-2">Notes</h3>
                       <p className="text-sm text-[var(--slate)]">{order.notes}</p>
                     </div>
@@ -401,7 +401,7 @@ export default function OrderDetailPage() {
               </TabPanel>
 
               <TabPanel value="timeline">
-                <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6">
+                <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6">
                   <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-4">
                     Status History
                   </h3>
@@ -410,7 +410,7 @@ export default function OrderDetailPage() {
               </TabPanel>
 
               <TabPanel value="fulfillment">
-                <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-6 max-w-lg">
+                <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 max-w-lg">
                   <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-4">
                     Fulfillment Details
                   </h3>
@@ -425,7 +425,7 @@ export default function OrderDetailPage() {
                         onChange={(e) =>
                           setFulfillmentForm((f) => ({ ...f, provider: e.target.value }))
                         }
-                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
+                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
                         placeholder="e.g., Nepal Post, Pathao"
                       />
                     </div>
@@ -439,7 +439,7 @@ export default function OrderDetailPage() {
                         onChange={(e) =>
                           setFulfillmentForm((f) => ({ ...f, trackingNumber: e.target.value }))
                         }
-                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
+                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
                         placeholder="Tracking number"
                       />
                     </div>
@@ -453,7 +453,7 @@ export default function OrderDetailPage() {
                         onChange={(e) =>
                           setFulfillmentForm((f) => ({ ...f, trackingUrl: e.target.value }))
                         }
-                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
+                        className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)]"
                         placeholder="https://tracking.example.com/..."
                       />
                     </div>
@@ -482,7 +482,7 @@ export default function OrderDetailPage() {
         </div>
 
         <div className="lg:w-72 flex-shrink-0">
-          <div className="bg-white rounded-xl border border-[var(--mist)]/20 p-4 sticky top-6">
+          <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-4 sticky top-6">
             <h3 className="text-sm font-semibold text-[var(--charcoal)] mb-4">Actions</h3>
             <OrderActions
               orderId={orderId}
