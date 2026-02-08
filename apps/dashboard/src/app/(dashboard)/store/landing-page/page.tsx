@@ -8,13 +8,17 @@ import { apiRequest } from '@/lib/api';
 import { PageEditor } from '@/components/landing-page-editor/page-editor';
 
 export default function LandingPageEditorPage() {
-  const [config, setConfig] = useState<PageConfig | null>(null);
+  const [pages, setPages] = useState<PageConfig[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     apiRequest<{ data: PageConfig | null }>('/stores/me/landing-page/draft')
-      .then((res) => setConfig(res.data))
-      .catch(() => setConfig(null))
+      .then((res) => {
+        if (res.data) {
+          setPages([res.data]);
+        }
+      })
+      .catch(() => setPages([]))
       .finally(() => setLoading(false));
   }, []);
 
@@ -38,7 +42,7 @@ export default function LandingPageEditorPage() {
         title="Landing Page Editor"
         description="Build your store landing page with drag-and-drop sections."
       />
-      <PageEditor initialConfig={config} />
+      <PageEditor initialPages={pages.length > 0 ? pages : undefined} />
     </div>
   );
 }

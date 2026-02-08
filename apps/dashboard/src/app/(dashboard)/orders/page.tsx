@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
-import { Input, Select, PageHeader, ContentSection } from '@baazarify/ui';
+import { X, Search, Filter, Calendar, ChevronLeft, ShoppingBag, ChevronRight } from 'lucide-react';
 
 import { apiRequest } from '@/lib/api';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
@@ -99,6 +99,8 @@ export default function OrdersPage() {
   const [dateTo, setDateTo] = useState('');
   const [page, setPage] = useState(1);
 
+  const hasActiveFilters = !!(search || status || paymentStatus || dateFrom || dateTo);
+
   const fetchOrders = useCallback(async () => {
     setLoading(true);
     try {
@@ -133,187 +135,235 @@ export default function OrdersPage() {
     setPage(1);
   }, [search, status, paymentStatus, dateFrom, dateTo]);
 
-  return (
-    <div>
-      <PageHeader
-        title="Orders"
-        description={pagination ? `${pagination.total} total orders` : 'Manage your orders'}
-      />
+  const clearFilters = () => {
+    setSearch('');
+    setStatus('');
+    setPaymentStatus('');
+    setDateFrom('');
+    setDateTo('');
+  };
 
-      <ContentSection className="mb-6">
-        <div className="space-y-3">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search orders by number or customer..."
-              className="flex-1"
-            />
-            <Select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              options={orderStatuses}
-              className="min-w-[160px]"
-            />
-            <Select
-              value={paymentStatus}
-              onChange={(e) => setPaymentStatus(e.target.value)}
-              options={paymentStatuses}
-              className="min-w-[160px]"
-            />
+  return (
+    <div className="space-y-8">
+      {/* ── Hero header ── */}
+      <div className="animate-rise relative overflow-hidden rounded-2xl warm-mesh px-8 py-8">
+        <div className="grid-dots absolute inset-0 opacity-30" />
+        <div className="relative">
+          <div className="accent-bar">
+            <h1 className="font-display text-[2rem] font-bold tracking-[-0.03em] text-[var(--grey-900)] leading-tight">
+              Orders
+            </h1>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex items-center gap-2">
-              <label className="text-xs text-[var(--color-text-muted)]">From:</label>
-              <Input
-                type="date"
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-                inputSize="sm"
-              />
+          <p className="text-[0.9375rem] text-[var(--grey-500)] -mt-1">
+            {pagination
+              ? `${pagination.total} total orders`
+              : 'Track, manage, and fulfill every transaction.'}
+          </p>
+        </div>
+      </div>
+
+      {/* ── Filter bar ── */}
+      <div className="animate-rise delay-1">
+        <div className="bzr-card p-5">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search
+                  size={16}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--grey-400)]"
+                />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search by order number or customer..."
+                  className="w-full rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] py-2.5 pl-10 pr-4 text-[0.875rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] transition-all focus:border-[var(--color-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10"
+                />
+              </div>
+              <div className="flex gap-3">
+                <div className="relative min-w-[160px]">
+                  <Filter
+                    size={14}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--grey-400)] pointer-events-none"
+                  />
+                  <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="w-full appearance-none rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] py-2.5 pl-9 pr-8 text-[0.875rem] text-[var(--grey-700)] transition-all focus:border-[var(--color-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10"
+                  >
+                    {orderStatuses.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="relative min-w-[160px]">
+                  <Filter
+                    size={14}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--grey-400)] pointer-events-none"
+                  />
+                  <select
+                    value={paymentStatus}
+                    onChange={(e) => setPaymentStatus(e.target.value)}
+                    className="w-full appearance-none rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] py-2.5 pl-9 pr-8 text-[0.875rem] text-[var(--grey-700)] transition-all focus:border-[var(--color-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10"
+                  >
+                    {paymentStatuses.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <label className="text-xs text-[var(--color-text-muted)]">To:</label>
-              <Input
-                type="date"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-                inputSize="sm"
-              />
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <div className="flex items-center gap-2">
+                <Calendar size={14} className="text-[var(--grey-400)] flex-shrink-0" />
+                <input
+                  type="date"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                  className="rounded-[10px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-3 py-1.5 text-[0.75rem] text-[var(--grey-700)] transition-all focus:border-[var(--color-primary)] focus:outline-none"
+                />
+                <span className="text-[0.75rem] text-[var(--grey-400)] font-medium">to</span>
+                <input
+                  type="date"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  className="rounded-[10px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-3 py-1.5 text-[0.75rem] text-[var(--grey-700)] transition-all focus:border-[var(--color-primary)] focus:outline-none"
+                />
+              </div>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="inline-flex items-center gap-1.5 rounded-[10px] px-3 py-1.5 text-[0.75rem] font-semibold text-[var(--grey-500)] transition-all hover:bg-[var(--grey-100)] hover:text-[var(--grey-700)]"
+                >
+                  <X size={12} />
+                  Clear filters
+                </button>
+              )}
             </div>
-            {(search || status || paymentStatus || dateFrom || dateTo) && (
-              <button
-                onClick={() => {
-                  setSearch('');
-                  setStatus('');
-                  setPaymentStatus('');
-                  setDateFrom('');
-                  setDateTo('');
-                }}
-                className="text-xs font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
-              >
-                Clear Filters
-              </button>
-            )}
           </div>
         </div>
-      </ContentSection>
+      </div>
 
-      <ContentSection noPadding>
-        {loading ? (
-          <div className="p-8 text-center">
-            <div className="w-6 h-6 border-2 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin mx-auto" />
-          </div>
-        ) : orders.length === 0 ? (
-          <div className="p-8 text-center">
-            <p className="text-sm text-[var(--color-text-secondary)]">No orders found</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[var(--color-border)]">
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
-                    Order
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
-                    Customer
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
-                    Payment
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
-                    Method
-                  </th>
-                  <th className="text-right px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
-                    Total
-                  </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
-                    Date
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr
-                    key={order._id}
-                    className="border-b border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-colors"
-                  >
-                    <td className="px-4 py-3">
-                      <Link
-                        href={`/orders/${order._id}`}
-                        className="text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
-                      >
-                        {order.orderNumber}
-                      </Link>
-                      <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
-                        {order.items.length} item{order.items.length !== 1 ? 's' : ''}
-                      </p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="text-sm text-[var(--color-text-primary)]">
-                        {order.shipping.name}
-                      </p>
-                      <p className="text-xs text-[var(--color-text-muted)]">
-                        {order.shipping.city}
-                      </p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <OrderStatusBadge status={order.status} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <PaymentStatusBadge status={order.paymentStatus} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="text-xs text-[var(--color-text-secondary)]">
-                        {formatPaymentMethod(order.paymentMethod)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <span className="text-sm font-medium text-[var(--color-text-primary)]">
-                        {formatPrice(order.total)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="text-xs text-[var(--color-text-secondary)]">
-                        {formatDate(order.createdAt)}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {pagination && pagination.pages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--color-border)]">
-            <p className="text-xs text-[var(--color-text-muted)]">
-              Page {pagination.page} of {pagination.pages}
-            </p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={page <= 1}
-                className="px-3 py-1.5 text-xs font-medium text-[var(--color-text-primary)] bg-[var(--color-surface)] rounded-lg hover:bg-[var(--color-border)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                Previous
-              </button>
-              <button
-                onClick={() => setPage((p) => Math.min(pagination.pages, p + 1))}
-                disabled={page >= pagination.pages}
-                className="px-3 py-1.5 text-xs font-medium text-[var(--color-text-primary)] bg-[var(--color-surface)] rounded-lg hover:bg-[var(--color-border)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                Next
-              </button>
+      {/* ── Orders table ── */}
+      <div className="animate-rise delay-2">
+        <div className="bzr-card overflow-hidden">
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="h-5 w-5 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
             </div>
-          </div>
-        )}
-      </ContentSection>
+          ) : orders.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--grey-50)]">
+                <ShoppingBag size={22} className="text-[var(--grey-300)]" />
+              </div>
+              <p className="text-sm font-medium text-[var(--grey-400)]">No orders found</p>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="text-[0.75rem] font-semibold text-[var(--color-primary)] hover:underline"
+                >
+                  Clear all filters
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="data-table w-full">
+                <thead>
+                  <tr>
+                    <th className="text-left">Order</th>
+                    <th className="text-left">Customer</th>
+                    <th className="text-left">Status</th>
+                    <th className="text-left">Payment</th>
+                    <th className="text-left">Method</th>
+                    <th className="text-right">Total</th>
+                    <th className="text-right">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order._id}>
+                      <td>
+                        <Link
+                          href={`/orders/${order._id}`}
+                          className="text-[0.875rem] font-bold text-[var(--grey-900)] hover:text-[var(--color-primary)] transition-colors link-underline"
+                        >
+                          {order.orderNumber}
+                        </Link>
+                        <p className="text-[0.6875rem] text-[var(--grey-400)] mt-0.5">
+                          {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                        </p>
+                      </td>
+                      <td>
+                        <p className="text-[0.875rem] font-medium text-[var(--grey-800)]">
+                          {order.shipping.name}
+                        </p>
+                        <p className="text-[0.6875rem] text-[var(--grey-400)]">
+                          {order.shipping.city}
+                        </p>
+                      </td>
+                      <td>
+                        <OrderStatusBadge status={order.status} />
+                      </td>
+                      <td>
+                        <PaymentStatusBadge status={order.paymentStatus} />
+                      </td>
+                      <td>
+                        <span className="inline-flex items-center rounded-full bg-[var(--grey-100)] px-2.5 py-1 text-[0.6875rem] font-semibold text-[var(--grey-600)]">
+                          {formatPaymentMethod(order.paymentMethod)}
+                        </span>
+                      </td>
+                      <td className="text-right">
+                        <span className="text-[0.875rem] font-bold text-[var(--grey-900)] tabular-nums">
+                          {formatPrice(order.total)}
+                        </span>
+                      </td>
+                      <td className="text-right">
+                        <span className="text-[0.75rem] text-[var(--grey-400)] tabular-nums">
+                          {formatDate(order.createdAt)}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {pagination && pagination.pages > 1 && (
+            <div className="flex items-center justify-between border-t border-[var(--grey-100)] px-7 py-4">
+              <p className="text-[0.75rem] font-semibold text-[var(--grey-400)]">
+                Page {pagination.page} of {pagination.pages}
+              </p>
+              <div className="flex gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page <= 1}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPage((p) => Math.min(pagination.pages, p + 1))}
+                  disabled={page >= pagination.pages}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

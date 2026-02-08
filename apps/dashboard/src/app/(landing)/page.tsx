@@ -4,7 +4,6 @@ import { HeroSection } from '@/components/landing/hero-section';
 import { PricingSection } from '@/components/landing/pricing-section';
 import { FeaturesSection } from '@/components/landing/features-section';
 import { HowItWorksSection } from '@/components/landing/how-it-works-section';
-import { TestimonialsSection } from '@/components/landing/testimonials-section';
 
 export const metadata: Metadata = {
   title: 'Baazarify - Launch Your Online Store in Nepal',
@@ -33,7 +32,6 @@ export default function LandingPage() {
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
-      <TestimonialsSection />
       <PricingSection />
     </>
   );

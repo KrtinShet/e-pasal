@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { User, LogOut, Settings } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
-import { User, LogOut, Settings, Sparkles } from 'lucide-react';
 import {
   NavItem,
   NavGroup,
@@ -51,20 +51,6 @@ export default function DashboardGroupLayout({ children }: { children: React.Rea
               </NavGroup>
             ))}
           </>
-        }
-        sidebarFooter={
-          <div className="rounded-[var(--radius-lg)] bg-gradient-to-br from-[var(--color-primary)] to-[color-mix(in_srgb,var(--color-primary)_80%,black)] p-4 text-white">
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles size={18} />
-              <span className="text-sm font-semibold">Upgrade to Pro</span>
-            </div>
-            <p className="text-xs opacity-80 mb-3">
-              Get advanced analytics, custom domains & more.
-            </p>
-            <button className="w-full py-1.5 text-xs font-semibold bg-white/20 hover:bg-white/30 rounded-[var(--radius-md)] transition-colors">
-              Upgrade Now
-            </button>
-          </div>
         }
         headerRightContent={
           <div className="flex items-center gap-1">

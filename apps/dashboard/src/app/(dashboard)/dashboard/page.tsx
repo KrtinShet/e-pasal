@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { PageHeader, ContentSection } from '@baazarify/ui';
+import { Users, DollarSign, ArrowRight, ShoppingCart, AlertTriangle } from 'lucide-react';
 
 import { apiRequest } from '@/lib/api';
 import { KpiCard } from '@/components/dashboard/kpi-card';
@@ -17,82 +17,6 @@ interface DashboardStats {
   recentOrdersCount: number;
   pendingOrdersCount: number;
   lowStockCount: number;
-}
-
-function OrdersIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="8" cy="21" r="1" />
-      <circle cx="19" cy="21" r="1" />
-      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-    </svg>
-  );
-}
-
-function RevenueIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" x2="12" y1="2" y2="22" />
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-    </svg>
-  );
-}
-
-function CustomersIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
-  );
-}
-
-function AlertIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-      <path d="M12 9v4" />
-      <path d="M12 17h.01" />
-    </svg>
-  );
 }
 
 function formatCurrency(value: number): string {
@@ -118,74 +42,119 @@ export default function DashboardHomePage() {
         setStats(statsRes.data);
         setRecentOrders(ordersRes.data || []);
       } catch {
-        // Silently handle - user may not be authenticated yet
+        // Silently handle
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div>
-          <div className="h-8 bg-[var(--color-border)]/20 rounded w-48 mb-2" />
-          <div className="h-4 bg-[var(--color-border)]/20 rounded w-72" />
+          <div className="skel h-10 w-56 mb-3" />
+          <div className="skel h-4 w-80" />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-32 bg-[var(--color-border)]/20 rounded-2xl animate-pulse" />
+            <div key={i} className="skel h-[140px]" />
           ))}
         </div>
-        <div className="h-80 bg-[var(--color-border)]/20 rounded-2xl animate-pulse" />
+        <div className="skel h-[360px]" />
+        <div className="skel h-[300px]" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader title="Dashboard" description="Overview of your store performance" />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
-          title="Total Revenue"
-          value={formatCurrency(stats?.totalRevenue || 0)}
-          icon={<RevenueIcon />}
-        />
-        <KpiCard
-          title="Total Orders"
-          value={stats?.totalOrders || 0}
-          icon={<OrdersIcon />}
-          change={`${stats?.recentOrdersCount || 0} this week`}
-          changeType="neutral"
-        />
-        <KpiCard title="Customers" value={stats?.totalCustomers || 0} icon={<CustomersIcon />} />
-        <KpiCard
-          title="Pending Orders"
-          value={stats?.pendingOrdersCount || 0}
-          icon={<AlertIcon />}
-          change={stats?.lowStockCount ? `${stats.lowStockCount} low stock` : undefined}
-          changeType={stats?.lowStockCount ? 'negative' : 'neutral'}
-        />
+    <div className="space-y-8">
+      {/* ── Hero header with warm mesh gradient ── */}
+      <div className="animate-rise relative overflow-hidden rounded-2xl warm-mesh px-8 py-8">
+        <div className="grid-dots absolute inset-0 opacity-30" />
+        <div className="relative">
+          <div className="accent-bar">
+            <h1 className="font-display text-[2rem] font-bold tracking-[-0.03em] text-[var(--grey-900)] leading-tight">
+              Dashboard
+            </h1>
+          </div>
+          <p className="text-[0.9375rem] text-[var(--grey-500)] -mt-1">
+            Your store at a glance — performance, orders, revenue.
+          </p>
+        </div>
       </div>
 
-      <RevenueChart />
+      {/* ── KPI Grid ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="animate-rise delay-1">
+          <KpiCard
+            title="Total Revenue"
+            value={formatCurrency(stats?.totalRevenue || 0)}
+            icon={<DollarSign size={20} strokeWidth={2.5} />}
+            accent="var(--success-main)"
+          />
+        </div>
+        <div className="animate-rise delay-2">
+          <KpiCard
+            title="Total Orders"
+            value={stats?.totalOrders || 0}
+            icon={<ShoppingCart size={20} strokeWidth={2.5} />}
+            change={`${stats?.recentOrdersCount || 0} this week`}
+            changeType="neutral"
+            accent="var(--info-main)"
+          />
+        </div>
+        <div className="animate-rise delay-3">
+          <KpiCard
+            title="Customers"
+            value={stats?.totalCustomers || 0}
+            icon={<Users size={20} strokeWidth={2.5} />}
+            accent="var(--secondary-main)"
+          />
+        </div>
+        <div className="animate-rise delay-4">
+          <KpiCard
+            title="Pending Orders"
+            value={stats?.pendingOrdersCount || 0}
+            icon={<AlertTriangle size={20} strokeWidth={2.5} />}
+            change={stats?.lowStockCount ? `${stats.lowStockCount} low stock` : undefined}
+            changeType={stats?.lowStockCount ? 'negative' : 'neutral'}
+            accent="var(--warning-main)"
+          />
+        </div>
+      </div>
 
-      <ContentSection
-        title="Recent Orders"
-        action={
-          <Link
-            href="/orders"
-            className="text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
-          >
-            View All
-          </Link>
-        }
-      >
-        <RecentOrdersTable orders={recentOrders} />
-      </ContentSection>
+      {/* ── Revenue chart ── */}
+      <div className="animate-rise delay-5">
+        <RevenueChart />
+      </div>
+
+      {/* ── Recent Orders ── */}
+      <div className="animate-rise delay-6">
+        <div className="bzr-card overflow-hidden">
+          <div className="flex items-center justify-between px-7 py-5 border-b border-[var(--grey-100)]">
+            <div>
+              <h3 className="text-[0.9375rem] font-bold text-[var(--grey-900)] tracking-tight">
+                Recent Orders
+              </h3>
+              <p className="text-[0.75rem] text-[var(--grey-400)] mt-0.5">
+                Latest transactions across your store
+              </p>
+            </div>
+            <Link
+              href="/orders"
+              className="group inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-[var(--color-primary)] transition-all hover:gap-2.5"
+            >
+              View All
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+          <div className="px-3">
+            <RecentOrdersTable orders={recentOrders} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

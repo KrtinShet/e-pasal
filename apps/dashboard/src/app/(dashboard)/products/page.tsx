@@ -2,7 +2,19 @@
 
 import type { FormEvent } from 'react';
 import { useMemo, useState, useEffect } from 'react';
-import { Input, Alert, Select, Button, PageHeader, ContentSection } from '@baazarify/ui';
+import { Input, Alert, Button, Select } from '@baazarify/ui';
+import {
+  X,
+  Plus,
+  Search,
+  Pencil,
+  Trash2,
+  Package,
+  ImagePlus,
+  FolderOpen,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
 
 import { apiRequest } from '@/lib/api';
 import type { Product, Category, Pagination } from '@/types/catalog';
@@ -53,6 +65,12 @@ const EMPTY_CATEGORY_FORM: CategoryFormState = {
   name: '',
   status: 'active',
   order: '0',
+};
+
+const statusMap: Record<string, { label: string; dot: string; text: string; bg: string }> = {
+  active: { label: 'Active', dot: 'bg-emerald-400', text: 'text-emerald-700', bg: 'bg-emerald-50' },
+  draft: { label: 'Draft', dot: 'bg-amber-400', text: 'text-amber-700', bg: 'bg-amber-50' },
+  archived: { label: 'Archived', dot: 'bg-gray-400', text: 'text-gray-600', bg: 'bg-gray-100' },
 };
 
 export default function ProductsPage() {
@@ -326,176 +344,257 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Catalog Manager"
-        description="Manage products, categories, and inventory from one place."
-        action={
-          <Button
-            variant="outline"
+    <div className="space-y-8">
+      {/* ── Hero header ── */}
+      <div className="animate-rise relative overflow-hidden rounded-2xl warm-mesh px-8 py-8">
+        <div className="grid-dots absolute inset-0 opacity-30" />
+        <div className="relative flex items-end justify-between">
+          <div>
+            <div className="accent-bar">
+              <h1 className="font-display text-[2rem] font-bold tracking-[-0.03em] text-[var(--grey-900)] leading-tight">
+                Catalog
+              </h1>
+            </div>
+            <p className="text-[0.9375rem] text-[var(--grey-500)] -mt-1">
+              Manage products, categories, and inventory.
+            </p>
+          </div>
+          <button
+            type="button"
             onClick={() => {
               setProductForm(EMPTY_PRODUCT_FORM);
               setProductErrors({});
+              document.getElementById('product-form')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            type="button"
+            className="relative btn-coral inline-flex items-center gap-2 rounded-[14px] bg-[var(--color-primary)] px-5 py-2.5 text-[0.875rem] font-bold text-white shadow-sm transition-all hover:shadow-lg active:scale-[0.97]"
           >
-            Reset Product Form
-          </Button>
-        }
-      />
-
-      {notice ? <Alert variant="success">{notice}</Alert> : null}
-      {error ? <Alert variant="error">{error}</Alert> : null}
-
-      <ContentSection title="Products">
-        <div className="grid gap-3 md:grid-cols-4 mb-4">
-          <Input
-            placeholder="Search products"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <Select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-            options={[
-              { value: '', label: 'All statuses' },
-              { value: 'draft', label: 'Draft' },
-              { value: 'active', label: 'Active' },
-              { value: 'archived', label: 'Archived' },
-            ]}
-          />
-          <Select
-            value={sortBy}
-            onChange={(event) => setSortBy(event.target.value as typeof sortBy)}
-            options={[
-              { value: 'created_desc', label: 'Newest first' },
-              { value: 'name_asc', label: 'Name A-Z' },
-              { value: 'price_desc', label: 'Price high-low' },
-            ]}
-          />
-          <Button type="button" onClick={() => loadProducts(1)}>
-            Apply Filters
-          </Button>
+            <Plus size={16} strokeWidth={2.5} />
+            Add Product
+          </button>
         </div>
+      </div>
 
-        {loadingProducts ? <p>Loading products...</p> : null}
-        {!loadingProducts && sortedProducts.length === 0 ? <p>No products found.</p> : null}
+      {notice && (
+        <div className="animate-slide-up">
+          <Alert variant="success">{notice}</Alert>
+        </div>
+      )}
+      {error && (
+        <div className="animate-slide-up">
+          <Alert variant="error">{error}</Alert>
+        </div>
+      )}
 
-        {!loadingProducts && sortedProducts.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-[var(--color-border)]">
-                  <th className="py-2 pr-4">Name</th>
-                  <th className="py-2 pr-4">Price</th>
-                  <th className="py-2 pr-4">Stock</th>
-                  <th className="py-2 pr-4">Status</th>
-                  <th className="py-2 pr-4">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedProducts.map((product) => (
-                  <tr className="border-b border-[var(--color-border)]" key={product._id}>
-                    <td className="py-2 pr-4">{product.name}</td>
-                    <td className="py-2 pr-4">NPR {product.price}</td>
-                    <td className="py-2 pr-4">{product.stock}</td>
-                    <td className="py-2 pr-4">{product.status}</td>
-                    <td className="py-2 pr-4 flex gap-2">
-                      <Button
-                        variant="outline"
-                        onClick={() => handleEditProduct(product)}
-                        type="button"
-                      >
-                        Edit
-                      </Button>
-                      <button
-                        className="rounded-full border border-red-200 px-4 py-2 text-red-700"
-                        onClick={() => handleProductDelete(product._id)}
-                        type="button"
-                      >
-                        Delete
-                      </button>
-                    </td>
+      {/* ── Filter bar ── */}
+      <div className="animate-rise delay-1">
+        <div className="bzr-card p-5">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-1">
+              <Search
+                size={16}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--grey-400)]"
+              />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] py-2.5 pl-10 pr-4 text-[0.875rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] transition-all focus:border-[var(--color-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10"
+              />
+            </div>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-4 py-2.5 text-[0.875rem] text-[var(--grey-700)] transition-all focus:border-[var(--color-primary)] focus:outline-none min-w-[140px] appearance-none"
+            >
+              <option value="">All Statuses</option>
+              <option value="draft">Draft</option>
+              <option value="active">Active</option>
+              <option value="archived">Archived</option>
+            </select>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className="rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-4 py-2.5 text-[0.875rem] text-[var(--grey-700)] transition-all focus:border-[var(--color-primary)] focus:outline-none min-w-[140px] appearance-none"
+            >
+              <option value="created_desc">Newest first</option>
+              <option value="name_asc">Name A-Z</option>
+              <option value="price_desc">Price high-low</option>
+            </select>
+            <button
+              type="button"
+              onClick={() => loadProducts(1)}
+              className="rounded-[12px] border border-[var(--grey-200)] bg-white px-5 py-2.5 text-[0.875rem] font-semibold text-[var(--grey-700)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] active:scale-[0.97]"
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Products table ── */}
+      <div className="animate-rise delay-2">
+        <div className="bzr-card overflow-hidden">
+          {loadingProducts ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="h-5 w-5 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
+            </div>
+          ) : sortedProducts.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--grey-50)]">
+                <Package size={22} className="text-[var(--grey-300)]" />
+              </div>
+              <p className="text-sm font-medium text-[var(--grey-400)]">No products found</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="data-table w-full">
+                <thead>
+                  <tr>
+                    <th className="text-left">Product</th>
+                    <th className="text-right">Price</th>
+                    <th className="text-right">Stock</th>
+                    <th className="text-left">Status</th>
+                    <th className="text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : null}
+                </thead>
+                <tbody>
+                  {sortedProducts.map((product) => {
+                    const st = statusMap[product.status] || statusMap.draft;
+                    return (
+                      <tr key={product._id}>
+                        <td>
+                          <span className="text-[0.875rem] font-bold text-[var(--grey-900)]">
+                            {product.name}
+                          </span>
+                        </td>
+                        <td className="text-right tabular-nums font-bold text-[var(--grey-900)]">
+                          NPR {product.price.toLocaleString()}
+                        </td>
+                        <td className="text-right tabular-nums text-[var(--grey-600)]">
+                          {product.stock}
+                        </td>
+                        <td>
+                          <span
+                            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.75rem] font-semibold ${st.bg} ${st.text}`}
+                          >
+                            <span className={`status-dot ${st.dot}`} />
+                            {st.label}
+                          </span>
+                        </td>
+                        <td className="text-right">
+                          <div className="inline-flex gap-1">
+                            <button
+                              type="button"
+                              onClick={() => handleEditProduct(product)}
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-500)] transition-all hover:bg-[rgba(253,232,227,0.3)] hover:text-[var(--color-primary)]"
+                            >
+                              <Pencil size={14} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleProductDelete(product._id)}
+                              className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-400)] transition-all hover:bg-red-50 hover:text-red-600"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
 
-        <div className="mt-4 flex items-center justify-between text-sm">
-          <span>
-            Page {pagination.page} / {Math.max(1, pagination.pages)}
-          </span>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              disabled={pagination.page <= 1}
-              onClick={() => loadProducts(Math.max(1, pagination.page - 1))}
-              type="button"
-            >
-              Prev
-            </Button>
-            <Button
-              variant="outline"
-              disabled={pagination.page >= pagination.pages}
-              onClick={() => loadProducts(Math.min(pagination.pages, pagination.page + 1))}
-              type="button"
-            >
-              Next
-            </Button>
-          </div>
+          {pagination.pages > 1 && (
+            <div className="flex items-center justify-between border-t border-[var(--grey-100)] px-7 py-4">
+              <p className="text-[0.75rem] font-semibold text-[var(--grey-400)]">
+                Page {pagination.page} of {pagination.pages}
+              </p>
+              <div className="flex gap-1.5">
+                <button
+                  type="button"
+                  disabled={pagination.page <= 1}
+                  onClick={() => loadProducts(Math.max(1, pagination.page - 1))}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+                <button
+                  type="button"
+                  disabled={pagination.page >= pagination.pages}
+                  onClick={() => loadProducts(Math.min(pagination.pages, pagination.page + 1))}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      </ContentSection>
+      </div>
 
-      <section className="grid gap-6 lg:grid-cols-2">
-        <ContentSection title={productForm.id ? 'Edit Product' : 'Create Product'}>
-          <form className="space-y-3" onSubmit={handleProductSubmit}>
+      {/* ── Forms ── */}
+      <div className="grid gap-6 lg:grid-cols-2 animate-rise delay-3">
+        {/* Product Form */}
+        <div id="product-form" className="bzr-card overflow-hidden">
+          <div className="flex items-center gap-3 border-b border-[var(--grey-100)] px-7 py-5">
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-[14px]"
+              style={{ background: 'color-mix(in srgb, var(--color-primary) 12%, white)' }}
+            >
+              <Package size={18} className="text-[var(--color-primary)]" />
+            </div>
+            <div>
+              <h3 className="text-[0.9375rem] font-bold text-[var(--grey-900)] tracking-tight">
+                {productForm.id ? 'Edit Product' : 'New Product'}
+              </h3>
+              <p className="text-[0.75rem] text-[var(--grey-400)] mt-0.5">
+                Fill in the product details
+              </p>
+            </div>
+          </div>
+          <form className="space-y-4 p-7" onSubmit={handleProductSubmit}>
             <Input
               label="Product Name"
               value={productForm.name}
               error={productErrors.name}
-              onChange={(event) =>
-                setProductForm((previous) => ({ ...previous, name: event.target.value }))
-              }
+              onChange={(e) => setProductForm((prev) => ({ ...prev, name: e.target.value }))}
             />
 
             <label className="block">
-              <span className="text-sm font-medium text-[var(--color-text-primary)]">
+              <span className="text-[0.875rem] font-medium text-[var(--grey-900)]">
                 Description
               </span>
               <textarea
-                className="mt-1.5 w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-2 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] transition-all focus:outline-none focus:ring-2 focus:ring-offset-0 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]/30"
+                className="mt-1.5 w-full rounded-[14px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-4 py-3 text-[0.875rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] transition-all focus:border-[var(--color-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10"
                 rows={3}
                 value={productForm.description}
-                onChange={(event) =>
-                  setProductForm((previous) => ({ ...previous, description: event.target.value }))
+                onChange={(e) =>
+                  setProductForm((prev) => ({ ...prev, description: e.target.value }))
                 }
               />
             </label>
 
             <div className="grid gap-3 md:grid-cols-2">
               <Input
-                label="Price"
+                label="Price (NPR)"
                 type="number"
                 min="0"
                 step="0.01"
                 value={productForm.price}
                 error={productErrors.price}
-                onChange={(event) =>
-                  setProductForm((previous) => ({ ...previous, price: event.target.value }))
-                }
+                onChange={(e) => setProductForm((prev) => ({ ...prev, price: e.target.value }))}
               />
-
               <Input
                 label="Stock"
                 type="number"
                 min="0"
                 value={productForm.stock}
                 error={productErrors.stock}
-                onChange={(event) =>
-                  setProductForm((previous) => ({ ...previous, stock: event.target.value }))
-                }
+                onChange={(e) => setProductForm((prev) => ({ ...prev, stock: e.target.value }))}
               />
             </div>
 
@@ -503,10 +602,10 @@ export default function ProductsPage() {
               <Select
                 label="Status"
                 value={productForm.status}
-                onChange={(event) =>
-                  setProductForm((previous) => ({
-                    ...previous,
-                    status: event.target.value as Product['status'],
+                onChange={(e) =>
+                  setProductForm((prev) => ({
+                    ...prev,
+                    status: e.target.value as Product['status'],
                   }))
                 }
                 options={[
@@ -515,122 +614,153 @@ export default function ProductsPage() {
                   { value: 'archived', label: 'Archived' },
                 ]}
               />
-
               <Select
                 label="Category"
                 value={productForm.categoryId}
-                onChange={(event) =>
-                  setProductForm((previous) => ({
-                    ...previous,
-                    categoryId: event.target.value,
+                onChange={(e) =>
+                  setProductForm((prev) => ({
+                    ...prev,
+                    categoryId: e.target.value,
                   }))
                 }
                 options={[
                   { value: '', label: 'No category' },
-                  ...categories.map((category) => ({
-                    value: category._id,
-                    label: category.name,
+                  ...categories.map((cat) => ({
+                    value: cat._id,
+                    label: cat.name,
                   })),
                 ]}
               />
             </div>
 
-            <label className="block">
-              <span className="text-sm font-medium text-[var(--color-text-primary)]">Images</span>
-              <input
-                className="mt-1.5 w-full rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-2 text-[var(--color-text-primary)]"
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={(event) => void handleImageUpload(event.target.files)}
-              />
-              {uploading ? (
-                <small className="text-[var(--color-text-muted)]">Uploading image...</small>
-              ) : null}
-            </label>
+            <div>
+              <span className="block text-[0.875rem] font-medium text-[var(--grey-900)] mb-2">
+                Images
+              </span>
+              <label className="group flex flex-col items-center justify-center w-full h-28 rounded-[14px] border-2 border-dashed border-[var(--grey-200)] bg-[var(--grey-50)] cursor-pointer transition-all hover:border-[var(--color-primary)] hover:bg-[color-mix(in_srgb,var(--color-primary)_5%,white)]">
+                <ImagePlus
+                  size={24}
+                  className="text-[var(--grey-400)] transition-colors group-hover:text-[var(--color-primary)]"
+                />
+                <span className="mt-2 text-[0.75rem] font-medium text-[var(--grey-400)] group-hover:text-[var(--color-primary)]">
+                  {uploading ? 'Uploading...' : 'Click to upload images'}
+                </span>
+                <input
+                  className="hidden"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => void handleImageUpload(e.target.files)}
+                />
+              </label>
+            </div>
 
-            {productForm.images.length > 0 ? (
+            {productForm.images.length > 0 && (
               <div className="grid gap-3 grid-cols-2 md:grid-cols-3">
                 {productForm.images.map((url) => (
                   <div
-                    className="rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] p-2"
+                    className="group relative rounded-[14px] border border-[var(--grey-200)] overflow-hidden"
                     key={url}
                   >
-                    <img alt="Product" className="h-24 w-full rounded object-cover" src={url} />
+                    <img alt="Product" className="h-24 w-full object-cover" src={url} />
                     <button
-                      className="mt-2 w-full rounded-lg border border-red-200 py-1 text-sm text-red-700"
-                      onClick={() => removeImage(url)}
                       type="button"
+                      onClick={() => removeImage(url)}
+                      className="absolute top-1.5 right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100"
                     >
-                      Remove
+                      <X size={12} />
                     </button>
                   </div>
                 ))}
               </div>
-            ) : null}
+            )}
 
-            <Button type="submit">{productForm.id ? 'Update Product' : 'Create Product'}</Button>
+            <Button type="submit" className="w-full">
+              {productForm.id ? 'Update Product' : 'Create Product'}
+            </Button>
           </form>
-        </ContentSection>
+        </div>
 
-        <ContentSection title="Category Management">
-          <form className="space-y-3" onSubmit={handleCategorySubmit}>
-            <Input
-              label="Category Name"
-              value={categoryForm.name}
-              onChange={(event) =>
-                setCategoryForm((previous) => ({ ...previous, name: event.target.value }))
-              }
-            />
-
-            <div className="grid gap-3 md:grid-cols-2">
-              <Select
-                label="Status"
-                value={categoryForm.status}
-                onChange={(event) =>
-                  setCategoryForm((previous) => ({
-                    ...previous,
-                    status: event.target.value as Category['status'],
-                  }))
-                }
-                options={[
-                  { value: 'active', label: 'Active' },
-                  { value: 'inactive', label: 'Inactive' },
-                ]}
-              />
-
-              <Input
-                label="Display Order"
-                type="number"
-                min="0"
-                value={categoryForm.order}
-                onChange={(event) =>
-                  setCategoryForm((previous) => ({ ...previous, order: event.target.value }))
-                }
-              />
+        {/* Category Form */}
+        <div className="bzr-card overflow-hidden">
+          <div className="flex items-center gap-3 border-b border-[var(--grey-100)] px-7 py-5">
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-[14px]"
+              style={{ background: 'color-mix(in srgb, var(--secondary-main) 12%, white)' }}
+            >
+              <FolderOpen size={18} className="text-[var(--color-secondary)]" />
             </div>
+            <div>
+              <h3 className="text-[0.9375rem] font-bold text-[var(--grey-900)] tracking-tight">
+                Categories
+              </h3>
+              <p className="text-[0.75rem] text-[var(--grey-400)] mt-0.5">Organize your products</p>
+            </div>
+          </div>
+          <div className="p-7">
+            <form className="space-y-4" onSubmit={handleCategorySubmit}>
+              <Input
+                label="Category Name"
+                value={categoryForm.name}
+                onChange={(e) => setCategoryForm((prev) => ({ ...prev, name: e.target.value }))}
+              />
 
-            <Button type="submit">{categoryForm.id ? 'Update Category' : 'Create Category'}</Button>
-          </form>
+              <div className="grid gap-3 md:grid-cols-2">
+                <Select
+                  label="Status"
+                  value={categoryForm.status}
+                  onChange={(e) =>
+                    setCategoryForm((prev) => ({
+                      ...prev,
+                      status: e.target.value as Category['status'],
+                    }))
+                  }
+                  options={[
+                    { value: 'active', label: 'Active' },
+                    { value: 'inactive', label: 'Inactive' },
+                  ]}
+                />
+                <Input
+                  label="Display Order"
+                  type="number"
+                  min="0"
+                  value={categoryForm.order}
+                  onChange={(e) => setCategoryForm((prev) => ({ ...prev, order: e.target.value }))}
+                />
+              </div>
 
-          <div className="mt-6">
-            {loadingCategories ? <p>Loading categories...</p> : null}
-            {!loadingCategories && categories.length === 0 ? <p>No categories found.</p> : null}
+              <Button type="submit" className="w-full">
+                {categoryForm.id ? 'Update Category' : 'Create Category'}
+              </Button>
+            </form>
 
-            {!loadingCategories && categories.length > 0 ? (
-              <div className="space-y-2">
-                {categories.map((category) => (
+            <div className="mt-6 space-y-2">
+              {loadingCategories ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="h-5 w-5 rounded-full border-2 border-[var(--color-secondary)] border-t-transparent animate-spin" />
+                </div>
+              ) : categories.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-8 gap-2">
+                  <FolderOpen size={20} className="text-[var(--grey-300)]" />
+                  <p className="text-[0.75rem] font-medium text-[var(--grey-400)]">
+                    No categories yet
+                  </p>
+                </div>
+              ) : (
+                categories.map((category) => (
                   <div
-                    className="flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2"
+                    className="flex items-center justify-between rounded-[14px] border border-[var(--grey-200)] px-4 py-3 transition-all hover:bg-[rgba(253,232,227,0.2)] hover:border-[var(--grey-300)]"
                     key={category._id}
                   >
                     <div>
-                      <p className="font-medium">{category.name}</p>
-                      <p className="text-sm text-[var(--color-text-muted)]">{category.status}</p>
+                      <p className="text-[0.875rem] font-medium text-[var(--grey-900)]">
+                        {category.name}
+                      </p>
+                      <p className="text-[0.6875rem] text-[var(--grey-400)]">{category.status}</p>
                     </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
+                    <div className="flex gap-1">
+                      <button
+                        type="button"
                         onClick={() =>
                           setCategoryForm({
                             id: category._id,
@@ -639,25 +769,25 @@ export default function ProductsPage() {
                             order: String(category.order ?? 0),
                           })
                         }
-                        type="button"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-500)] transition-all hover:bg-[rgba(253,232,227,0.3)] hover:text-[var(--color-primary)]"
                       >
-                        Edit
-                      </Button>
+                        <Pencil size={14} />
+                      </button>
                       <button
-                        className="rounded-lg border border-red-200 px-3 py-1 text-sm text-red-700"
-                        onClick={() => handleCategoryDelete(category._id)}
                         type="button"
+                        onClick={() => handleCategoryDelete(category._id)}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-400)] transition-all hover:bg-red-50 hover:text-red-600"
                       >
-                        Delete
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : null}
+                ))
+              )}
+            </div>
           </div>
-        </ContentSection>
-      </section>
+        </div>
+      </div>
     </div>
   );
 }

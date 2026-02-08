@@ -1,5 +1,6 @@
 'use client';
 
+import { BarChart3 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Bar, XAxis, YAxis, Tooltip, BarChart, CartesianGrid, ResponsiveContainer } from 'recharts';
 
@@ -22,15 +23,10 @@ const rangeOptions: { value: DateRange; label: string }[] = [
 function getDateRange(range: DateRange): { startDate: string; endDate: string } {
   const end = new Date();
   const start = new Date();
-
   if (range === '7d') start.setDate(end.getDate() - 7);
   else if (range === '30d') start.setDate(end.getDate() - 30);
   else start.setDate(end.getDate() - 90);
-
-  return {
-    startDate: start.toISOString(),
-    endDate: end.toISOString(),
-  };
+  return { startDate: start.toISOString(), endDate: end.toISOString() };
 }
 
 function formatPeriod(period: string): string {
@@ -40,8 +36,8 @@ function formatPeriod(period: string): string {
 }
 
 function formatCurrency(value: number): string {
-  if (value >= 1000) return `NPR ${(value / 1000).toFixed(1)}K`;
-  return `NPR ${value}`;
+  if (value >= 1000) return `Rs ${(value / 1000).toFixed(1)}K`;
+  return `Rs ${value}`;
 }
 
 export function RevenueChart() {
@@ -64,72 +60,102 @@ export function RevenueChart() {
         setLoading(false);
       }
     };
-
     fetchRevenue();
   }, [range]);
 
   return (
-    <div className="bg-[var(--color-background)] rounded-[var(--radius-lg)] border border-[var(--color-border)] p-5">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">Revenue</h3>
-        <div className="flex gap-1 bg-[var(--grey-200)] rounded-[var(--radius-md)] p-1">
-          {rangeOptions.map((option) => (
+    <div className="bzr-card overflow-hidden">
+      <div className="flex items-center justify-between px-7 py-5 border-b border-[var(--grey-100)]">
+        <div>
+          <h3 className="text-[0.9375rem] font-bold text-[var(--grey-900)] tracking-tight">
+            Revenue
+          </h3>
+          <p className="text-[0.75rem] text-[var(--grey-400)] mt-0.5">
+            Sales performance over time
+          </p>
+        </div>
+        <div className="flex rounded-[10px] bg-[var(--grey-50)] p-0.5 border border-[var(--grey-200)]">
+          {rangeOptions.map((opt) => (
             <button
-              key={option.value}
-              onClick={() => setRange(option.value)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-[var(--radius-sm)] transition-all ${
-                range === option.value
-                  ? 'bg-[var(--color-background)] text-[var(--color-text-primary)] shadow-[var(--shadow-sm)]'
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+              key={opt.value}
+              type="button"
+              onClick={() => setRange(opt.value)}
+              className={`rounded-lg px-4 py-1.5 text-[0.6875rem] font-bold tracking-wide transition-all duration-200 ${
+                range === opt.value
+                  ? 'bg-white text-[var(--grey-900)] shadow-sm border border-[var(--grey-200)]'
+                  : 'text-[var(--grey-400)] hover:text-[var(--grey-600)] border border-transparent'
               }`}
             >
-              {option.label}
+              {opt.label}
             </button>
           ))}
         </div>
       </div>
 
-      {loading ? (
-        <div className="h-64 flex items-center justify-center">
-          <div className="w-6 h-6 border-2 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin" />
-        </div>
-      ) : data.length === 0 ? (
-        <div className="h-64 flex items-center justify-center text-sm text-[var(--color-text-muted)]">
-          No revenue data for this period
-        </div>
-      ) : (
-        <ResponsiveContainer width="100%" height={264}>
-          <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--grey-300)" opacity={0.5} />
-            <XAxis
-              dataKey="period"
-              tickFormatter={formatPeriod}
-              tick={{ fontSize: 12, fill: 'var(--grey-600)' }}
-              axisLine={{ stroke: 'var(--grey-300)', opacity: 0.5 }}
-              tickLine={false}
-            />
-            <YAxis
-              tickFormatter={formatCurrency}
-              tick={{ fontSize: 12, fill: 'var(--grey-600)' }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip
-              formatter={(value: number | undefined) => [
-                `NPR ${(value ?? 0).toLocaleString()}`,
-                'Revenue',
-              ]}
-              labelFormatter={(label) => formatPeriod(String(label))}
-              contentStyle={{
-                borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-md)',
-              }}
-            />
-            <Bar dataKey="revenue" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      )}
+      <div className="px-7 py-6">
+        {loading ? (
+          <div className="flex h-64 items-center justify-center">
+            <div className="h-5 w-5 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
+          </div>
+        ) : data.length === 0 ? (
+          <div className="flex h-64 flex-col items-center justify-center gap-3">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--grey-50)]">
+              <BarChart3 size={24} className="text-[var(--grey-300)]" />
+            </div>
+            <p className="text-sm font-medium text-[var(--grey-400)]">No revenue data yet</p>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={280}>
+            <BarChart data={data} margin={{ top: 4, right: 0, left: -16, bottom: 0 }}>
+              <defs>
+                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--primary-main)" stopOpacity={0.95} />
+                  <stop offset="100%" stopColor="var(--primary-light)" stopOpacity={0.5} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--grey-100)" vertical={false} />
+              <XAxis
+                dataKey="period"
+                tickFormatter={formatPeriod}
+                tick={{ fontSize: 11, fill: 'var(--grey-400)', fontWeight: 600 }}
+                axisLine={false}
+                tickLine={false}
+                dy={8}
+              />
+              <YAxis
+                tickFormatter={formatCurrency}
+                tick={{ fontSize: 11, fill: 'var(--grey-400)', fontWeight: 600 }}
+                axisLine={false}
+                tickLine={false}
+                dx={-4}
+              />
+              <Tooltip
+                formatter={(value: number | undefined) => [
+                  `NPR ${(value ?? 0).toLocaleString()}`,
+                  'Revenue',
+                ]}
+                labelFormatter={(label) => formatPeriod(String(label))}
+                contentStyle={{
+                  borderRadius: '14px',
+                  border: '1px solid var(--grey-200)',
+                  boxShadow: 'var(--shadow-dropdown)',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  padding: '10px 14px',
+                  fontFamily: 'DM Sans',
+                }}
+                cursor={{ fill: 'rgba(253, 232, 227, 0.3)', radius: 8 }}
+              />
+              <Bar
+                dataKey="revenue"
+                fill="url(#barGradient)"
+                radius={[10, 10, 2, 2]}
+                maxBarSize={40}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
     </div>
   );
 }
