@@ -14,6 +14,7 @@ import { tenantResolver } from './middleware/tenant-resolver.js';
 import { connectDatabase, isDatabaseReady } from './lib/database.js';
 
 const app = express();
+const serverStartTime = Date.now();
 
 app.use(helmet());
 app.use(
@@ -40,7 +41,8 @@ app.use(requestLogger);
 app.use(tenantResolver);
 
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  const uptime = Math.floor((Date.now() - serverStartTime) / 1000);
+  res.json({ status: 'ok', uptime });
 });
 
 app.get('/ready', (_req, res) => {
