@@ -1,3 +1,5 @@
+import type { LandingPagesConfig } from '@baazarify/storefront-builder';
+
 export interface StoreTheme {
   primaryColor: string;
   accentColor: string;
@@ -5,6 +7,8 @@ export interface StoreTheme {
   textColor?: string;
   borderRadius?: 'sm' | 'md' | 'lg' | 'xl';
   fontFamily?: string;
+  preset?: string;
+  tokens?: Record<string, unknown>;
 }
 
 export interface StoreSettings {
@@ -27,8 +31,8 @@ export interface StoreSocial {
 }
 
 export interface StoreLandingPage {
-  config?: Record<string, unknown>;
-  draftConfig?: Record<string, unknown>;
+  config?: LandingPagesConfig;
+  draftConfig?: LandingPagesConfig;
 }
 
 export interface StoreData {

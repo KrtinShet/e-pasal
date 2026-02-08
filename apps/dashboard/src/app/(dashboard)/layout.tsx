@@ -8,6 +8,7 @@ import {
   NavGroup,
   UserMenu,
   SearchBar,
+  useSidebar,
   DashboardLayout,
   NotificationBell,
 } from '@baazarify/ui';
@@ -15,6 +16,21 @@ import {
 import { useAuth } from '@/contexts/auth-context';
 import { navSections } from '@/config/nav-config';
 import { ProtectedRoute } from '@/components/auth/protected-route';
+
+function SidebarBrand() {
+  const { collapsed } = useSidebar();
+
+  return (
+    <Link href="/dashboard" className="flex items-center gap-2 px-3 py-2">
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-primary)]">
+        <span className="text-sm font-bold text-white">B</span>
+      </div>
+      {!collapsed && (
+        <span className="text-lg font-bold text-[var(--color-text-primary)]">Baazarify</span>
+      )}
+    </Link>
+  );
+}
 
 export default function DashboardGroupLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -24,14 +40,8 @@ export default function DashboardGroupLayout({ children }: { children: React.Rea
   return (
     <ProtectedRoute requireStore>
       <DashboardLayout
-        sidebarHeader={
-          <Link href="/dashboard" className="flex items-center gap-2 px-3 py-2">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center">
-              <span className="text-white font-bold text-sm">B</span>
-            </div>
-            <span className="text-lg font-bold text-[var(--color-text-primary)]">Baazarify</span>
-          </Link>
-        }
+        sidebarStorageKey="baazarify.dashboard.sidebar.collapsed"
+        sidebarHeader={<SidebarBrand />}
         sidebarContent={
           <>
             {navSections.map((section) => (

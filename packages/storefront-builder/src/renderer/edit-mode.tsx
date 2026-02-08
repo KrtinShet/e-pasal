@@ -11,6 +11,7 @@ export interface EditModeWrapperProps {
   sectionType: string;
   isFirst: boolean;
   isLast: boolean;
+  isSelected?: boolean;
   onSelect?: (sectionId: string) => void;
   onMove?: (sectionId: string, direction: 'up' | 'down') => void;
   onDelete?: (sectionId: string) => void;
@@ -22,6 +23,7 @@ export function EditModeWrapper({
   sectionType,
   isFirst,
   isLast,
+  isSelected = false,
   onSelect,
   onMove,
   onDelete,
@@ -34,12 +36,13 @@ export function EditModeWrapper({
     <div
       className={cn(
         'group relative transition-all',
-        hovered && 'ring-2 ring-[var(--color-primary)] ring-offset-2'
+        (hovered || isSelected) && 'ring-2 ring-[var(--color-primary)] ring-offset-2'
       )}
+      onClick={() => onSelect?.(sectionId)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {hovered && (
+      {(hovered || isSelected) && (
         <div className="absolute -top-8 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-md bg-[var(--color-primary)] px-2 py-1 text-xs text-white shadow-md">
           <span className="font-medium">{sectionName}</span>
           <div className="mx-1 h-3 w-px bg-white/30" />

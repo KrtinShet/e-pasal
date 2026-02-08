@@ -3,6 +3,15 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
+import {
+  InlineText,
+  InlineImage,
+  InlineSelect,
+  InlineNumber,
+  useSectionEditor,
+  InlineItemActions,
+  InlineListToolbar,
+} from '../../renderer';
 
 export type TestimonialsVariant = 'carousel' | 'grid';
 
@@ -40,19 +49,59 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function TestimonialCard({ testimonial }: { testimonial: TestimonialItem }) {
+function TestimonialCard({
+  testimonial,
+  index,
+  total,
+}: {
+  testimonial: TestimonialItem;
+  index: number;
+  total: number;
+}) {
+  const { editMode, removeAt, moveItem } = useSectionEditor();
+
   return (
     <div className="flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] p-6">
-      {testimonial.rating && <StarRating rating={testimonial.rating} />}
+      {editMode && (
+        <div className="mb-3 flex items-center justify-between">
+          <InlineItemActions
+            onMoveUp={index > 0 ? () => moveItem('testimonials', index, index - 1) : undefined}
+            onMoveDown={
+              index < total - 1 ? () => moveItem('testimonials', index, index + 1) : undefined
+            }
+            onDelete={() => removeAt('testimonials', index)}
+          />
+          {typeof testimonial.rating === 'number' ? (
+            <InlineNumber
+              path={`testimonials.${index}.rating`}
+              value={testimonial.rating}
+              min={1}
+              max={5}
+              step={1}
+              className="!w-14 text-xs"
+            />
+          ) : null}
+        </div>
+      )}
+
+      {testimonial.rating ? <StarRating rating={testimonial.rating} /> : null}
       <blockquote className="mt-4 flex-1 text-[var(--color-text-secondary)]">
-        &ldquo;{testimonial.content}&rdquo;
+        <InlineText
+          path={`testimonials.${index}.content`}
+          value={testimonial.content}
+          multiline
+          as="span"
+        />
       </blockquote>
       <div className="mt-6 flex items-center gap-3">
         {testimonial.avatar ? (
-          <img
+          <InlineImage
+            srcPath={`testimonials.${index}.avatar`}
             src={testimonial.avatar}
+            altPath={`testimonials.${index}.name`}
             alt={testimonial.name}
             className="h-10 w-10 rounded-full object-cover"
+            placeholderClassName="h-10 w-10 rounded-full"
           />
         ) : (
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-primary)] text-sm font-semibold text-white">
@@ -60,9 +109,19 @@ function TestimonialCard({ testimonial }: { testimonial: TestimonialItem }) {
           </div>
         )}
         <div>
-          <p className="font-medium text-[var(--color-text-primary)]">{testimonial.name}</p>
+          <InlineText
+            path={`testimonials.${index}.name`}
+            value={testimonial.name}
+            as="p"
+            className="font-medium text-[var(--color-text-primary)]"
+          />
           {testimonial.role && (
-            <p className="text-sm text-[var(--color-text-muted)]">{testimonial.role}</p>
+            <InlineText
+              path={`testimonials.${index}.role`}
+              value={testimonial.role}
+              as="p"
+              className="text-sm text-[var(--color-text-muted)]"
+            />
           )}
         </div>
       </div>
@@ -76,19 +135,46 @@ export function TestimonialsSection({
   title,
   testimonials,
 }: TestimonialsSectionProps) {
+  const { editMode, append } = useSectionEditor();
+
   return (
     <section className={cn('bg-[var(--color-surface)] py-16', className)}>
       <div className="mx-auto max-w-7xl px-6">
+        {editMode && (
+          <div className="mb-5 flex flex-wrap items-center justify-center gap-2">
+            <InlineSelect
+              path="variant"
+              value={variant}
+              options={['carousel', 'grid']}
+              label="Variant"
+            />
+            <InlineListToolbar
+              label="Add testimonial"
+              onAdd={() =>
+                append('testimonials', {
+                  name: 'Customer Name',
+                  role: 'Customer',
+                  content: 'Share a short testimonial here.',
+                  rating: 5,
+                })
+              }
+            />
+          </div>
+        )}
+
         {title && (
-          <h2 className="mb-12 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]">
-            {title}
-          </h2>
+          <InlineText
+            path="title"
+            value={title}
+            as="h2"
+            className="mb-12 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
+          />
         )}
 
         {variant === 'grid' && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t, i) => (
-              <TestimonialCard key={i} testimonial={t} />
+              <TestimonialCard key={i} testimonial={t} index={i} total={testimonials.length} />
             ))}
           </div>
         )}
@@ -97,7 +183,7 @@ export function TestimonialsSection({
           <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
             {testimonials.map((t, i) => (
               <div key={i} className="w-[350px] flex-shrink-0">
-                <TestimonialCard testimonial={t} />
+                <TestimonialCard testimonial={t} index={i} total={testimonials.length} />
               </div>
             ))}
           </div>

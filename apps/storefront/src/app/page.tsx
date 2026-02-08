@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { PageRenderer, type PageConfig } from '@baazarify/storefront-builder';
+import { PageRenderer, type LandingPagesConfig } from '@baazarify/storefront-builder';
 
 import { useStore } from '@/contexts/store-context';
 
@@ -172,8 +172,17 @@ export default function HomePage() {
     return <WelcomeContent />;
   }
 
-  if (store.landingPage?.config) {
-    return <PageRenderer config={store.landingPage.config as unknown as PageConfig} />;
+  const landingConfig = store.landingPage?.config as LandingPagesConfig | undefined;
+
+  if (landingConfig?.pages?.length) {
+    const homePage =
+      landingConfig.pages.find((page) => page.id === landingConfig.homePageId) ||
+      landingConfig.pages.find((page) => page.slug === '/') ||
+      landingConfig.pages[0];
+
+    if (homePage) {
+      return <PageRenderer config={homePage} />;
+    }
   }
 
   return <StoreContent storeName={store.name} storeDescription={store.description} />;

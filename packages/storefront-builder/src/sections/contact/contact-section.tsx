@@ -3,6 +3,14 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
+import {
+  InlineText,
+  InlineToggle,
+  InlineSelect,
+  useSectionEditor,
+  InlineItemActions,
+  InlineListToolbar,
+} from '../../renderer';
 
 export interface ContactField {
   name: string;
@@ -41,9 +49,29 @@ export function ContactSection({
   fields = defaultFields,
   submitText = 'Send Message',
 }: ContactSectionProps) {
+  const { editMode, append, removeAt, moveItem } = useSectionEditor();
+
   return (
     <section className={cn('py-16', className)}>
       <div className="mx-auto max-w-7xl px-6">
+        {editMode && (
+          <div className="mb-5 flex flex-wrap items-center gap-2">
+            <InlineToggle path="showMap" checked={showMap} label="Show map" />
+            <InlineListToolbar
+              label="Add field"
+              onAdd={() =>
+                append('fields', {
+                  name: `field_${fields.length + 1}`,
+                  label: 'New Field',
+                  type: 'text',
+                  required: false,
+                  placeholder: '',
+                })
+              }
+            />
+          </div>
+        )}
+
         <div
           className={cn(
             'grid gap-12',
@@ -52,26 +80,61 @@ export function ContactSection({
         >
           <div>
             {title && (
-              <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
-                {title}
-              </h2>
+              <InlineText
+                path="title"
+                value={title}
+                as="h2"
+                className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
+              />
             )}
             {description && (
-              <p className="mt-4 text-[var(--color-text-secondary)]">{description}</p>
+              <InlineText
+                path="description"
+                value={description}
+                as="p"
+                multiline
+                className="mt-4 text-[var(--color-text-secondary)]"
+              />
             )}
             <form className="mt-8 space-y-4" onSubmit={(e) => e.preventDefault()}>
-              {fields.map((field) => (
-                <div key={field.name}>
+              {fields.map((field, index) => (
+                <div key={`${field.name}-${index}`}>
+                  {editMode && (
+                    <div className="mb-1 flex flex-wrap items-center gap-2">
+                      <InlineItemActions
+                        onMoveUp={
+                          index > 0 ? () => moveItem('fields', index, index - 1) : undefined
+                        }
+                        onMoveDown={
+                          index < fields.length - 1
+                            ? () => moveItem('fields', index, index + 1)
+                            : undefined
+                        }
+                        onDelete={() => removeAt('fields', index)}
+                      />
+                      <InlineSelect
+                        path={`fields.${index}.type`}
+                        value={field.type}
+                        options={['text', 'email', 'tel', 'textarea']}
+                        label="Type"
+                      />
+                      <InlineToggle
+                        path={`fields.${index}.required`}
+                        checked={Boolean(field.required)}
+                        label="Required"
+                      />
+                    </div>
+                  )}
                   <label
-                    htmlFor={field.name}
+                    htmlFor={`${field.name}-${index}`}
                     className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]"
                   >
-                    {field.label}
+                    <InlineText path={`fields.${index}.label`} value={field.label} as="span" />
                     {field.required && <span className="text-[var(--color-error)]"> *</span>}
                   </label>
                   {field.type === 'textarea' ? (
                     <textarea
-                      id={field.name}
+                      id={`${field.name}-${index}`}
                       name={field.name}
                       required={field.required}
                       placeholder={field.placeholder}
@@ -80,12 +143,21 @@ export function ContactSection({
                     />
                   ) : (
                     <input
-                      id={field.name}
+                      id={`${field.name}-${index}`}
                       type={field.type}
                       name={field.name}
                       required={field.required}
                       placeholder={field.placeholder}
                       className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] px-4 py-2.5 text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20"
+                    />
+                  )}
+                  {editMode && (
+                    <InlineText
+                      path={`fields.${index}.placeholder`}
+                      value={field.placeholder}
+                      as="p"
+                      placeholder="Field placeholder text"
+                      className="mt-1 text-xs text-[var(--color-text-muted)]"
                     />
                   )}
                 </div>
@@ -94,7 +166,7 @@ export function ContactSection({
                 type="submit"
                 className="w-full rounded-lg bg-[var(--color-primary)] px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90 sm:w-auto"
               >
-                {submitText}
+                <InlineText path="submitText" value={submitText} as="span" />
               </button>
             </form>
           </div>

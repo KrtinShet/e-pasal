@@ -4,6 +4,13 @@ import { cn } from '@baazarify/ui';
 import type { ReactNode } from 'react';
 
 import type { BaseSectionProps } from '../types';
+import {
+  InlineText,
+  InlineSelect,
+  useSectionEditor,
+  InlineItemActions,
+  InlineListToolbar,
+} from '../../renderer';
 
 export type FeaturesVariant = 'grid' | 'list' | 'cards';
 
@@ -86,18 +93,50 @@ export function FeaturesSection({
   subtitle,
   features,
 }: FeaturesSectionProps) {
+  const { editMode, append, removeAt, moveItem } = useSectionEditor();
+
   return (
     <section className={cn('py-16', className)}>
       <div className="mx-auto max-w-7xl px-6">
+        {editMode && (
+          <div className="mb-5 flex flex-wrap items-center gap-2">
+            <InlineSelect
+              path="variant"
+              value={variant}
+              options={['grid', 'list', 'cards']}
+              label="Variant"
+            />
+            <InlineListToolbar
+              label="Add feature"
+              onAdd={() =>
+                append('features', {
+                  icon: 'star',
+                  title: 'New Feature',
+                  description: 'Describe this feature',
+                })
+              }
+            />
+          </div>
+        )}
+
         {(title || subtitle) && (
           <div className="mb-12 text-center">
             {title && (
-              <h2 className="font-display text-3xl font-bold text-[var(--color-text-primary)]">
-                {title}
-              </h2>
+              <InlineText
+                path="title"
+                value={title}
+                as="h2"
+                className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
+              />
             )}
             {subtitle && (
-              <p className="mt-4 text-lg text-[var(--color-text-secondary)]">{subtitle}</p>
+              <InlineText
+                path="subtitle"
+                value={subtitle}
+                as="p"
+                multiline
+                className="mt-4 text-lg text-[var(--color-text-secondary)]"
+              />
             )}
           </div>
         )}
@@ -106,13 +145,42 @@ export function FeaturesSection({
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, i) => (
               <div key={i} className="text-center">
+                {editMode && (
+                  <div className="mb-2 flex justify-center">
+                    <InlineItemActions
+                      onMoveUp={i > 0 ? () => moveItem('features', i, i - 1) : undefined}
+                      onMoveDown={
+                        i < features.length - 1 ? () => moveItem('features', i, i + 1) : undefined
+                      }
+                      onDelete={() => removeAt('features', i)}
+                    />
+                  </div>
+                )}
                 <div className="mx-auto mb-4 flex justify-center">
                   <FeatureIcon icon={feature.icon} />
                 </div>
-                <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-[var(--color-text-secondary)]">{feature.description}</p>
+                <InlineText
+                  path={`features.${i}.title`}
+                  value={feature.title}
+                  as="h3"
+                  className="text-lg font-semibold text-[var(--color-text-primary)]"
+                />
+                <InlineText
+                  path={`features.${i}.description`}
+                  value={feature.description}
+                  as="p"
+                  multiline
+                  className="mt-2 text-[var(--color-text-secondary)]"
+                />
+                {editMode && (
+                  <InlineText
+                    path={`features.${i}.icon`}
+                    value={feature.icon}
+                    as="p"
+                    className="mt-2 text-xs text-[var(--color-text-muted)]"
+                    placeholder="icon key (truck, shield, refresh, star)"
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -124,10 +192,29 @@ export function FeaturesSection({
               <div key={i} className="flex gap-4">
                 <FeatureIcon icon={feature.icon} />
                 <div>
-                  <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-1 text-[var(--color-text-secondary)]">{feature.description}</p>
+                  {editMode && (
+                    <InlineItemActions
+                      className="mb-2"
+                      onMoveUp={i > 0 ? () => moveItem('features', i, i - 1) : undefined}
+                      onMoveDown={
+                        i < features.length - 1 ? () => moveItem('features', i, i + 1) : undefined
+                      }
+                      onDelete={() => removeAt('features', i)}
+                    />
+                  )}
+                  <InlineText
+                    path={`features.${i}.title`}
+                    value={feature.title}
+                    as="h3"
+                    className="text-lg font-semibold text-[var(--color-text-primary)]"
+                  />
+                  <InlineText
+                    path={`features.${i}.description`}
+                    value={feature.description}
+                    as="p"
+                    multiline
+                    className="mt-1 text-[var(--color-text-secondary)]"
+                  />
                 </div>
               </div>
             ))}
@@ -141,11 +228,30 @@ export function FeaturesSection({
                 key={i}
                 className="rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] p-6 transition-shadow hover:shadow-md"
               >
+                {editMode && (
+                  <InlineItemActions
+                    className="mb-2"
+                    onMoveUp={i > 0 ? () => moveItem('features', i, i - 1) : undefined}
+                    onMoveDown={
+                      i < features.length - 1 ? () => moveItem('features', i, i + 1) : undefined
+                    }
+                    onDelete={() => removeAt('features', i)}
+                  />
+                )}
                 <FeatureIcon icon={feature.icon} />
-                <h3 className="mt-4 text-lg font-semibold text-[var(--color-text-primary)]">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-[var(--color-text-secondary)]">{feature.description}</p>
+                <InlineText
+                  path={`features.${i}.title`}
+                  value={feature.title}
+                  as="h3"
+                  className="mt-4 text-lg font-semibold text-[var(--color-text-primary)]"
+                />
+                <InlineText
+                  path={`features.${i}.description`}
+                  value={feature.description}
+                  as="p"
+                  multiline
+                  className="mt-2 text-[var(--color-text-secondary)]"
+                />
               </div>
             ))}
           </div>

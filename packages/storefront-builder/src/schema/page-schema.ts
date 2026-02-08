@@ -18,3 +18,9 @@ export interface PageConfig {
   sections: SectionConfig[];
   seo: PageSeo;
 }
+
+export interface LandingPagesConfig {
+  version: 2;
+  pages: PageConfig[];
+  homePageId?: string;
+}

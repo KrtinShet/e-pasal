@@ -22,6 +22,7 @@ export interface DashboardLayoutProps extends HTMLAttributes<HTMLDivElement> {
   headerLeftContent?: ReactNode;
   headerRightContent?: ReactNode;
   defaultSidebarCollapsed?: boolean;
+  sidebarStorageKey?: string;
 }
 
 interface DashboardLayoutInnerProps extends Omit<DashboardLayoutProps, 'defaultSidebarCollapsed'> {
@@ -101,8 +102,8 @@ function DashboardLayoutInner({
 }
 
 export const DashboardLayout = forwardRef<HTMLDivElement, DashboardLayoutProps>(
-  ({ defaultSidebarCollapsed = false, ...props }, ref) => (
-    <SidebarProvider defaultCollapsed={defaultSidebarCollapsed}>
+  ({ defaultSidebarCollapsed = false, sidebarStorageKey, ...props }, ref) => (
+    <SidebarProvider defaultCollapsed={defaultSidebarCollapsed} storageKey={sidebarStorageKey}>
       <DashboardLayoutInner innerRef={ref} {...props} />
     </SidebarProvider>
   )

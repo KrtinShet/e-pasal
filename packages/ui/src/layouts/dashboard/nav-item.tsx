@@ -4,6 +4,8 @@ import { forwardRef, type ReactNode, type AnchorHTMLAttributes } from 'react';
 
 import { cn } from '../../utils';
 
+import { useOptionalSidebar } from './sidebar';
+
 export interface NavItemProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   icon?: ReactNode;
   label: string;
@@ -32,58 +34,63 @@ export const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(
       active = false,
       badge,
       badgeVariant = 'default',
-      collapsed = false,
+      collapsed,
       disabled = false,
       as: Component = 'a',
       ...props
     },
     ref
-  ) => (
-    <Component
-      ref={ref}
-      className={cn(
-        'group flex items-center gap-3 px-3 py-2.5 rounded-[var(--radius-md)] transition-all duration-[var(--transition-fast)]',
-        'text-sm font-medium',
-        active
-          ? 'bg-[var(--color-primary)] text-white'
-          : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text-primary)]',
-        disabled && 'opacity-50 pointer-events-none',
-        collapsed && 'justify-center px-2',
-        className
-      )}
-      aria-current={active ? 'page' : undefined}
-      aria-disabled={disabled}
-      {...props}
-    >
-      {icon && (
-        <span
-          className={cn(
-            'flex-shrink-0 w-5 h-5',
-            active
-              ? 'text-white'
-              : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]'
-          )}
-        >
-          {icon}
-        </span>
-      )}
-      {!collapsed && (
-        <>
-          <span className="flex-1 truncate">{label}</span>
-          {badge !== undefined && (
-            <span
-              className={cn(
-                'flex-shrink-0 px-2 py-0.5 text-xs font-semibold rounded-full',
-                badgeVariants[badgeVariant]
-              )}
-            >
-              {badge}
-            </span>
-          )}
-        </>
-      )}
-    </Component>
-  )
+  ) => {
+    const sidebar = useOptionalSidebar();
+    const isCollapsed = collapsed ?? sidebar?.collapsed ?? false;
+
+    return (
+      <Component
+        ref={ref}
+        className={cn(
+          'group flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-all duration-[var(--transition-fast)]',
+          active
+            ? 'bg-[var(--color-primary)] text-white'
+            : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text-primary)]',
+          disabled && 'pointer-events-none opacity-50',
+          isCollapsed && 'justify-center px-2',
+          className
+        )}
+        aria-current={active ? 'page' : undefined}
+        aria-disabled={disabled}
+        title={isCollapsed ? label : undefined}
+        {...props}
+      >
+        {icon && (
+          <span
+            className={cn(
+              'h-5 w-5 flex-shrink-0 transition-colors',
+              active
+                ? 'text-white'
+                : 'text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)]'
+            )}
+          >
+            {icon}
+          </span>
+        )}
+        {!isCollapsed && (
+          <>
+            <span className="flex-1 truncate">{label}</span>
+            {badge !== undefined && (
+              <span
+                className={cn(
+                  'flex-shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold',
+                  badgeVariants[badgeVariant]
+                )}
+              >
+                {badge}
+              </span>
+            )}
+          </>
+        )}
+      </Component>
+    );
+  }
 );
 
 NavItem.displayName = 'NavItem';
@@ -95,15 +102,18 @@ export interface NavGroupProps {
   className?: string;
 }
 
-export function NavGroup({ label, children, collapsed = false, className }: NavGroupProps) {
+export function NavGroup({ label, children, collapsed, className }: NavGroupProps) {
+  const sidebar = useOptionalSidebar();
+  const isCollapsed = collapsed ?? sidebar?.collapsed ?? false;
+
   return (
     <div className={cn('space-y-1', className)}>
-      {label && !collapsed && (
+      {label && !isCollapsed && (
         <span className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
           {label}
         </span>
       )}
-      {collapsed && label && <div className="border-t border-[var(--color-border)] my-2" />}
+      {isCollapsed && label && <div className="my-2 border-t border-[var(--color-border)]" />}
       <nav className="space-y-0.5">{children}</nav>
     </div>
   );

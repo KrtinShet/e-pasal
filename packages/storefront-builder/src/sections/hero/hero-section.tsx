@@ -3,6 +3,13 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
+import {
+  InlineLink,
+  InlineText,
+  InlineSelect,
+  InlineNumber,
+  useSectionEditor,
+} from '../../renderer';
 
 export type HeroVariant = 'centered' | 'left-aligned' | 'split';
 
@@ -30,6 +37,7 @@ export function HeroSection({
   backgroundImage,
   overlayOpacity = 0.5,
 }: HeroSectionProps) {
+  const { editMode } = useSectionEditor();
   const hasBackground = !!backgroundImage;
 
   return (
@@ -60,6 +68,32 @@ export function HeroSection({
           'text-left': variant === 'left-aligned' || variant === 'split',
         })}
       >
+        {editMode && (
+          <div className="mb-6 flex flex-wrap items-center gap-2">
+            <InlineSelect
+              path="variant"
+              value={variant}
+              options={['centered', 'left-aligned', 'split']}
+              label="Variant"
+            />
+            <InlineNumber
+              path="overlayOpacity"
+              value={overlayOpacity}
+              min={0}
+              max={1}
+              step={0.05}
+              className="!w-20"
+            />
+            <InlineText
+              path="backgroundImage"
+              value={backgroundImage}
+              placeholder="Background image URL"
+              as="span"
+              className="inline-block min-w-[220px] text-xs text-white/90"
+            />
+          </div>
+        )}
+
         <div
           className={cn({
             'mx-auto max-w-3xl': variant === 'centered',
@@ -68,24 +102,27 @@ export function HeroSection({
           })}
         >
           <div>
-            <h1
+            <InlineText
+              path="headline"
+              value={headline}
+              as="h1"
               className={cn(
                 'font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl',
                 hasBackground ? 'text-white' : 'text-[var(--color-text-primary)]'
               )}
-            >
-              {headline}
-            </h1>
+            />
 
             {subheadline && (
-              <p
+              <InlineText
+                path="subheadline"
+                value={subheadline}
+                as="p"
+                multiline
                 className={cn(
                   'mt-6 text-lg md:text-xl',
                   hasBackground ? 'text-white/80' : 'text-[var(--color-text-secondary)]'
                 )}
-              >
-                {subheadline}
-              </p>
+              />
             )}
 
             {(ctaText || secondaryCtaText) && (
@@ -95,15 +132,19 @@ export function HeroSection({
                 })}
               >
                 {ctaText && (
-                  <a
+                  <InlineLink
+                    textPath="ctaText"
+                    hrefPath="ctaLink"
+                    text={ctaText}
                     href={ctaLink}
                     className="inline-flex items-center rounded-lg bg-[var(--color-primary)] px-8 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
-                  >
-                    {ctaText}
-                  </a>
+                  />
                 )}
                 {secondaryCtaText && (
-                  <a
+                  <InlineLink
+                    textPath="secondaryCtaText"
+                    hrefPath="secondaryCtaLink"
+                    text={secondaryCtaText}
                     href={secondaryCtaLink}
                     className={cn(
                       'inline-flex items-center rounded-lg border-2 px-8 py-3 text-base font-semibold transition-opacity hover:opacity-80',
@@ -111,9 +152,7 @@ export function HeroSection({
                         ? 'border-white text-white'
                         : 'border-[var(--color-primary)] text-[var(--color-primary)]'
                     )}
-                  >
-                    {secondaryCtaText}
-                  </a>
+                  />
                 )}
               </div>
             )}

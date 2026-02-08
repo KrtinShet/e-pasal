@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface ColorPickerProps {
   label: string;
@@ -11,6 +11,10 @@ interface ColorPickerProps {
 
 export function ColorPicker({ label, value, onChange, description }: ColorPickerProps) {
   const [inputValue, setInputValue] = useState(value);
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   const handleInputChange = (val: string) => {
     setInputValue(val);

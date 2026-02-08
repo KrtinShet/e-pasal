@@ -49,6 +49,9 @@ storeRouter.put('/me/landing-page/draft', (req, res, next) =>
 storeRouter.post('/me/landing-page/publish', (req, res, next) =>
   storeController.publishLandingPage(req, res, next)
 );
+storeRouter.delete('/me/landing-page/published/:pageId', (req, res, next) =>
+  storeController.unpublishLandingPage(req, res, next)
+);
 storeRouter.post('/me/landing-page/generate', aiGenerateRateLimit, (req, res, next) =>
   storeController.generateLandingPage(req, res, next)
 );

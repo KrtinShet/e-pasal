@@ -47,18 +47,18 @@ const updateThemeSchema = z.object({
   accentColor: z.string().optional(),
 });
 
-const landingPageDraftSchema = z.object({
+const landingPageSectionSchema = z.object({
+  id: z.string().min(1),
+  type: z.string().min(1),
+  props: z.record(z.unknown()),
+  visible: z.boolean(),
+});
+
+const landingPageSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
   title: z.string().min(1),
-  sections: z.array(
-    z.object({
-      id: z.string().min(1),
-      type: z.string().min(1),
-      props: z.record(z.unknown()),
-      visible: z.boolean(),
-    })
-  ),
+  sections: z.array(landingPageSectionSchema),
   seo: z
     .object({
       title: z.string().optional(),
@@ -67,6 +67,16 @@ const landingPageDraftSchema = z.object({
     })
     .optional()
     .default({}),
+});
+
+const landingPagesDraftSchema = z.object({
+  version: z.literal(2),
+  pages: z.array(landingPageSchema),
+  homePageId: z.string().min(1).optional(),
+});
+
+const publishLandingPageSchema = z.object({
+  pageId: z.string().min(1),
 });
 
 const generatePageSchema = z.object({
@@ -216,11 +226,8 @@ export class StoreController {
 
   async saveLandingPageDraft(req: Request, res: Response, next: NextFunction) {
     try {
-      const config = landingPageDraftSchema.parse(req.body);
-      const draft = await storeService.saveLandingPageDraft(
-        req.user!.storeId!,
-        config as unknown as Record<string, unknown>
-      );
+      const config = landingPagesDraftSchema.parse(req.body);
+      const draft = await storeService.saveLandingPageDraft(req.user!.storeId!, config);
       res.json({ success: true, data: draft });
     } catch (error) {
       next(error);
@@ -229,12 +236,24 @@ export class StoreController {
 
   async publishLandingPage(req: Request, res: Response, next: NextFunction) {
     try {
-      const config = await storeService.publishLandingPage(req.user!.storeId!);
+      const { pageId } = publishLandingPageSchema.parse(req.body);
+      const config = await storeService.publishLandingPage(req.user!.storeId!, pageId);
       res.json({ success: true, data: config });
     } catch (error) {
       next(error);
     }
   }
+
+  async unpublishLandingPage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const pageId = req.params.pageId as string;
+      const config = await storeService.unpublishLandingPage(req.user!.storeId!, pageId);
+      res.json({ success: true, data: config });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async generateLandingPage(req: Request, res: Response, next: NextFunction) {
     try {
       if (env.AI_PROVIDER === 'none') {
@@ -258,11 +277,6 @@ export class StoreController {
         storeName: store.name,
         storeDescription: store.description,
       });
-
-      await storeService.saveLandingPageDraft(
-        req.user!.storeId!,
-        pageConfig as unknown as Record<string, unknown>
-      );
 
       res.json({ success: true, data: pageConfig });
     } catch (error) {

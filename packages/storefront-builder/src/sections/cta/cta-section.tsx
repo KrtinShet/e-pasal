@@ -3,6 +3,7 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
+import { InlineLink, InlineText, InlineSelect, useSectionEditor } from '../../renderer';
 
 export type CTAVariant = 'simple' | 'gradient' | 'image';
 
@@ -24,6 +25,7 @@ export function CTASection({
   buttonLink = '#',
   backgroundImage,
 }: CTASectionProps) {
+  const { editMode } = useSectionEditor();
   return (
     <section
       className={cn(
@@ -47,15 +49,49 @@ export function CTASection({
       {variant === 'image' && <div className="absolute inset-0 bg-black/60" />}
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <h2 className="font-display text-3xl font-bold text-white md:text-4xl">{headline}</h2>
-        {description && <p className="mt-4 text-lg text-white/80">{description}</p>}
+        {editMode && (
+          <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
+            <InlineSelect
+              path="variant"
+              value={variant}
+              options={['simple', 'gradient', 'image']}
+              label="Variant"
+            />
+            {variant === 'image' ? (
+              <InlineText
+                path="backgroundImage"
+                value={backgroundImage}
+                as="span"
+                placeholder="Background image URL"
+                className="inline-block min-w-[220px] text-xs text-white/90"
+              />
+            ) : null}
+          </div>
+        )}
+
+        <InlineText
+          path="headline"
+          value={headline}
+          as="h2"
+          className="font-display text-3xl font-bold text-white md:text-4xl"
+        />
+        {description && (
+          <InlineText
+            path="description"
+            value={description}
+            as="p"
+            multiline
+            className="mt-4 text-lg text-white/80"
+          />
+        )}
         {buttonText && (
-          <a
+          <InlineLink
+            textPath="buttonText"
+            hrefPath="buttonLink"
+            text={buttonText}
             href={buttonLink}
             className="mt-8 inline-flex items-center rounded-lg bg-white px-8 py-3 text-base font-semibold text-[var(--color-primary)] transition-opacity hover:opacity-90"
-          >
-            {buttonText}
-          </a>
+          />
         )}
       </div>
     </section>

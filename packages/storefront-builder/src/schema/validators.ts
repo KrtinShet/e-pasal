@@ -21,5 +21,12 @@ export const pageConfigSchema = z.object({
   seo: pageSeoSchema,
 });
 
+export const landingPagesConfigSchema = z.object({
+  version: z.literal(2),
+  pages: z.array(pageConfigSchema),
+  homePageId: z.string().min(1).optional(),
+});
+
 export type ValidatedPageConfig = z.infer<typeof pageConfigSchema>;
 export type ValidatedSectionConfig = z.infer<typeof sectionConfigSchema>;
+export type ValidatedLandingPagesConfig = z.infer<typeof landingPagesConfigSchema>;

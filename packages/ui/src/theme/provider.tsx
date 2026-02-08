@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useCallback, type ReactNode } from 'react';
+import { useMemo, useState, useEffect, useCallback, type ReactNode } from 'react';
 
 import { deepMerge } from '../utils/deep-merge';
 import { defaultTokens } from '../tokens/defaults';
@@ -19,6 +19,10 @@ export function ThemeProvider({ children, initialTokens, onTokensChange }: Theme
   const [tokens, setTokensState] = useState<ThemeTokens>(() =>
     initialTokens ? deepMerge(defaultTokens, initialTokens) : defaultTokens
   );
+
+  useEffect(() => {
+    setTokensState(initialTokens ? deepMerge(defaultTokens, initialTokens) : defaultTokens);
+  }, [initialTokens]);
 
   const setTokens = useCallback(
     (newTokens: DeepPartial<ThemeTokens>) => {

@@ -2,6 +2,7 @@
 
 import {
   useState,
+  useEffect,
   forwardRef,
   useContext,
   useCallback,
@@ -20,6 +21,7 @@ interface SidebarContextValue {
 }
 
 const SidebarContext = createContext<SidebarContextValue | null>(null);
+const SIDEBAR_STORAGE_KEY = 'baazarify.dashboard.sidebar.collapsed';
 
 export function useSidebar() {
   const context = useContext(SidebarContext);
@@ -29,14 +31,41 @@ export function useSidebar() {
   return context;
 }
 
+export function useOptionalSidebar() {
+  return useContext(SidebarContext);
+}
+
 export interface SidebarProviderProps {
   children: ReactNode;
   defaultCollapsed?: boolean;
+  storageKey?: string;
 }
 
-export function SidebarProvider({ children, defaultCollapsed = false }: SidebarProviderProps) {
-  const [collapsed, setCollapsed] = useState(defaultCollapsed);
-  const toggle = useCallback(() => setCollapsed((prev) => !prev), []);
+export function SidebarProvider({
+  children,
+  defaultCollapsed = false,
+  storageKey = SIDEBAR_STORAGE_KEY,
+}: SidebarProviderProps) {
+  const [collapsed, setCollapsedState] = useState(defaultCollapsed);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const stored = window.localStorage.getItem(storageKey);
+    if (stored === null) return;
+    setCollapsedState(stored === 'true');
+  }, [storageKey]);
+
+  const setCollapsed = useCallback(
+    (nextCollapsed: boolean) => {
+      setCollapsedState(nextCollapsed);
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(storageKey, String(nextCollapsed));
+      }
+    },
+    [storageKey]
+  );
+
+  const toggle = useCallback(() => setCollapsed(!collapsed), [collapsed, setCollapsed]);
 
   return (
     <SidebarContext.Provider value={{ collapsed, setCollapsed, toggle }}>

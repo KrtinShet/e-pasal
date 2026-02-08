@@ -3,6 +3,7 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
+import { InlineText, useSectionEditor, InlineItemActions, InlineListToolbar } from '../../renderer';
 
 export interface StatItem {
   label: string;
@@ -16,13 +17,33 @@ export interface StatsSectionProps extends BaseSectionProps {
 }
 
 export function StatsSection({ className, title, stats }: StatsSectionProps) {
+  const { editMode, append, removeAt, moveItem } = useSectionEditor();
+
   return (
     <section className={cn('bg-[var(--color-surface)] py-16', className)}>
       <div className="mx-auto max-w-7xl px-6">
+        {editMode && (
+          <div className="mb-4 flex justify-center">
+            <InlineListToolbar
+              label="Add stat"
+              onAdd={() =>
+                append('stats', {
+                  label: 'New metric',
+                  value: '0',
+                  description: 'Metric description',
+                })
+              }
+            />
+          </div>
+        )}
+
         {title && (
-          <h2 className="mb-12 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]">
-            {title}
-          </h2>
+          <InlineText
+            path="title"
+            value={title}
+            as="h2"
+            className="mb-12 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
+          />
         )}
         <div
           className={cn(
@@ -32,12 +53,37 @@ export function StatsSection({ className, title, stats }: StatsSectionProps) {
         >
           {stats.map((stat, i) => (
             <div key={i} className="text-center">
-              <p className="font-display text-4xl font-bold text-[var(--color-primary)]">
-                {stat.value}
-              </p>
-              <p className="mt-2 font-semibold text-[var(--color-text-primary)]">{stat.label}</p>
+              {editMode && (
+                <div className="mb-2 flex justify-center">
+                  <InlineItemActions
+                    onMoveUp={i > 0 ? () => moveItem('stats', i, i - 1) : undefined}
+                    onMoveDown={
+                      i < stats.length - 1 ? () => moveItem('stats', i, i + 1) : undefined
+                    }
+                    onDelete={() => removeAt('stats', i)}
+                  />
+                </div>
+              )}
+              <InlineText
+                path={`stats.${i}.value`}
+                value={stat.value}
+                as="p"
+                className="font-display text-4xl font-bold text-[var(--color-primary)]"
+              />
+              <InlineText
+                path={`stats.${i}.label`}
+                value={stat.label}
+                as="p"
+                className="mt-2 font-semibold text-[var(--color-text-primary)]"
+              />
               {stat.description && (
-                <p className="mt-1 text-sm text-[var(--color-text-muted)]">{stat.description}</p>
+                <InlineText
+                  path={`stats.${i}.description`}
+                  value={stat.description}
+                  as="p"
+                  multiline
+                  className="mt-1 text-sm text-[var(--color-text-muted)]"
+                />
               )}
             </div>
           ))}

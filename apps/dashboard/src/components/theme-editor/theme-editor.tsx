@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import {
+  presets,
   deepMerge,
   tokenSchema,
   defaultTokens,
-  getAllPresets,
   type DeepPartial,
   type ThemeTokens,
 } from '@baazarify/ui';
@@ -30,13 +30,29 @@ interface ThemeEditorProps {
 }
 
 type EditorTab = 'presets' | 'colors' | 'typography' | 'radius';
+type PreviewDevice = 'desktop' | 'tablet' | 'mobile';
 
 export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
   const [activeTab, setActiveTab] = useState<EditorTab>('presets');
-  const [activePreset, setActivePreset] = useState(initialTheme?.preset);
-  const [tokens, setTokens] = useState<DeepPartial<ThemeTokens>>(
-    (initialTheme?.tokens as DeepPartial<ThemeTokens>) || {}
+  const initialPresetTokens = useMemo(() => {
+    if (initialTheme?.preset && presets[initialTheme.preset]) {
+      return presets[initialTheme.preset].tokens as DeepPartial<ThemeTokens>;
+    }
+    return {};
+  }, [initialTheme?.preset]);
+
+  const initialTokens = useMemo(
+    () =>
+      (initialTheme?.tokens as DeepPartial<ThemeTokens>) &&
+      Object.keys((initialTheme?.tokens as Record<string, unknown>) || {}).length > 0
+        ? (initialTheme?.tokens as DeepPartial<ThemeTokens>)
+        : initialPresetTokens,
+    [initialPresetTokens, initialTheme?.tokens]
   );
+
+  const [activePreset, setActivePreset] = useState(initialTheme?.preset);
+  const [tokens, setTokens] = useState<DeepPartial<ThemeTokens>>(initialTokens);
+  const [previewDevice, setPreviewDevice] = useState<PreviewDevice>('desktop');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -81,22 +97,24 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
   }, []);
 
   const handlePresetSelect = async (presetKey: string) => {
+    const previousPreset = activePreset;
+    const previousTokens = tokens;
+    const presetConfig = presets[presetKey];
+
+    if (presetConfig) {
+      setTokens(presetConfig.tokens as DeepPartial<ThemeTokens>);
+    } else {
+      setTokens({});
+    }
+    setActivePreset(presetKey);
+
     try {
       setSaving(true);
       await apiRequest('/stores/me/theme/preset/' + presetKey, { method: 'POST' });
-      setActivePreset(presetKey);
-      const allPresets = getAllPresets();
-      const preset = allPresets.find((p) => p.name.toLowerCase().replace(/\s+/g, '') === presetKey);
-      if (!preset) {
-        const presetsMap = Object.entries(
-          await import('@baazarify/ui').then((m) => m.presets)
-        ).find(([k]) => k === presetKey);
-        if (presetsMap) {
-          setTokens(presetsMap[1].tokens as DeepPartial<ThemeTokens>);
-        }
-      }
       setMessage({ type: 'success', text: 'Preset applied' });
     } catch {
+      setActivePreset(previousPreset);
+      setTokens(previousTokens);
       setMessage({ type: 'error', text: 'Failed to apply preset' });
     } finally {
       setSaving(false);
@@ -138,16 +156,7 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
     }
   };
 
-  const presetOptions = Object.entries(
-    (() => {
-      try {
-        const ui = require('@baazarify/ui');
-        return ui.presets || {};
-      } catch {
-        return {};
-      }
-    })()
-  ).map(([key, preset]: [string, any]) => ({
+  const presetOptions = Object.entries(presets).map(([key, preset]) => ({
     key,
     name: preset.name,
     description: preset.description,
@@ -346,8 +355,26 @@ export function ThemeEditor({ initialTheme }: ThemeEditorProps) {
 
       <div>
         <div className="sticky top-6">
-          <h3 className="mb-3 text-sm font-medium text-[var(--charcoal)]">Preview</h3>
-          <ThemePreview tokens={mergedTokens} />
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="text-sm font-medium text-[var(--charcoal)]">Preview</h3>
+            <div className="inline-flex rounded-lg border border-[var(--color-border)] bg-white p-1">
+              {(['desktop', 'tablet', 'mobile'] as PreviewDevice[]).map((device) => (
+                <button
+                  key={device}
+                  type="button"
+                  onClick={() => setPreviewDevice(device)}
+                  className={`rounded-md px-2 py-1 text-xs font-semibold capitalize transition-colors ${
+                    previewDevice === device
+                      ? 'bg-[var(--color-primary)] text-white'
+                      : 'text-[var(--slate)] hover:bg-[var(--color-surface)]'
+                  }`}
+                >
+                  {device}
+                </button>
+              ))}
+            </div>
+          </div>
+          <ThemePreview tokens={mergedTokens} device={previewDevice} />
         </div>
       </div>
     </div>
