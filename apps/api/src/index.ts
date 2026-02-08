@@ -66,6 +66,10 @@ app.get('/ready', (_req, res) => {
   });
 });
 
+app.get('/api/version', (_req, res) => {
+  res.json({ version: '0.0.1', name: 'baazarify' });
+});
+
 app.use(`/api/${env.API_VERSION}`, router);
 
 app.use(errorHandler);
