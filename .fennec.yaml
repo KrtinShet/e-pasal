@@ -1,0 +1,43 @@
+name: Baazarify
+plan:
+  root: ./docs/project-management
+  active_sprint: ''
+executor:
+  default: claude_code
+  model: claude-sonnet-4-5-20250929
+  codex_model: o4-mini
+budget:
+  sprint_limit_usd: 100.0
+  task_limit_usd: 10.0
+execution:
+  max_retries: 3
+  max_turns_per_task: 50
+  cooldown_between_tasks: 30
+git:
+  auto_push: false
+  branch_strategy: branch-per-task
+  create_pr: false
+  use_worktrees: false
+  worktree_base: null
+project:
+  source_dirs:
+  - src
+  test_command: pnpm test
+  lint_command: pnpm lint
+  typecheck_command: pnpm build
+  tech_stack:
+  - node
+  - typescript
+ai_context:
+  conventions: ''
+  architecture_docs:
+  - docs/**/*.md
+  extra_constraints: []
+review:
+  require_human_review_for: []
+docker:
+  enabled: false
+  image: fennec-agent:latest
+  memory_limit: 4g
+  cpu_limit: 2.0
+  network_mode: bridge

@@ -71,6 +71,26 @@ function normalizeSlug(slug: string) {
   return cleaned ? `/${cleaned}` : '/';
 }
 
+function getSlugValidationError(slug: string, pages: PageConfig[], currentPageId?: string) {
+  if (!slug) {
+    return 'Page slug is invalid';
+  }
+
+  if (RESERVED_SLUGS.has(slug)) {
+    return `${slug} is reserved for storefront routes`;
+  }
+
+  if (slug === '/' && pages.some((page) => page.slug === '/' && page.id !== currentPageId)) {
+    return 'Only one page can use /';
+  }
+
+  if (pages.some((page) => page.slug === slug && page.id !== currentPageId)) {
+    return 'A page with this slug already exists';
+  }
+
+  return null;
+}
+
 function toDraftConfig(pages: PageConfig[], homePageId?: string): LandingPagesConfig {
   return {
     version: 2,
@@ -104,6 +124,8 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
 
   const config = pages[activePageIndex] || pages[0];
+  const [pageTitleInput, setPageTitleInput] = useState(config?.title || '');
+  const [pageSlugInput, setPageSlugInput] = useState(config?.slug || '/');
 
   const draftConfig = useMemo(() => toDraftConfig(pages, homePageId), [pages, homePageId]);
   const draftHash = useMemo(() => JSON.stringify(draftConfig), [draftConfig]);
@@ -121,6 +143,12 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
       return pages.find((page) => page.slug === '/')?.id || pages[0]?.id;
     });
   }, [pages]);
+
+  useEffect(() => {
+    if (!config) return;
+    setPageTitleInput(config.title);
+    setPageSlugInput(config.slug);
+  }, [config?.id, config?.slug, config?.title]);
 
   const showMessageToast = useCallback((type: 'success' | 'error', text: string) => {
     setMessage({ type, text });
@@ -280,23 +308,9 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
     const requestedSlug = newPageSlug.trim() || titleToSlug(trimmedTitle);
     const slug = normalizeSlug(requestedSlug);
 
-    if (!slug) {
-      showMessageToast('error', 'Page slug is invalid');
-      return;
-    }
-
-    if (RESERVED_SLUGS.has(slug)) {
-      showMessageToast('error', `${slug} is reserved for storefront routes`);
-      return;
-    }
-
-    if (slug === '/' && pages.some((page) => page.slug === '/')) {
-      showMessageToast('error', 'Only one page can use /');
-      return;
-    }
-
-    if (pages.some((page) => page.slug === slug)) {
-      showMessageToast('error', 'A page with this slug already exists');
+    const slugError = getSlugValidationError(slug, pages);
+    if (slugError) {
+      showMessageToast('error', slugError);
       return;
     }
 
@@ -372,6 +386,44 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
     setSelectedSectionId(null);
   }, []);
 
+  const handlePageTitleCommit = useCallback(() => {
+    if (!config) return;
+
+    const nextTitle = pageTitleInput.trim();
+    if (!nextTitle) {
+      showMessageToast('error', 'Page title is required');
+      setPageTitleInput(config.title);
+      return;
+    }
+
+    if (nextTitle === config.title) {
+      return;
+    }
+
+    updateActivePage((page) => ({ ...page, title: nextTitle }));
+  }, [config, pageTitleInput, showMessageToast, updateActivePage]);
+
+  const handlePageSlugCommit = useCallback(() => {
+    if (!config) return;
+
+    const normalized = normalizeSlug(pageSlugInput);
+    const slugError = getSlugValidationError(normalized, pages, config.id);
+    if (slugError) {
+      showMessageToast('error', slugError);
+      setPageSlugInput(config.slug);
+      return;
+    }
+
+    if (normalized === config.slug) {
+      return;
+    }
+
+    updateActivePage((page) => ({ ...page, slug: normalized }));
+    if (normalized === '/') {
+      setHomePageId(config.id);
+    }
+  }, [config, pageSlugInput, pages, showMessageToast, updateActivePage]);
+
   const handleAIGenerated = useCallback(
     (newConfig: PageConfig) => {
       updateActivePage((page) => ({
@@ -424,7 +476,11 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
                   <span className="rounded-full bg-[var(--success-lighter)] px-1.5 py-0.5 text-[0.625rem] font-bold text-[var(--success-main)]">
                     Live
                   </span>
-                ) : null}
+                ) : (
+                  <span className="rounded-full bg-[var(--grey-100)] px-1.5 py-0.5 text-[0.625rem] font-bold text-[var(--grey-500)]">
+                    Draft
+                  </span>
+                )}
 
                 {pages.length > 1 && (
                   <>
@@ -554,9 +610,50 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
 
         <div className="flex flex-1 flex-col overflow-hidden bg-[var(--grey-50)]">
           <div className="flex items-center justify-between border-b border-[var(--grey-200)] bg-white px-5 py-3">
-            <div>
+            <div className="min-w-0">
               <h3 className="text-[0.8125rem] font-bold text-[var(--grey-800)]">Preview</h3>
               <p className="text-[0.6875rem] text-[var(--grey-500)]">{savedText}</p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <label className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-2.5 py-1.5 text-[0.6875rem] font-semibold text-[var(--grey-500)]">
+                  Title
+                  <input
+                    type="text"
+                    value={pageTitleInput}
+                    onChange={(event) => setPageTitleInput(event.target.value)}
+                    onBlur={handlePageTitleCommit}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        handlePageTitleCommit();
+                      }
+                      if (event.key === 'Escape') {
+                        setPageTitleInput(config.title);
+                      }
+                    }}
+                    className="min-w-32 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--color-primary)] focus:outline-none"
+                  />
+                </label>
+                <label className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-2.5 py-1.5 text-[0.6875rem] font-semibold text-[var(--grey-500)]">
+                  URL
+                  <input
+                    type="text"
+                    value={pageSlugInput}
+                    onChange={(event) => setPageSlugInput(event.target.value)}
+                    onBlur={handlePageSlugCommit}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault();
+                        handlePageSlugCommit();
+                      }
+                      if (event.key === 'Escape') {
+                        setPageSlugInput(config.slug);
+                      }
+                    }}
+                    className="min-w-36 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--color-primary)] focus:outline-none"
+                    placeholder="/about-us"
+                  />
+                </label>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               {message && (
@@ -592,7 +689,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
               <button
                 type="button"
                 onClick={() => void handleSaveDraft()}
-                disabled={saving || !hasUnsavedChanges}
+                disabled={saving || publishing}
                 className="rounded-[10px] border border-[var(--grey-200)] px-3.5 py-1.5 text-[0.75rem] font-semibold text-[var(--grey-700)] transition-all hover:border-[var(--grey-300)] hover:bg-[var(--grey-50)] disabled:opacity-40"
               >
                 {saving ? 'Saving...' : 'Save Draft'}
