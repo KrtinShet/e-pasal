@@ -144,7 +144,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
               onClick={() => setSelectedIndex(index)}
               className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
                 index === selectedIndex
-                  ? 'border-[var(--coral)] ring-2 ring-[var(--coral)]/20'
+                  ? 'border-[var(--store-primary)] ring-2 ring-[var(--store-primary)]/20'
                   : 'border-transparent hover:border-[var(--mist)]'
               }`}
               aria-label={`Select image ${index + 1}`}

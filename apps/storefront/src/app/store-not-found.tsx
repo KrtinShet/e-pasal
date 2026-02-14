@@ -53,7 +53,7 @@ export function StoreNotFound() {
               href="https://baazarify.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-[var(--coral)] hover:underline"
+              className="font-medium text-[var(--store-primary)] hover:underline"
             >
               Baazarify
             </a>

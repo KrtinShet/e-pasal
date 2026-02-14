@@ -95,7 +95,7 @@ function StoreContent({
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-[var(--coral)]"
+                className="text-[var(--store-primary)]"
               >
                 <path d="m7.5 4.27 9 5.15" />
                 <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
@@ -121,7 +121,7 @@ function StoreContent({
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-[var(--coral)]"
+                className="text-[var(--store-primary)]"
               >
                 <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" />
                 <path d="m7.5 4.27 9 5.15" />
@@ -149,7 +149,7 @@ function StoreContent({
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-[var(--coral)]"
+                className="text-[var(--store-primary)]"
               >
                 <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
               </svg>

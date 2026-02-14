@@ -71,7 +71,7 @@ export function CartSummary({ showCheckout = true, onCheckout }: CartSummaryProp
           <Link
             href="/cart"
             onClick={closeDrawer}
-            className="block text-center text-body-sm font-medium text-[var(--coral)] hover:text-[var(--coral-dark)] link-underline transition-colors"
+            className="block text-center text-body-sm font-medium text-[var(--store-primary)] hover:text-[var(--store-primary-dark)] link-underline transition-colors"
           >
             View Cart
           </Link>

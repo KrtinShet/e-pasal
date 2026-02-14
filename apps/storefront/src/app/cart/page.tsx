@@ -159,7 +159,7 @@ export default function CartPage() {
           <button
             type="button"
             onClick={handleClearCart}
-            className="inline-flex items-center gap-2 px-4 py-2 text-body-sm font-medium text-[var(--coral)] hover:text-[var(--coral-dark)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-body-sm font-medium text-[var(--store-primary)] hover:text-[var(--store-primary-dark)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
           >
             <TrashIcon />
             Clear Cart

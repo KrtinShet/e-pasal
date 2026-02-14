@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect, useCallback, useTransition } from 'react';
 
 import type { Category, SortOption } from '@/types/product';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 interface ProductFiltersProps {
   categories: Category[];
@@ -26,24 +27,6 @@ function SearchIcon() {
     >
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
-
-function ChevronDownIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
     </svg>
   );
 }
@@ -123,7 +106,7 @@ export function ProductFilters({ categories, totalProducts }: ProductFiltersProp
     updateParams({ category: categoryId || null });
   };
 
-  const handleSortChange = (sort: SortOption) => {
+  const handleSortChange = (sort: string) => {
     updateParams({ sort: sort === 'newest' ? null : sort });
   };
 
@@ -136,6 +119,11 @@ export function ProductFilters({ categories, totalProducts }: ProductFiltersProp
 
   const hasActiveFilters = currentCategory || currentSearch || currentSort !== 'newest';
 
+  const categoryOptions = [
+    { value: '', label: 'All Categories' },
+    ...categories.map((cat) => ({ value: cat._id, label: cat.name })),
+  ];
+
   return (
     <div className="space-y-6">
       <div className="relative">
@@ -147,14 +135,14 @@ export function ProductFilters({ categories, totalProducts }: ProductFiltersProp
           placeholder="Search products..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 bg-[var(--ivory)] border border-[var(--mist)]/30 rounded-xl text-body placeholder:text-[var(--slate)] focus:outline-none focus:border-[var(--coral)] focus:ring-2 focus:ring-[var(--coral)]/20 transition-all"
+          className="w-full pl-12 pr-4 py-3 bg-[var(--background)] border border-[var(--store-primary)]/20 rounded-xl text-body placeholder:text-[var(--slate)] focus:outline-none focus:border-[var(--store-primary)] focus:ring-2 focus:ring-[var(--store-primary)]/20 transition-all"
           aria-label="Search products"
         />
         {searchValue && (
           <button
             type="button"
             onClick={() => setSearchValue('')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-[var(--cream-dark)] rounded-full transition-colors"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-[var(--store-primary)]/10 rounded-full transition-colors"
             aria-label="Clear search"
           >
             <XIcon />
@@ -164,65 +152,42 @@ export function ProductFilters({ categories, totalProducts }: ProductFiltersProp
 
       <div className="flex flex-wrap gap-4">
         {categories.length > 0 && (
-          <div className="relative">
-            <select
-              value={currentCategory}
-              onChange={(e) => handleCategoryChange(e.target.value)}
-              className="appearance-none pl-4 pr-10 py-2.5 bg-[var(--ivory)] border border-[var(--mist)]/30 rounded-full text-body-sm cursor-pointer hover:border-[var(--slate)] focus:outline-none focus:border-[var(--coral)] focus:ring-2 focus:ring-[var(--coral)]/20 transition-all"
-              aria-label="Filter by category"
-            >
-              <option value="">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ChevronDownIcon />
-            </div>
-          </div>
+          <CustomSelect
+            options={categoryOptions}
+            value={currentCategory}
+            onChange={handleCategoryChange}
+            aria-label="Filter by category"
+          />
         )}
 
-        <div className="relative">
-          <select
-            value={currentSort}
-            onChange={(e) => handleSortChange(e.target.value as SortOption)}
-            className="appearance-none pl-4 pr-10 py-2.5 bg-[var(--ivory)] border border-[var(--mist)]/30 rounded-full text-body-sm cursor-pointer hover:border-[var(--slate)] focus:outline-none focus:border-[var(--coral)] focus:ring-2 focus:ring-[var(--coral)]/20 transition-all"
-            aria-label="Sort products"
-          >
-            {SORT_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-            <ChevronDownIcon />
-          </div>
-        </div>
+        <CustomSelect
+          options={SORT_OPTIONS.map((o) => ({ value: o.value, label: o.label }))}
+          value={currentSort}
+          onChange={handleSortChange}
+          aria-label="Sort products"
+        />
 
         {hasActiveFilters && (
           <button
             type="button"
             onClick={clearFilters}
-            className="px-4 py-2.5 text-body-sm text-[var(--coral)] hover:text-[var(--coral-dark)] hover:bg-[var(--peach-light)] rounded-full transition-colors"
+            className="px-4 py-2.5 text-body-sm text-[var(--store-primary)] hover:text-[var(--store-primary-dark)] hover:bg-[var(--store-primary)]/10 rounded-full transition-colors"
           >
             Clear all
           </button>
         )}
       </div>
 
-      <div className="flex items-center justify-between py-2 border-b border-[var(--mist)]/20">
+      <div className="flex items-center justify-between py-2 border-b border-[var(--store-primary)]/10">
         <p className="text-body-sm text-[var(--slate)]">
           {isPending ? (
             <span className="inline-flex items-center gap-2">
-              <span className="w-4 h-4 border-2 border-[var(--coral)] border-t-transparent rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-[var(--store-primary)] border-t-transparent rounded-full animate-spin" />
               Loading...
             </span>
           ) : (
             <>
-              Showing <span className="font-medium text-[var(--charcoal)]">{totalProducts}</span>{' '}
+              Showing <span className="font-medium text-[var(--foreground)]">{totalProducts}</span>{' '}
               {totalProducts === 1 ? 'product' : 'products'}
             </>
           )}

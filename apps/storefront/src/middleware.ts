@@ -12,6 +12,16 @@ function extractSubdomain(host: string): string | null {
 
   const parts = hostname.split('.');
 
+  // Handle *.localhost (e.g. phool.localhost)
+  if (parts.length === 2 && parts[1] === 'localhost') {
+    const subdomain = parts[0];
+    if (!RESERVED_SUBDOMAINS.includes(subdomain)) {
+      return subdomain;
+    }
+    return null;
+  }
+
+  // Handle *.domain.tld (e.g. phool.baazarify.com)
   if (parts.length >= 3) {
     const subdomain = parts[0];
     if (!RESERVED_SUBDOMAINS.includes(subdomain)) {

@@ -20,7 +20,7 @@ function AlertIcon() {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-[var(--coral)]"
+      className="text-[var(--store-primary)]"
     >
       <circle cx="12" cy="12" r="10" />
       <line x1="12" x2="12" y1="8" y2="12" />
@@ -60,7 +60,7 @@ export default function ProductsError({ error, reset }: ErrorProps) {
 
         {process.env.NODE_ENV === 'development' && error.message && (
           <div className="mt-8 p-4 bg-[var(--cream-dark)] rounded-lg text-left">
-            <p className="text-caption font-mono text-[var(--coral)]">{error.message}</p>
+            <p className="text-caption font-mono text-[var(--store-primary)]">{error.message}</p>
           </div>
         )}
       </div>

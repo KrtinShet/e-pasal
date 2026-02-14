@@ -208,7 +208,7 @@ export default function CheckoutPage() {
                     required
                     value={customerInfo.name}
                     onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)]"
+                    className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                     placeholder="Your full name"
                   />
                 </div>
@@ -226,7 +226,7 @@ export default function CheckoutPage() {
                       required
                       value={customerInfo.email}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)]"
+                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -243,7 +243,7 @@ export default function CheckoutPage() {
                       required
                       value={customerInfo.phone}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)]"
+                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="+977 98XXXXXXXX"
                     />
                   </div>
@@ -272,7 +272,7 @@ export default function CheckoutPage() {
                     onChange={(e) =>
                       setShippingAddress({ ...shippingAddress, address: e.target.value })
                     }
-                    className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)]"
+                    className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                     placeholder="Street address, apartment, etc."
                   />
                 </div>
@@ -292,7 +292,7 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setShippingAddress({ ...shippingAddress, city: e.target.value })
                       }
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)]"
+                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="City"
                     />
                   </div>
@@ -310,7 +310,7 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setShippingAddress({ ...shippingAddress, state: e.target.value })
                       }
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)]"
+                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="State/Province"
                     />
                   </div>
@@ -329,7 +329,7 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setShippingAddress({ ...shippingAddress, postalCode: e.target.value })
                       }
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)]"
+                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="Postal code"
                     />
                   </div>
@@ -342,7 +342,7 @@ export default function CheckoutPage() {
               <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-6">
                 Payment Method
               </h2>
-              <div className="flex items-center gap-4 p-4 bg-[var(--cream)] rounded-lg border-2 border-[var(--coral)]">
+              <div className="flex items-center gap-4 p-4 bg-[var(--cream)] rounded-lg border-2 border-[var(--store-primary)]">
                 <div className="flex items-center justify-center w-10 h-10 bg-white rounded-full">
                   <TruckIcon />
                 </div>
@@ -365,7 +365,7 @@ export default function CheckoutPage() {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/20 focus:border-[var(--coral)] resize-none"
+                className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)] resize-none"
                 placeholder="Any special instructions for your order..."
               />
             </section>

@@ -13,26 +13,22 @@
 #   - http://demo.localhost       → Storefront for "demo"
 
 # Dashboard - Merchant portal
-dashboard.localhost {
-	tls internal
+http://dashboard.localhost {
 	reverse_proxy localhost:7102
 }
 
 # Admin - Platform administration
-admin.localhost {
-	tls internal
+http://admin.localhost {
 	reverse_proxy localhost:7101
 }
 
 # API - Backend services
-api.localhost {
-	tls internal
+http://api.localhost {
 	reverse_proxy localhost:7100
 }
 
 # Storefront - Wildcard for all tenant stores
 # Any subdomain not matching above routes here
-*.localhost {
-	tls internal
+http://*.localhost {
 	reverse_proxy localhost:7103
 }

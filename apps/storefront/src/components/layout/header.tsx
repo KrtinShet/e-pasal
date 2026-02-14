@@ -20,7 +20,7 @@ function CartButton({ count, onClick }: CartButtonProps) {
     <button
       type="button"
       onClick={onClick}
-      className="relative p-2 rounded-full hover:bg-[var(--cream-dark)] transition-colors"
+      className="relative p-2 rounded-full hover:bg-[var(--store-primary)]/10 transition-colors"
       aria-label={`Shopping cart with ${count} items`}
     >
       <svg
@@ -39,7 +39,7 @@ function CartButton({ count, onClick }: CartButtonProps) {
         <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
       </svg>
       {count > 0 && (
-        <span className="absolute -top-1 -right-1 min-w-[20px] h-5 flex items-center justify-center bg-[var(--coral)] text-white text-xs font-medium rounded-full px-1">
+        <span className="absolute -top-1 -right-1 min-w-[20px] h-5 flex items-center justify-center bg-[var(--store-primary)] text-white text-xs font-medium rounded-full px-1">
           {count > 99 ? '99+' : count}
         </span>
       )}
@@ -95,7 +95,7 @@ export function Header() {
                   className="h-10 w-auto object-contain"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-lg bg-[var(--coral)] flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-[var(--store-primary)] flex items-center justify-center">
                   <span className="text-white font-display font-semibold text-lg">
                     {store?.name?.charAt(0) || 'S'}
                   </span>
@@ -123,7 +123,7 @@ export function Header() {
 
               <button
                 type="button"
-                className="md:hidden p-2 rounded-full hover:bg-[var(--cream-dark)] transition-colors"
+                className="md:hidden p-2 rounded-full hover:bg-[var(--store-primary)]/10 transition-colors"
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={mobileMenuOpen}

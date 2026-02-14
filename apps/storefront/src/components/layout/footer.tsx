@@ -66,7 +66,7 @@ export function Footer() {
     store?.social?.facebook || store?.social?.instagram || store?.social?.tiktok;
 
   return (
-    <footer className="bg-[var(--cream-dark)] border-t border-[var(--mist)]/20">
+    <footer className="bg-[var(--store-primary)]/5 border-t border-[var(--mist)]/20">
       <div className="container-main py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           <div className="space-y-4">
@@ -129,7 +129,7 @@ export function Footer() {
                     href={store.social.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-[var(--ivory)] hover:bg-[var(--mist)]/30 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
+                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
                     aria-label="Facebook"
                   >
                     <FacebookIcon />
@@ -140,7 +140,7 @@ export function Footer() {
                     href={store.social.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-[var(--ivory)] hover:bg-[var(--mist)]/30 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
+                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
                     aria-label="Instagram"
                   >
                     <InstagramIcon />
@@ -151,7 +151,7 @@ export function Footer() {
                     href={store.social.tiktok}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-[var(--ivory)] hover:bg-[var(--mist)]/30 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
+                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
                     aria-label="TikTok"
                   >
                     <TikTokIcon />
@@ -174,7 +174,7 @@ export function Footer() {
               href="https://baazarify.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-[var(--coral)] hover:underline"
+              className="font-medium text-[var(--store-primary)] hover:underline"
             >
               Baazarify
             </a>

@@ -123,7 +123,7 @@ export function MobileNav({ isOpen, onClose, links, storeName, storeLogo }: Mobi
                   className="h-8 w-auto object-contain"
                 />
               ) : (
-                <div className="w-8 h-8 rounded-lg bg-[var(--coral)] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[var(--store-primary)] flex items-center justify-center">
                   <span className="text-white font-display font-semibold">
                     {storeName?.charAt(0) || 'S'}
                   </span>
@@ -134,7 +134,7 @@ export function MobileNav({ isOpen, onClose, links, storeName, storeLogo }: Mobi
 
             <button
               type="button"
-              className="p-2 rounded-full hover:bg-[var(--cream-dark)] transition-colors"
+              className="p-2 rounded-full hover:bg-[var(--store-primary)]/10 transition-colors"
               onClick={onClose}
               aria-label="Close menu"
             >
@@ -148,7 +148,7 @@ export function MobileNav({ isOpen, onClose, links, storeName, storeLogo }: Mobi
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="flex items-center px-4 py-3 text-lg font-medium rounded-xl hover:bg-[var(--cream-dark)] transition-colors"
+                    className="flex items-center px-4 py-3 text-lg font-medium rounded-xl hover:bg-[var(--store-primary)]/10 transition-colors"
                     onClick={onClose}
                   >
                     {link.label}
@@ -165,7 +165,7 @@ export function MobileNav({ isOpen, onClose, links, storeName, storeLogo }: Mobi
                 href="https://baazarify.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-[var(--coral)] hover:underline"
+                className="font-medium text-[var(--store-primary)] hover:underline"
               >
                 Baazarify
               </a>

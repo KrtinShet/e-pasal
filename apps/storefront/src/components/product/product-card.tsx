@@ -68,7 +68,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           {hasDiscount && (
-            <span className="absolute top-3 left-3 badge bg-[var(--coral)] text-white">
+            <span className="absolute top-3 left-3 badge bg-[var(--store-primary)] text-white">
               -{discountPercentage}%
             </span>
           )}
@@ -83,7 +83,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="p-4">
-          <h3 className="text-body font-medium text-[var(--charcoal)] line-clamp-2 min-h-[3.4em] group-hover:text-[var(--coral)] transition-colors">
+          <h3 className="text-body font-medium text-[var(--charcoal)] line-clamp-2 min-h-[3.4em] group-hover:text-[var(--store-primary)] transition-colors">
             {product.name}
           </h3>
 

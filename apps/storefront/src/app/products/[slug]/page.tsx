@@ -78,7 +78,7 @@ function XCircleIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-[var(--coral)]"
+      className="text-[var(--store-primary)]"
     >
       <circle cx="12" cy="12" r="10" />
       <path d="m15 9-6 6" />
@@ -220,7 +220,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <span className="text-heading-2 text-[var(--slate)] line-through">
                     {formatPrice(product.compareAtPrice!, currency)}
                   </span>
-                  <span className="badge bg-[var(--coral)] text-white">-{discountPercentage}%</span>
+                  <span className="badge bg-[var(--store-primary)] text-white">-{discountPercentage}%</span>
                 </>
               )}
             </div>
@@ -236,7 +236,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               ) : (
                 <>
                   <XCircleIcon />
-                  <span className="text-body font-medium text-[var(--coral)]">Out of Stock</span>
+                  <span className="text-body font-medium text-[var(--store-primary)]">Out of Stock</span>
                 </>
               )}
             </div>
@@ -301,7 +301,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </h2>
               <Link
                 href="/products"
-                className="text-body-sm font-medium text-[var(--coral)] hover:text-[var(--coral-dark)] link-underline transition-colors"
+                className="text-body-sm font-medium text-[var(--store-primary)] hover:text-[var(--store-primary-dark)] link-underline transition-colors"
               >
                 View all products
               </Link>

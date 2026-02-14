@@ -235,7 +235,7 @@ export function AddToCartButton({
           ${sizeClasses[size]}
           ${
             variant === 'primary'
-              ? 'bg-[var(--coral)] text-white hover:bg-[var(--coral-dark)]'
+              ? 'bg-[var(--store-primary)] text-white hover:bg-[var(--store-primary-dark)]'
               : 'bg-[var(--cream-dark)] text-[var(--charcoal)] hover:bg-[var(--mist)]/30'
           }
           disabled:opacity-50 disabled:cursor-not-allowed

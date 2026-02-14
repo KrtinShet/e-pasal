@@ -80,7 +80,7 @@ function ConfirmationContent() {
           </h2>
           <ol className="space-y-3">
             <li className="flex items-start gap-3">
-              <span className="flex items-center justify-center w-6 h-6 bg-[var(--coral)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
+              <span className="flex items-center justify-center w-6 h-6 bg-[var(--store-primary)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
                 1
               </span>
               <span className="text-body text-[var(--graphite)]">
@@ -88,7 +88,7 @@ function ConfirmationContent() {
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex items-center justify-center w-6 h-6 bg-[var(--coral)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
+              <span className="flex items-center justify-center w-6 h-6 bg-[var(--store-primary)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
                 2
               </span>
               <span className="text-body text-[var(--graphite)]">
@@ -96,7 +96,7 @@ function ConfirmationContent() {
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex items-center justify-center w-6 h-6 bg-[var(--coral)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
+              <span className="flex items-center justify-center w-6 h-6 bg-[var(--store-primary)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
                 3
               </span>
               <span className="text-body text-[var(--graphite)]">
@@ -104,7 +104,7 @@ function ConfirmationContent() {
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex items-center justify-center w-6 h-6 bg-[var(--coral)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
+              <span className="flex items-center justify-center w-6 h-6 bg-[var(--store-primary)] text-white rounded-full text-body-sm font-medium flex-shrink-0">
                 4
               </span>
               <span className="text-body text-[var(--graphite)]">

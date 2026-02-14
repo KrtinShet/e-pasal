@@ -129,7 +129,7 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
           <button
             type="button"
             onClick={handleRemove}
-            className="px-3 py-1.5 text-body-sm font-medium text-white bg-[var(--coral)] hover:bg-[var(--coral-dark)] rounded-lg transition-colors"
+            className="px-3 py-1.5 text-body-sm font-medium text-white bg-[var(--store-primary)] hover:bg-[var(--store-primary-dark)] rounded-lg transition-colors"
           >
             Remove
           </button>
@@ -175,7 +175,7 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
             <Link
               href={`/products/${item.slug}`}
               onClick={closeDrawer}
-              className="text-body font-medium text-[var(--charcoal)] hover:text-[var(--coral)] line-clamp-2 transition-colors"
+              className="text-body font-medium text-[var(--charcoal)] hover:text-[var(--store-primary)] line-clamp-2 transition-colors"
             >
               {item.name}
             </Link>
@@ -187,7 +187,7 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
           <button
             type="button"
             onClick={() => setShowRemoveConfirm(true)}
-            className="p-1.5 text-[var(--slate)] hover:text-[var(--coral)] transition-colors shrink-0"
+            className="p-1.5 text-[var(--slate)] hover:text-[var(--store-primary)] transition-colors shrink-0"
             aria-label={`Remove ${item.name} from cart`}
           >
             <TrashIcon />
@@ -231,7 +231,7 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
         </div>
 
         {item.quantity >= item.maxQuantity && (
-          <p className="mt-2 text-caption text-[var(--coral)]">Max quantity reached</p>
+          <p className="mt-2 text-caption text-[var(--store-primary)]">Max quantity reached</p>
         )}
       </div>
     </div>
