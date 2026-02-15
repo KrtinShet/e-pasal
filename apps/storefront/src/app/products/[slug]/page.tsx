@@ -154,22 +154,22 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <li>
               <Link
                 href="/"
-                className="text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+                className="text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
               >
                 Home
               </Link>
             </li>
-            <li className="text-[var(--mist)]">/</li>
+            <li className="text-[var(--grey-300)]">/</li>
             <li>
               <Link
                 href="/products"
-                className="text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+                className="text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
               >
                 Products
               </Link>
             </li>
-            <li className="text-[var(--mist)]">/</li>
-            <li className="text-[var(--charcoal)] font-medium truncate max-w-[200px]">
+            <li className="text-[var(--grey-300)]">/</li>
+            <li className="text-[var(--grey-900)] font-medium truncate max-w-[200px]">
               {product.name}
             </li>
           </ol>
@@ -178,7 +178,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="mb-6">
           <Link
             href="/products"
-            className="inline-flex items-center gap-1 text-body-sm text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+            className="inline-flex items-center gap-1 text-body-sm text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
           >
             <ChevronLeftIcon />
             Back to products
@@ -202,22 +202,22 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
               )}
 
-              <h1 className="text-heading-1 font-display font-semibold text-[var(--charcoal)]">
+              <h1 className="text-heading-1 font-display font-semibold text-[var(--grey-900)]">
                 {product.name}
               </h1>
 
               {product.sku && (
-                <p className="mt-2 text-caption text-[var(--slate)]">SKU: {product.sku}</p>
+                <p className="mt-2 text-caption text-[var(--grey-600)]">SKU: {product.sku}</p>
               )}
             </div>
 
             <div className="flex items-baseline gap-3">
-              <span className="text-display-2 font-semibold text-[var(--charcoal)]">
+              <span className="text-display-2 font-semibold text-[var(--grey-900)]">
                 {formatPrice(product.price, currency)}
               </span>
               {hasDiscount && (
                 <>
-                  <span className="text-heading-2 text-[var(--slate)] line-through">
+                  <span className="text-heading-2 text-[var(--grey-600)] line-through">
                     {formatPrice(product.compareAtPrice!, currency)}
                   </span>
                   <span className="badge bg-[var(--store-primary)] text-white">
@@ -246,46 +246,46 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             {product.shortDescription && (
-              <p className="text-body-lg text-[var(--graphite)] leading-relaxed">
+              <p className="text-body-lg text-[var(--grey-700)] leading-relaxed">
                 {product.shortDescription}
               </p>
             )}
 
-            <div className="pt-4 border-t border-[var(--mist)]/20">
+            <div className="pt-4 border-t border-[var(--grey-300)]/20">
               <AddToCartButton product={product} showQuantity />
-              <p className="mt-3 text-caption text-[var(--slate)] text-center">
+              <p className="mt-3 text-caption text-[var(--grey-600)] text-center">
                 Free shipping on orders over NPR 2,000
               </p>
             </div>
 
             {product.description && (
-              <div className="pt-6 border-t border-[var(--mist)]/20">
-                <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-4">
+              <div className="pt-6 border-t border-[var(--grey-300)]/20">
+                <h2 className="text-heading-3 font-medium text-[var(--grey-900)] mb-4">
                   Description
                 </h2>
                 <div
-                  className="prose prose-slate max-w-none text-body text-[var(--graphite)]"
+                  className="prose prose-slate max-w-none text-body text-[var(--grey-700)]"
                   dangerouslySetInnerHTML={{ __html: product.description }}
                 />
               </div>
             )}
 
             {(product.weight || product.dimensions) && (
-              <div className="pt-6 border-t border-[var(--mist)]/20">
-                <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-4">
+              <div className="pt-6 border-t border-[var(--grey-300)]/20">
+                <h2 className="text-heading-3 font-medium text-[var(--grey-900)] mb-4">
                   Specifications
                 </h2>
                 <dl className="grid grid-cols-2 gap-4 text-body">
                   {product.weight && (
                     <>
-                      <dt className="text-[var(--slate)]">Weight</dt>
-                      <dd className="text-[var(--charcoal)]">{product.weight}g</dd>
+                      <dt className="text-[var(--grey-600)]">Weight</dt>
+                      <dd className="text-[var(--grey-900)]">{product.weight}g</dd>
                     </>
                   )}
                   {product.dimensions?.length && (
                     <>
-                      <dt className="text-[var(--slate)]">Dimensions</dt>
-                      <dd className="text-[var(--charcoal)]">
+                      <dt className="text-[var(--grey-600)]">Dimensions</dt>
+                      <dd className="text-[var(--grey-900)]">
                         {product.dimensions.length} x {product.dimensions.width || '-'} x{' '}
                         {product.dimensions.height || '-'} cm
                       </dd>
@@ -298,9 +298,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
 
         {relatedProducts.length > 0 && (
-          <section className="mt-16 pt-12 border-t border-[var(--mist)]/20">
+          <section className="mt-16 pt-12 border-t border-[var(--grey-300)]/20">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-heading-2 font-display font-semibold text-[var(--charcoal)]">
+              <h2 className="text-heading-2 font-display font-semibold text-[var(--grey-900)]">
                 You may also like
               </h2>
               <Link

@@ -20,3 +20,34 @@
   --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
   --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
 }
+
+/* ── Animations ── */
+@keyframes shimmer-flow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--grey-100) 25%, var(--grey-200) 50%, var(--grey-100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer-flow 1.5s ease-in-out infinite;
+}
+
+.animate-slide-up-fade {
+  animation: slide-up-fade 0.3s ease-out;
+}

@@ -46,7 +46,7 @@ function ChevronRightIcon() {
 
 function ImagePlaceholder() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-[var(--cream-dark)]">
+    <div className="absolute inset-0 flex items-center justify-center bg-[var(--grey-100)]">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="64"
@@ -57,7 +57,7 @@ function ImagePlaceholder() {
         strokeWidth="1"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-[var(--mist)]"
+        className="text-[var(--grey-300)]"
       >
         <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
         <circle cx="9" cy="9" r="2" />
@@ -82,7 +82,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-square bg-[var(--cream-dark)] rounded-2xl overflow-hidden">
+      <div className="relative aspect-square bg-[var(--grey-100)] rounded-2xl overflow-hidden">
         {hasImages ? (
           <Image
             src={images[selectedIndex]}
@@ -123,8 +123,8 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                   onClick={() => setSelectedIndex(index)}
                   className={`w-2 h-2 rounded-full transition-all ${
                     index === selectedIndex
-                      ? 'w-6 bg-[var(--charcoal)]'
-                      : 'bg-[var(--charcoal)]/30 hover:bg-[var(--charcoal)]/50'
+                      ? 'w-6 bg-[var(--grey-900)]'
+                      : 'bg-[var(--grey-900)]/30 hover:bg-[var(--grey-900)]/50'
                   }`}
                   aria-label={`Go to image ${index + 1}`}
                   aria-current={index === selectedIndex ? 'true' : 'false'}
@@ -145,7 +145,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
               className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
                 index === selectedIndex
                   ? 'border-[var(--store-primary)] ring-2 ring-[var(--store-primary)]/20'
-                  : 'border-transparent hover:border-[var(--mist)]'
+                  : 'border-transparent hover:border-[var(--grey-300)]'
               }`}
               aria-label={`Select image ${index + 1}`}
               aria-current={index === selectedIndex ? 'true' : 'false'}

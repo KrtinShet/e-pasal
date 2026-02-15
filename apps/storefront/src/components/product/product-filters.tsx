@@ -23,7 +23,7 @@ function SearchIcon() {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-[var(--slate)]"
+      className="text-[var(--grey-600)]"
     >
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
@@ -135,7 +135,7 @@ export function ProductFilters({ categories, totalProducts }: ProductFiltersProp
           placeholder="Search products..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="w-full pl-12 pr-4 py-3 bg-[var(--background)] border border-[var(--store-primary)]/20 rounded-xl text-body placeholder:text-[var(--slate)] focus:outline-none focus:border-[var(--store-primary)] focus:ring-2 focus:ring-[var(--store-primary)]/20 transition-all"
+          className="w-full pl-12 pr-4 py-3 bg-[var(--background)] border border-[var(--store-primary)]/20 rounded-xl text-body placeholder:text-[var(--grey-600)] focus:outline-none focus:border-[var(--store-primary)] focus:ring-2 focus:ring-[var(--store-primary)]/20 transition-all"
           aria-label="Search products"
         />
         {searchValue && (
@@ -179,7 +179,7 @@ export function ProductFilters({ categories, totalProducts }: ProductFiltersProp
       </div>
 
       <div className="flex items-center justify-between py-2 border-b border-[var(--store-primary)]/10">
-        <p className="text-body-sm text-[var(--slate)]">
+        <p className="text-body-sm text-[var(--grey-600)]">
           {isPending ? (
             <span className="inline-flex items-center gap-2">
               <span className="w-4 h-4 border-2 border-[var(--store-primary)] border-t-transparent rounded-full animate-spin" />

@@ -12,7 +12,7 @@ function SearchIcon() {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-[var(--mist)]"
+      className="text-[var(--grey-300)]"
     >
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
@@ -24,13 +24,13 @@ export default function NotFound() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="container-main text-center py-16">
-        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[var(--cream-dark)] mb-8">
+        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[var(--grey-100)] mb-8">
           <SearchIcon />
         </div>
 
         <h1 className="text-display-2 font-display mb-4">Page Not Found</h1>
 
-        <p className="text-body-lg text-[var(--muted)] max-w-md mx-auto mb-8">
+        <p className="text-body-lg text-[var(--grey-500)] max-w-md mx-auto mb-8">
           The page you are looking for does not exist or has been moved.
         </p>
 

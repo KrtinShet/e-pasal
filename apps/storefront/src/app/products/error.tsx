@@ -41,11 +41,11 @@ export default function ProductsError({ error, reset }: ErrorProps) {
           <AlertIcon />
         </div>
 
-        <h1 className="text-heading-1 font-display font-semibold text-[var(--charcoal)] mb-4">
+        <h1 className="text-heading-1 font-display font-semibold text-[var(--grey-900)] mb-4">
           Unable to Load Products
         </h1>
 
-        <p className="text-body-lg text-[var(--slate)] mb-8">
+        <p className="text-body-lg text-[var(--grey-600)] mb-8">
           We had trouble loading the products. This might be a temporary issue.
         </p>
 
@@ -59,7 +59,7 @@ export default function ProductsError({ error, reset }: ErrorProps) {
         </div>
 
         {process.env.NODE_ENV === 'development' && error.message && (
-          <div className="mt-8 p-4 bg-[var(--cream-dark)] rounded-lg text-left">
+          <div className="mt-8 p-4 bg-[var(--grey-100)] rounded-lg text-left">
             <p className="text-caption font-mono text-[var(--store-primary)]">{error.message}</p>
           </div>
         )}

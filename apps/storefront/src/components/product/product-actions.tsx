@@ -11,7 +11,7 @@ interface ProductActionsProps {
 export function ProductActions({ product, isInStock }: ProductActionsProps) {
   if (!isInStock) {
     return (
-      <div className="pt-4 border-t border-[var(--mist)]/20">
+      <div className="pt-4 border-t border-[var(--grey-300)]/20">
         <button
           type="button"
           disabled
@@ -35,7 +35,7 @@ export function ProductActions({ product, isInStock }: ProductActionsProps) {
           </svg>
           Out of Stock
         </button>
-        <p className="mt-3 text-caption text-[var(--slate)] text-center">
+        <p className="mt-3 text-caption text-[var(--grey-600)] text-center">
           Free shipping on orders over NPR 2,000
         </p>
       </div>
@@ -43,9 +43,9 @@ export function ProductActions({ product, isInStock }: ProductActionsProps) {
   }
 
   return (
-    <div className="pt-4 border-t border-[var(--mist)]/20">
+    <div className="pt-4 border-t border-[var(--grey-300)]/20">
       <AddToCartButton product={product} showQuantity size="lg" className="w-full" />
-      <p className="mt-3 text-caption text-[var(--slate)] text-center">
+      <p className="mt-3 text-caption text-[var(--grey-600)] text-center">
         Free shipping on orders over NPR 2,000
       </p>
     </div>

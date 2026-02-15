@@ -31,13 +31,13 @@ export function CartSummary({ showCheckout = true, onCheckout }: CartSummaryProp
   return (
     <div className="space-y-4">
       {summary.subtotal > 0 && (
-        <div className="p-3 bg-[var(--cream-dark)] rounded-lg">
+        <div className="p-3 bg-[var(--grey-100)] rounded-lg">
           {hasFreeShipping ? (
             <p className="text-body-sm text-[var(--sage)] font-medium text-center">
               You qualify for free shipping!
             </p>
           ) : (
-            <p className="text-body-sm text-[var(--graphite)] text-center">
+            <p className="text-body-sm text-[var(--grey-700)] text-center">
               Add {formatPrice(amountToFreeShipping, currency)} more for free shipping
             </p>
           )}
@@ -46,14 +46,14 @@ export function CartSummary({ showCheckout = true, onCheckout }: CartSummaryProp
 
       <div className="space-y-2">
         <div className="flex items-center justify-between text-body">
-          <span className="text-[var(--graphite)]">
+          <span className="text-[var(--grey-700)]">
             Subtotal ({summary.totalItems} {summary.totalItems === 1 ? 'item' : 'items'})
           </span>
-          <span className="font-semibold text-[var(--charcoal)]">
+          <span className="font-semibold text-[var(--grey-900)]">
             {formatPrice(summary.subtotal, currency)}
           </span>
         </div>
-        <p className="text-caption text-[var(--slate)]">
+        <p className="text-caption text-[var(--grey-600)]">
           Shipping and taxes calculated at checkout
         </p>
       </div>

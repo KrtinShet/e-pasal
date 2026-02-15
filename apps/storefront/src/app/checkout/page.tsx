@@ -123,13 +123,13 @@ export default function CheckoutPage() {
     return (
       <div className="container-main py-12">
         <div className="animate-pulse">
-          <div className="h-8 bg-[var(--mist)]/30 rounded w-1/4 mb-8" />
+          <div className="h-8 bg-[var(--grey-300)]/30 rounded w-1/4 mb-8" />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-6">
-              <div className="h-64 bg-[var(--mist)]/30 rounded" />
-              <div className="h-64 bg-[var(--mist)]/30 rounded" />
+              <div className="h-64 bg-[var(--grey-300)]/30 rounded" />
+              <div className="h-64 bg-[var(--grey-300)]/30 rounded" />
             </div>
-            <div className="h-96 bg-[var(--mist)]/30 rounded" />
+            <div className="h-96 bg-[var(--grey-300)]/30 rounded" />
           </div>
         </div>
       </div>
@@ -140,10 +140,10 @@ export default function CheckoutPage() {
     return (
       <div className="container-main py-12">
         <div className="text-center py-16">
-          <h1 className="text-heading-1 font-display font-semibold text-[var(--charcoal)] mb-4">
+          <h1 className="text-heading-1 font-display font-semibold text-[var(--grey-900)] mb-4">
             Your cart is empty
           </h1>
-          <p className="text-body text-[var(--graphite)] mb-8">
+          <p className="text-body text-[var(--grey-700)] mb-8">
             Add some products to your cart before checking out.
           </p>
           <Link href="/products" className="btn-primary">
@@ -237,14 +237,14 @@ export default function CheckoutPage() {
       <div className="mb-6">
         <Link
           href="/cart"
-          className="inline-flex items-center gap-1 text-body-sm text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+          className="inline-flex items-center gap-1 text-body-sm text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
         >
           <ChevronLeftIcon />
           Back to cart
         </Link>
       </div>
 
-      <h1 className="text-heading-1 font-display font-semibold text-[var(--charcoal)] mb-8">
+      <h1 className="text-heading-1 font-display font-semibold text-[var(--grey-900)] mb-8">
         Checkout
       </h1>
 
@@ -253,15 +253,15 @@ export default function CheckoutPage() {
           {/* Left Column - Forms */}
           <div className="lg:col-span-2 space-y-8">
             {/* Customer Information */}
-            <section className="bg-white rounded-lg border border-[var(--mist)]/30 p-6">
-              <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-6">
+            <section className="bg-white rounded-lg border border-[var(--grey-300)]/30 p-6">
+              <h2 className="text-heading-3 font-medium text-[var(--grey-900)] mb-6">
                 Contact Information
               </h2>
               <div className="space-y-4">
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-body-sm font-medium text-[var(--charcoal)] mb-1"
+                    className="block text-body-sm font-medium text-[var(--grey-900)] mb-1"
                   >
                     Full Name *
                   </label>
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
                     required
                     value={customerInfo.name}
                     onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
+                    className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                     placeholder="Your full name"
                   />
                 </div>
@@ -279,7 +279,7 @@ export default function CheckoutPage() {
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-body-sm font-medium text-[var(--charcoal)] mb-1"
+                      className="block text-body-sm font-medium text-[var(--grey-900)] mb-1"
                     >
                       Email *
                     </label>
@@ -289,14 +289,14 @@ export default function CheckoutPage() {
                       required
                       value={customerInfo.email}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
+                      className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="your@email.com"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="phone"
-                      className="block text-body-sm font-medium text-[var(--charcoal)] mb-1"
+                      className="block text-body-sm font-medium text-[var(--grey-900)] mb-1"
                     >
                       Phone Number *
                     </label>
@@ -306,7 +306,7 @@ export default function CheckoutPage() {
                       required
                       value={customerInfo.phone}
                       onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
+                      className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="+977 98XXXXXXXX"
                     />
                   </div>
@@ -315,15 +315,15 @@ export default function CheckoutPage() {
             </section>
 
             {/* Shipping Address */}
-            <section className="bg-white rounded-lg border border-[var(--mist)]/30 p-6">
-              <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-6">
+            <section className="bg-white rounded-lg border border-[var(--grey-300)]/30 p-6">
+              <h2 className="text-heading-3 font-medium text-[var(--grey-900)] mb-6">
                 Shipping Address
               </h2>
               <div className="space-y-4">
                 <div>
                   <label
                     htmlFor="address"
-                    className="block text-body-sm font-medium text-[var(--charcoal)] mb-1"
+                    className="block text-body-sm font-medium text-[var(--grey-900)] mb-1"
                   >
                     Street Address *
                   </label>
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
                     onChange={(e) =>
                       setShippingAddress({ ...shippingAddress, address: e.target.value })
                     }
-                    className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
+                    className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                     placeholder="Street address, apartment, etc."
                   />
                 </div>
@@ -343,7 +343,7 @@ export default function CheckoutPage() {
                   <div>
                     <label
                       htmlFor="city"
-                      className="block text-body-sm font-medium text-[var(--charcoal)] mb-1"
+                      className="block text-body-sm font-medium text-[var(--grey-900)] mb-1"
                     >
                       City *
                     </label>
@@ -355,14 +355,14 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setShippingAddress({ ...shippingAddress, city: e.target.value })
                       }
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
+                      className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="City"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="state"
-                      className="block text-body-sm font-medium text-[var(--charcoal)] mb-1"
+                      className="block text-body-sm font-medium text-[var(--grey-900)] mb-1"
                     >
                       State/Province
                     </label>
@@ -373,14 +373,14 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setShippingAddress({ ...shippingAddress, state: e.target.value })
                       }
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
+                      className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="State/Province"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="postalCode"
-                      className="block text-body-sm font-medium text-[var(--charcoal)] mb-1"
+                      className="block text-body-sm font-medium text-[var(--grey-900)] mb-1"
                     >
                       Postal Code *
                     </label>
@@ -392,7 +392,7 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setShippingAddress({ ...shippingAddress, postalCode: e.target.value })
                       }
-                      className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
+                      className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)]"
                       placeholder="Postal code"
                     />
                   </div>
@@ -401,8 +401,8 @@ export default function CheckoutPage() {
             </section>
 
             {/* Payment Method */}
-            <section className="bg-white rounded-lg border border-[var(--mist)]/30 p-6">
-              <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-6">
+            <section className="bg-white rounded-lg border border-[var(--grey-300)]/30 p-6">
+              <h2 className="text-heading-3 font-medium text-[var(--grey-900)] mb-6">
                 Payment Method
               </h2>
               <div className="space-y-3">
@@ -416,8 +416,8 @@ export default function CheckoutPage() {
                       onClick={() => setPaymentMethod(method)}
                       className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-colors text-left ${
                         paymentMethod === method
-                          ? 'bg-[var(--cream)] border-[var(--store-primary)]'
-                          : 'border-[var(--mist)]/30 hover:border-[var(--store-primary)]/50'
+                          ? 'bg-[var(--grey-50)] border-[var(--store-primary)]'
+                          : 'border-[var(--grey-300)]/30 hover:border-[var(--store-primary)]/50'
                       }`}
                     >
                       <div
@@ -431,8 +431,8 @@ export default function CheckoutPage() {
                         )}
                       </div>
                       <div>
-                        <p className="font-medium text-[var(--charcoal)]">{info.name}</p>
-                        <p className="text-body-sm text-[var(--slate)]">{info.description}</p>
+                        <p className="font-medium text-[var(--grey-900)]">{info.name}</p>
+                        <p className="text-body-sm text-[var(--grey-600)]">{info.description}</p>
                       </div>
                     </button>
                   );
@@ -441,8 +441,8 @@ export default function CheckoutPage() {
             </section>
 
             {/* Order Notes */}
-            <section className="bg-white rounded-lg border border-[var(--mist)]/30 p-6">
-              <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-6">
+            <section className="bg-white rounded-lg border border-[var(--grey-300)]/30 p-6">
+              <h2 className="text-heading-3 font-medium text-[var(--grey-900)] mb-6">
                 Order Notes (Optional)
               </h2>
               <textarea
@@ -450,7 +450,7 @@ export default function CheckoutPage() {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2.5 border border-[var(--mist)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)] resize-none"
+                className="w-full px-4 py-2.5 border border-[var(--grey-300)]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--store-primary)]/20 focus:border-[var(--store-primary)] resize-none"
                 placeholder="Any special instructions for your order..."
               />
             </section>
@@ -458,8 +458,8 @@ export default function CheckoutPage() {
 
           {/* Right Column - Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg border border-[var(--mist)]/30 p-6 sticky top-24">
-              <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-6">
+            <div className="bg-white rounded-lg border border-[var(--grey-300)]/30 p-6 sticky top-24">
+              <h2 className="text-heading-3 font-medium text-[var(--grey-900)] mb-6">
                 Order Summary
               </h2>
 
@@ -471,7 +471,7 @@ export default function CheckoutPage() {
                     className="flex gap-3"
                   >
                     {item.image && (
-                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-[var(--cream)] flex-shrink-0">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-[var(--grey-50)] flex-shrink-0">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -480,15 +480,15 @@ export default function CheckoutPage() {
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="text-body-sm font-medium text-[var(--charcoal)] truncate">
+                      <p className="text-body-sm font-medium text-[var(--grey-900)] truncate">
                         {item.name}
                       </p>
                       {item.variantName && (
-                        <p className="text-caption text-[var(--slate)]">{item.variantName}</p>
+                        <p className="text-caption text-[var(--grey-600)]">{item.variantName}</p>
                       )}
-                      <p className="text-caption text-[var(--slate)]">Qty: {item.quantity}</p>
+                      <p className="text-caption text-[var(--grey-600)]">Qty: {item.quantity}</p>
                     </div>
-                    <p className="text-body-sm font-medium text-[var(--charcoal)]">
+                    <p className="text-body-sm font-medium text-[var(--grey-900)]">
                       {formatPrice(item.price * item.quantity)}
                     </p>
                   </div>
@@ -496,26 +496,26 @@ export default function CheckoutPage() {
               </div>
 
               {/* Totals */}
-              <div className="border-t border-[var(--mist)]/20 pt-4 space-y-2">
+              <div className="border-t border-[var(--grey-300)]/20 pt-4 space-y-2">
                 <div className="flex justify-between text-body">
-                  <span className="text-[var(--slate)]">Subtotal</span>
-                  <span className="text-[var(--charcoal)]">{formatPrice(summary.subtotal)}</span>
+                  <span className="text-[var(--grey-600)]">Subtotal</span>
+                  <span className="text-[var(--grey-900)]">{formatPrice(summary.subtotal)}</span>
                 </div>
                 {summary.discount > 0 && (
                   <div className="flex justify-between text-body">
-                    <span className="text-[var(--slate)]">Discount</span>
+                    <span className="text-[var(--grey-600)]">Discount</span>
                     <span className="text-[var(--sage)]">-{formatPrice(summary.discount)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-body">
-                  <span className="text-[var(--slate)]">Shipping</span>
-                  <span className="text-[var(--charcoal)]">
+                  <span className="text-[var(--grey-600)]">Shipping</span>
+                  <span className="text-[var(--grey-900)]">
                     {summary.subtotal >= 2000 ? 'Free' : formatPrice(150)}
                   </span>
                 </div>
-                <div className="flex justify-between text-heading-3 font-semibold pt-2 border-t border-[var(--mist)]/20">
-                  <span className="text-[var(--charcoal)]">Total</span>
-                  <span className="text-[var(--charcoal)]">
+                <div className="flex justify-between text-heading-3 font-semibold pt-2 border-t border-[var(--grey-300)]/20">
+                  <span className="text-[var(--grey-900)]">Total</span>
+                  <span className="text-[var(--grey-900)]">
                     {formatPrice(summary.total + (summary.subtotal >= 2000 ? 0 : 150))}
                   </span>
                 </div>
@@ -537,7 +537,7 @@ export default function CheckoutPage() {
                 {isSubmitting ? 'Placing Order...' : 'Place Order'}
               </button>
 
-              <p className="mt-4 text-caption text-[var(--slate)] text-center">
+              <p className="mt-4 text-caption text-[var(--grey-600)] text-center">
                 By placing your order, you agree to our Terms of Service and Privacy Policy.
               </p>
             </div>

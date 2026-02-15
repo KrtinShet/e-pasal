@@ -2,6 +2,282 @@
 @source "../../../../packages/ui/src/**/*.tsx";
 @import '@baazarify/ui/styles';
 
-body {
-  font-family: var(--font-sans, system-ui, sans-serif);
+@theme inline {
+  --color-background: var(--grey-50);
+  --color-foreground: var(--grey-900);
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BAAZARIFY ADMIN — "WARM BAZAAR" AESTHETIC
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Orchestrated page entrance ── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes materialize {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes draw-line {
+  from {
+    width: 0;
+  }
+  to {
+    width: 48px;
+  }
+}
+
+@keyframes shimmer-flow {
+  0% {
+    background-position: -400% 0;
+  }
+  100% {
+    background-position: 400% 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-materialize {
+  animation: materialize 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-up {
+  animation: slide-up-fade 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.delay-1 {
+  animation-delay: 80ms;
+}
+.delay-2 {
+  animation-delay: 160ms;
+}
+.delay-3 {
+  animation-delay: 240ms;
+}
+.delay-4 {
+  animation-delay: 320ms;
+}
+.delay-5 {
+  animation-delay: 400ms;
+}
+.delay-6 {
+  animation-delay: 480ms;
+}
+
+/* ── Signature accent bar ── */
+.accent-bar::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-main), var(--warning-main));
+  border-radius: 2px;
+  margin-bottom: 16px;
+  animation: draw-line 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* ── Skeleton loading ── */
+.skel {
+  background: linear-gradient(
+    90deg,
+    var(--grey-100) 0%,
+    var(--grey-200) 20%,
+    var(--grey-100) 40%,
+    var(--grey-100) 100%
+  );
+  background-size: 400% 100%;
+  animation: shimmer-flow 2s ease-in-out infinite;
+  border-radius: 12px;
+}
+
+/* ── Bazaar card — signature card treatment ── */
+.bzr-card {
+  background: white;
+  border: 1px solid var(--grey-200);
+  border-radius: 20px;
+  box-shadow:
+    0 1px 3px -1px rgba(26, 26, 26, 0.04),
+    0 4px 12px -4px rgba(26, 26, 26, 0.03);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bzr-card:hover {
+  border-color: var(--grey-300);
+  box-shadow:
+    0 4px 8px -2px rgba(26, 26, 26, 0.06),
+    0 12px 32px -8px rgba(26, 26, 26, 0.08);
+  transform: translateY(-1px);
+}
+
+/* ── Warm mesh gradient background for hero areas ── */
+.warm-mesh {
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(253, 232, 227, 0.6) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(254, 243, 213, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(239, 214, 255, 0.15) 0%, transparent 60%);
+}
+
+/* ── Refined data table ── */
+.data-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table th {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  padding: 14px 20px;
+  white-space: nowrap;
+  background: var(--grey-50);
+  border-bottom: 2px solid var(--grey-200);
+}
+
+.data-table td {
+  padding: 16px 20px;
+  font-size: 0.875rem;
+  color: var(--grey-700);
+  vertical-align: middle;
+}
+
+.data-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.data-table tbody tr:not(:last-child) td {
+  border-bottom: 1px solid var(--grey-100);
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(253, 232, 227, 0.2);
+}
+
+/* ── Status indicator dot ── */
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ── Thin scrollbar ── */
+.thin-scroll::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--grey-300);
+  border-radius: 4px;
+}
+
+/* ── Interactive surface hover ── */
+.hover-warm:hover {
+  background: rgba(253, 232, 227, 0.25);
+}
+
+/* ── Subtle noise texture overlay for depth ── */
+.noise-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  border-radius: inherit;
+}
+
+/* ── Gradient text for special headings ── */
+.text-warm-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark) 0%,
+    var(--primary-main) 40%,
+    var(--warning-main) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Primary action button with sliding coral fill ── */
+.btn-coral {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-coral::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-main));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.btn-coral:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Grid dots pattern ── */
+.grid-dots {
+  background-image: radial-gradient(circle at 1px 1px, var(--grey-200) 1px, transparent 0);
+  background-size: 24px 24px;
 }

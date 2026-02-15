@@ -116,13 +116,13 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
 
   if (showRemoveConfirm) {
     return (
-      <div className="flex items-center justify-between p-4 bg-[var(--cream-dark)] rounded-lg">
-        <p className="text-body-sm text-[var(--charcoal)]">Remove this item?</p>
+      <div className="flex items-center justify-between p-4 bg-[var(--grey-100)] rounded-lg">
+        <p className="text-body-sm text-[var(--grey-900)]">Remove this item?</p>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleCancelRemove}
-            className="px-3 py-1.5 text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+            className="px-3 py-1.5 text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
           >
             Cancel
           </button>
@@ -139,11 +139,11 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
   }
 
   return (
-    <div className="flex gap-4 py-4 border-b border-[var(--mist)]/20 last:border-b-0">
+    <div className="flex gap-4 py-4 border-b border-[var(--grey-300)]/20 last:border-b-0">
       <Link
         href={`/products/${item.slug}`}
         onClick={closeDrawer}
-        className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-[var(--cream-dark)]"
+        className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-[var(--grey-100)]"
       >
         {item.image ? (
           <Image src={item.image} alt={item.name} fill className="object-cover" sizes="80px" />
@@ -159,7 +159,7 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
               strokeWidth="1"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-[var(--mist)]"
+              className="text-[var(--grey-300)]"
             >
               <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
               <circle cx="9" cy="9" r="2" />
@@ -175,19 +175,19 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
             <Link
               href={`/products/${item.slug}`}
               onClick={closeDrawer}
-              className="text-body font-medium text-[var(--charcoal)] hover:text-[var(--store-primary)] line-clamp-2 transition-colors"
+              className="text-body font-medium text-[var(--grey-900)] hover:text-[var(--store-primary)] line-clamp-2 transition-colors"
             >
               {item.name}
             </Link>
             {item.variantName && (
-              <p className="text-caption text-[var(--slate)] mt-0.5">{item.variantName}</p>
+              <p className="text-caption text-[var(--grey-600)] mt-0.5">{item.variantName}</p>
             )}
-            {item.sku && <p className="text-caption text-[var(--slate)]">SKU: {item.sku}</p>}
+            {item.sku && <p className="text-caption text-[var(--grey-600)]">SKU: {item.sku}</p>}
           </div>
           <button
             type="button"
             onClick={() => setShowRemoveConfirm(true)}
-            className="p-1.5 text-[var(--slate)] hover:text-[var(--store-primary)] transition-colors shrink-0"
+            className="p-1.5 text-[var(--grey-600)] hover:text-[var(--store-primary)] transition-colors shrink-0"
             aria-label={`Remove ${item.name} from cart`}
           >
             <TrashIcon />
@@ -195,23 +195,23 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
         </div>
 
         <div className="mt-3 flex items-center justify-between gap-4">
-          <div className="flex items-center border border-[var(--mist)]/30 rounded-lg">
+          <div className="flex items-center border border-[var(--grey-300)]/30 rounded-lg">
             <button
               type="button"
               onClick={handleDecrement}
-              className="w-8 h-8 flex items-center justify-center text-[var(--graphite)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-l-lg transition-colors"
+              className="w-8 h-8 flex items-center justify-center text-[var(--grey-700)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-l-lg transition-colors"
               aria-label="Decrease quantity"
             >
               <MinusIcon />
             </button>
-            <span className="w-10 text-center text-body-sm font-medium text-[var(--charcoal)]">
+            <span className="w-10 text-center text-body-sm font-medium text-[var(--grey-900)]">
               {item.quantity}
             </span>
             <button
               type="button"
               onClick={handleIncrement}
               disabled={item.quantity >= item.maxQuantity}
-              className="w-8 h-8 flex items-center justify-center text-[var(--graphite)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-r-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-8 h-8 flex items-center justify-center text-[var(--grey-700)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-r-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               aria-label="Increase quantity"
             >
               <PlusIcon />
@@ -219,11 +219,11 @@ export function CartItem({ item, onRemoveConfirm }: CartItemProps) {
           </div>
 
           <div className="text-right">
-            <p className="text-body font-semibold text-[var(--charcoal)]">
+            <p className="text-body font-semibold text-[var(--grey-900)]">
               {formatPrice(lineTotal, currency)}
             </p>
             {hasDiscount && (
-              <p className="text-caption text-[var(--slate)] line-through">
+              <p className="text-caption text-[var(--grey-600)] line-through">
                 {formatPrice(item.compareAtPrice! * item.quantity, currency)}
               </p>
             )}

@@ -94,7 +94,7 @@ export default async function RootLayout({
         <Providers store={store}>
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--charcoal)] focus:text-[var(--cream)] focus:rounded-lg focus:outline-none"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--grey-900)] focus:text-[var(--grey-50)] focus:rounded-lg focus:outline-none"
           >
             Skip to main content
           </a>

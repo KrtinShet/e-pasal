@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
       aria-label={`View ${product.name}`}
     >
       <article className="card overflow-hidden">
-        <div className="relative aspect-square bg-[var(--cream-dark)] overflow-hidden">
+        <div className="relative aspect-square bg-[var(--grey-100)] overflow-hidden">
           {product.images && product.images.length > 0 ? (
             <Image
               src={product.images[0]}
@@ -58,7 +58,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-[var(--mist)]"
+                className="text-[var(--grey-300)]"
               >
                 <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
                 <circle cx="9" cy="9" r="2" />
@@ -74,8 +74,8 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           {isOutOfStock && (
-            <div className="absolute inset-0 bg-[var(--charcoal)]/40 flex items-center justify-center">
-              <span className="bg-white/90 text-[var(--charcoal)] px-4 py-2 rounded-full text-sm font-medium">
+            <div className="absolute inset-0 bg-[var(--grey-900)]/40 flex items-center justify-center">
+              <span className="bg-white/90 text-[var(--grey-900)] px-4 py-2 rounded-full text-sm font-medium">
                 Out of Stock
               </span>
             </div>
@@ -83,16 +83,16 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="p-4">
-          <h3 className="text-body font-medium text-[var(--charcoal)] line-clamp-2 min-h-[3.4em] group-hover:text-[var(--store-primary)] transition-colors">
+          <h3 className="text-body font-medium text-[var(--grey-900)] line-clamp-2 min-h-[3.4em] group-hover:text-[var(--store-primary)] transition-colors">
             {product.name}
           </h3>
 
           <div className="mt-2 flex items-center gap-2">
-            <span className="text-heading-3 font-semibold text-[var(--charcoal)]">
+            <span className="text-heading-3 font-semibold text-[var(--grey-900)]">
               {formatPrice(product.price, currency)}
             </span>
             {hasDiscount && (
-              <span className="text-body-sm text-[var(--slate)] line-through">
+              <span className="text-body-sm text-[var(--grey-600)] line-through">
                 {formatPrice(product.compareAtPrice!, currency)}
               </span>
             )}

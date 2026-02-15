@@ -10,7 +10,7 @@ export function ProductGrid({ products }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <div className="py-20 text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--cream-dark)] mb-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--grey-100)] mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -21,16 +21,16 @@ export function ProductGrid({ products }: ProductGridProps) {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-[var(--slate)]"
+            className="text-[var(--grey-600)]"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
           </svg>
         </div>
-        <h3 className="text-heading-3 font-medium text-[var(--charcoal)] mb-2">
+        <h3 className="text-heading-3 font-medium text-[var(--grey-900)] mb-2">
           No products found
         </h3>
-        <p className="text-body text-[var(--slate)] max-w-md mx-auto">
+        <p className="text-body text-[var(--grey-600)] max-w-md mx-auto">
           Try adjusting your search or filter to find what you are looking for.
         </p>
       </div>

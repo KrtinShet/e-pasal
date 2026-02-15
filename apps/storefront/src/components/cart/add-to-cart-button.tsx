@@ -161,7 +161,7 @@ export function AddToCartButton({
           handleAddToCart();
         }}
         disabled={isOutOfStock || !canAddMore || isAdding}
-        className={`p-2 rounded-full bg-[var(--background)] text-[var(--charcoal)] hover:bg-[var(--cream-dark)] transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+        className={`p-2 rounded-full bg-[var(--background)] text-[var(--grey-900)] hover:bg-[var(--grey-100)] transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
         aria-label={isOutOfStock ? 'Out of stock' : 'Add to cart'}
       >
         {isAdding ? <CheckIcon size={iconSizeMap[size]} /> : <CartIcon size={iconSizeMap[size]} />}
@@ -172,29 +172,29 @@ export function AddToCartButton({
   if (cartQuantity > 0 && showQuantity) {
     return (
       <div className={`flex items-center gap-2 ${className}`}>
-        <div className="flex items-center border border-[var(--mist)]/30 rounded-lg">
+        <div className="flex items-center border border-[var(--grey-300)]/30 rounded-lg">
           <button
             type="button"
             onClick={() => handleUpdateQuantity(cartQuantity - 1)}
-            className="w-10 h-10 flex items-center justify-center text-[var(--graphite)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-l-lg transition-colors"
+            className="w-10 h-10 flex items-center justify-center text-[var(--grey-700)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-l-lg transition-colors"
             aria-label="Decrease quantity"
           >
             <MinusIcon />
           </button>
-          <span className="w-12 text-center text-body font-medium text-[var(--charcoal)]">
+          <span className="w-12 text-center text-body font-medium text-[var(--grey-900)]">
             {cartQuantity}
           </span>
           <button
             type="button"
             onClick={() => handleUpdateQuantity(cartQuantity + 1)}
             disabled={cartQuantity >= maxQuantity}
-            className="w-10 h-10 flex items-center justify-center text-[var(--graphite)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-r-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-10 h-10 flex items-center justify-center text-[var(--grey-700)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-r-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             aria-label="Increase quantity"
           >
             <PlusIcon />
           </button>
         </div>
-        <span className="text-body-sm text-[var(--slate)]">in cart</span>
+        <span className="text-body-sm text-[var(--grey-600)]">in cart</span>
       </div>
     );
   }
@@ -202,24 +202,24 @@ export function AddToCartButton({
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       {showQuantity && (
-        <div className="flex items-center border border-[var(--mist)]/30 rounded-lg">
+        <div className="flex items-center border border-[var(--grey-300)]/30 rounded-lg">
           <button
             type="button"
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
             disabled={quantity <= 1}
-            className="w-10 h-10 flex items-center justify-center text-[var(--graphite)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-l-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-10 h-10 flex items-center justify-center text-[var(--grey-700)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-l-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             aria-label="Decrease quantity"
           >
             <MinusIcon />
           </button>
-          <span className="w-12 text-center text-body font-medium text-[var(--charcoal)]">
+          <span className="w-12 text-center text-body font-medium text-[var(--grey-900)]">
             {quantity}
           </span>
           <button
             type="button"
             onClick={() => setQuantity(Math.min(maxQuantity - cartQuantity, quantity + 1))}
             disabled={quantity >= maxQuantity - cartQuantity}
-            className="w-10 h-10 flex items-center justify-center text-[var(--graphite)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-r-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-10 h-10 flex items-center justify-center text-[var(--grey-700)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-r-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             aria-label="Increase quantity"
           >
             <PlusIcon />
@@ -236,7 +236,7 @@ export function AddToCartButton({
           ${
             variant === 'primary'
               ? 'bg-[var(--store-primary)] text-white hover:bg-[var(--store-primary-dark)]'
-              : 'bg-[var(--cream-dark)] text-[var(--charcoal)] hover:bg-[var(--mist)]/30'
+              : 'bg-[var(--grey-100)] text-[var(--grey-900)] hover:bg-[var(--grey-300)]/30'
           }
           disabled:opacity-50 disabled:cursor-not-allowed
           ${isAdding ? 'bg-[var(--sage)] hover:bg-[var(--sage)]' : ''}

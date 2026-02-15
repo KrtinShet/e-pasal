@@ -23,11 +23,11 @@ export default function ProductNotFound() {
           </svg>
         </div>
 
-        <h1 className="text-heading-1 font-display font-semibold text-[var(--charcoal)] mb-4">
+        <h1 className="text-heading-1 font-display font-semibold text-[var(--grey-900)] mb-4">
           Product Not Found
         </h1>
 
-        <p className="text-body-lg text-[var(--slate)] mb-8">
+        <p className="text-body-lg text-[var(--grey-600)] mb-8">
           Sorry, we could not find the product you are looking for. It may have been removed or the
           link may be incorrect.
         </p>

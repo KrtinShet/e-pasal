@@ -102,14 +102,14 @@ export function Pagination({ pagination, basePath = '/products' }: PaginationPro
       {page > 1 ? (
         <Link
           href={createPageUrl(page - 1)}
-          className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--slate)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
+          className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--grey-600)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-lg transition-colors"
           aria-label="Go to previous page"
         >
           <ChevronLeftIcon />
           <span className="hidden sm:inline">Previous</span>
         </Link>
       ) : (
-        <span className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--mist)] cursor-not-allowed">
+        <span className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--grey-300)] cursor-not-allowed">
           <ChevronLeftIcon />
           <span className="hidden sm:inline">Previous</span>
         </span>
@@ -120,7 +120,7 @@ export function Pagination({ pagination, basePath = '/products' }: PaginationPro
           pageNum === 'ellipsis' ? (
             <span
               key={`ellipsis-${index}`}
-              className="w-10 h-10 flex items-center justify-center text-[var(--slate)]"
+              className="w-10 h-10 flex items-center justify-center text-[var(--grey-600)]"
             >
               ...
             </span>
@@ -130,8 +130,8 @@ export function Pagination({ pagination, basePath = '/products' }: PaginationPro
               href={createPageUrl(pageNum)}
               className={`w-10 h-10 flex items-center justify-center text-body-sm rounded-lg transition-colors ${
                 pageNum === page
-                  ? 'bg-[var(--charcoal)] text-white font-medium'
-                  : 'text-[var(--slate)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)]'
+                  ? 'bg-[var(--grey-900)] text-white font-medium'
+                  : 'text-[var(--grey-600)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)]'
               }`}
               aria-label={`Go to page ${pageNum}`}
               aria-current={pageNum === page ? 'page' : undefined}
@@ -145,20 +145,20 @@ export function Pagination({ pagination, basePath = '/products' }: PaginationPro
       {page < pages ? (
         <Link
           href={createPageUrl(page + 1)}
-          className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--slate)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
+          className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--grey-600)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-lg transition-colors"
           aria-label="Go to next page"
         >
           <span className="hidden sm:inline">Next</span>
           <ChevronRightIcon />
         </Link>
       ) : (
-        <span className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--mist)] cursor-not-allowed">
+        <span className="flex items-center gap-1 px-3 py-2 text-body-sm text-[var(--grey-300)] cursor-not-allowed">
           <span className="hidden sm:inline">Next</span>
           <ChevronRightIcon />
         </span>
       )}
 
-      <span className="hidden md:block ml-4 text-body-sm text-[var(--slate)]">
+      <span className="hidden md:block ml-4 text-body-sm text-[var(--grey-600)]">
         Page {page} of {pages} ({total} items)
       </span>
     </nav>

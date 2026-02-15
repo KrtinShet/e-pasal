@@ -82,7 +82,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-[var(--background)]/95 backdrop-blur-sm border-b border-[var(--mist)]/20">
+      <header className="sticky top-0 z-40 w-full bg-[var(--background)]/95 backdrop-blur-sm border-b border-[var(--grey-300)]/20">
         <div className="container-main">
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link href="/" className="flex items-center gap-3 shrink-0">
@@ -111,7 +111,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-body-sm font-medium text-[var(--graphite)] hover:text-[var(--foreground)] link-underline transition-colors"
+                  className="text-body-sm font-medium text-[var(--grey-700)] hover:text-[var(--foreground)] link-underline transition-colors"
                 >
                   {link.label}
                 </Link>

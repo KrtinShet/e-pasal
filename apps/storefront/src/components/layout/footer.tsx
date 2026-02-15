@@ -66,17 +66,17 @@ export function Footer() {
     store?.social?.facebook || store?.social?.instagram || store?.social?.tiktok;
 
   return (
-    <footer className="bg-[var(--store-primary)]/5 border-t border-[var(--mist)]/20">
+    <footer className="bg-[var(--store-primary)]/5 border-t border-[var(--grey-300)]/20">
       <div className="container-main py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           <div className="space-y-4">
             <h3 className="text-heading-3 font-display">{store?.name || 'Store'}</h3>
             {store?.description && (
-              <p className="text-body-sm text-[var(--muted)] max-w-sm">{store.description}</p>
+              <p className="text-body-sm text-[var(--grey-500)] max-w-sm">{store.description}</p>
             )}
 
             {store?.contact && (
-              <div className="space-y-2 text-body-sm text-[var(--muted)]">
+              <div className="space-y-2 text-body-sm text-[var(--grey-500)]">
                 {store.contact.email && (
                   <p>
                     <a
@@ -110,7 +110,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-body-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+                      className="text-body-sm text-[var(--grey-500)] hover:text-[var(--foreground)] transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -129,7 +129,7 @@ export function Footer() {
                     href={store.social.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
+                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--grey-700)] hover:text-[var(--foreground)] transition-colors"
                     aria-label="Facebook"
                   >
                     <FacebookIcon />
@@ -140,7 +140,7 @@ export function Footer() {
                     href={store.social.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
+                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--grey-700)] hover:text-[var(--foreground)] transition-colors"
                     aria-label="Instagram"
                   >
                     <InstagramIcon />
@@ -151,7 +151,7 @@ export function Footer() {
                     href={store.social.tiktok}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--graphite)] hover:text-[var(--foreground)] transition-colors"
+                    className="p-2 rounded-full bg-[var(--store-primary)]/10 hover:bg-[var(--store-primary)]/20 text-[var(--grey-700)] hover:text-[var(--foreground)] transition-colors"
                     aria-label="TikTok"
                   >
                     <TikTokIcon />
@@ -164,7 +164,7 @@ export function Footer() {
 
         <div className="divider my-8" />
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-caption text-[var(--muted)]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-caption text-[var(--grey-500)]">
           <p>
             &copy; {currentYear} {store?.name || 'Store'}. All rights reserved.
           </p>

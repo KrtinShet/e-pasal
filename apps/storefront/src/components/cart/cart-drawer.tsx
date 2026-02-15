@@ -39,7 +39,7 @@ function CartIcon() {
       strokeWidth="1"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-[var(--mist)]"
+      className="text-[var(--grey-300)]"
     >
       <circle cx="8" cy="21" r="1" />
       <circle cx="19" cy="21" r="1" />
@@ -52,8 +52,8 @@ function EmptyCart({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
       <CartIcon />
-      <h3 className="mt-4 text-heading-3 font-medium text-[var(--charcoal)]">Your cart is empty</h3>
-      <p className="mt-2 text-body text-[var(--graphite)]">Add some products to get started</p>
+      <h3 className="mt-4 text-heading-3 font-medium text-[var(--grey-900)]">Your cart is empty</h3>
+      <p className="mt-2 text-body text-[var(--grey-700)]">Add some products to get started</p>
       <Link href="/products" onClick={onClose} className="mt-6 btn-primary">
         Browse Products
       </Link>
@@ -133,11 +133,11 @@ export function CartDrawer() {
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--mist)]/20">
-            <h2 className="text-heading-3 font-semibold text-[var(--charcoal)]">
+          <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--grey-300)]/20">
+            <h2 className="text-heading-3 font-semibold text-[var(--grey-900)]">
               Your Cart
               {summary.totalItems > 0 && (
-                <span className="ml-2 text-body text-[var(--slate)] font-normal">
+                <span className="ml-2 text-body text-[var(--grey-600)] font-normal">
                   ({summary.totalItems})
                 </span>
               )}
@@ -145,7 +145,7 @@ export function CartDrawer() {
             <button
               type="button"
               onClick={closeDrawer}
-              className="p-2 rounded-full hover:bg-[var(--cream-dark)] transition-colors"
+              className="p-2 rounded-full hover:bg-[var(--grey-100)] transition-colors"
               aria-label="Close cart"
             >
               <CloseIcon />
@@ -170,7 +170,7 @@ export function CartDrawer() {
               </div>
 
               {/* Summary */}
-              <div className="px-4 py-4 border-t border-[var(--mist)]/20 bg-[var(--background)]">
+              <div className="px-4 py-4 border-t border-[var(--grey-300)]/20 bg-[var(--background)]">
                 <CartSummary showCheckout onCheckout={handleCheckout} />
               </div>
             </>

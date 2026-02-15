@@ -42,7 +42,7 @@ export default function Error({ error, reset }: ErrorProps) {
 
         <h1 className="text-heading-1 font-display mb-4">Something went wrong</h1>
 
-        <p className="text-body-lg text-[var(--muted)] max-w-md mx-auto mb-8">
+        <p className="text-body-lg text-[var(--grey-500)] max-w-md mx-auto mb-8">
           We encountered an error while loading this page. Please try again.
         </p>
 
@@ -56,7 +56,7 @@ export default function Error({ error, reset }: ErrorProps) {
         </div>
 
         {process.env.NODE_ENV === 'development' && error.message && (
-          <div className="mt-8 p-4 bg-[var(--cream-dark)] rounded-lg text-left max-w-xl mx-auto">
+          <div className="mt-8 p-4 bg-[var(--grey-100)] rounded-lg text-left max-w-xl mx-auto">
             <p className="text-caption font-mono text-[var(--store-primary)]">{error.message}</p>
           </div>
         )}

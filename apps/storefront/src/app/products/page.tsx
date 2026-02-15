@@ -54,11 +54,11 @@ function ProductsLoading() {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {Array.from({ length: 8 }).map((_, i) => (
         <div key={i} className="card overflow-hidden animate-pulse">
-          <div className="aspect-square bg-[var(--cream-dark)]" />
+          <div className="aspect-square bg-[var(--grey-100)]" />
           <div className="p-4 space-y-3">
-            <div className="h-5 bg-[var(--cream-dark)] rounded w-3/4" />
-            <div className="h-5 bg-[var(--cream-dark)] rounded w-1/2" />
-            <div className="h-6 bg-[var(--cream-dark)] rounded w-1/3" />
+            <div className="h-5 bg-[var(--grey-100)] rounded w-3/4" />
+            <div className="h-5 bg-[var(--grey-100)] rounded w-1/2" />
+            <div className="h-6 bg-[var(--grey-100)] rounded w-1/3" />
           </div>
         </div>
       ))}
@@ -78,10 +78,10 @@ async function ProductsContent({
   if (!subdomain) {
     return (
       <div className="py-20 text-center">
-        <h2 className="text-heading-2 font-medium text-[var(--charcoal)] mb-4">
+        <h2 className="text-heading-2 font-medium text-[var(--grey-900)] mb-4">
           Store not configured
         </h2>
-        <p className="text-body text-[var(--slate)]">
+        <p className="text-body text-[var(--grey-600)]">
           Please access this page through a store subdomain.
         </p>
       </div>
@@ -151,10 +151,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   return (
     <div className="container-main py-8 md:py-12">
       <header className="mb-8">
-        <h1 className="text-heading-1 font-display font-semibold text-[var(--charcoal)]">
+        <h1 className="text-heading-1 font-display font-semibold text-[var(--grey-900)]">
           Products
         </h1>
-        <p className="mt-2 text-body-lg text-[var(--slate)]">
+        <p className="mt-2 text-body-lg text-[var(--grey-600)]">
           Discover our curated collection of products
         </p>
       </header>

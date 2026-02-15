@@ -102,7 +102,7 @@ export function MobileNav({ isOpen, onClose, links, storeName, storeLogo }: Mobi
   return (
     <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" id="mobile-menu">
       <div
-        className="fixed inset-0 bg-[var(--charcoal)]/50 backdrop-blur-sm animate-fade-in"
+        className="fixed inset-0 bg-[var(--grey-900)]/50 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -112,7 +112,7 @@ export function MobileNav({ isOpen, onClose, links, storeName, storeLogo }: Mobi
         className="fixed inset-y-0 right-0 w-full max-w-sm bg-[var(--background)] shadow-xl animate-slide-right"
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--mist)]/20">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--grey-300)]/20">
             <div className="flex items-center gap-3">
               {storeLogo ? (
                 <Image
@@ -158,8 +158,8 @@ export function MobileNav({ isOpen, onClose, links, storeName, storeLogo }: Mobi
             </ul>
           </nav>
 
-          <div className="px-6 py-6 border-t border-[var(--mist)]/20">
-            <p className="text-caption text-[var(--muted)]">
+          <div className="px-6 py-6 border-t border-[var(--grey-300)]/20">
+            <p className="text-caption text-[var(--grey-500)]">
               Powered by{' '}
               <a
                 href="https://baazarify.com"

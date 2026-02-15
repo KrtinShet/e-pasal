@@ -32,9 +32,9 @@ function WelcomeContent() {
         <h1 className="text-display-2 font-display mb-6 opacity-0 animate-fade-in-up delay-100">
           <span className="text-gradient">Start Shopping</span>
         </h1>
-        <p className="text-body-lg text-[var(--muted)] max-w-xl mx-auto mb-8 opacity-0 animate-fade-in-up delay-200">
+        <p className="text-body-lg text-[var(--grey-500)] max-w-xl mx-auto mb-8 opacity-0 animate-fade-in-up delay-200">
           Add a store parameter to start browsing. Try adding{' '}
-          <code className="px-2 py-1 bg-[var(--cream-dark)] rounded font-mono text-sm">
+          <code className="px-2 py-1 bg-[var(--grey-100)] rounded font-mono text-sm">
             ?store=demo
           </code>{' '}
           to the URL.
@@ -66,7 +66,7 @@ function StoreContent({
             <span className="text-gradient">{storeName}</span>
           </h1>
           {storeDescription && (
-            <p className="text-body-lg text-[var(--muted)] max-w-2xl mx-auto opacity-0 animate-fade-in-up delay-200">
+            <p className="text-body-lg text-[var(--grey-500)] max-w-2xl mx-auto opacity-0 animate-fade-in-up delay-200">
               {storeDescription}
             </p>
           )}
@@ -104,7 +104,7 @@ function StoreContent({
               </svg>
             </div>
             <h3 className="text-heading-3 font-semibold mb-2">Quality Products</h3>
-            <p className="text-body-sm text-[var(--muted)]">
+            <p className="text-body-sm text-[var(--grey-500)]">
               Discover our curated selection of high-quality items.
             </p>
           </div>
@@ -132,7 +132,7 @@ function StoreContent({
               </svg>
             </div>
             <h3 className="text-heading-3 font-semibold mb-2">Easy Ordering</h3>
-            <p className="text-body-sm text-[var(--muted)]">
+            <p className="text-body-sm text-[var(--grey-500)]">
               Simple checkout process with multiple payment options.
             </p>
           </div>
@@ -155,7 +155,7 @@ function StoreContent({
               </svg>
             </div>
             <h3 className="text-heading-3 font-semibold mb-2">Customer Support</h3>
-            <p className="text-body-sm text-[var(--muted)]">
+            <p className="text-body-sm text-[var(--grey-500)]">
               We are here to help with any questions or concerns.
             </p>
           </div>

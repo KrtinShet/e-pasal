@@ -12,7 +12,7 @@ function StoreIcon() {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-[var(--mist)]"
+      className="text-[var(--grey-300)]"
     >
       <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
       <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
@@ -27,13 +27,13 @@ export function StoreNotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
       <div className="container-main text-center py-16">
-        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[var(--cream-dark)] mb-8">
+        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[var(--grey-100)] mb-8">
           <StoreIcon />
         </div>
 
         <h1 className="text-display-2 font-display mb-4">Store Not Found</h1>
 
-        <p className="text-body-lg text-[var(--muted)] max-w-md mx-auto mb-8">
+        <p className="text-body-lg text-[var(--grey-500)] max-w-md mx-auto mb-8">
           The store you are looking for does not exist or may have been removed.
         </p>
 
@@ -46,8 +46,8 @@ export function StoreNotFound() {
           </button>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-[var(--mist)]/20">
-          <p className="text-caption text-[var(--muted)]">
+        <div className="mt-16 pt-8 border-t border-[var(--grey-300)]/20">
+          <p className="text-caption text-[var(--grey-500)]">
             Powered by{' '}
             <a
               href="https://baazarify.com"
