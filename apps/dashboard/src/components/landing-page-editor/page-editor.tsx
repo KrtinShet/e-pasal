@@ -13,7 +13,7 @@ import {
 import { apiRequest } from '@/lib/api';
 
 import { AIChat } from './ai-chat';
-import { SectionList } from './section-list';
+import { DraggableSectionList } from './draggable-section-list';
 import { AddSectionModal } from './add-section-modal';
 import { AIGenerateModal } from './ai-generate-modal';
 
@@ -255,6 +255,24 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
     [updateSections]
   );
 
+  const handleReorderSections = useCallback(
+    (activeId: string, overId: string) => {
+      updateSections((sections) => {
+        const activeIndex = sections.findIndex((s) => s.id === activeId);
+        const overIndex = sections.findIndex((s) => s.id === overId);
+
+        if (activeIndex === -1 || overIndex === -1) return sections;
+
+        // Use array move from dnd-kit to maintain proper ordering
+        const newSections = [...sections];
+        const [movedSection] = newSections.splice(activeIndex, 1);
+        newSections.splice(overIndex, 0, movedSection);
+        return newSections;
+      });
+    },
+    [updateSections]
+  );
+
   const handleToggleVisibility = useCallback(
     (id: string) => {
       updateSections((sections) =>
@@ -459,7 +477,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
                 key={page.id}
                 className={`group relative flex items-center gap-1.5 border-b-2 px-4 py-3 text-[0.8125rem] transition-all ${
                   isActive
-                    ? 'border-[var(--color-primary)] bg-white font-bold text-[var(--color-primary)]'
+                    ? 'border-[var(--primary-main)] bg-white font-bold text-[var(--primary-main)]'
                     : 'border-transparent font-medium text-[var(--grey-500)] hover:bg-white/60 hover:text-[var(--grey-700)]'
                 }`}
               >
@@ -526,7 +544,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
               onChange={(event) => setNewPageTitle(event.target.value)}
               placeholder="Page title"
               autoFocus
-              className="w-28 rounded-[10px] border border-[var(--grey-200)] bg-white px-2.5 py-1.5 text-[0.75rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] focus:border-[var(--color-primary)] focus:outline-none"
+              className="w-28 rounded-[10px] border border-[var(--grey-200)] bg-white px-2.5 py-1.5 text-[0.75rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] focus:border-[var(--primary-main)] focus:outline-none"
               onKeyDown={(event) => {
                 if (event.key === 'Enter') handleAddPage();
                 if (event.key === 'Escape') setShowNewPageForm(false);
@@ -537,7 +555,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
               value={newPageSlug}
               onChange={(event) => setNewPageSlug(event.target.value)}
               placeholder="/slug"
-              className="w-24 rounded-[10px] border border-[var(--grey-200)] bg-white px-2.5 py-1.5 text-[0.75rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] focus:border-[var(--color-primary)] focus:outline-none"
+              className="w-24 rounded-[10px] border border-[var(--grey-200)] bg-white px-2.5 py-1.5 text-[0.75rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] focus:border-[var(--primary-main)] focus:outline-none"
               onKeyDown={(event) => {
                 if (event.key === 'Enter') handleAddPage();
                 if (event.key === 'Escape') setShowNewPageForm(false);
@@ -547,7 +565,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
               type="button"
               onClick={handleAddPage}
               disabled={!newPageTitle.trim()}
-              className="rounded-[10px] bg-[var(--color-primary)] px-3 py-1.5 text-[0.75rem] font-bold text-white transition-all hover:bg-[var(--primary-dark)] disabled:opacity-40"
+              className="rounded-[10px] bg-[var(--primary-main)] px-3 py-1.5 text-[0.75rem] font-bold text-white transition-all hover:bg-[var(--primary-dark)] disabled:opacity-40"
             >
               Add
             </button>
@@ -563,7 +581,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
           <button
             type="button"
             onClick={() => setShowNewPageForm(true)}
-            className="flex items-center gap-1.5 border-l border-dashed border-[var(--grey-200)] px-4 py-3 text-[0.75rem] font-semibold text-[var(--grey-400)] transition-colors hover:bg-white/60 hover:text-[var(--color-primary)]"
+            className="flex items-center gap-1.5 border-l border-dashed border-[var(--grey-200)] px-4 py-3 text-[0.75rem] font-semibold text-[var(--grey-400)] transition-colors hover:bg-white/60 hover:text-[var(--primary-main)]"
           >
             <Plus size={14} />
             New Page
@@ -581,17 +599,17 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
             <button
               type="button"
               onClick={() => setShowAddModal(true)}
-              className="rounded-[10px] bg-[var(--color-primary)] px-2.5 py-1 text-[0.6875rem] font-bold text-white transition-all hover:bg-[var(--primary-dark)] active:scale-95"
+              className="rounded-[10px] bg-[var(--primary-main)] px-2.5 py-1 text-[0.6875rem] font-bold text-white transition-all hover:bg-[var(--primary-dark)] active:scale-95"
             >
               + Add
             </button>
           </div>
           <div className="flex-1 overflow-y-auto thin-scroll p-3">
-            <SectionList
+            <DraggableSectionList
               sections={config.sections}
               selectedId={selectedSectionId || undefined}
               onSelect={setSelectedSectionId}
-              onMove={handleMoveSection}
+              onReorder={handleReorderSections}
               onToggleVisibility={handleToggleVisibility}
               onDelete={handleDeleteSection}
             />
@@ -630,7 +648,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
                         setPageTitleInput(config.title);
                       }
                     }}
-                    className="min-w-32 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--color-primary)] focus:outline-none"
+                    className="min-w-32 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--primary-main)] focus:outline-none"
                   />
                 </label>
                 <label className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-2.5 py-1.5 text-[0.6875rem] font-semibold text-[var(--grey-500)]">
@@ -649,7 +667,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
                         setPageSlugInput(config.slug);
                       }
                     }}
-                    className="min-w-36 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--color-primary)] focus:outline-none"
+                    className="min-w-36 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--primary-main)] focus:outline-none"
                     placeholder="/about-us"
                   />
                 </label>
@@ -671,7 +689,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
               <button
                 type="button"
                 onClick={() => setShowAIModal(true)}
-                className="inline-flex items-center gap-1.5 rounded-[10px] bg-gradient-to-r from-[var(--color-primary)] to-[var(--warning-main)] px-3.5 py-1.5 text-[0.75rem] font-bold text-white shadow-sm transition-all hover:shadow-md active:scale-[0.97]"
+                className="inline-flex items-center gap-1.5 rounded-[10px] bg-gradient-to-r from-[var(--primary-main)] to-[var(--warning-main)] px-3.5 py-1.5 text-[0.75rem] font-bold text-white shadow-sm transition-all hover:shadow-md active:scale-[0.97]"
               >
                 <Sparkles size={12} />
                 AI Generate
