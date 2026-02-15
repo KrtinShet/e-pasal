@@ -2,7 +2,9 @@
 
 import { X, Bot, Send, User, Sparkles } from 'lucide-react';
 import type { PageConfig } from '@baazarify/storefront-builder';
+import { getSection } from '@baazarify/storefront-builder';
 import { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 import { apiRequest } from '@/lib/api';
 
@@ -13,15 +15,18 @@ interface Message {
 
 interface AIChatProps {
   onGenerated: (config: PageConfig) => void;
+  selectedSectionId?: string | null;
+  selectedSectionType?: string | null;
 }
 
-export function AIChat({ onGenerated }: AIChatProps) {
+export function AIChat({ onGenerated, selectedSectionId, selectedSectionType }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [contextCleared, setContextCleared] = useState(false);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,7 +49,11 @@ export function AIChat({ onGenerated }: AIChatProps) {
           '/stores/me/landing-page/generate',
           {
             method: 'POST',
-            body: JSON.stringify({ businessType: trimmed }),
+            body: JSON.stringify({
+              businessType: trimmed,
+              sectionId: selectedSectionId,
+              sectionType: selectedSectionType,
+            }),
           }
         );
 
@@ -65,7 +74,7 @@ export function AIChat({ onGenerated }: AIChatProps) {
         setLoading(false);
       }
     },
-    [input, loading, onGenerated]
+    [input, loading, onGenerated, selectedSectionId, selectedSectionType]
   );
 
   const handleClear = useCallback(() => {
@@ -73,18 +82,30 @@ export function AIChat({ onGenerated }: AIChatProps) {
     setExpanded(false);
   }, []);
 
+  const clearContext = useCallback(() => {
+    setContextCleared(true);
+  }, []);
+
+  const sectionName = selectedSectionType ? getSection(selectedSectionType)?.name : null;
+
   return (
     <div className="flex flex-col border-t border-[var(--grey-200)] bg-white/90 backdrop-blur-xl">
       {/* Chat thread */}
-      {expanded && messages.length > 0 && (
-        <div className="max-h-[220px] overflow-y-auto thin-scroll px-5 pt-4 pb-2">
+      <AnimatePresence>
+        {expanded && messages.length > 0 && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="max-h-[220px] overflow-y-auto thin-scroll px-5 pt-4 pb-2"
+          >
           <div className="flex items-center justify-between pb-3">
             <div className="flex items-center gap-2">
               <div
                 className="flex h-5 w-5 items-center justify-center rounded-md"
-                style={{ background: 'color-mix(in srgb, var(--color-primary) 15%, white)' }}
+                style={{ background: 'color-mix(in srgb, var(--primary-main) 15%, white)' }}
               >
-                <Sparkles size={10} className="text-[var(--color-primary)]" />
+                <Sparkles size={10} className="text-[var(--primary-main)]" />
               </div>
               <span className="text-[0.6875rem] font-bold text-[var(--grey-500)] uppercase tracking-wider">
                 AI Assistant
@@ -100,16 +121,18 @@ export function AIChat({ onGenerated }: AIChatProps) {
           </div>
           <div className="space-y-3">
             {messages.map((msg, i) => (
-              <div
+              <motion.div
                 key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'assistant' && (
                   <div
                     className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full"
-                    style={{ background: 'color-mix(in srgb, var(--color-primary) 15%, white)' }}
+                    style={{ background: 'color-mix(in srgb, var(--primary-main) 15%, white)' }}
                   >
-                    <Bot size={12} className="text-[var(--color-primary)]" />
+                    <Bot size={12} className="text-[var(--primary-main)]" />
                   </div>
                 )}
                 <div
@@ -122,19 +145,19 @@ export function AIChat({ onGenerated }: AIChatProps) {
                   {msg.content}
                 </div>
                 {msg.role === 'user' && (
-                  <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--color-primary)]">
+                  <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--primary-main)]">
                     <User size={12} className="text-white" />
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
             {loading && (
               <div className="flex gap-2">
                 <div
                   className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full"
-                  style={{ background: 'color-mix(in srgb, var(--color-primary) 15%, white)' }}
+                  style={{ background: 'color-mix(in srgb, var(--primary-main) 15%, white)' }}
                 >
-                  <Bot size={12} className="text-[var(--color-primary)]" />
+                  <Bot size={12} className="text-[var(--primary-main)]" />
                 </div>
                 <div className="rounded-2xl rounded-bl-md bg-[var(--grey-100)] px-4 py-2.5">
                   <span className="flex gap-1">
@@ -147,27 +170,43 @@ export function AIChat({ onGenerated }: AIChatProps) {
             )}
             <div ref={messagesEndRef} />
           </div>
-        </div>
-      )}
+        </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Input bar */}
-      <form onSubmit={handleSubmit} className="flex items-center gap-3 px-5 py-3">
-        <div
-          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[10px]"
-          style={{
-            background: 'linear-gradient(135deg, var(--primary-main), var(--warning-main))',
-          }}
-        >
-          <Sparkles size={14} className="text-white" />
-        </div>
-        <input
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 px-5 py-3">
+        {selectedSectionType && !contextCleared && sectionName && (
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 rounded-full bg-[var(--primary-main)]/10 px-3 py-1 text-[0.6875rem] text-[var(--primary-main)]">
+              <span className="font-medium">Editing: {sectionName}</span>
+              <button
+                type="button"
+                onClick={clearContext}
+                className="ml-0.5 rounded-full p-0.5 hover:bg-[var(--primary-main)]/20 transition-colors"
+              >
+                <X size={10} />
+              </button>
+            </div>
+          </div>
+        )}
+        <div className="flex items-center gap-3">
+          <div
+            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[10px]"
+            style={{
+              background: 'linear-gradient(135deg, var(--primary-main), var(--warning-main))',
+            }}
+          >
+            <Sparkles size={14} className="text-white" />
+          </div>
+          <input
           ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Describe your page — e.g. 'A modern clothing store with hero banner'"
           disabled={loading}
-          className="flex-1 rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-4 py-2.5 text-[0.875rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] transition-all focus:border-[var(--color-primary)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/10 disabled:opacity-50"
+          className="flex-1 rounded-[12px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-4 py-2.5 text-[0.875rem] text-[var(--grey-900)] placeholder:text-[var(--grey-400)] transition-all focus:border-[var(--primary-main)] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/10 disabled:opacity-50"
         />
         <button
           type="submit"
@@ -179,6 +218,7 @@ export function AIChat({ onGenerated }: AIChatProps) {
         >
           <Send size={14} />
         </button>
+        </div>
       </form>
     </div>
   );
