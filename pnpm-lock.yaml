@@ -451,6 +451,9 @@ importers:
       '@baazarify/ui':
         specifier: workspace:*
         version: link:../ui
+      motion:
+        specifier: ^12.23.26
+        version: 12.29.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react:
         specifier: '>=18.0.0'
         version: 19.2.3

@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useCallback, type ReactNode } from 'react';
+import { motion } from 'motion/react';
 
 export type DeviceMode = 'desktop' | 'tablet' | 'mobile';
 
@@ -30,7 +31,7 @@ export function Canvas({ children, device, zoom, onZoomChange }: CanvasProps) {
         onZoomChange(Math.min(150, Math.max(50, zoom + delta)));
       }
     },
-    [zoom, onZoomChange],
+    [zoom, onZoomChange]
   );
 
   return (
@@ -45,13 +46,14 @@ export function Canvas({ children, device, zoom, onZoomChange }: CanvasProps) {
       }}
     >
       <div className="flex justify-center py-8 px-4" style={{ minHeight: '100%' }}>
-        <div
-          className="bg-white shadow-2xl rounded-lg overflow-hidden transition-[width] duration-300 origin-top"
-          style={{
-            width: `${width}px`,
-            transform: `scale(${scale})`,
-            transformOrigin: 'top center',
+        <motion.div
+          className="bg-white shadow-2xl rounded-lg overflow-hidden origin-top"
+          animate={{
+            width: width,
+            scale: scale,
           }}
+          transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+          style={{ transformOrigin: 'top center' }}
         >
           {/* Browser chrome */}
           <div className="border-b border-gray-200 bg-gray-50 px-4 py-2 flex items-center gap-2">
@@ -68,7 +70,7 @@ export function Canvas({ children, device, zoom, onZoomChange }: CanvasProps) {
           </div>
           {/* Page content */}
           <div className="min-h-[400px]">{children}</div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
