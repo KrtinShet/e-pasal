@@ -3,7 +3,13 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
-import { InlineLink, InlineText, InlineSelect, useSectionEditor } from '../../renderer';
+import {
+  InlineLink,
+  InlineText,
+  InlineSelect,
+  EditableElement,
+  useSectionEditor,
+} from '../../renderer';
 
 export type CTAVariant = 'simple' | 'gradient' | 'image';
 
@@ -69,29 +75,35 @@ export function CTASection({
           </div>
         )}
 
-        <InlineText
-          path="headline"
-          value={headline}
-          as="h2"
-          className="font-display text-3xl font-bold text-white md:text-4xl"
-        />
-        {description && (
+        <EditableElement path="headline">
           <InlineText
-            path="description"
-            value={description}
-            as="p"
-            multiline
-            className="mt-4 text-lg text-white/80"
+            path="headline"
+            value={headline}
+            as="h2"
+            className="font-display text-3xl font-bold text-white md:text-4xl"
           />
+        </EditableElement>
+        {description && (
+          <EditableElement path="description">
+            <InlineText
+              path="description"
+              value={description}
+              as="p"
+              multiline
+              className="mt-4 text-lg text-white/80"
+            />
+          </EditableElement>
         )}
         {buttonText && (
-          <InlineLink
-            textPath="buttonText"
-            hrefPath="buttonLink"
-            text={buttonText}
-            href={buttonLink}
-            className="mt-8 inline-flex items-center rounded-lg bg-white px-8 py-3 text-base font-semibold text-[var(--color-primary)] transition-opacity hover:opacity-90"
-          />
+          <EditableElement path="buttonText">
+            <InlineLink
+              textPath="buttonText"
+              hrefPath="buttonLink"
+              text={buttonText}
+              href={buttonLink}
+              className="mt-8 inline-flex items-center rounded-lg bg-white px-8 py-3 text-base font-semibold text-[var(--color-primary)] transition-opacity hover:opacity-90"
+            />
+          </EditableElement>
         )}
       </div>
     </section>

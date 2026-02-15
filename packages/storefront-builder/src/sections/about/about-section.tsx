@@ -3,7 +3,13 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
-import { InlineText, InlineImage, InlineSelect, useSectionEditor } from '../../renderer';
+import {
+  InlineText,
+  InlineImage,
+  InlineSelect,
+  EditableElement,
+  useSectionEditor,
+} from '../../renderer';
 
 export type AboutVariant = 'image-left' | 'image-right' | 'centered';
 
@@ -40,21 +46,25 @@ export function AboutSection({
             </div>
           )}
           {title && (
-            <InlineText
-              path="title"
-              value={title}
-              as="h2"
-              className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
-            />
+            <EditableElement path="title">
+              <InlineText
+                path="title"
+                value={title}
+                as="h2"
+                className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
+              />
+            </EditableElement>
           )}
           {image && (
-            <InlineImage
-              srcPath="image"
-              src={image}
-              altPath="imageAlt"
-              alt={imageAlt}
-              className="mx-auto mt-8 max-h-80 rounded-xl object-cover"
-            />
+            <EditableElement path="image">
+              <InlineImage
+                srcPath="image"
+                src={image}
+                altPath="imageAlt"
+                alt={imageAlt}
+                className="mx-auto mt-8 max-h-80 rounded-xl object-cover"
+              />
+            </EditableElement>
           )}
           {!image && editMode ? (
             <InlineImage
@@ -65,13 +75,15 @@ export function AboutSection({
               placeholderClassName="mx-auto mt-8 max-h-80"
             />
           ) : null}
-          <InlineText
-            path="content"
-            value={content}
-            as="p"
-            multiline
-            className="mt-6 text-lg leading-relaxed text-[var(--color-text-secondary)]"
-          />
+          <EditableElement path="content">
+            <InlineText
+              path="content"
+              value={content}
+              as="p"
+              multiline
+              className="mt-6 text-lg leading-relaxed text-[var(--color-text-secondary)]"
+            />
+          </EditableElement>
         </div>
       </section>
     );
@@ -95,13 +107,15 @@ export function AboutSection({
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div className={cn({ 'md:order-2': !imageFirst })}>
             {image ? (
-              <InlineImage
-                srcPath="image"
-                src={image}
-                altPath="imageAlt"
-                alt={imageAlt}
-                className="w-full rounded-xl object-cover shadow-lg"
-              />
+              <EditableElement path="image">
+                <InlineImage
+                  srcPath="image"
+                  src={image}
+                  altPath="imageAlt"
+                  alt={imageAlt}
+                  className="w-full rounded-xl object-cover shadow-lg"
+                />
+              </EditableElement>
             ) : (
               <>
                 <div className="aspect-[4/3] rounded-xl bg-[var(--color-surface)]" />
@@ -121,20 +135,24 @@ export function AboutSection({
           </div>
           <div className={cn({ 'md:order-1': !imageFirst })}>
             {title && (
-              <InlineText
-                path="title"
-                value={title}
-                as="h2"
-                className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
-              />
+              <EditableElement path="title">
+                <InlineText
+                  path="title"
+                  value={title}
+                  as="h2"
+                  className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
+                />
+              </EditableElement>
             )}
-            <InlineText
-              path="content"
-              value={content}
-              as="p"
-              multiline
-              className="mt-6 text-lg leading-relaxed text-[var(--color-text-secondary)]"
-            />
+            <EditableElement path="content">
+              <InlineText
+                path="content"
+                value={content}
+                as="p"
+                multiline
+                className="mt-6 text-lg leading-relaxed text-[var(--color-text-secondary)]"
+              />
+            </EditableElement>
           </div>
         </div>
       </div>

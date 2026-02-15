@@ -3,7 +3,7 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
-import { InlineText, useSectionEditor } from '../../renderer';
+import { InlineText, useSectionEditor, EditableElement } from '../../renderer';
 
 export interface NewsletterSectionProps extends BaseSectionProps {
   title?: string;
@@ -24,20 +24,24 @@ export function NewsletterSection({
   return (
     <section className={cn('bg-[var(--color-surface)] py-16', className)}>
       <div className="mx-auto max-w-2xl px-6 text-center">
-        <InlineText
-          path="title"
-          value={title}
-          as="h2"
-          className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
-        />
-        {description && (
+        <EditableElement path="title">
           <InlineText
-            path="description"
-            value={description}
-            as="p"
-            multiline
-            className="mt-4 text-[var(--color-text-secondary)]"
+            path="title"
+            value={title}
+            as="h2"
+            className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
           />
+        </EditableElement>
+        {description && (
+          <EditableElement path="description">
+            <InlineText
+              path="description"
+              value={description}
+              as="p"
+              multiline
+              className="mt-4 text-[var(--color-text-secondary)]"
+            />
+          </EditableElement>
         )}
         <form className="mt-8 flex flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
           <input

@@ -7,6 +7,7 @@ import type { BaseSectionProps } from '../types';
 import {
   InlineText,
   InlineSelect,
+  EditableElement,
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
@@ -122,21 +123,25 @@ export function FeaturesSection({
         {(title || subtitle) && (
           <div className="mb-12 text-center">
             {title && (
-              <InlineText
-                path="title"
-                value={title}
-                as="h2"
-                className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
-              />
+              <EditableElement path="title">
+                <InlineText
+                  path="title"
+                  value={title}
+                  as="h2"
+                  className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
+                />
+              </EditableElement>
             )}
             {subtitle && (
-              <InlineText
-                path="subtitle"
-                value={subtitle}
-                as="p"
-                multiline
-                className="mt-4 text-lg text-[var(--color-text-secondary)]"
-              />
+              <EditableElement path="subtitle">
+                <InlineText
+                  path="subtitle"
+                  value={subtitle}
+                  as="p"
+                  multiline
+                  className="mt-4 text-lg text-[var(--color-text-secondary)]"
+                />
+              </EditableElement>
             )}
           </div>
         )}

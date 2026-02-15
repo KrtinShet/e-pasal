@@ -7,6 +7,7 @@ import {
   InlineText,
   InlineToggle,
   InlineSelect,
+  EditableElement,
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
@@ -80,21 +81,25 @@ export function ContactSection({
         >
           <div>
             {title && (
-              <InlineText
-                path="title"
-                value={title}
-                as="h2"
-                className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
-              />
+              <EditableElement path="title">
+                <InlineText
+                  path="title"
+                  value={title}
+                  as="h2"
+                  className="font-display text-3xl font-bold text-[var(--color-text-primary)]"
+                />
+              </EditableElement>
             )}
             {description && (
-              <InlineText
-                path="description"
-                value={description}
-                as="p"
-                multiline
-                className="mt-4 text-[var(--color-text-secondary)]"
-              />
+              <EditableElement path="description">
+                <InlineText
+                  path="description"
+                  value={description}
+                  as="p"
+                  multiline
+                  className="mt-4 text-[var(--color-text-secondary)]"
+                />
+              </EditableElement>
             )}
             <form className="mt-8 space-y-4" onSubmit={(e) => e.preventDefault()}>
               {fields.map((field, index) => (

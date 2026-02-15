@@ -8,6 +8,7 @@ import {
   InlineText,
   InlineSelect,
   InlineNumber,
+  EditableElement,
   useSectionEditor,
 } from '../../renderer';
 
@@ -102,27 +103,31 @@ export function HeroSection({
           })}
         >
           <div>
-            <InlineText
-              path="headline"
-              value={headline}
-              as="h1"
-              className={cn(
-                'font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl',
-                hasBackground ? 'text-white' : 'text-[var(--color-text-primary)]'
-              )}
-            />
-
-            {subheadline && (
+            <EditableElement path="headline">
               <InlineText
-                path="subheadline"
-                value={subheadline}
-                as="p"
-                multiline
+                path="headline"
+                value={headline}
+                as="h1"
                 className={cn(
-                  'mt-6 text-lg md:text-xl',
-                  hasBackground ? 'text-white/80' : 'text-[var(--color-text-secondary)]'
+                  'font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl',
+                  hasBackground ? 'text-white' : 'text-[var(--color-text-primary)]'
                 )}
               />
+            </EditableElement>
+
+            {subheadline && (
+              <EditableElement path="subheadline">
+                <InlineText
+                  path="subheadline"
+                  value={subheadline}
+                  as="p"
+                  multiline
+                  className={cn(
+                    'mt-6 text-lg md:text-xl',
+                    hasBackground ? 'text-white/80' : 'text-[var(--color-text-secondary)]'
+                  )}
+                />
+              </EditableElement>
             )}
 
             {(ctaText || secondaryCtaText) && (
@@ -132,27 +137,31 @@ export function HeroSection({
                 })}
               >
                 {ctaText && (
-                  <InlineLink
-                    textPath="ctaText"
-                    hrefPath="ctaLink"
-                    text={ctaText}
-                    href={ctaLink}
-                    className="inline-flex items-center rounded-lg bg-[var(--color-primary)] px-8 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
-                  />
+                  <EditableElement path="ctaText">
+                    <InlineLink
+                      textPath="ctaText"
+                      hrefPath="ctaLink"
+                      text={ctaText}
+                      href={ctaLink}
+                      className="inline-flex items-center rounded-lg bg-[var(--color-primary)] px-8 py-3 text-base font-semibold text-white transition-opacity hover:opacity-90"
+                    />
+                  </EditableElement>
                 )}
                 {secondaryCtaText && (
-                  <InlineLink
-                    textPath="secondaryCtaText"
-                    hrefPath="secondaryCtaLink"
-                    text={secondaryCtaText}
-                    href={secondaryCtaLink}
-                    className={cn(
-                      'inline-flex items-center rounded-lg border-2 px-8 py-3 text-base font-semibold transition-opacity hover:opacity-80',
-                      hasBackground
-                        ? 'border-white text-white'
-                        : 'border-[var(--color-primary)] text-[var(--color-primary)]'
-                    )}
-                  />
+                  <EditableElement path="secondaryCtaText">
+                    <InlineLink
+                      textPath="secondaryCtaText"
+                      hrefPath="secondaryCtaLink"
+                      text={secondaryCtaText}
+                      href={secondaryCtaLink}
+                      className={cn(
+                        'inline-flex items-center rounded-lg border-2 px-8 py-3 text-base font-semibold transition-opacity hover:opacity-80',
+                        hasBackground
+                          ? 'border-white text-white'
+                          : 'border-[var(--color-primary)] text-[var(--color-primary)]'
+                      )}
+                    />
+                  </EditableElement>
                 )}
               </div>
             )}

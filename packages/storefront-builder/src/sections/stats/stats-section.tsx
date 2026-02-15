@@ -3,7 +3,13 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
-import { InlineText, useSectionEditor, InlineItemActions, InlineListToolbar } from '../../renderer';
+import {
+  InlineText,
+  useSectionEditor,
+  InlineItemActions,
+  InlineListToolbar,
+  EditableElement,
+} from '../../renderer';
 
 export interface StatItem {
   label: string;
@@ -38,12 +44,14 @@ export function StatsSection({ className, title, stats }: StatsSectionProps) {
         )}
 
         {title && (
-          <InlineText
-            path="title"
-            value={title}
-            as="h2"
-            className="mb-12 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
-          />
+          <EditableElement path="title">
+            <InlineText
+              path="title"
+              value={title}
+              as="h2"
+              className="mb-12 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
+            />
+          </EditableElement>
         )}
         <div
           className={cn(

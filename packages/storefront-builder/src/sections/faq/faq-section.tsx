@@ -4,7 +4,13 @@ import { useState } from 'react';
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
-import { InlineText, useSectionEditor, InlineItemActions, InlineListToolbar } from '../../renderer';
+import {
+  InlineText,
+  EditableElement,
+  useSectionEditor,
+  InlineItemActions,
+  InlineListToolbar,
+} from '../../renderer';
 
 export interface FAQItem {
   question: string;
@@ -88,12 +94,14 @@ export function FAQSection({ className, title, items }: FAQSectionProps) {
           </div>
         )}
         {title && (
-          <InlineText
-            path="title"
-            value={title}
-            as="h2"
-            className="mb-8 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
-          />
+          <EditableElement path="title">
+            <InlineText
+              path="title"
+              value={title}
+              as="h2"
+              className="mb-8 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
+            />
+          </EditableElement>
         )}
         <div className="divide-y divide-[var(--color-border)] border-t border-[var(--color-border)]">
           {items.map((item, i) => (

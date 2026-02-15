@@ -10,6 +10,7 @@ import {
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
+  EditableElement,
 } from '../../renderer';
 
 export interface ProductItem {
@@ -194,12 +195,14 @@ export function ProductGridSection({
         )}
 
         {title && (
-          <InlineText
-            path="title"
-            value={title}
-            as="h2"
-            className="mb-8 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
-          />
+          <EditableElement path="title">
+            <InlineText
+              path="title"
+              value={title}
+              as="h2"
+              className="mb-8 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
+            />
+          </EditableElement>
         )}
         <div className={cn('grid gap-6', columnClasses[columns])}>
           {isEmpty

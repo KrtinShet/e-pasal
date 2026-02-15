@@ -10,6 +10,7 @@ import {
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
+  EditableElement,
 } from '../../renderer';
 
 export type GalleryVariant = 'grid' | 'masonry' | 'carousel';
@@ -52,12 +53,14 @@ export function GallerySection({
         )}
 
         {title && (
-          <InlineText
-            path="title"
-            value={title}
-            as="h2"
-            className="mb-8 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
-          />
+          <EditableElement path="title">
+            <InlineText
+              path="title"
+              value={title}
+              as="h2"
+              className="mb-8 text-center font-display text-3xl font-bold text-[var(--color-text-primary)]"
+            />
+          </EditableElement>
         )}
 
         {variant === 'grid' && (
