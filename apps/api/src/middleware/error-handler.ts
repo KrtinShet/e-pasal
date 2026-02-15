@@ -1,6 +1,7 @@
 import { ZodError } from 'zod';
 import type { Request, Response, NextFunction } from 'express';
 
+import { logger } from '../lib/logger.js';
 import { AppError } from '../lib/errors.js';
 
 export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction) {
@@ -29,9 +30,10 @@ export function errorHandler(err: Error, req: Request, res: Response, _next: Nex
     });
   }
 
-  console.error('Unhandled error:', {
+  logger.error('Unhandled error', {
     requestId,
-    error: err,
+    error: err.message,
+    stack: err.stack,
   });
 
   return res.status(500).json({

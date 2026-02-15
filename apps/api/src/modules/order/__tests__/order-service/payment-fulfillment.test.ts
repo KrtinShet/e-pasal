@@ -1,5 +1,6 @@
-import { it, vi, expect, describe, beforeEach } from 'vitest';
 import mongoose from 'mongoose';
+import { it, vi, expect, describe, beforeEach } from 'vitest';
+
 import { Order, orderService } from './test-setup.js';
 
 describe('OrderService - payment and fulfillment', () => {
@@ -109,7 +110,12 @@ describe('OrderService - payment and fulfillment', () => {
 
       vi.mocked(Order.findOne).mockResolvedValue(mockOrder as never);
 
-      await orderService.addNote(storeId, orderId.toString(), 'Customer called to confirm', userId.toString());
+      await orderService.addNote(
+        storeId,
+        orderId.toString(),
+        'Customer called to confirm',
+        userId.toString()
+      );
 
       expect(mockOrder.statusHistory).toHaveLength(1);
       expect(mockOrder.statusHistory[0]).toEqual(

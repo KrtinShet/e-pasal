@@ -34,12 +34,22 @@ export interface PaymentRefundResult {
   error?: string;
 }
 
+export interface WebhookResult {
+  verified: boolean;
+  orderId: string;
+  transactionId: string;
+  status: 'paid' | 'failed' | 'refunded';
+  amount: number;
+}
+
 export interface PaymentProvider {
   readonly name: string;
 
   initiate(params: PaymentInitiateParams): Promise<PaymentInitiateResult>;
 
-  verify(transactionId: string): Promise<PaymentVerifyResult>;
+  verify(transactionId: string, amount?: number): Promise<PaymentVerifyResult>;
 
   refund(transactionId: string, amount?: number): Promise<PaymentRefundResult>;
+
+  handleWebhook?(payload: unknown, signature?: string): Promise<WebhookResult>;
 }

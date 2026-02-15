@@ -24,6 +24,6 @@ vi.mock('../../../inventory/inventory.service.js', () => ({
 }));
 
 export { Order } from '../../order.model.js';
+export { orderService } from '../../order.service.js';
 export { Product } from '../../../product/product.model.js';
 export { inventoryService } from '../../../inventory/inventory.service.js';
-export { orderService } from '../../order.service.js';

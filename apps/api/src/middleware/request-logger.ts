@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto';
 
 import type { Request, Response, NextFunction } from 'express';
 
+import { logger } from '../lib/logger.js';
+
 declare global {
   namespace Express {
     interface Request {
@@ -40,29 +42,27 @@ export function requestLogger(req: Request, res: Response, next: NextFunction) {
   req.requestId = requestId;
   res.setHeader('x-request-id', requestId);
 
-  const payload = {
+  const storeId = (req as Record<string, unknown>).storeId as string | undefined;
+
+  logger.info('request.start', {
     requestId,
+    storeId,
     method: req.method,
     path: req.path,
-    query: redact(req.query),
-    body: redact(req.body),
-  };
-
-  console.log(JSON.stringify({ level: 'info', event: 'request.start', ...payload }));
+    query: redact(req.query) as Record<string, unknown>,
+    body: redact(req.body) as Record<string, unknown>,
+  });
 
   res.on('finish', () => {
     const durationMs = Date.now() - start;
-    console.log(
-      JSON.stringify({
-        level: 'info',
-        event: 'request.finish',
-        requestId,
-        method: req.method,
-        path: req.path,
-        statusCode: res.statusCode,
-        durationMs,
-      })
-    );
+    logger.info('request.finish', {
+      requestId,
+      storeId,
+      method: req.method,
+      path: req.path,
+      statusCode: res.statusCode,
+      durationMs,
+    });
   });
 
   next();

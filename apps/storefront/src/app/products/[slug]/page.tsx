@@ -220,7 +220,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <span className="text-heading-2 text-[var(--slate)] line-through">
                     {formatPrice(product.compareAtPrice!, currency)}
                   </span>
-                  <span className="badge bg-[var(--store-primary)] text-white">-{discountPercentage}%</span>
+                  <span className="badge bg-[var(--store-primary)] text-white">
+                    -{discountPercentage}%
+                  </span>
                 </>
               )}
             </div>
@@ -236,7 +238,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
               ) : (
                 <>
                   <XCircleIcon />
-                  <span className="text-body font-medium text-[var(--store-primary)]">Out of Stock</span>
+                  <span className="text-body font-medium text-[var(--store-primary)]">
+                    Out of Stock
+                  </span>
                 </>
               )}
             </div>

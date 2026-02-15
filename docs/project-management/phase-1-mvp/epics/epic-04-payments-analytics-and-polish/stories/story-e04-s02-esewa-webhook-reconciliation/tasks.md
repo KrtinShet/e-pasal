@@ -4,18 +4,18 @@
 
 ## T1. Webhook ingestion
 
-- [ ] Implement /webhooks/payment/esewa endpoint
-- [ ] Verify callback signature/hash and basic schema
-- [ ] Reject stale or replayed callback attempts
+- [x] Implement /webhooks/payment/esewa endpoint
+- [x] Verify callback signature/hash and basic schema
+- [x] Reject stale or replayed callback attempts
 
 ## T2. Reconciliation logic
 
-- [ ] Update payment transaction status based on webhook event
-- [ ] Update linked order state on confirmed settlement
-- [ ] Ensure idempotency for duplicate callback deliveries
+- [x] Update payment transaction status based on webhook event
+- [x] Update linked order state on confirmed settlement
+- [x] Ensure idempotency for duplicate callback deliveries
 
 ## T3. Failure visibility
 
-- [ ] Emit structured logs for webhook outcomes
-- [ ] Create retry path for transient processing failures
-- [ ] Add alert trigger for repeated webhook errors
+- [x] Emit structured logs for webhook outcomes
+- [x] Create retry path for transient processing failures
+- [x] Add alert trigger for repeated webhook errors

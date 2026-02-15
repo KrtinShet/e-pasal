@@ -1,5 +1,6 @@
 import { esewaProvider } from './esewa.provider.js';
 import { khaltiProvider } from './khalti.provider.js';
+import { fonepayProvider } from './fonepay.provider.js';
 import type { PaymentProvider } from './payment.interface.js';
 
 export type PaymentMethod = 'esewa' | 'khalti' | 'fonepay' | 'bank_transfer' | 'cod';
@@ -7,6 +8,7 @@ export type PaymentMethod = 'esewa' | 'khalti' | 'fonepay' | 'bank_transfer' | '
 const providers: Record<string, PaymentProvider> = {
   esewa: esewaProvider,
   khalti: khaltiProvider,
+  fonepay: fonepayProvider,
 };
 
 export function getPaymentProvider(method: PaymentMethod): PaymentProvider | null {

@@ -40,12 +40,12 @@ interface Props {
 }
 
 export function ContactSocialForm({ store, onUpdate }: Props) {
-  const [email, setEmail] = useState(store.contact.email || '');
-  const [phone, setPhone] = useState(store.contact.phone || '');
-  const [address, setAddress] = useState(store.contact.address || '');
-  const [facebook, setFacebook] = useState(store.social.facebook || '');
-  const [instagram, setInstagram] = useState(store.social.instagram || '');
-  const [tiktok, setTiktok] = useState(store.social.tiktok || '');
+  const [email, setEmail] = useState(store.contact?.email || '');
+  const [phone, setPhone] = useState(store.contact?.phone || '');
+  const [address, setAddress] = useState(store.contact?.address || '');
+  const [facebook, setFacebook] = useState(store.social?.facebook || '');
+  const [instagram, setInstagram] = useState(store.social?.instagram || '');
+  const [tiktok, setTiktok] = useState(store.social?.tiktok || '');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');

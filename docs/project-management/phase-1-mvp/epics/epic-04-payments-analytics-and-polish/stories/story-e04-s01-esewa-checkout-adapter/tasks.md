@@ -4,18 +4,18 @@
 
 ## T1. Payment adapter design
 
-- [ ] Define gateway adapter interface for initiate/verify/reconcile
-- [ ] Implement eSewa adapter with sandbox credentials
-- [ ] Map payment statuses to internal order states
+- [x] Define gateway adapter interface for initiate/verify/reconcile
+- [x] Implement eSewa adapter with sandbox credentials
+- [x] Map payment statuses to internal order states
 
 ## T2. Checkout wiring
 
-- [ ] Add eSewa option to checkout flow
-- [ ] Create pending payment transaction before redirect
-- [ ] Handle return URL and failed transaction states
+- [x] Add eSewa option to checkout flow
+- [x] Create pending payment transaction before redirect
+- [x] Handle return URL and failed transaction states
 
 ## T3. Security controls
 
-- [ ] Sign outgoing request payloads where required
-- [ ] Validate provider response fields and integrity checks
-- [ ] Log payment attempts with correlation ids
+- [x] Sign outgoing request payloads where required
+- [x] Validate provider response fields and integrity checks
+- [x] Log payment attempts with correlation ids

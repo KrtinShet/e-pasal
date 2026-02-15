@@ -18,6 +18,8 @@ import {
 import { apiRequest } from '@/lib/api';
 import { OrderActions } from '@/components/orders/order-actions';
 import { OrderTimeline } from '@/components/orders/order-timeline';
+import { ShipOrderDialog } from '@/components/orders/ship-order-dialog';
+import { ShipmentTracking } from '@/components/orders/shipment-tracking';
 import { OrderStatusBadge } from '@/components/orders/order-status-badge';
 import { PaymentStatusBadge } from '@/components/orders/payment-status-badge';
 
@@ -439,54 +441,73 @@ export default function OrderDetailPage() {
               </TabPanel>
 
               <TabPanel value="fulfillment">
-                <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6 max-w-lg">
-                  <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
-                    Fulfillment Details
-                  </h3>
-                  <div className="space-y-4">
-                    <Input
-                      label="Shipping Provider"
-                      value={fulfillmentForm.provider}
-                      onChange={(e) =>
-                        setFulfillmentForm((f) => ({ ...f, provider: e.target.value }))
-                      }
-                      placeholder="e.g., Nepal Post, Pathao"
-                    />
-                    <Input
-                      label="Tracking Number"
-                      value={fulfillmentForm.trackingNumber}
-                      onChange={(e) =>
-                        setFulfillmentForm((f) => ({ ...f, trackingNumber: e.target.value }))
-                      }
-                      placeholder="Tracking number"
-                    />
-                    <Input
-                      label="Tracking URL"
-                      type="url"
-                      value={fulfillmentForm.trackingUrl}
-                      onChange={(e) =>
-                        setFulfillmentForm((f) => ({ ...f, trackingUrl: e.target.value }))
-                      }
-                      placeholder="https://tracking.example.com/..."
-                    />
-                    <Button
-                      variant="primary"
-                      onClick={handleFulfillmentUpdate}
-                      loading={fulfillmentSaving}
-                      disabled={fulfillmentSaving}
-                    >
-                      {fulfillmentSaving ? 'Saving...' : 'Update Fulfillment'}
-                    </Button>
-                    {order.fulfillment?.shippedAt && (
-                      <p className="text-xs text-[var(--color-text-muted)]">
-                        Shipped on {formatDate(order.fulfillment.shippedAt)}
-                      </p>
-                    )}
-                    {order.fulfillment?.deliveredAt && (
-                      <p className="text-xs text-[var(--color-text-muted)]">
-                        Delivered on {formatDate(order.fulfillment.deliveredAt)}
-                      </p>
-                    )}
+                <div className="space-y-6 max-w-lg">
+                  <ShipmentTracking orderId={orderId} />
+
+                  {['confirmed', 'processing', 'ready_for_pickup'].includes(order.status) && (
+                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6">
+                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
+                        Ship Order
+                      </h3>
+                      <ShipOrderDialog
+                        orderId={orderId}
+                        shipping={order.shipping}
+                        total={order.total}
+                        paymentMethod={order.paymentMethod}
+                        onSuccess={fetchOrder}
+                      />
+                    </div>
+                  )}
+
+                  <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6">
+                    <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
+                      Manual Fulfillment
+                    </h3>
+                    <div className="space-y-4">
+                      <Input
+                        label="Shipping Provider"
+                        value={fulfillmentForm.provider}
+                        onChange={(e) =>
+                          setFulfillmentForm((f) => ({ ...f, provider: e.target.value }))
+                        }
+                        placeholder="e.g., Nepal Post, Pathao"
+                      />
+                      <Input
+                        label="Tracking Number"
+                        value={fulfillmentForm.trackingNumber}
+                        onChange={(e) =>
+                          setFulfillmentForm((f) => ({ ...f, trackingNumber: e.target.value }))
+                        }
+                        placeholder="Tracking number"
+                      />
+                      <Input
+                        label="Tracking URL"
+                        type="url"
+                        value={fulfillmentForm.trackingUrl}
+                        onChange={(e) =>
+                          setFulfillmentForm((f) => ({ ...f, trackingUrl: e.target.value }))
+                        }
+                        placeholder="https://tracking.example.com/..."
+                      />
+                      <Button
+                        variant="primary"
+                        onClick={handleFulfillmentUpdate}
+                        loading={fulfillmentSaving}
+                        disabled={fulfillmentSaving}
+                      >
+                        {fulfillmentSaving ? 'Saving...' : 'Update Fulfillment'}
+                      </Button>
+                      {order.fulfillment?.shippedAt && (
+                        <p className="text-xs text-[var(--color-text-muted)]">
+                          Shipped on {formatDate(order.fulfillment.shippedAt)}
+                        </p>
+                      )}
+                      {order.fulfillment?.deliveredAt && (
+                        <p className="text-xs text-[var(--color-text-muted)]">
+                          Delivered on {formatDate(order.fulfillment.deliveredAt)}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </TabPanel>

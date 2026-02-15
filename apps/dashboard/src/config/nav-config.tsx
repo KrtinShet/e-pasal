@@ -1,4 +1,5 @@
 import {
+  Truck,
   Users,
   Palette,
   Package,
@@ -32,6 +33,7 @@ export const navSections: NavSection[] = [
       { icon: <ShoppingCart size={20} />, title: 'Orders', path: '/orders' },
       { icon: <Package size={20} />, title: 'Products', path: '/products' },
       { icon: <Users size={20} />, title: 'Customers', path: '/customers' },
+      { icon: <Truck size={20} />, title: 'Shipments', path: '/shipments' },
     ],
   },
   {

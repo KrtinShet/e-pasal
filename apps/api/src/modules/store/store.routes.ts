@@ -21,6 +21,79 @@ const aiGenerateRateLimit = rateLimit({
 
 export const storeRouter = Router();
 
+/**
+ * @swagger
+ * /stores/check/{subdomain}:
+ *   get:
+ *     tags: [Stores]
+ *     summary: Check subdomain availability
+ *     security: []
+ *     parameters:
+ *       - in: path
+ *         name: subdomain
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: Availability result }
+ *
+ * /stores/me:
+ *   get:
+ *     tags: [Stores]
+ *     summary: Get current merchant store
+ *     responses:
+ *       200: { description: Store details }
+ *   patch:
+ *     tags: [Stores]
+ *     summary: Update store details
+ *     responses:
+ *       200: { description: Store updated }
+ *
+ * /stores/me/settings:
+ *   patch:
+ *     tags: [Stores]
+ *     summary: Update store settings
+ *     responses:
+ *       200: { description: Settings updated }
+ *
+ * /stores/me/theme:
+ *   get:
+ *     tags: [Stores]
+ *     summary: Get store theme
+ *     responses:
+ *       200: { description: Theme config }
+ *   put:
+ *     tags: [Stores]
+ *     summary: Update store theme
+ *     responses:
+ *       200: { description: Theme updated }
+ *
+ * /stores/me/landing-page/draft:
+ *   get:
+ *     tags: [Stores]
+ *     summary: Get landing page draft
+ *     responses:
+ *       200: { description: Draft content }
+ *   put:
+ *     tags: [Stores]
+ *     summary: Save landing page draft
+ *     responses:
+ *       200: { description: Draft saved }
+ *
+ * /stores/me/landing-page/publish:
+ *   post:
+ *     tags: [Stores]
+ *     summary: Publish landing page
+ *     responses:
+ *       200: { description: Page published }
+ *
+ * /stores/me/landing-page/generate:
+ *   post:
+ *     tags: [Stores]
+ *     summary: AI-generate landing page content
+ *     responses:
+ *       200: { description: Generated content }
+ *       429: { description: Rate limited }
+ */
 storeRouter.get('/check/:subdomain', (req, res, next) =>
   storeController.checkSubdomain(req, res, next)
 );

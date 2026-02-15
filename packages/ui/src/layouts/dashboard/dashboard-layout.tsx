@@ -73,7 +73,15 @@ function DashboardLayoutInner({
         {sidebarContent}
       </MobileSidebar>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          minWidth: 0,
+          overflowX: 'hidden',
+        }}
+      >
         <DashboardHeader
           onMenuClick={openMobileSidebar}
           leftContent={

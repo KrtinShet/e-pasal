@@ -2,20 +2,22 @@ import mongoose from 'mongoose';
 
 import { env } from '../config/env.js';
 
+import { logger } from './logger.js';
+
 export async function connectDatabase() {
   try {
     await mongoose.connect(env.MONGODB_URI);
-    console.log('✅ Connected to MongoDB');
+    logger.info('Connected to MongoDB');
 
     mongoose.connection.on('error', (err) => {
-      console.error('MongoDB connection error:', err);
+      logger.error('MongoDB connection error', { error: String(err) });
     });
 
     mongoose.connection.on('disconnected', () => {
-      console.warn('MongoDB disconnected');
+      logger.warn('MongoDB disconnected');
     });
   } catch (error) {
-    console.error('❌ Failed to connect to MongoDB:', error);
+    logger.error('Failed to connect to MongoDB', { error: String(error) });
     process.exit(1);
   }
 }

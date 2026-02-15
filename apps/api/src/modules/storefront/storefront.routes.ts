@@ -28,3 +28,6 @@ storefrontRouter.get('/:subdomain/theme', (req, res, next) =>
 storefrontRouter.get('/:subdomain/landing-page', (req, res, next) =>
   storefrontController.getLandingPage(req, res, next)
 );
+storefrontRouter.get('/:subdomain/payment-methods', (req, res, next) =>
+  storefrontController.getPaymentMethods(req, res, next)
+);

@@ -83,6 +83,31 @@ export class AnalyticsController {
       next(error);
     }
   }
+  async ordersBySource(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await analyticsService.getOrdersBySource(req.user!.storeId!);
+
+      res.json({
+        success: true,
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async averageOrderValue(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data = await analyticsService.getAverageOrderValue(req.user!.storeId!);
+
+      res.json({
+        success: true,
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const analyticsController = new AnalyticsController();

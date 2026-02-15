@@ -21,17 +21,17 @@ git:
   worktree_base: null
 project:
   source_dirs:
-  - src
+    - src
   test_command: pnpm test
   lint_command: pnpm lint
   typecheck_command: pnpm build
   tech_stack:
-  - node
-  - typescript
+    - node
+    - typescript
 ai_context:
   conventions: ''
   architecture_docs:
-  - docs/**/*.md
+    - docs/**/*.md
   extra_constraints: []
 review:
   require_human_review_for: []

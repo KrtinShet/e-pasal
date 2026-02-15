@@ -247,6 +247,25 @@ export class AnalyticsService {
     return result;
   }
 
+  async getOrdersBySource(storeId: string) {
+    const storeObjectId = new mongoose.Types.ObjectId(storeId);
+    return Order.aggregate([
+      { $match: { storeId: storeObjectId, status: { $nin: ['cancelled', 'refunded'] } } },
+      { $group: { _id: '$source', count: { $sum: 1 }, revenue: { $sum: '$total' } } },
+      { $project: { _id: 0, source: '$_id', count: 1, revenue: 1 } },
+      { $sort: { revenue: -1 } },
+    ]);
+  }
+
+  async getAverageOrderValue(storeId: string): Promise<number> {
+    const storeObjectId = new mongoose.Types.ObjectId(storeId);
+    const result = await Order.aggregate([
+      { $match: { storeId: storeObjectId, status: { $nin: ['cancelled', 'refunded'] } } },
+      { $group: { _id: null, avg: { $avg: '$total' } } },
+    ]);
+    return result[0]?.avg || 0;
+  }
+
   private async getLowStockCount(storeObjectId: mongoose.Types.ObjectId): Promise<number> {
     const result = await Inventory.countDocuments({
       storeId: storeObjectId,

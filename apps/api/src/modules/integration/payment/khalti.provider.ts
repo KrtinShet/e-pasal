@@ -1,4 +1,7 @@
+import { env } from '../../../config/env.js';
+
 import type {
+  WebhookResult,
   PaymentProvider,
   PaymentVerifyResult,
   PaymentRefundResult,
@@ -6,65 +9,162 @@ import type {
   PaymentInitiateResult,
 } from './payment.interface.js';
 
+interface KhaltiInitiateResponse {
+  pidx: string;
+  payment_url: string;
+  expires_at: string;
+  expires_in: number;
+}
+
+interface KhaltiLookupResponse {
+  pidx: string;
+  total_amount: number;
+  status: 'Completed' | 'Pending' | 'Initiated' | 'Refunded' | 'Expired' | 'User canceled';
+  transaction_id: string;
+  fee: number;
+  refunded: boolean;
+}
+
 export class KhaltiProvider implements PaymentProvider {
   readonly name = 'khalti';
 
   private readonly secretKey: string;
-  private readonly publicKey: string;
   private readonly baseUrl: string;
 
   constructor() {
-    this.secretKey = process.env.KHALTI_SECRET_KEY || '';
-    this.publicKey = process.env.KHALTI_PUBLIC_KEY || '';
-    this.baseUrl = process.env.KHALTI_BASE_URL || 'https://khalti.com/api/v2';
+    this.secretKey = env.KHALTI_SECRET_KEY || '';
+    this.baseUrl = `${env.KHALTI_BASE_URL}/api/v2`;
   }
 
   async initiate(params: PaymentInitiateParams): Promise<PaymentInitiateResult> {
-    // TODO: Implement Khalti payment initiation
-    // 1. Call Khalti e-payment initiation API
-    // 2. POST to /epayment/initiate with:
-    //    - return_url
-    //    - website_url
-    //    - amount (in paisa)
-    //    - purchase_order_id
-    //    - purchase_order_name
-    //    - customer_info (name, email, phone)
-    // 3. Include Authorization header with secret key
-    // 4. Return payment URL from response
+    try {
+      const amountInPaisa = Math.round(params.amount * 100);
 
-    return {
-      success: false,
-      error: 'Khalti payment initiation not implemented',
-    };
+      const payload = {
+        return_url: params.successUrl,
+        website_url: params.failureUrl,
+        amount: amountInPaisa,
+        purchase_order_id: params.orderId,
+        purchase_order_name: params.productName || `Order ${params.orderId}`,
+        customer_info: {
+          name: params.customerName,
+          email: params.customerEmail || '',
+          phone: params.customerPhone || '',
+        },
+      };
+
+      const response = await fetch(`${this.baseUrl}/epayment/initiate/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Key ${this.secretKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        return {
+          success: false,
+          error: `Khalti initiation failed: ${response.status} ${errorBody}`,
+        };
+      }
+
+      const data = (await response.json()) as KhaltiInitiateResponse;
+
+      return {
+        success: true,
+        paymentUrl: data.payment_url,
+        transactionId: data.pidx,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: `Khalti initiation error: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
   }
 
   async verify(transactionId: string): Promise<PaymentVerifyResult> {
-    // TODO: Implement Khalti payment verification
-    // 1. Call Khalti lookup API
-    // 2. POST to /epayment/lookup with pidx
-    // 3. Check transaction status (Completed, Pending, Initiated, Refunded, Expired)
-    // 4. Verify amount matches order amount
-    // 5. Return verification result
+    try {
+      const response = await fetch(`${this.baseUrl}/epayment/lookup/`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Key ${this.secretKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pidx: transactionId }),
+      });
 
-    return {
-      success: false,
-      verified: false,
-      transactionId,
-      error: 'Khalti payment verification not implemented',
-    };
+      if (!response.ok) {
+        const errorBody = await response.text();
+        return {
+          success: false,
+          verified: false,
+          transactionId,
+          error: `Khalti lookup failed: ${response.status} ${errorBody}`,
+        };
+      }
+
+      const data = (await response.json()) as KhaltiLookupResponse;
+      const verified = data.status === 'Completed';
+
+      return {
+        success: true,
+        verified,
+        transactionId: data.transaction_id || transactionId,
+        amount: data.total_amount / 100,
+        status: this.mapStatus(data.status),
+      };
+    } catch (error) {
+      return {
+        success: false,
+        verified: false,
+        transactionId,
+        error: `Khalti verify error: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
   }
 
   async refund(transactionId: string, _amount?: number): Promise<PaymentRefundResult> {
-    // TODO: Implement Khalti refund
-    // Note: Check Khalti merchant API documentation for refund endpoints
-    // May require contacting Khalti support for refund processing
-
     return {
       success: false,
       refunded: false,
       transactionId,
-      error: 'Khalti refund not implemented',
+      error: 'Khalti refunds must be processed through the merchant dashboard',
     };
+  }
+
+  async handleWebhook(payload: unknown): Promise<WebhookResult> {
+    const body = payload as {
+      pidx: string;
+      purchase_order_id: string;
+      total_amount: number;
+      status: string;
+      transaction_id: string;
+    };
+
+    const verifyResult = await this.verify(body.pidx);
+
+    return {
+      verified: verifyResult.verified,
+      orderId: body.purchase_order_id,
+      transactionId: body.transaction_id || body.pidx,
+      status: this.mapStatus(verifyResult.status || body.status) as 'paid' | 'failed' | 'refunded',
+      amount: (body.total_amount || 0) / 100,
+    };
+  }
+
+  private mapStatus(khaltiStatus: string): string {
+    const statusMap: Record<string, string> = {
+      Completed: 'paid',
+      Pending: 'pending',
+      Initiated: 'pending',
+      Refunded: 'refunded',
+      Expired: 'failed',
+      'User canceled': 'failed',
+    };
+    return statusMap[khaltiStatus] || 'unknown';
   }
 }
 

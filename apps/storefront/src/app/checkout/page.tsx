@@ -1,12 +1,37 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useCart } from '@/contexts/cart-context';
 import { useStore } from '@/contexts/store-context';
 import type { CustomerInfo, ShippingAddress } from '@/types/order';
+
+const PAYMENT_METHOD_INFO: Record<
+  string,
+  { name: string; description: string; color?: string; label?: string }
+> = {
+  cod: { name: 'Cash on Delivery (COD)', description: 'Pay when your order is delivered' },
+  esewa: {
+    name: 'eSewa',
+    description: 'Pay with your eSewa digital wallet',
+    color: '#60BB46',
+    label: 'eS',
+  },
+  khalti: {
+    name: 'Khalti',
+    description: 'Pay with your Khalti wallet',
+    color: '#5C2D91',
+    label: 'K',
+  },
+  fonepay: {
+    name: 'Fonepay',
+    description: 'Pay via QR code with any banking app',
+    color: '#E31B23',
+    label: 'FP',
+  },
+};
 
 function formatPrice(price: number): string {
   return new Intl.NumberFormat('en-NP', {
@@ -77,7 +102,22 @@ export default function CheckoutPage() {
     state: '',
   });
 
+  const [paymentMethod, setPaymentMethod] = useState('cod');
   const [notes, setNotes] = useState('');
+  const [availableMethods, setAvailableMethods] = useState<string[]>(['cod']);
+
+  useEffect(() => {
+    if (!store?.subdomain) return;
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000/api/v1';
+    fetch(`${apiBaseUrl}/storefront/${store.subdomain}/payment-methods`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setAvailableMethods(data.data);
+        }
+      })
+      .catch(() => {});
+  }, [store?.subdomain]);
 
   if (!isHydrated) {
     return (
@@ -129,35 +169,58 @@ export default function CheckoutPage() {
 
       const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000/api/v1';
 
+      const orderPayload = {
+        items: items.map((item) => ({
+          productId: item.productId,
+          variantId: item.variantId,
+          quantity: item.quantity,
+        })),
+        customer: {
+          name: customerInfo.name,
+          email: customerInfo.email || undefined,
+          phone: customerInfo.phone,
+        },
+        shipping: {
+          address: shippingAddress.address,
+          city: shippingAddress.city,
+          state: shippingAddress.state || undefined,
+          postalCode: shippingAddress.postalCode || undefined,
+          notes: notes || undefined,
+        },
+        paymentMethod,
+      };
+
       const response = await fetch(`${apiBaseUrl}/storefront/${subdomain}/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: items.map((item) => ({
-            productId: item.productId,
-            variantId: item.variantId,
-            quantity: item.quantity,
-          })),
-          customer: {
-            name: customerInfo.name,
-            email: customerInfo.email || undefined,
-            phone: customerInfo.phone,
-          },
-          shipping: {
-            address: shippingAddress.address,
-            city: shippingAddress.city,
-            state: shippingAddress.state || undefined,
-            postalCode: shippingAddress.postalCode || undefined,
-            notes: notes || undefined,
-          },
-          paymentMethod: 'cod',
-        }),
+        body: JSON.stringify(orderPayload),
       });
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
         throw new Error(data.error?.message || 'Failed to place order');
+      }
+
+      if (paymentMethod !== 'cod' && data.data.paymentUrl) {
+        if (data.data.formData) {
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = data.data.paymentUrl;
+          const formData = data.data.formData as Record<string, string>;
+          for (const [key, value] of Object.entries(formData)) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+          }
+          document.body.appendChild(form);
+          form.submit();
+        } else {
+          window.location.href = data.data.paymentUrl;
+        }
+        return;
       }
 
       clearCart();
@@ -342,16 +405,38 @@ export default function CheckoutPage() {
               <h2 className="text-heading-3 font-medium text-[var(--charcoal)] mb-6">
                 Payment Method
               </h2>
-              <div className="flex items-center gap-4 p-4 bg-[var(--cream)] rounded-lg border-2 border-[var(--store-primary)]">
-                <div className="flex items-center justify-center w-10 h-10 bg-white rounded-full">
-                  <TruckIcon />
-                </div>
-                <div>
-                  <p className="font-medium text-[var(--charcoal)]">Cash on Delivery (COD)</p>
-                  <p className="text-body-sm text-[var(--slate)]">
-                    Pay when your order is delivered
-                  </p>
-                </div>
+              <div className="space-y-3">
+                {availableMethods.map((method) => {
+                  const info = PAYMENT_METHOD_INFO[method];
+                  if (!info) return null;
+                  return (
+                    <button
+                      key={method}
+                      type="button"
+                      onClick={() => setPaymentMethod(method)}
+                      className={`w-full flex items-center gap-4 p-4 rounded-lg border-2 transition-colors text-left ${
+                        paymentMethod === method
+                          ? 'bg-[var(--cream)] border-[var(--store-primary)]'
+                          : 'border-[var(--mist)]/30 hover:border-[var(--store-primary)]/50'
+                      }`}
+                    >
+                      <div
+                        className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: info.color || '#f3f4f6' }}
+                      >
+                        {method === 'cod' ? (
+                          <TruckIcon />
+                        ) : (
+                          <span className="text-white font-bold text-body-sm">{info.label}</span>
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-[var(--charcoal)]">{info.name}</p>
+                        <p className="text-body-sm text-[var(--slate)]">{info.description}</p>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </section>
 

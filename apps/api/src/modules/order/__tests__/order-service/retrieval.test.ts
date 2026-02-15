@@ -1,6 +1,8 @@
-import { it, vi, expect, describe, beforeEach } from 'vitest';
 import mongoose from 'mongoose';
+import { it, vi, expect, describe, beforeEach } from 'vitest';
+
 import { NotFoundError } from '../../../../lib/errors.js';
+
 import { Order, orderService } from './test-setup.js';
 
 describe('OrderService - retrieval', () => {
@@ -65,9 +67,9 @@ describe('OrderService - retrieval', () => {
     it('throws NotFoundError if order number does not exist', async () => {
       vi.mocked(Order.findOne).mockResolvedValue(null as never);
 
-      await expect(
-        orderService.getByOrderNumber(storeId, 'NONEXISTENT')
-      ).rejects.toBeInstanceOf(NotFoundError);
+      await expect(orderService.getByOrderNumber(storeId, 'NONEXISTENT')).rejects.toBeInstanceOf(
+        NotFoundError
+      );
     });
   });
 });

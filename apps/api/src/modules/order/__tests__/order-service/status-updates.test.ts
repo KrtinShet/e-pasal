@@ -1,6 +1,7 @@
-import { it, vi, expect, describe, beforeEach } from 'vitest';
 import mongoose from 'mongoose';
-import { Order, inventoryService, orderService } from './test-setup.js';
+import { it, vi, expect, describe, beforeEach } from 'vitest';
+
+import { Order, orderService, inventoryService } from './test-setup.js';
 
 describe('OrderService - status updates', () => {
   const storeId = 'store-123';

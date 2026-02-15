@@ -453,8 +453,8 @@ export default function ProductsPage() {
                   <tr>
                     <th className="text-left">Product</th>
                     <th className="text-right">Price</th>
-                    <th className="text-right">Stock</th>
-                    <th className="text-left">Status</th>
+                    <th className="text-right hidden sm:table-cell">Stock</th>
+                    <th className="text-left hidden sm:table-cell">Status</th>
                     <th className="text-right">Actions</th>
                   </tr>
                 </thead>
@@ -471,10 +471,10 @@ export default function ProductsPage() {
                         <td className="text-right tabular-nums font-bold text-[var(--grey-900)]">
                           NPR {product.price.toLocaleString()}
                         </td>
-                        <td className="text-right tabular-nums text-[var(--grey-600)]">
+                        <td className="text-right tabular-nums text-[var(--grey-600)] hidden sm:table-cell">
                           {product.stock}
                         </td>
-                        <td>
+                        <td className="hidden sm:table-cell">
                           <span
                             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.75rem] font-semibold ${st.bg} ${st.text}`}
                           >
@@ -487,14 +487,14 @@ export default function ProductsPage() {
                             <button
                               type="button"
                               onClick={() => handleEditProduct(product)}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-500)] transition-all hover:bg-[rgba(253,232,227,0.3)] hover:text-[var(--color-primary)]"
+                              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] text-[var(--grey-500)] transition-all hover:bg-[rgba(253,232,227,0.3)] hover:text-[var(--color-primary)]"
                             >
                               <Pencil size={14} />
                             </button>
                             <button
                               type="button"
                               onClick={() => handleProductDelete(product._id)}
-                              className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-400)] transition-all hover:bg-red-50 hover:text-red-600"
+                              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] text-[var(--grey-400)] transition-all hover:bg-red-50 hover:text-red-600"
                             >
                               <Trash2 size={14} />
                             </button>
@@ -518,7 +518,7 @@ export default function ProductsPage() {
                   type="button"
                   disabled={pagination.page <= 1}
                   onClick={() => loadProducts(Math.max(1, pagination.page - 1))}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft size={16} />
                 </button>
@@ -526,7 +526,7 @@ export default function ProductsPage() {
                   type="button"
                   disabled={pagination.page >= pagination.pages}
                   onClick={() => loadProducts(Math.min(pagination.pages, pagination.page + 1))}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronRight size={16} />
                 </button>
@@ -769,14 +769,14 @@ export default function ProductsPage() {
                             order: String(category.order ?? 0),
                           })
                         }
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-500)] transition-all hover:bg-[rgba(253,232,227,0.3)] hover:text-[var(--color-primary)]"
+                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] text-[var(--grey-500)] transition-all hover:bg-[rgba(253,232,227,0.3)] hover:text-[var(--color-primary)]"
                       >
                         <Pencil size={14} />
                       </button>
                       <button
                         type="button"
                         onClick={() => handleCategoryDelete(category._id)}
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-[var(--grey-400)] transition-all hover:bg-red-50 hover:text-red-600"
+                        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] text-[var(--grey-400)] transition-all hover:bg-red-50 hover:text-red-600"
                       >
                         <Trash2 size={14} />
                       </button>

@@ -32,8 +32,30 @@ export interface IStore extends Document {
     tiktok?: string;
   };
   integrations: {
-    payments: string[];
-    logistics: string[];
+    payments:
+      | string[]
+      | {
+          provider: string;
+          enabled: boolean;
+          testMode?: boolean;
+          credentials?: Record<string, string>;
+          connectedAt?: Date;
+        }[];
+    logistics:
+      | string[]
+      | {
+          provider: string;
+          enabled: boolean;
+          credentials?: Record<string, string>;
+          defaultPickupAddress?: {
+            address: string;
+            city: string;
+            zone?: string;
+            area?: string;
+            phone: string;
+          };
+          connectedAt?: Date;
+        }[];
     messaging: string[];
   };
   landingPage: {
@@ -102,8 +124,8 @@ const storeSchema = new Schema<IStore>(
       tiktok: String,
     },
     integrations: {
-      payments: [{ type: String }],
-      logistics: [{ type: String }],
+      payments: [{ type: Schema.Types.Mixed }],
+      logistics: [{ type: Schema.Types.Mixed }],
       messaging: [{ type: String }],
     },
   },

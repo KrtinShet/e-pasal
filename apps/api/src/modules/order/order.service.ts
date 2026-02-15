@@ -1,5 +1,8 @@
+import { Store } from '../store/store.model.js';
 import { Product } from '../product/product.model.js';
+import { emailService } from '../email/email.service.js';
 import { AppError, NotFoundError } from '../../lib/errors.js';
+import type { OrderEmailData } from '../email/email.service.js';
 import { inventoryService } from '../inventory/inventory.service.js';
 
 import { Order } from './order.model.js';
@@ -86,6 +89,10 @@ export class OrderService {
             note: 'Order placed',
           },
         ],
+      });
+
+      this.buildEmailData(order).then((data) => {
+        if (data) emailService.sendOrderConfirmation(data);
       });
 
       return order;
@@ -243,6 +250,16 @@ export class OrderService {
 
     await order.save();
 
+    if (status === 'shipped') {
+      this.buildEmailData(order).then((data) => {
+        if (data) emailService.sendShippingUpdate(data);
+      });
+    } else if (status === 'delivered') {
+      this.buildEmailData(order).then((data) => {
+        if (data) emailService.sendDeliveryConfirmation(data);
+      });
+    }
+
     return order;
   }
 
@@ -281,6 +298,12 @@ export class OrderService {
     });
 
     await order.save();
+
+    if (paymentStatus === 'paid') {
+      this.buildEmailData(order).then((data) => {
+        if (data) emailService.sendPaymentReceived(data);
+      });
+    }
 
     return order;
   }
@@ -325,6 +348,31 @@ export class OrderService {
     await order.save();
 
     return order;
+  }
+
+  private async buildEmailData(order: IOrder): Promise<OrderEmailData | null> {
+    if (!order.shipping?.email) return null;
+
+    const store = await Store.findById(order.storeId).select('name').lean();
+
+    return {
+      orderNumber: order.orderNumber,
+      customerName: order.shipping.name,
+      customerEmail: order.shipping.email,
+      items: order.items.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        total: item.total,
+      })),
+      subtotal: order.subtotal,
+      shippingCost: order.shippingCost,
+      total: order.total,
+      shippingAddress: `${order.shipping.address}, ${order.shipping.city}`,
+      trackingNumber: order.fulfillment?.trackingNumber,
+      trackingUrl: order.fulfillment?.trackingUrl,
+      storeName: store?.name || 'Store',
+    };
   }
 
   private async resolveOrderItems(storeId: string, items: CreateOrderInput['items']) {

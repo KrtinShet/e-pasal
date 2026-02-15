@@ -21,3 +21,9 @@ analyticsRouter.get('/orders-by-status', (req, res, next) =>
 analyticsRouter.get('/recent-orders', (req, res, next) =>
   analyticsController.recentOrders(req, res, next)
 );
+analyticsRouter.get('/orders-by-source', (req, res, next) =>
+  analyticsController.ordersBySource(req, res, next)
+);
+analyticsRouter.get('/average-order-value', (req, res, next) =>
+  analyticsController.averageOrderValue(req, res, next)
+);

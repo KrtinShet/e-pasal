@@ -4,18 +4,18 @@
 
 ## T1. Analytics backend
 
-- [ ] Implement revenue timeseries endpoint
-- [ ] Implement top products endpoint
-- [ ] Implement order-source/segment breakdown endpoint
+- [x] Implement revenue timeseries endpoint
+- [x] Implement top products endpoint
+- [x] Implement order-source/segment breakdown endpoint
 
 ## T2. Dashboard analytics UI
 
-- [ ] Add revenue chart and filter controls
-- [ ] Add top products panel
-- [ ] Add source breakdown visualization
+- [x] Add revenue chart and filter controls
+- [x] Add top products panel
+- [x] Add source breakdown visualization
 
 ## T3. Validation and performance
 
-- [ ] Compare analytics outputs against sampled raw orders
-- [ ] Optimize heavy aggregations with indexes/caching
-- [ ] Instrument latency metrics for analytics endpoints
+- [x] Compare analytics outputs against sampled raw orders
+- [x] Optimize heavy aggregations with indexes/caching
+- [x] Instrument latency metrics for analytics endpoints

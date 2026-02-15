@@ -21,9 +21,8 @@ describe('Version endpoint', () => {
       res.json({ version: '0.0.1', name: 'baazarify' });
     });
 
-    const handler = app._router.stack.find(
-      (layer: any) => layer.route?.path === '/api/version'
-    )?.route?.stack[0]?.handle;
+    const handler = app._router.stack.find((layer: any) => layer.route?.path === '/api/version')
+      ?.route?.stack[0]?.handle;
 
     handler(mockReq as Request, mockRes as Response);
 
@@ -40,9 +39,8 @@ describe('Version endpoint', () => {
       res.json({ version: '0.0.1', name: 'baazarify' });
     });
 
-    const handler = app._router.stack.find(
-      (layer: any) => layer.route?.path === '/api/version'
-    )?.route?.stack[0]?.handle;
+    const handler = app._router.stack.find((layer: any) => layer.route?.path === '/api/version')
+      ?.route?.stack[0]?.handle;
 
     handler(mockReq as Request, mockRes as Response);
 

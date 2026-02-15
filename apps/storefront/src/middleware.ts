@@ -49,6 +49,13 @@ export function middleware(request: NextRequest) {
   if (subdomain) {
     const response = NextResponse.next();
     response.headers.set('x-store-subdomain', subdomain);
+
+    // Persist store in cookie so ?store= param isn't needed on every navigation
+    const existingCookie = request.cookies.get('store')?.value;
+    if (existingCookie !== subdomain) {
+      response.cookies.set('store', subdomain, { path: '/', httpOnly: false, sameSite: 'lax' });
+    }
+
     return response;
   }
 

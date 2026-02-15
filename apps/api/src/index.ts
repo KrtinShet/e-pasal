@@ -4,9 +4,12 @@ import cors from 'cors';
 import helmet from 'helmet';
 import express from 'express';
 import compression from 'compression';
+import swaggerUi from 'swagger-ui-express';
 
 import { env } from './config/env.js';
+import { logger } from './lib/logger.js';
 import { router } from './routes/index.js';
+import { swaggerSpec } from './config/swagger.js';
 import { connectRedis, isRedisReady } from './lib/redis.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { requestLogger } from './middleware/request-logger.js';
@@ -42,7 +45,12 @@ app.use(tenantResolver);
 
 app.get('/health', (_req, res) => {
   const uptime = Math.floor((Date.now() - serverStartTime) / 1000);
-  res.json({ status: 'ok', uptime });
+  res.json({
+    status: 'ok',
+    uptime,
+    version: '0.0.1',
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.get('/ready', (_req, res) => {
@@ -70,6 +78,9 @@ app.get('/api/version', (_req, res) => {
   res.json({ version: '0.0.1', name: 'baazarify' });
 });
 
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api/docs.json', (_req, res) => res.json(swaggerSpec));
+
 app.use(`/api/${env.API_VERSION}`, router);
 
 app.use(errorHandler);
@@ -79,11 +90,13 @@ async function bootstrap() {
   await connectRedis();
 
   app.listen(env.PORT, () => {
-    console.log(`🚀 API server running on port ${env.PORT}`);
-    console.log(`📍 Environment: ${env.NODE_ENV}`);
+    logger.info('API server started', { port: env.PORT, env: env.NODE_ENV });
   });
 }
 
-bootstrap().catch(console.error);
+bootstrap().catch((err) => {
+  logger.error('Failed to start server', { error: String(err) });
+  process.exit(1);
+});
 
 export { app };

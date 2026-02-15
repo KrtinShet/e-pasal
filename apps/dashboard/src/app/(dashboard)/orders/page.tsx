@@ -281,10 +281,10 @@ export default function OrdersPage() {
                     <th className="text-left">Order</th>
                     <th className="text-left">Customer</th>
                     <th className="text-left">Status</th>
-                    <th className="text-left">Payment</th>
-                    <th className="text-left">Method</th>
+                    <th className="text-left hidden sm:table-cell">Payment</th>
+                    <th className="text-left hidden md:table-cell">Method</th>
                     <th className="text-right">Total</th>
-                    <th className="text-right">Date</th>
+                    <th className="text-right hidden sm:table-cell">Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -312,10 +312,10 @@ export default function OrdersPage() {
                       <td>
                         <OrderStatusBadge status={order.status} />
                       </td>
-                      <td>
+                      <td className="hidden sm:table-cell">
                         <PaymentStatusBadge status={order.paymentStatus} />
                       </td>
-                      <td>
+                      <td className="hidden md:table-cell">
                         <span className="inline-flex items-center rounded-full bg-[var(--grey-100)] px-2.5 py-1 text-[0.6875rem] font-semibold text-[var(--grey-600)]">
                           {formatPaymentMethod(order.paymentMethod)}
                         </span>
@@ -325,7 +325,7 @@ export default function OrdersPage() {
                           {formatPrice(order.total)}
                         </span>
                       </td>
-                      <td className="text-right">
+                      <td className="text-right hidden sm:table-cell">
                         <span className="text-[0.75rem] text-[var(--grey-400)] tabular-nums">
                           {formatDate(order.createdAt)}
                         </span>
@@ -347,7 +347,7 @@ export default function OrdersPage() {
                   type="button"
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page <= 1}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft size={16} />
                 </button>
@@ -355,7 +355,7 @@ export default function OrdersPage() {
                   type="button"
                   onClick={() => setPage((p) => Math.min(pagination.pages, p + 1))}
                   disabled={page >= pagination.pages}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[10px] border border-[var(--grey-200)] text-[var(--grey-600)] transition-all hover:bg-[var(--grey-50)] hover:border-[var(--grey-300)] disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronRight size={16} />
                 </button>

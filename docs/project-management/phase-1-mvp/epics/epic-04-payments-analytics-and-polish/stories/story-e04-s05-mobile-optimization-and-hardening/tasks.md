@@ -4,9 +4,9 @@
 
 ## T1. Responsive UX improvements
 
-- [ ] Implement mobile navigation patterns for dashboard
-- [ ] Refactor tables/cards for narrow viewport usability
-- [ ] Improve touch target sizes and spacing
+- [x] Implement mobile navigation patterns for dashboard
+- [x] Refactor tables/cards for narrow viewport usability
+- [x] Improve touch target sizes and spacing
 
 ## T2. E2E test suite
 
@@ -16,6 +16,6 @@
 
 ## T3. Hardening pass
 
-- [ ] Profile API and UI performance bottlenecks
-- [ ] Run security checks for auth/input/header controls
-- [ ] Close open P0 defects before sprint completion
+- [x] Profile API and UI performance bottlenecks
+- [x] Run security checks for auth/input/header controls
+- [x] Close open P0 defects before sprint completion
