@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { X, Search } from 'lucide-react';
-import { getAllSections, type SectionDefinition } from '@baazarify/storefront-builder';
-import type { SectionCategory } from '@baazarify/storefront-builder/src/sections/types';
+import { useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { getAllSections, type SectionDefinition, type SectionCategory } from '@baazarify/storefront-builder';
 
 interface AddSectionPanelProps {
   open: boolean;
@@ -40,19 +39,16 @@ export function AddSectionPanel({ open, onClose, onAdd }: AddSectionPanelProps) 
 
   const sections = useMemo(() => getAllSections(), []);
 
-  const filteredSections = useMemo(() => {
-    return sections.filter((section) => {
+  const filteredSections = useMemo(() => sections.filter((section) => {
       const matchesSearch =
         searchQuery === '' ||
         section.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         section.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesCategory =
-        selectedCategory === 'all' || section.category === selectedCategory;
+      const matchesCategory = selectedCategory === 'all' || section.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
-    });
-  }, [sections, searchQuery, selectedCategory]);
+    }), [sections, searchQuery, selectedCategory]);
 
   const handleAddSection = (type: string) => {
     onAdd(type);
@@ -163,15 +159,15 @@ function SectionCard({ section, onAdd }: SectionCardProps) {
       className="group flex flex-col overflow-hidden rounded-lg border border-[var(--grey-200)] bg-white hover:border-[var(--color-primary)] hover:shadow-md transition-all text-left"
     >
       {/* Thumbnail */}
-      <div className={`h-20 ${gradientClass} flex items-center justify-center relative overflow-hidden`}>
+      <div
+        className={`h-20 ${gradientClass} flex items-center justify-center relative overflow-hidden`}
+      >
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
       </div>
 
       {/* Content */}
       <div className="p-3 flex-1 flex flex-col">
-        <h3 className="text-[0.75rem] font-bold text-[var(--grey-900)] mb-1">
-          {section.name}
-        </h3>
+        <h3 className="text-[0.75rem] font-bold text-[var(--grey-900)] mb-1">{section.name}</h3>
         <p className="text-[0.625rem] text-[var(--grey-600)] line-clamp-2 mb-2">
           {section.description}
         </p>
