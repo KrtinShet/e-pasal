@@ -16,4 +16,5 @@ export {
   InlineItemActions,
   InlineListToolbar,
   SectionEditProvider,
+  EditableElement,
 } from './edit-context';

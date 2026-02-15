@@ -13,7 +13,7 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from 'react';
 
-import type { SectionConfig } from '../schema/page-schema';
+import type { SectionConfig, ElementStyleOverride } from '../schema/page-schema';
 
 import {
   appendAtPath,
@@ -25,8 +25,15 @@ import {
 
 interface PageEditContextValue {
   editMode: boolean;
+  selectedElementPath: string | null;
   onSectionSelect?: (sectionId: string) => void;
   onSectionPropsChange?: (sectionId: string, props: Record<string, unknown>) => void;
+  onElementSelect?: (sectionId: string, path: string | null) => void;
+  onElementStyleChange?: (
+    sectionId: string,
+    elementPath: string,
+    styles: Partial<ElementStyleOverride>
+  ) => void;
 }
 
 interface SectionEditContextValue {
@@ -40,6 +47,12 @@ interface SectionEditContextValue {
   append: (path: string, value: unknown) => void;
   removeAt: (path: string, index: number) => void;
   moveItem: (path: string, from: number, to: number) => void;
+  selectElement: (path: string) => void;
+  deselectElement: () => void;
+  selectedElementPath: string | null;
+  getElementStyle: (path: string) => ElementStyleOverride | undefined;
+  setElementStyle: (path: string, styles: Partial<ElementStyleOverride>) => void;
+  sectionElementStyles: Record<string, ElementStyleOverride> | undefined;
 }
 
 const PageEditContext = createContext<PageEditContextValue | null>(null);
@@ -48,23 +61,36 @@ const SectionEditContext = createContext<SectionEditContextValue | null>(null);
 export interface PageEditProviderProps {
   children: ReactNode;
   editMode: boolean;
+  selectedElementPath?: string | null;
   onSectionSelect?: (sectionId: string) => void;
   onSectionPropsChange?: (sectionId: string, props: Record<string, unknown>) => void;
+  onElementSelect?: (sectionId: string, path: string | null) => void;
+  onElementStyleChange?: (
+    sectionId: string,
+    elementPath: string,
+    styles: Partial<ElementStyleOverride>
+  ) => void;
 }
 
 export function PageEditProvider({
   children,
   editMode,
+  selectedElementPath = null,
   onSectionSelect,
   onSectionPropsChange,
+  onElementSelect,
+  onElementStyleChange,
 }: PageEditProviderProps) {
   const value = useMemo(
     () => ({
       editMode,
+      selectedElementPath,
       onSectionSelect,
       onSectionPropsChange,
+      onElementSelect,
+      onElementStyleChange,
     }),
-    [editMode, onSectionSelect, onSectionPropsChange]
+    [editMode, selectedElementPath, onSectionSelect, onSectionPropsChange, onElementSelect, onElementStyleChange]
   );
 
   return <PageEditContext.Provider value={value}>{children}</PageEditContext.Provider>;
@@ -119,6 +145,31 @@ export function SectionEditProvider({ children, section }: SectionEditProviderPr
     [section.props, setProps]
   );
 
+  const selectElement = useCallback(
+    (path: string) => {
+      page?.onElementSelect?.(section.id, path);
+    },
+    [page, section.id]
+  );
+
+  const deselectElement = useCallback(() => {
+    page?.onElementSelect?.(section.id, null);
+  }, [page, section.id]);
+
+  const getElementStyle = useCallback(
+    (path: string) => {
+      return section.elementStyles?.[path];
+    },
+    [section.elementStyles]
+  );
+
+  const setElementStyle = useCallback(
+    (path: string, styles: Partial<ElementStyleOverride>) => {
+      page?.onElementStyleChange?.(section.id, path, styles);
+    },
+    [page, section.id]
+  );
+
   const value = useMemo<SectionEditContextValue>(
     () => ({
       editMode: page?.editMode ?? false,
@@ -131,8 +182,28 @@ export function SectionEditProvider({ children, section }: SectionEditProviderPr
       append,
       removeAt,
       moveItem,
+      selectElement,
+      deselectElement,
+      selectedElementPath: page?.selectedElementPath ?? null,
+      getElementStyle,
+      setElementStyle,
+      sectionElementStyles: section.elementStyles,
     }),
-    [append, moveItem, page, removeAt, section.id, section.props, setPath, setProps]
+    [
+      append,
+      deselectElement,
+      getElementStyle,
+      moveItem,
+      page,
+      removeAt,
+      section.elementStyles,
+      section.id,
+      section.props,
+      selectElement,
+      setElementStyle,
+      setPath,
+      setProps,
+    ]
   );
 
   return <SectionEditContext.Provider value={value}>{children}</SectionEditContext.Provider>;
@@ -152,6 +223,12 @@ export function useSectionEditor() {
       append: () => {},
       removeAt: () => {},
       moveItem: () => {},
+      selectElement: () => {},
+      deselectElement: () => {},
+      selectedElementPath: null,
+      getElementStyle: (_path: string) => undefined,
+      setElementStyle: () => {},
+      sectionElementStyles: undefined,
     };
   }
 
@@ -651,5 +728,61 @@ export function InlineItemActions({
         </button>
       ) : null}
     </div>
+  );
+}
+
+interface EditableElementProps {
+  path: string;
+  children: ReactNode;
+  className?: string;
+  as?: ElementType;
+}
+
+export function EditableElement({
+  path,
+  children,
+  className,
+  as: Component = 'div',
+}: EditableElementProps) {
+  const { editMode, selectElement, selectedElementPath, getElementStyle } = useSectionEditor();
+  const isSelected = selectedElementPath === path;
+  const styles = getElementStyle(path);
+
+  const styleObj: React.CSSProperties = {};
+  if (styles) {
+    if (styles.fontSize) styleObj.fontSize = styles.fontSize;
+    if (styles.fontWeight) styleObj.fontWeight = styles.fontWeight;
+    if (styles.color) styleObj.color = styles.color;
+    if (styles.textAlign) styleObj.textAlign = styles.textAlign as any;
+    if (styles.padding) styleObj.padding = styles.padding;
+    if (styles.margin) styleObj.margin = styles.margin;
+    if (styles.borderRadius) styleObj.borderRadius = styles.borderRadius;
+    if (styles.lineHeight) styleObj.lineHeight = styles.lineHeight;
+  }
+
+  if (!editMode) {
+    return (
+      <Component style={styleObj} className={className}>
+        {children}
+      </Component>
+    );
+  }
+
+  return (
+    <Component
+      className={cn(
+        'relative cursor-pointer transition-all duration-150',
+        isSelected && 'ring-2 ring-blue-500 ring-offset-1 rounded',
+        !isSelected && 'hover:ring-1 hover:ring-blue-300/50 hover:ring-offset-1 rounded',
+        className
+      )}
+      onClick={(e: ReactMouseEvent) => {
+        e.stopPropagation();
+        selectElement(path);
+      }}
+      style={styleObj}
+    >
+      {children}
+    </Component>
   );
 }
