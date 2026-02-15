@@ -160,10 +160,10 @@ export default function CustomersPage() {
   }, [debouncedSearch, source, sortBy]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-rise">
       <div>
-        <h1 className="text-2xl font-bold text-[var(--color-text)]">Customers</h1>
-        <p className="text-sm text-[var(--color-text-muted)] mt-1">
+        <h1 className="text-2xl font-bold text-[var(--grey-900)]">Customers</h1>
+        <p className="text-sm text-[var(--grey-400)] mt-1">
           {pagination ? `${pagination.total} customers` : 'Manage your customers'}
         </p>
       </div>
@@ -196,7 +196,7 @@ export default function CustomersPage() {
         </div>
       </div>
 
-      <div className="bg-[var(--color-background)] rounded-[var(--radius-lg)] border border-[var(--color-border)] overflow-hidden">
+      <div className="bg-white rounded-[var(--radius-lg)] border border-[var(--grey-200)] overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
@@ -228,20 +228,20 @@ export default function CustomersPage() {
                   <TableCell>
                     <Link
                       href={`/customers/${customer._id}`}
-                      className="text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors"
+                      className="text-sm font-medium text-[var(--grey-900)] hover:text-[var(--primary-main)] transition-colors"
                     >
                       {customer.name}
                     </Link>
                   </TableCell>
                   <TableCell className="text-sm">{customer.phone}</TableCell>
-                  <TableCell className="hidden md:table-cell text-sm text-[var(--color-text-muted)]">
+                  <TableCell className="hidden md:table-cell text-sm text-[var(--grey-400)]">
                     {customer.email || '-'}
                   </TableCell>
                   <TableCell className="text-sm">{customer.totalOrders}</TableCell>
                   <TableCell className="text-sm font-medium">
                     {formatNPR(customer.totalSpent)}
                   </TableCell>
-                  <TableCell className="hidden sm:table-cell text-sm text-[var(--color-text-muted)]">
+                  <TableCell className="hidden sm:table-cell text-sm text-[var(--grey-400)]">
                     {customer.lastOrderAt ? relativeTime(customer.lastOrderAt) : 'Never'}
                   </TableCell>
                   <TableCell>

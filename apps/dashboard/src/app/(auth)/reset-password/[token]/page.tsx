@@ -45,16 +45,14 @@ export default function ResetPasswordPage() {
   return (
     <>
       <div className="flex justify-center mb-6">
-        <div className="w-24 h-24 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center">
-          <ShieldCheck className="w-12 h-12 text-[var(--color-primary)]" />
+        <div className="w-24 h-24 rounded-full bg-[var(--primary-main)]/10 flex items-center justify-center">
+          <ShieldCheck className="w-12 h-12 text-[var(--primary-main)]" />
         </div>
       </div>
 
       <div className="mb-10">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Reset your password</h1>
-        <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-          Enter your new password below.
-        </p>
+        <h1 className="text-2xl font-bold text-[var(--grey-900)]">Reset your password</h1>
+        <p className="mt-2 text-sm text-[var(--grey-500)]">Enter your new password below.</p>
       </div>
 
       {error && (
@@ -77,7 +75,7 @@ export default function ResetPasswordPage() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-[38px] text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
+            className="absolute right-3 top-[38px] text-[var(--grey-400)] hover:text-[var(--grey-500)] transition-colors"
           >
             {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
           </button>
@@ -96,7 +94,7 @@ export default function ResetPasswordPage() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-[38px] text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
+            className="absolute right-3 top-[38px] text-[var(--grey-400)] hover:text-[var(--grey-500)] transition-colors"
           >
             {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
           </button>
@@ -110,7 +108,7 @@ export default function ResetPasswordPage() {
       <div className="mt-6 text-center">
         <Link
           href="/login"
-          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-text-primary)] hover:text-[var(--color-primary)]"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--grey-900)] hover:text-[var(--primary-main)]"
         >
           <ArrowLeft className="w-4 h-4" />
           Return to sign in

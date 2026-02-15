@@ -71,8 +71,8 @@ export function PricingSection() {
     <section id="pricing" className="py-20 lg:py-28">
       <div className="container-main">
         <div className="text-center mb-16">
-          <span className="text-overline text-[var(--coral)] font-semibold">Pricing</span>
-          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--charcoal)]">
+          <span className="text-overline text-[var(--primary-main)] font-semibold">Pricing</span>
+          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--grey-900)]">
             Simple, Transparent Pricing
           </h2>
           <p className="mt-4 text-body-lg text-[var(--graphite)] max-w-2xl mx-auto">
@@ -86,13 +86,13 @@ export function PricingSection() {
               key={plan.name}
               className={`relative rounded-3xl p-8 ${
                 plan.highlighted
-                  ? 'bg-[var(--charcoal)] text-white ring-4 ring-[var(--coral)]/20 scale-[1.02]'
+                  ? 'bg-[var(--grey-900)] text-white ring-4 ring-[var(--primary-main)]/20 scale-[1.02]'
                   : 'card'
               }`}
             >
               {plan.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-[var(--coral)] text-white text-xs font-semibold">
+                  <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-[var(--primary-main)] text-white text-xs font-semibold">
                     Most Popular
                   </span>
                 </div>
@@ -100,26 +100,26 @@ export function PricingSection() {
 
               <div className="mb-6">
                 <h3
-                  className={`text-lg font-semibold ${plan.highlighted ? 'text-white' : 'text-[var(--charcoal)]'}`}
+                  className={`text-lg font-semibold ${plan.highlighted ? 'text-white' : 'text-[var(--grey-900)]'}`}
                 >
                   {plan.name}
                 </h3>
                 <p
-                  className={`text-body-sm mt-1 ${plan.highlighted ? 'text-white/70' : 'text-[var(--slate)]'}`}
+                  className={`text-body-sm mt-1 ${plan.highlighted ? 'text-white/70' : 'text-[var(--grey-600)]'}`}
                 >
                   {plan.description}
                 </p>
               </div>
 
               <div className="mb-8">
-                <span className="text-overline text-[var(--mist)]">NPR</span>
+                <span className="text-overline text-[var(--grey-200)]">NPR</span>
                 <span
-                  className={`text-display-2 font-display font-bold ${plan.highlighted ? 'text-white' : 'text-[var(--charcoal)]'}`}
+                  className={`text-display-2 font-display font-bold ${plan.highlighted ? 'text-white' : 'text-[var(--grey-900)]'}`}
                 >
                   {plan.price}
                 </span>
                 <span
-                  className={`text-body-sm ${plan.highlighted ? 'text-white/60' : 'text-[var(--slate)]'}`}
+                  className={`text-body-sm ${plan.highlighted ? 'text-white/60' : 'text-[var(--grey-600)]'}`}
                 >
                   /month
                 </span>
@@ -142,7 +142,7 @@ export function PricingSection() {
                 href="/register"
                 className={`block text-center w-full py-3 px-6 rounded-full font-medium text-sm transition-all ${
                   plan.highlighted
-                    ? 'bg-[var(--ivory)] text-[var(--charcoal)] hover:bg-[var(--cream)]'
+                    ? 'bg-[white] text-[var(--grey-900)] hover:bg-[var(--grey-50)]'
                     : 'btn-secondary'
                 }`}
               >

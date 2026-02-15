@@ -114,7 +114,7 @@ export function OrderActions({
     <div className="space-y-4">
       {availableStatuses.length > 0 && (
         <div>
-          <p className="text-xs font-medium text-[var(--stone)] uppercase tracking-wider mb-2">
+          <p className="text-xs font-medium text-[var(--grey-500)] uppercase tracking-wider mb-2">
             Update Status
           </p>
           <div className="flex flex-wrap gap-2">
@@ -123,7 +123,7 @@ export function OrderActions({
                 key={status}
                 onClick={() => handleStatusUpdate(status)}
                 disabled={loading}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors disabled:opacity-50 ${statusButtonStyles[status] || 'bg-[var(--cream-dark)] text-[var(--charcoal)]'}`}
+                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors disabled:opacity-50 ${statusButtonStyles[status] || 'bg-[var(--grey-100)] text-[var(--grey-900)]'}`}
               >
                 {statusLabels[status] || status}
               </button>
@@ -139,7 +139,7 @@ export function OrderActions({
             value={cancelReason}
             onChange={(e) => setCancelReason(e.target.value)}
             placeholder="Reason for cancellation..."
-            className="w-full h-9 rounded-lg border border-red-200 bg-[var(--ivory)] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-300"
+            className="w-full h-9 rounded-lg border border-red-200 bg-[white] px-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-300"
           />
           <div className="flex gap-2">
             <button
@@ -154,7 +154,7 @@ export function OrderActions({
                 setShowCancelReason(false);
                 setCancelReason('');
               }}
-              className="px-3 py-1.5 text-xs font-medium text-[var(--slate)] hover:text-[var(--charcoal)]"
+              className="px-3 py-1.5 text-xs font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)]"
             >
               Dismiss
             </button>
@@ -164,7 +164,7 @@ export function OrderActions({
 
       {currentPaymentStatus === 'pending' && (
         <div>
-          <p className="text-xs font-medium text-[var(--stone)] uppercase tracking-wider mb-2">
+          <p className="text-xs font-medium text-[var(--grey-500)] uppercase tracking-wider mb-2">
             Payment
           </p>
           <button
@@ -185,13 +185,13 @@ export function OrderActions({
               onChange={(e) => setNote(e.target.value)}
               rows={2}
               placeholder="Add a note..."
-              className="w-full rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 resize-none"
+              className="w-full rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 resize-none"
             />
             <div className="flex gap-2">
               <button
                 onClick={handleAddNote}
                 disabled={!note.trim()}
-                className="px-3 py-1.5 text-xs font-medium bg-[var(--charcoal)] text-white rounded-lg hover:bg-[var(--charcoal-light)] disabled:opacity-50"
+                className="px-3 py-1.5 text-xs font-medium bg-[var(--grey-900)] text-white rounded-lg hover:bg-[var(--grey-800)] disabled:opacity-50"
               >
                 Save Note
               </button>
@@ -200,7 +200,7 @@ export function OrderActions({
                   setShowNoteInput(false);
                   setNote('');
                 }}
-                className="px-3 py-1.5 text-xs font-medium text-[var(--slate)] hover:text-[var(--charcoal)]"
+                className="px-3 py-1.5 text-xs font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)]"
               >
                 Cancel
               </button>
@@ -209,7 +209,7 @@ export function OrderActions({
         ) : (
           <button
             onClick={() => setShowNoteInput(true)}
-            className="text-xs font-medium text-[var(--coral)] hover:text-[var(--coral-dark)] transition-colors"
+            className="text-xs font-medium text-[var(--primary-main)] hover:text-[var(--coral-dark)] transition-colors"
           >
             + Add Note
           </button>

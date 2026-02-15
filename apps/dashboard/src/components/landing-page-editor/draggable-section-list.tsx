@@ -1,8 +1,7 @@
 'use client';
 
 import { CSS } from '@dnd-kit/utilities';
-import type {
-  DragEndEvent} from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'motion/react';
 import { getSection } from '@baazarify/storefront-builder';
 import { Eye, EyeOff, Trash2, GripVertical } from 'lucide-react';
@@ -15,7 +14,7 @@ import {
   PointerSensor,
   KeyboardSensor,
 } from '@dnd-kit/core';
-import { 
+import {
   useSortable,
   SortableContext,
   sortableKeyboardCoordinates,
@@ -46,8 +45,9 @@ function DraggableSectionItem({
   onToggleVisibility,
   onDelete,
 }: DraggableSectionItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: section.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: section.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -71,11 +71,7 @@ function DraggableSectionItem({
       `}
       onClick={() => onSelect(section.id)}
     >
-      <div
-        {...attributes}
-        {...listeners}
-        className="cursor-grab active:cursor-grabbing touch-none"
-      >
+      <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing touch-none">
         <GripVertical
           className="text-[var(--grey-400)] group-hover:text-[var(--grey-600)]"
           size={18}

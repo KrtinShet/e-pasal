@@ -75,17 +75,19 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[white] rounded-xl border border-[var(--grey-200)]/20 p-6 space-y-5">
         <div>
-          <h3 className="text-base font-semibold text-[var(--charcoal)]">Store Profile</h3>
-          <p className="text-sm text-[var(--slate)] mt-0.5">Basic information about your store</p>
+          <h3 className="text-base font-semibold text-[var(--grey-900)]">Store Profile</h3>
+          <p className="text-sm text-[var(--grey-600)] mt-0.5">
+            Basic information about your store
+          </p>
         </div>
 
         <div className="space-y-4">
           <div>
             <label
               htmlFor="store-name"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Store Name
             </label>
@@ -96,7 +98,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               onChange={(e) => setName(e.target.value)}
               required
               minLength={2}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="Your store name"
             />
           </div>
@@ -104,7 +106,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="subdomain"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Subdomain
             </label>
@@ -114,13 +116,13 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
                 type="text"
                 value={store.subdomain}
                 disabled
-                className="flex-1 h-10 rounded-l-lg border border-r-0 border-[var(--mist)]/30 bg-[var(--cream-dark)] px-3 text-sm text-[var(--slate)] cursor-not-allowed"
+                className="flex-1 h-10 rounded-l-lg border border-r-0 border-[var(--grey-200)]/30 bg-[var(--grey-100)] px-3 text-sm text-[var(--grey-600)] cursor-not-allowed"
               />
-              <span className="h-10 flex items-center px-3 bg-[var(--cream-dark)] border border-l-0 border-[var(--mist)]/30 rounded-r-lg text-sm text-[var(--slate)]">
+              <span className="h-10 flex items-center px-3 bg-[var(--grey-100)] border border-l-0 border-[var(--grey-200)]/30 rounded-r-lg text-sm text-[var(--grey-600)]">
                 .baazarify.com
               </span>
             </div>
-            <p className="text-xs text-[var(--stone)] mt-1">
+            <p className="text-xs text-[var(--grey-500)] mt-1">
               Subdomain cannot be changed after creation
             </p>
           </div>
@@ -128,7 +130,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Description
             </label>
@@ -137,7 +139,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 py-2 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all resize-none"
+              className="w-full rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 py-2 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all resize-none"
               placeholder="Describe your store..."
             />
           </div>
@@ -145,7 +147,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="logo"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Logo URL
             </label>
@@ -154,7 +156,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               type="url"
               value={logo}
               onChange={(e) => setLogo(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="https://example.com/logo.png"
             />
           </div>
@@ -162,7 +164,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="favicon"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Favicon URL
             </label>
@@ -171,14 +173,14 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
               type="url"
               value={favicon}
               onChange={(e) => setFavicon(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="https://example.com/favicon.ico"
             />
           </div>
         </div>
 
         <div className="pt-2 flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[var(--cream-dark)] text-[var(--slate)]">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[var(--grey-100)] text-[var(--grey-600)]">
             Plan: <span className="capitalize">{store.plan}</span>
           </span>
           <span
@@ -208,7 +210,7 @@ export function StoreProfileForm({ store, onUpdate }: Props) {
         <button
           type="submit"
           disabled={saving || !name.trim()}
-          className="px-5 py-2.5 text-sm font-medium text-white bg-[var(--charcoal)] rounded-lg hover:bg-[var(--charcoal-light)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-5 py-2.5 text-sm font-medium text-white bg-[var(--grey-900)] rounded-lg hover:bg-[var(--grey-800)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {saving ? 'Saving...' : 'Save Changes'}
         </button>

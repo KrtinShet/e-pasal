@@ -39,16 +39,14 @@ export default function RegisterPage() {
   return (
     <>
       <div className="mb-10">
-        <h1 className="text-[1.75rem] font-bold text-[var(--color-text-primary)]">
+        <h1 className="text-[1.75rem] font-bold text-[var(--grey-900)]">
           Get started absolutely free
         </h1>
         <div className="mt-3 flex items-center gap-1.5">
-          <span className="text-sm text-[var(--color-text-secondary)]">
-            Already have an account?
-          </span>
+          <span className="text-sm text-[var(--grey-500)]">Already have an account?</span>
           <Link
             href="/login"
-            className="text-sm font-semibold text-[var(--color-primary)] hover:underline"
+            className="text-sm font-semibold text-[var(--primary-main)] hover:underline"
           >
             Sign in
           </Link>
@@ -106,7 +104,7 @@ export default function RegisterPage() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-[38px] text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
+            className="absolute right-3 top-[38px] text-[var(--grey-400)] hover:text-[var(--grey-500)] transition-colors"
           >
             {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
           </button>
@@ -117,13 +115,13 @@ export default function RegisterPage() {
         </Button>
       </form>
 
-      <p className="mt-5 text-center text-xs text-[var(--color-text-muted)]">
+      <p className="mt-5 text-center text-xs text-[var(--grey-400)]">
         {'By signing up, I agree to '}
-        <Link href="/terms" className="underline text-[var(--color-text-primary)]">
+        <Link href="/terms" className="underline text-[var(--grey-900)]">
           Terms of Service
         </Link>
         {' and '}
-        <Link href="/privacy" className="underline text-[var(--color-text-primary)]">
+        <Link href="/privacy" className="underline text-[var(--grey-900)]">
           Privacy Policy
         </Link>
         .

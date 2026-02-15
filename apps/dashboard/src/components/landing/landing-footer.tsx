@@ -42,7 +42,7 @@ export function LandingFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--charcoal)] text-white">
+    <footer className="bg-[var(--grey-900)] text-white">
       <div className="container-main py-16 lg:py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 mb-12">
           {footerColumns.map((column) => (
@@ -53,7 +53,7 @@ export function LandingFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-[var(--stone)] hover:text-white transition-colors"
+                      className="text-sm text-[var(--grey-500)] hover:text-white transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -68,11 +68,11 @@ export function LandingFooter() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="text-lg font-display font-bold">Baazarify</span>
-              <span className="text-sm text-[var(--stone)]">
+              <span className="text-sm text-[var(--grey-500)]">
                 {currentYear} Baazarify. All rights reserved.
               </span>
             </div>
-            <p className="text-sm text-[var(--stone)]">Made with care in Nepal</p>
+            <p className="text-sm text-[var(--grey-500)]">Made with care in Nepal</p>
           </div>
         </div>
       </div>

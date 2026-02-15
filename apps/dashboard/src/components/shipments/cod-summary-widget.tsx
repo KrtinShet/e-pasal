@@ -40,16 +40,16 @@ export function CodSummaryWidget() {
   }, [fetchSummary]);
 
   if (loading) {
-    return <div className="h-32 bg-[var(--color-surface)] rounded-xl animate-pulse" />;
+    return <div className="h-32 bg-[var(--grey-100)] rounded-xl animate-pulse" />;
   }
 
   if (!data || (data.totalPending === 0 && data.totalCollected === 0)) return null;
 
   return (
-    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-5 mb-6">
+    <div className="bg-[white] rounded-xl border border-[var(--grey-200)]/20 p-5 mb-6">
       <div className="flex items-center gap-2 mb-4">
-        <Banknote className="w-5 h-5 text-[var(--color-text-secondary)]" />
-        <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">COD Summary</h3>
+        <Banknote className="w-5 h-5 text-[var(--grey-500)]" />
+        <h3 className="text-sm font-semibold text-[var(--grey-900)]">COD Summary</h3>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-4">
@@ -68,11 +68,9 @@ export function CodSummaryWidget() {
           {Object.entries(data.byProvider).map(([provider, stats]) => (
             <div
               key={provider}
-              className="flex items-center justify-between text-sm py-1.5 border-t border-[var(--color-border)]/10 first:border-0"
+              className="flex items-center justify-between text-sm py-1.5 border-t border-[var(--grey-200)]/10 first:border-0"
             >
-              <span className="capitalize text-[var(--color-text-primary)] font-medium">
-                {provider}
-              </span>
+              <span className="capitalize text-[var(--grey-900)] font-medium">{provider}</span>
               <div className="flex gap-4 text-xs">
                 {stats.pending > 0 && (
                   <span className="text-yellow-600">

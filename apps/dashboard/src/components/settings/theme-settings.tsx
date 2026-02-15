@@ -107,15 +107,17 @@ export function ThemeSettings({ store, onUpdate }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[white] rounded-xl border border-[var(--grey-200)]/20 p-6 space-y-5">
         <div>
-          <h3 className="text-base font-semibold text-[var(--charcoal)]">Theme Colors</h3>
-          <p className="text-sm text-[var(--slate)] mt-0.5">Customize your storefront appearance</p>
+          <h3 className="text-base font-semibold text-[var(--grey-900)]">Theme Colors</h3>
+          <p className="text-sm text-[var(--grey-600)] mt-0.5">
+            Customize your storefront appearance
+          </p>
         </div>
 
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-[var(--charcoal)] mb-3">
+            <label className="block text-sm font-medium text-[var(--grey-900)] mb-3">
               Primary Color
             </label>
             <div className="flex flex-wrap gap-2 mb-3">
@@ -126,7 +128,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
                   onClick={() => setPrimaryColor(preset.value)}
                   className={`w-8 h-8 rounded-full border-2 transition-all ${
                     primaryColor === preset.value
-                      ? 'border-[var(--charcoal)] scale-110'
+                      ? 'border-[var(--grey-900)] scale-110'
                       : 'border-transparent hover:scale-105'
                   }`}
                   style={{ backgroundColor: preset.value }}
@@ -139,20 +141,20 @@ export function ThemeSettings({ store, onUpdate }: Props) {
                 type="color"
                 value={primaryColor}
                 onChange={(e) => setPrimaryColor(e.target.value)}
-                className="w-10 h-10 rounded-lg border border-[var(--mist)]/30 cursor-pointer"
+                className="w-10 h-10 rounded-lg border border-[var(--grey-200)]/30 cursor-pointer"
               />
               <input
                 type="text"
                 value={primaryColor}
                 onChange={(e) => setPrimaryColor(e.target.value)}
-                className="w-28 h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+                className="w-28 h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
                 placeholder="#000000"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[var(--charcoal)] mb-3">
+            <label className="block text-sm font-medium text-[var(--grey-900)] mb-3">
               Accent Color
             </label>
             <div className="flex flex-wrap gap-2 mb-3">
@@ -163,7 +165,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
                   onClick={() => setAccentColor(preset.value)}
                   className={`w-8 h-8 rounded-full border-2 transition-all ${
                     accentColor === preset.value
-                      ? 'border-[var(--charcoal)] scale-110'
+                      ? 'border-[var(--grey-900)] scale-110'
                       : 'border-transparent hover:scale-105'
                   }`}
                   style={{ backgroundColor: preset.value }}
@@ -176,21 +178,21 @@ export function ThemeSettings({ store, onUpdate }: Props) {
                 type="color"
                 value={accentColor}
                 onChange={(e) => setAccentColor(e.target.value)}
-                className="w-10 h-10 rounded-lg border border-[var(--mist)]/30 cursor-pointer"
+                className="w-10 h-10 rounded-lg border border-[var(--grey-200)]/30 cursor-pointer"
               />
               <input
                 type="text"
                 value={accentColor}
                 onChange={(e) => setAccentColor(e.target.value)}
-                className="w-28 h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+                className="w-28 h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
                 placeholder="#000000"
               />
             </div>
           </div>
 
           <div className="pt-2">
-            <p className="text-sm font-medium text-[var(--charcoal)] mb-3">Preview</p>
-            <div className="rounded-lg border border-[var(--mist)]/20 p-4 bg-[var(--cream)]">
+            <p className="text-sm font-medium text-[var(--grey-900)] mb-3">Preview</p>
+            <div className="rounded-lg border border-[var(--grey-200)]/20 p-4 bg-[var(--grey-50)]">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: primaryColor }} />
                 <div className="w-8 h-8 rounded-lg" style={{ backgroundColor: accentColor }} />
@@ -216,10 +218,10 @@ export function ThemeSettings({ store, onUpdate }: Props) {
         </div>
       </div>
 
-      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[white] rounded-xl border border-[var(--grey-200)]/20 p-6 space-y-5">
         <div>
-          <h3 className="text-base font-semibold text-[var(--charcoal)]">Store Preferences</h3>
-          <p className="text-sm text-[var(--slate)] mt-0.5">
+          <h3 className="text-base font-semibold text-[var(--grey-900)]">Store Preferences</h3>
+          <p className="text-sm text-[var(--grey-600)] mt-0.5">
             Currency, timezone, and language settings
           </p>
         </div>
@@ -228,7 +230,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="currency"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Currency
             </label>
@@ -236,7 +238,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
               id="currency"
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all appearance-none cursor-pointer"
             >
               {currencyOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -249,7 +251,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="timezone"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Timezone
             </label>
@@ -257,7 +259,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
               id="timezone"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all appearance-none cursor-pointer"
             >
               {timezoneOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -270,7 +272,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="language"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Language
             </label>
@@ -278,7 +280,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
               id="language"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all appearance-none cursor-pointer"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all appearance-none cursor-pointer"
             >
               {languageOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -305,7 +307,7 @@ export function ThemeSettings({ store, onUpdate }: Props) {
         <button
           type="submit"
           disabled={saving}
-          className="px-5 py-2.5 text-sm font-medium text-white bg-[var(--charcoal)] rounded-lg hover:bg-[var(--charcoal-light)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-5 py-2.5 text-sm font-medium text-white bg-[var(--grey-900)] rounded-lg hover:bg-[var(--grey-800)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {saving ? 'Saving...' : 'Save Changes'}
         </button>

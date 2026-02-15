@@ -1,19 +1,19 @@
 'use client';
 
+import { Switch, PageHeader } from '@baazarify/ui';
 import { useState, useEffect, useCallback } from 'react';
 import {
   User,
   Store,
   Phone,
+  Plug2,
+  Truck,
   Palette,
   Loader2,
   XCircle,
-  Plug2,
   CreditCard,
-  Truck,
   CheckCircle,
 } from 'lucide-react';
-import { Switch, PageHeader } from '@baazarify/ui';
 
 import { apiRequest } from '@/lib/api';
 import { useAuth } from '@/contexts/auth-context';
@@ -206,13 +206,7 @@ function SaveButton({ saving, disabled }: { saving: boolean; disabled?: boolean 
   );
 }
 
-function FormMessage({
-  message,
-  error,
-}: {
-  message: string;
-  error: string;
-}) {
+function FormMessage({ message, error }: { message: string; error: string }) {
   if (!message && !error) return null;
   return (
     <>
@@ -245,9 +239,7 @@ function SectionCard({
     <div className="bzr-card p-6 space-y-5">
       <div>
         <h3 className="text-[15px] font-bold text-[var(--grey-900)] tracking-tight">{title}</h3>
-        {description && (
-          <p className="text-sm text-[var(--grey-500)] mt-0.5">{description}</p>
-        )}
+        {description && <p className="text-sm text-[var(--grey-500)] mt-0.5">{description}</p>}
       </div>
       {children}
     </div>
@@ -419,7 +411,9 @@ function ProfileSection({
       <SectionCard title="Store Identity" description="How your store appears to customers">
         <div className="space-y-4">
           <div>
-            <label htmlFor="store-name" className={labelCls}>Store Name</label>
+            <label htmlFor="store-name" className={labelCls}>
+              Store Name
+            </label>
             <input
               id="store-name"
               type="text"
@@ -432,7 +426,9 @@ function ProfileSection({
             />
           </div>
           <div>
-            <label htmlFor="subdomain" className={labelCls}>Subdomain</label>
+            <label htmlFor="subdomain" className={labelCls}>
+              Subdomain
+            </label>
             <div className="flex items-center">
               <input
                 id="subdomain"
@@ -450,7 +446,9 @@ function ProfileSection({
             </p>
           </div>
           <div>
-            <label htmlFor="description" className={labelCls}>Description</label>
+            <label htmlFor="description" className={labelCls}>
+              Description
+            </label>
             <textarea
               id="description"
               value={description}
@@ -466,7 +464,9 @@ function ProfileSection({
       <SectionCard title="Brand Assets" description="Logo and favicon for your store">
         <div className="space-y-4">
           <div>
-            <label htmlFor="logo" className={labelCls}>Logo URL</label>
+            <label htmlFor="logo" className={labelCls}>
+              Logo URL
+            </label>
             <input
               id="logo"
               type="url"
@@ -477,7 +477,9 @@ function ProfileSection({
             />
           </div>
           <div>
-            <label htmlFor="favicon" className={labelCls}>Favicon URL</label>
+            <label htmlFor="favicon" className={labelCls}>
+              Favicon URL
+            </label>
             <input
               id="favicon"
               type="url"
@@ -565,15 +567,35 @@ function ContactSection({
       <SectionCard title="Contact Information" description="How customers can reach you">
         <div className="space-y-4">
           <div>
-            <label htmlFor="contact-email" className={labelCls}>Email</label>
-            <input id="contact-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} placeholder="store@example.com" />
+            <label htmlFor="contact-email" className={labelCls}>
+              Email
+            </label>
+            <input
+              id="contact-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputCls}
+              placeholder="store@example.com"
+            />
           </div>
           <div>
-            <label htmlFor="contact-phone" className={labelCls}>Phone</label>
-            <input id="contact-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} placeholder="+977-9800000000" />
+            <label htmlFor="contact-phone" className={labelCls}>
+              Phone
+            </label>
+            <input
+              id="contact-phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className={inputCls}
+              placeholder="+977-9800000000"
+            />
           </div>
           <div>
-            <label htmlFor="contact-address" className={labelCls}>Address</label>
+            <label htmlFor="contact-address" className={labelCls}>
+              Address
+            </label>
             <textarea
               id="contact-address"
               value={address}
@@ -589,16 +611,43 @@ function ContactSection({
       <SectionCard title="Social Media" description="Connect your social presence">
         <div className="space-y-4">
           <div>
-            <label htmlFor="social-fb" className={labelCls}>Facebook</label>
-            <input id="social-fb" type="url" value={facebook} onChange={(e) => setFacebook(e.target.value)} className={inputCls} placeholder="https://facebook.com/yourstore" />
+            <label htmlFor="social-fb" className={labelCls}>
+              Facebook
+            </label>
+            <input
+              id="social-fb"
+              type="url"
+              value={facebook}
+              onChange={(e) => setFacebook(e.target.value)}
+              className={inputCls}
+              placeholder="https://facebook.com/yourstore"
+            />
           </div>
           <div>
-            <label htmlFor="social-ig" className={labelCls}>Instagram</label>
-            <input id="social-ig" type="url" value={instagram} onChange={(e) => setInstagram(e.target.value)} className={inputCls} placeholder="https://instagram.com/yourstore" />
+            <label htmlFor="social-ig" className={labelCls}>
+              Instagram
+            </label>
+            <input
+              id="social-ig"
+              type="url"
+              value={instagram}
+              onChange={(e) => setInstagram(e.target.value)}
+              className={inputCls}
+              placeholder="https://instagram.com/yourstore"
+            />
           </div>
           <div>
-            <label htmlFor="social-tt" className={labelCls}>TikTok</label>
-            <input id="social-tt" type="url" value={tiktok} onChange={(e) => setTiktok(e.target.value)} className={inputCls} placeholder="https://tiktok.com/@yourstore" />
+            <label htmlFor="social-tt" className={labelCls}>
+              TikTok
+            </label>
+            <input
+              id="social-tt"
+              type="url"
+              value={tiktok}
+              onChange={(e) => setTiktok(e.target.value)}
+              className={inputCls}
+              placeholder="https://tiktok.com/@yourstore"
+            />
           </div>
         </div>
       </SectionCard>
@@ -611,13 +660,7 @@ function ContactSection({
   );
 }
 
-function ThemeSection({
-  store,
-  onUpdate,
-}: {
-  store: StoreData;
-  onUpdate: (s: StoreData) => void;
-}) {
+function ThemeSection({ store, onUpdate }: { store: StoreData; onUpdate: (s: StoreData) => void }) {
   const [primaryColor, setPrimaryColor] = useState(store.settings.theme.primaryColor);
   const [accentColor, setAccentColor] = useState(store.settings.theme.accentColor);
   const [currency, setCurrency] = useState(store.settings.currency);
@@ -633,18 +676,15 @@ function ThemeSection({
     setMessage('');
     setError('');
     try {
-      const res = await apiRequest<{ success: boolean; data: StoreData }>(
-        '/stores/me/settings',
-        {
-          method: 'PATCH',
-          body: JSON.stringify({
-            currency,
-            timezone,
-            language,
-            theme: { primaryColor, accentColor },
-          }),
-        },
-      );
+      const res = await apiRequest<{ success: boolean; data: StoreData }>('/stores/me/settings', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          currency,
+          timezone,
+          language,
+          theme: { primaryColor, accentColor },
+        }),
+      });
       onUpdate(res.data);
       setMessage('Theme settings updated');
     } catch {
@@ -701,8 +741,14 @@ function ThemeSection({
             <p className="text-[13px] font-semibold text-[var(--grey-700)] mb-2">Preview</p>
             <div className="rounded-xl border border-[var(--grey-200)] p-4 bg-[var(--grey-50)]">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-lg shadow-sm" style={{ backgroundColor: primaryColor }} />
-                <div className="w-8 h-8 rounded-lg shadow-sm" style={{ backgroundColor: accentColor }} />
+                <div
+                  className="w-8 h-8 rounded-lg shadow-sm"
+                  style={{ backgroundColor: primaryColor }}
+                />
+                <div
+                  className="w-8 h-8 rounded-lg shadow-sm"
+                  style={{ backgroundColor: accentColor }}
+                />
               </div>
               <div className="flex gap-2">
                 <button
@@ -728,21 +774,54 @@ function ThemeSection({
       <SectionCard title="Store Preferences" description="Currency, timezone & language">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="currency" className={labelCls}>Currency</label>
-            <select id="currency" value={currency} onChange={(e) => setCurrency(e.target.value)} className={selectCls}>
-              {currencyOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            <label htmlFor="currency" className={labelCls}>
+              Currency
+            </label>
+            <select
+              id="currency"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className={selectCls}
+            >
+              {currencyOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label htmlFor="timezone" className={labelCls}>Timezone</label>
-            <select id="timezone" value={timezone} onChange={(e) => setTimezone(e.target.value)} className={selectCls}>
-              {timezoneOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            <label htmlFor="timezone" className={labelCls}>
+              Timezone
+            </label>
+            <select
+              id="timezone"
+              value={timezone}
+              onChange={(e) => setTimezone(e.target.value)}
+              className={selectCls}
+            >
+              {timezoneOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
             </select>
           </div>
           <div>
-            <label htmlFor="language" className={labelCls}>Language</label>
-            <select id="language" value={language} onChange={(e) => setLanguage(e.target.value)} className={selectCls}>
-              {languageOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            <label htmlFor="language" className={labelCls}>
+              Language
+            </label>
+            <select
+              id="language"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className={selectCls}
+            >
+              {languageOptions.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -836,7 +915,7 @@ function IntegrationsSection() {
   const fetchSettings = useCallback(async () => {
     try {
       const res = await apiRequest<{ success: boolean; data: IntegrationSettings }>(
-        '/integrations/settings',
+        '/integrations/settings'
       );
       setSettings(res.data);
     } catch {
@@ -973,7 +1052,9 @@ export default function SettingsPage() {
         <div className="h-5 w-72 skel mb-8" />
         <div className="flex gap-8">
           <div className="w-56 shrink-0 space-y-2">
-            {[1, 2, 3, 4, 5].map((i) => <div key={i} className="skel h-12" />)}
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="skel h-12" />
+            ))}
           </div>
           <div className="flex-1 skel h-96" />
         </div>
@@ -1030,10 +1111,14 @@ export default function SettingsPage() {
                   {section.icon}
                 </span>
                 <div className="min-w-0">
-                  <p className={`text-sm font-semibold truncate ${isActive ? 'text-[var(--grey-900)]' : ''}`}>
+                  <p
+                    className={`text-sm font-semibold truncate ${isActive ? 'text-[var(--grey-900)]' : ''}`}
+                  >
                     {section.label}
                   </p>
-                  <p className="text-[11px] text-[var(--grey-400)] truncate">{section.description}</p>
+                  <p className="text-[11px] text-[var(--grey-400)] truncate">
+                    {section.description}
+                  </p>
                 </div>
               </button>
             );
@@ -1042,15 +1127,9 @@ export default function SettingsPage() {
 
         {/* ── Content area ── */}
         <div className="flex-1 min-w-0 max-w-2xl pb-12">
-          {activeSection === 'profile' && (
-            <ProfileSection store={store} onUpdate={setStore} />
-          )}
-          {activeSection === 'contact' && (
-            <ContactSection store={store} onUpdate={setStore} />
-          )}
-          {activeSection === 'theme' && (
-            <ThemeSection store={store} onUpdate={setStore} />
-          )}
+          {activeSection === 'profile' && <ProfileSection store={store} onUpdate={setStore} />}
+          {activeSection === 'contact' && <ContactSection store={store} onUpdate={setStore} />}
+          {activeSection === 'theme' && <ThemeSection store={store} onUpdate={setStore} />}
           {activeSection === 'merchant' && <MerchantSection />}
           {activeSection === 'integrations' && <IntegrationsSection />}
         </div>

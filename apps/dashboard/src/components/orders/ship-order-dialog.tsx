@@ -134,11 +134,11 @@ export function ShipOrderDialog({
 
   if (providers.length === 0) {
     return (
-      <div className="text-sm text-[var(--color-text-secondary)] p-4 bg-[var(--color-surface)]/50 rounded-lg">
+      <div className="text-sm text-[var(--grey-500)] p-4 bg-[var(--grey-100)]/50 rounded-lg">
         <p>No logistics providers configured.</p>
         <a
           href="/settings/integrations"
-          className="text-[var(--color-primary)] hover:underline mt-1 inline-block"
+          className="text-[var(--primary-main)] hover:underline mt-1 inline-block"
         >
           Configure in Settings
         </a>
@@ -149,7 +149,7 @@ export function ShipOrderDialog({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+        <label className="block text-sm font-medium text-[var(--grey-900)] mb-2">
           Logistics Provider
         </label>
         <div className="flex gap-2">
@@ -160,8 +160,8 @@ export function ShipOrderDialog({
               onClick={() => setSelectedProvider(p)}
               className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-colors ${
                 selectedProvider === p
-                  ? 'bg-[var(--color-primary)] text-white'
-                  : 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]/80'
+                  ? 'bg-[var(--primary-main)] text-white'
+                  : 'bg-[var(--grey-100)] text-[var(--grey-500)] hover:bg-[var(--grey-100)]/80'
               }`}
             >
               {p}
@@ -170,14 +170,14 @@ export function ShipOrderDialog({
         </div>
       </div>
 
-      <div className="bg-[var(--color-surface)]/30 rounded-lg p-4">
+      <div className="bg-[var(--grey-100)]/30 rounded-lg p-4">
         <div className="flex items-center gap-2 mb-2">
-          <Truck className="w-4 h-4 text-[var(--color-text-secondary)]" />
-          <span className="text-sm font-medium text-[var(--color-text-primary)]">
+          <Truck className="w-4 h-4 text-[var(--grey-500)]" />
+          <span className="text-sm font-medium text-[var(--grey-900)]">
             Delivery to {shipping.city}
           </span>
         </div>
-        <div className="text-sm text-[var(--color-text-secondary)]">
+        <div className="text-sm text-[var(--grey-500)]">
           <p>
             {shipping.name} - {shipping.phone}
           </p>
@@ -186,7 +186,7 @@ export function ShipOrderDialog({
       </div>
 
       {loadingRate && (
-        <div className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
+        <div className="flex items-center gap-2 text-sm text-[var(--grey-500)]">
           <Loader2 className="w-4 h-4 animate-spin" />
           Calculating shipping rate...
         </div>

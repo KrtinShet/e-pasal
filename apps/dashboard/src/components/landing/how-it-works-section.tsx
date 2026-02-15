@@ -71,8 +71,10 @@ export function HowItWorksSection() {
     <section id="how-it-works" className="py-20 lg:py-28">
       <div className="container-main">
         <div className="text-center mb-16">
-          <span className="text-overline text-[var(--coral)] font-semibold">How It Works</span>
-          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--charcoal)]">
+          <span className="text-overline text-[var(--primary-main)] font-semibold">
+            How It Works
+          </span>
+          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--grey-900)]">
             Three Steps to Your Online Store
           </h2>
           <p className="mt-4 text-body-lg text-[var(--graphite)] max-w-2xl mx-auto">
@@ -84,15 +86,15 @@ export function HowItWorksSection() {
           {steps.map((step, index) => (
             <div key={step.number} className="relative text-center">
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-px border-t-2 border-dashed border-[var(--mist)]" />
+                <div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-px border-t-2 border-dashed border-[var(--grey-200)]" />
               )}
-              <div className="relative mx-auto w-20 h-20 rounded-full bg-[var(--peach-light)] flex items-center justify-center text-[var(--coral)] mb-6">
+              <div className="relative mx-auto w-20 h-20 rounded-full bg-[var(--peach-light)] flex items-center justify-center text-[var(--primary-main)] mb-6">
                 {step.icon}
-                <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[var(--charcoal)] text-white text-sm font-bold flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[var(--grey-900)] text-white text-sm font-bold flex items-center justify-center">
                   {step.number}
                 </span>
               </div>
-              <h3 className="text-heading-3 font-semibold text-[var(--charcoal)] mb-3">
+              <h3 className="text-heading-3 font-semibold text-[var(--grey-900)] mb-3">
                 {step.title}
               </h3>
               <p className="text-body text-[var(--graphite)] max-w-sm mx-auto">

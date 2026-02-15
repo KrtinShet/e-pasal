@@ -1,10 +1,9 @@
 'use client';
 
-import { motion, AnimatePresence } from 'motion/react';
-import { AlignLeft, AlignCenter, AlignRight, Palette } from 'lucide-react';
 import { useRef } from 'react';
-
+import { motion, AnimatePresence } from 'motion/react';
 import type { ElementStyleOverride } from '@baazarify/storefront-builder';
+import { Palette, AlignLeft, AlignRight, AlignCenter } from 'lucide-react';
 
 interface ElementToolbarProps {
   visible: boolean;
@@ -72,9 +71,7 @@ export function ElementToolbar({ visible, position, styles, onStyleChange }: Ele
           <button
             onClick={toggleBold}
             className={`rounded px-2 py-1 text-xs font-bold transition-colors ${
-              isBoldActive
-                ? 'bg-primary-500 text-white'
-                : 'text-grey-700 hover:bg-grey-100'
+              isBoldActive ? 'bg-primary-500 text-white' : 'text-grey-700 hover:bg-grey-100'
             }`}
           >
             B

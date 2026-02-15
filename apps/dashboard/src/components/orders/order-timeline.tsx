@@ -24,7 +24,7 @@ function formatStatus(status: string): string {
 
 export function OrderTimeline({ history }: { history: StatusHistoryEntry[] }) {
   if (!history || history.length === 0) {
-    return <p className="text-sm text-[var(--slate)] py-4">No status history available</p>;
+    return <p className="text-sm text-[var(--grey-600)] py-4">No status history available</p>;
   }
 
   const sorted = [...history].reverse();
@@ -37,19 +37,23 @@ export function OrderTimeline({ history }: { history: StatusHistoryEntry[] }) {
             <div
               className={`w-3 h-3 rounded-full border-2 ${
                 index === 0
-                  ? 'bg-[var(--coral)] border-[var(--coral)]'
-                  : 'bg-[var(--ivory)] border-[var(--mist)]'
+                  ? 'bg-[var(--primary-main)] border-[var(--primary-main)]'
+                  : 'bg-[white] border-[var(--grey-200)]'
               }`}
             />
-            {index < sorted.length - 1 && <div className="w-px flex-1 bg-[var(--mist)]/30 mt-1" />}
+            {index < sorted.length - 1 && (
+              <div className="w-px flex-1 bg-[var(--grey-200)]/30 mt-1" />
+            )}
           </div>
           <div className="flex-1 -mt-0.5">
-            <p className="text-sm font-medium text-[var(--charcoal)]">
+            <p className="text-sm font-medium text-[var(--grey-900)]">
               {formatStatus(entry.status)}
             </p>
-            <p className="text-xs text-[var(--stone)] mt-0.5">{formatDateTime(entry.timestamp)}</p>
+            <p className="text-xs text-[var(--grey-500)] mt-0.5">
+              {formatDateTime(entry.timestamp)}
+            </p>
             {entry.note && (
-              <p className="text-xs text-[var(--slate)] mt-1 bg-[var(--cream)] rounded px-2 py-1">
+              <p className="text-xs text-[var(--grey-600)] mt-1 bg-[var(--grey-50)] rounded px-2 py-1">
                 {entry.note}
               </p>
             )}

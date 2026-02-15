@@ -152,11 +152,11 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-20 lg:py-28 bg-[var(--cream-dark)]">
+    <section id="features" className="py-20 lg:py-28 bg-[var(--grey-100)]">
       <div className="container-main">
         <div className="text-center mb-16">
-          <span className="text-overline text-[var(--coral)] font-semibold">Features</span>
-          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--charcoal)]">
+          <span className="text-overline text-[var(--primary-main)] font-semibold">Features</span>
+          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--grey-900)]">
             Everything You Need to Sell Online
           </h2>
           <p className="mt-4 text-body-lg text-[var(--graphite)] max-w-2xl mx-auto">
@@ -168,10 +168,10 @@ export function FeaturesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature) => (
             <div key={feature.title} className="card p-8 group">
-              <div className="w-12 h-12 rounded-2xl bg-[var(--peach-light)] text-[var(--coral)] flex items-center justify-center mb-5 group-hover:bg-[var(--peach)] transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-[var(--peach-light)] text-[var(--primary-main)] flex items-center justify-center mb-5 group-hover:bg-[var(--peach)] transition-colors">
                 {feature.icon}
               </div>
-              <h3 className="text-heading-3 font-semibold text-[var(--charcoal)] mb-2">
+              <h3 className="text-heading-3 font-semibold text-[var(--grey-900)] mb-2">
                 {feature.title}
               </h3>
               <p className="text-body text-[var(--graphite)]">{feature.description}</p>

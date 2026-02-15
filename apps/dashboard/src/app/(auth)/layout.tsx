@@ -26,7 +26,7 @@ export default function AuthGroupLayout({ children }: { children: ReactNode }) {
 
   return (
     <AuthLayout
-      logo={<span className="text-2xl font-bold text-[var(--color-text-primary)]">Baazarify</span>}
+      logo={<span className="text-2xl font-bold text-[var(--grey-900)]">Baazarify</span>}
       illustration={
         <div className="text-white text-center space-y-6">
           <h2 className="text-3xl font-bold leading-tight">Hi, Welcome back</h2>

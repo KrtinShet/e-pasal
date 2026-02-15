@@ -13,7 +13,7 @@ export function HeroSection() {
             Now available for Nepali merchants
           </div>
 
-          <h1 className="text-display-1 font-display font-bold text-[var(--charcoal)] opacity-0 animate-fade-in-up delay-100">
+          <h1 className="text-display-1 font-display font-bold text-[var(--grey-900)] opacity-0 animate-fade-in-up delay-100">
             Launch Your <span className="text-gradient">Online Store</span> in Minutes
           </h1>
 
@@ -44,7 +44,7 @@ export function HeroSection() {
             </a>
           </div>
 
-          <div className="mt-12 flex items-center justify-center gap-8 text-sm text-[var(--slate)] opacity-0 animate-fade-in-up delay-400">
+          <div className="mt-12 flex items-center justify-center gap-8 text-sm text-[var(--grey-600)] opacity-0 animate-fade-in-up delay-400">
             <div className="flex items-center gap-2">
               <svg
                 width="16"

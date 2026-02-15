@@ -1,6 +1,17 @@
 'use client';
 
-import { Undo2, Redo2, Monitor, Tablet, Smartphone, Minus, Plus, Sparkles, Save } from 'lucide-react';
+import {
+  Plus,
+  Save,
+  Undo2,
+  Redo2,
+  Minus,
+  Tablet,
+  Monitor,
+  Sparkles,
+  Smartphone,
+} from 'lucide-react';
+
 import type { DeviceMode } from './canvas';
 
 interface ToolbarProps {

@@ -24,11 +24,13 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="py-20 lg:py-28 bg-[var(--cream-dark)]">
+    <section id="testimonials" className="py-20 lg:py-28 bg-[var(--grey-100)]">
       <div className="container-main">
         <div className="text-center mb-16">
-          <span className="text-overline text-[var(--coral)] font-semibold">Testimonials</span>
-          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--charcoal)]">
+          <span className="text-overline text-[var(--primary-main)] font-semibold">
+            Testimonials
+          </span>
+          <h2 className="mt-4 text-heading-1 font-display font-bold text-[var(--grey-900)]">
             Loved by Nepali Merchants
           </h2>
           <p className="mt-4 text-body-lg text-[var(--graphite)] max-w-2xl mx-auto">
@@ -64,10 +66,10 @@ export function TestimonialsSection() {
                   {testimonial.avatar}
                 </div>
                 <div>
-                  <p className="text-body-sm font-semibold text-[var(--charcoal)]">
+                  <p className="text-body-sm font-semibold text-[var(--grey-900)]">
                     {testimonial.name}
                   </p>
-                  <p className="text-caption text-[var(--slate)]">{testimonial.role}</p>
+                  <p className="text-caption text-[var(--grey-600)]">{testimonial.role}</p>
                 </div>
               </div>
             </div>

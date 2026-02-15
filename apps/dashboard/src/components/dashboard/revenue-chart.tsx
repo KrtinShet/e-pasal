@@ -95,7 +95,7 @@ export function RevenueChart() {
       <div className="px-7 py-6">
         {loading ? (
           <div className="flex h-64 items-center justify-center">
-            <div className="h-5 w-5 rounded-full border-2 border-[var(--color-primary)] border-t-transparent animate-spin" />
+            <div className="h-5 w-5 rounded-full border-2 border-[var(--primary-main)] border-t-transparent animate-spin" />
           </div>
         ) : data.length === 0 ? (
           <div className="flex h-64 flex-col items-center justify-center gap-3">

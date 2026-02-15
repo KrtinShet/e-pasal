@@ -218,10 +218,10 @@ export default function CustomerDetailPage() {
   if (!customer) {
     return (
       <div className="text-center py-16">
-        <p className="text-lg text-[var(--color-text-muted)]">Customer not found</p>
+        <p className="text-lg text-[var(--grey-400)]">Customer not found</p>
         <Link
           href="/customers"
-          className="mt-4 inline-block text-sm text-[var(--color-primary)] hover:underline"
+          className="mt-4 inline-block text-sm text-[var(--primary-main)] hover:underline"
         >
           Back to customers
         </Link>
@@ -232,8 +232,8 @@ export default function CustomerDetailPage() {
   const avgOrderValue = customer.totalOrders > 0 ? customer.totalSpent / customer.totalOrders : 0;
 
   return (
-    <div className="space-y-6">
-      <Breadcrumbs separator={<span className="text-[var(--color-text-muted)]">/</span>}>
+    <div className="space-y-6 animate-rise">
+      <Breadcrumbs separator={<span className="text-[var(--grey-400)]">/</span>}>
         <BreadcrumbItem href="/customers">Customers</BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>{customer.name}</BreadcrumbItem>
       </Breadcrumbs>
@@ -243,7 +243,7 @@ export default function CustomerDetailPage() {
           <Card variant="outlined">
             <CardBody>
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center font-bold text-lg">
+                <div className="w-14 h-14 rounded-full bg-[var(--primary-main)]/10 text-[var(--primary-main)] flex items-center justify-center font-bold text-lg">
                   {customer.name
                     .split(' ')
                     .map((n) => n[0])
@@ -252,27 +252,27 @@ export default function CustomerDetailPage() {
                     .toUpperCase()}
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-[var(--color-text)]">{customer.name}</h1>
-                  <p className="text-sm text-[var(--color-text-muted)]">
+                  <h1 className="text-xl font-bold text-[var(--grey-900)]">{customer.name}</h1>
+                  <p className="text-sm text-[var(--grey-400)]">
                     Joined {formatDate(customer.createdAt)}
                   </p>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-[var(--color-text-muted)]">
+                <div className="flex items-center gap-3 text-[var(--grey-400)]">
                   <PhoneIcon />
-                  <span className="text-sm text-[var(--color-text)]">{customer.phone}</span>
+                  <span className="text-sm text-[var(--grey-900)]">{customer.phone}</span>
                 </div>
                 {customer.email && (
-                  <div className="flex items-center gap-3 text-[var(--color-text-muted)]">
+                  <div className="flex items-center gap-3 text-[var(--grey-400)]">
                     <MailIcon />
-                    <span className="text-sm text-[var(--color-text)]">{customer.email}</span>
+                    <span className="text-sm text-[var(--grey-900)]">{customer.email}</span>
                   </div>
                 )}
-                <div className="flex items-center gap-3 text-[var(--color-text-muted)]">
+                <div className="flex items-center gap-3 text-[var(--grey-400)]">
                   <CalendarIcon />
-                  <span className="text-sm text-[var(--color-text)]">
+                  <span className="text-sm text-[var(--grey-900)]">
                     {formatDate(customer.createdAt)}
                   </span>
                 </div>
@@ -288,8 +288,8 @@ export default function CustomerDetailPage() {
               </div>
 
               {customer.tags.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
-                  <p className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-2">
+                <div className="mt-4 pt-4 border-t border-[var(--grey-200)]">
+                  <p className="text-xs font-medium text-[var(--grey-400)] uppercase tracking-wider mb-2">
                     Tags
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -303,8 +303,8 @@ export default function CustomerDetailPage() {
               )}
 
               {customer.addresses.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
-                  <p className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-2">
+                <div className="mt-4 pt-4 border-t border-[var(--grey-200)]">
+                  <p className="text-xs font-medium text-[var(--grey-400)] uppercase tracking-wider mb-2">
                     Addresses
                   </p>
                   <div className="space-y-3">
@@ -312,13 +312,13 @@ export default function CustomerDetailPage() {
                       <div key={i} className="flex items-start gap-2 text-sm">
                         <MapPinIcon />
                         <div>
-                          <span className="font-medium text-[var(--color-text)]">{addr.label}</span>
+                          <span className="font-medium text-[var(--grey-900)]">{addr.label}</span>
                           {addr.isDefault && (
                             <Badge variant="soft" size="sm" color="primary" className="ml-2">
                               Default
                             </Badge>
                           )}
-                          <p className="text-[var(--color-text-muted)]">
+                          <p className="text-[var(--grey-400)]">
                             {addr.address}, {addr.city}
                             {addr.state ? `, ${addr.state}` : ''}
                             {addr.postalCode ? ` ${addr.postalCode}` : ''}
@@ -331,11 +331,11 @@ export default function CustomerDetailPage() {
               )}
 
               {customer.notes && (
-                <div className="mt-4 pt-4 border-t border-[var(--color-border)]">
-                  <p className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-2">
+                <div className="mt-4 pt-4 border-t border-[var(--grey-200)]">
+                  <p className="text-xs font-medium text-[var(--grey-400)] uppercase tracking-wider mb-2">
                     Notes
                   </p>
-                  <p className="text-sm text-[var(--color-text)]">{customer.notes}</p>
+                  <p className="text-sm text-[var(--grey-900)]">{customer.notes}</p>
                 </div>
               )}
             </CardBody>
@@ -346,24 +346,24 @@ export default function CustomerDetailPage() {
           <div className="grid grid-cols-3 gap-4">
             <Card variant="outlined" padding="md">
               <CardBody>
-                <p className="text-sm text-[var(--color-text-muted)]">Total Orders</p>
-                <p className="text-2xl font-bold text-[var(--color-text)] mt-1">
+                <p className="text-sm text-[var(--grey-400)]">Total Orders</p>
+                <p className="text-2xl font-bold text-[var(--grey-900)] mt-1">
                   {customer.totalOrders}
                 </p>
               </CardBody>
             </Card>
             <Card variant="outlined" padding="md">
               <CardBody>
-                <p className="text-sm text-[var(--color-text-muted)]">Total Spent</p>
-                <p className="text-2xl font-bold text-[var(--color-text)] mt-1">
+                <p className="text-sm text-[var(--grey-400)]">Total Spent</p>
+                <p className="text-2xl font-bold text-[var(--grey-900)] mt-1">
                   {formatNPR(customer.totalSpent)}
                 </p>
               </CardBody>
             </Card>
             <Card variant="outlined" padding="md">
               <CardBody>
-                <p className="text-sm text-[var(--color-text-muted)]">Avg Order Value</p>
-                <p className="text-2xl font-bold text-[var(--color-text)] mt-1">
+                <p className="text-sm text-[var(--grey-400)]">Avg Order Value</p>
+                <p className="text-2xl font-bold text-[var(--grey-900)] mt-1">
                   {formatNPR(Math.round(avgOrderValue))}
                 </p>
               </CardBody>
@@ -371,8 +371,8 @@ export default function CustomerDetailPage() {
           </div>
 
           <Card variant="outlined" padding="none">
-            <div className="px-4 py-3 border-b border-[var(--color-border)]">
-              <h3 className="text-lg font-semibold text-[var(--color-text)]">Order History</h3>
+            <div className="px-4 py-3 border-b border-[var(--grey-200)]">
+              <h3 className="text-lg font-semibold text-[var(--grey-900)]">Order History</h3>
             </div>
             <Table>
               <TableHeader>
@@ -396,12 +396,12 @@ export default function CustomerDetailPage() {
                       <TableCell>
                         <Link
                           href={`/orders/${order._id}`}
-                          className="text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors"
+                          className="text-sm font-medium text-[var(--grey-900)] hover:text-[var(--primary-main)] transition-colors"
                         >
                           {order.orderNumber}
                         </Link>
                       </TableCell>
-                      <TableCell className="text-sm text-[var(--color-text-muted)]">
+                      <TableCell className="text-sm text-[var(--grey-400)]">
                         {formatDate(order.createdAt)}
                       </TableCell>
                       <TableCell className="text-sm font-medium">

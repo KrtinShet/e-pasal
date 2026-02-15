@@ -22,12 +22,10 @@ function SidebarBrand() {
 
   return (
     <Link href="/dashboard" className="flex items-center gap-2 px-3 py-2">
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-primary)]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--primary-main)]">
         <span className="text-sm font-bold text-white">B</span>
       </div>
-      {!collapsed && (
-        <span className="text-lg font-bold text-[var(--color-text-primary)]">Baazarify</span>
-      )}
+      {!collapsed && <span className="text-lg font-bold text-[var(--grey-900)]">Baazarify</span>}
     </Link>
   );
 }

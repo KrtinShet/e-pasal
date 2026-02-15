@@ -96,7 +96,7 @@ export default function ShipmentsPage() {
   ];
 
   return (
-    <div>
+    <div className="animate-rise">
       <PageHeader title="Shipments" description="Track all your shipments across providers" />
 
       <CodSummaryWidget />
@@ -108,7 +108,7 @@ export default function ShipmentsPage() {
             setStatusFilter(e.target.value);
             setPage(1);
           }}
-          className="px-3 py-2 rounded-lg border border-[var(--color-border)]/20 bg-[var(--color-background)] text-sm text-[var(--color-text-primary)]"
+          className="px-3 py-2 rounded-lg border border-[var(--grey-200)]/20 bg-white text-sm text-[var(--grey-900)]"
         >
           <option value="">All Statuses</option>
           {statuses.map((s) => (
@@ -124,7 +124,7 @@ export default function ShipmentsPage() {
             setProviderFilter(e.target.value);
             setPage(1);
           }}
-          className="px-3 py-2 rounded-lg border border-[var(--color-border)]/20 bg-[var(--color-background)] text-sm text-[var(--color-text-primary)]"
+          className="px-3 py-2 rounded-lg border border-[var(--grey-200)]/20 bg-white text-sm text-[var(--grey-900)]"
         >
           <option value="">All Providers</option>
           <option value="pathao">Pathao</option>
@@ -136,35 +136,35 @@ export default function ShipmentsPage() {
       {loading ? (
         <div className="space-y-3">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-16 bg-[var(--color-surface)] rounded-lg animate-pulse" />
+            <div key={i} className="h-16 skel rounded-lg" />
           ))}
         </div>
       ) : shipments.length === 0 ? (
-        <div className="text-center py-16 bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20">
-          <Package className="w-12 h-12 mx-auto text-[var(--color-text-muted)] mb-3" />
-          <p className="text-[var(--color-text-secondary)]">No shipments found</p>
+        <div className="text-center py-16 bzr-card">
+          <Package className="w-12 h-12 mx-auto text-[var(--grey-400)] mb-3" />
+          <p className="text-[var(--grey-500)]">No shipments found</p>
         </div>
       ) : (
-        <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 overflow-hidden">
+        <div className="bzr-card overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[var(--color-border)]/10">
-                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)]">
+              <tr className="border-b border-[var(--grey-200)]/10">
+                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--grey-400)]">
                   Order
                 </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)]">
+                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--grey-400)]">
                   Provider
                 </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)]">
+                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--grey-400)]">
                   Recipient
                 </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--color-text-muted)]">
+                <th className="text-left px-4 py-3 text-xs font-medium text-[var(--grey-400)]">
                   Status
                 </th>
-                <th className="text-right px-4 py-3 text-xs font-medium text-[var(--color-text-muted)]">
+                <th className="text-right px-4 py-3 text-xs font-medium text-[var(--grey-400)]">
                   COD
                 </th>
-                <th className="text-right px-4 py-3 text-xs font-medium text-[var(--color-text-muted)]">
+                <th className="text-right px-4 py-3 text-xs font-medium text-[var(--grey-400)]">
                   Date
                 </th>
                 <th className="px-4 py-3" />
@@ -178,24 +178,22 @@ export default function ShipmentsPage() {
                 return (
                   <tr
                     key={s._id}
-                    className="border-b border-[var(--color-border)]/10 last:border-0 hover:bg-[var(--color-surface)]/30"
+                    className="border-b border-[var(--grey-200)]/10 last:border-0 hover:bg-[var(--grey-100)]/30"
                   >
                     <td className="px-4 py-3">
                       <Link
                         href={`/orders/${orderLink}`}
-                        className="text-sm font-medium text-[var(--color-primary)] hover:underline"
+                        className="text-sm font-medium text-[var(--primary-main)] hover:underline"
                       >
                         {orderNum}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-sm text-[var(--color-text-primary)] capitalize">
+                    <td className="px-4 py-3 text-sm text-[var(--grey-900)] capitalize">
                       {s.provider}
                     </td>
                     <td className="px-4 py-3">
-                      <p className="text-sm text-[var(--color-text-primary)]">
-                        {s.delivery.recipientName}
-                      </p>
-                      <p className="text-xs text-[var(--color-text-muted)]">{s.delivery.city}</p>
+                      <p className="text-sm text-[var(--grey-900)]">{s.delivery.recipientName}</p>
+                      <p className="text-xs text-[var(--grey-400)]">{s.delivery.city}</p>
                     </td>
                     <td className="px-4 py-3">
                       <span
@@ -207,20 +205,16 @@ export default function ShipmentsPage() {
                     <td className="px-4 py-3 text-right text-sm">
                       {s.cod.amount > 0 ? (
                         <span
-                          className={
-                            s.cod.collected
-                              ? 'text-green-600'
-                              : 'text-[var(--color-text-secondary)]'
-                          }
+                          className={s.cod.collected ? 'text-green-600' : 'text-[var(--grey-500)]'}
                         >
                           NPR {s.cod.amount.toLocaleString()}
                           {s.cod.collected && ' ✓'}
                         </span>
                       ) : (
-                        <span className="text-[var(--color-text-muted)]">-</span>
+                        <span className="text-[var(--grey-400)]">-</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-right text-sm text-[var(--color-text-secondary)]">
+                    <td className="px-4 py-3 text-right text-sm text-[var(--grey-500)]">
                       {formatDate(s.createdAt)}
                     </td>
                     <td className="px-4 py-3">
@@ -244,7 +238,7 @@ export default function ShipmentsPage() {
                             href={s.trackingUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[var(--color-text-muted)] hover:text-[var(--color-primary)]"
+                            className="text-[var(--grey-400)] hover:text-[var(--primary-main)]"
                           >
                             <ExternalLink className="w-4 h-4" />
                           </a>
@@ -258,25 +252,23 @@ export default function ShipmentsPage() {
           </table>
 
           {pagination && pagination.pages > 1 && (
-            <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--color-border)]/10">
-              <p className="text-sm text-[var(--color-text-secondary)]">
-                {pagination.total} shipments
-              </p>
+            <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--grey-200)]/10">
+              <p className="text-sm text-[var(--grey-500)]">{pagination.total} shipments</p>
               <div className="flex gap-1">
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page === 1}
-                  className="px-3 py-1 text-sm rounded border border-[var(--color-border)]/20 disabled:opacity-50"
+                  className="px-3 py-1 text-sm rounded border border-[var(--grey-200)]/20 disabled:opacity-50"
                 >
                   Prev
                 </button>
-                <span className="px-3 py-1 text-sm text-[var(--color-text-secondary)]">
+                <span className="px-3 py-1 text-sm text-[var(--grey-500)]">
                   {page} / {pagination.pages}
                 </span>
                 <button
                   onClick={() => setPage(Math.min(pagination.pages, page + 1))}
                   disabled={page === pagination.pages}
-                  className="px-3 py-1 text-sm rounded border border-[var(--color-border)]/20 disabled:opacity-50"
+                  className="px-3 py-1 text-sm rounded border border-[var(--grey-200)]/20 disabled:opacity-50"
                 >
                   Next
                 </button>

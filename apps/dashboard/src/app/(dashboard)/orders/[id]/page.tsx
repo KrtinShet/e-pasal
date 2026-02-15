@@ -173,8 +173,8 @@ export default function OrderDetailPage() {
   if (loading) {
     return (
       <div>
-        <div className="h-8 w-48 bg-[var(--color-surface)] rounded-lg animate-pulse" />
-        <div className="h-96 w-full bg-[var(--color-surface)] rounded-lg animate-pulse mt-6" />
+        <div className="h-8 w-48 skel rounded-lg" />
+        <div className="h-96 w-full skel rounded-lg mt-6" />
       </div>
     );
   }
@@ -186,7 +186,7 @@ export default function OrderDetailPage() {
           <p className="text-red-600">{error || 'Order not found'}</p>
           <Link
             href="/orders"
-            className="mt-4 inline-block px-4 py-2 text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary)]"
+            className="mt-4 inline-block px-4 py-2 text-sm font-medium text-[var(--primary-main)] hover:text-[var(--primary-main)]"
           >
             Back to Orders
           </Link>
@@ -196,7 +196,7 @@ export default function OrderDetailPage() {
   }
 
   return (
-    <div>
+    <div className="animate-rise">
       <Breadcrumbs className="mb-6">
         <BreadcrumbItem href="/orders">Orders</BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>{order.orderNumber}</BreadcrumbItem>
@@ -207,26 +207,24 @@ export default function OrderDetailPage() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
-                  {order.orderNumber}
-                </h1>
+                <h1 className="text-2xl font-bold text-[var(--grey-900)]">{order.orderNumber}</h1>
                 <OrderStatusBadge status={order.status} />
                 <PaymentStatusBadge status={order.paymentStatus} />
               </div>
-              <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+              <p className="text-sm text-[var(--grey-500)] mt-1">
                 Placed on {formatDate(order.createdAt)} via {order.source}
               </p>
             </div>
             <Link
               href={`/orders/${orderId}/invoice`}
-              className="px-4 py-2 text-sm font-medium text-[var(--color-text-primary)] bg-[var(--color-background)] border border-[var(--color-border)]/30 rounded-lg hover:bg-[var(--color-surface)] transition-colors"
+              className="px-4 py-2 text-sm font-medium text-[var(--grey-900)] bg-white border border-[var(--grey-200)]/30 rounded-lg hover:bg-[var(--grey-100)] transition-colors"
             >
               View Invoice
             </Link>
           </div>
 
           <Tabs defaultValue="details">
-            <TabList className="border-b border-[var(--color-border)]/20 gap-0">
+            <TabList className="border-b border-[var(--grey-200)]/20 gap-0">
               <Tab value="details">Details</Tab>
               <Tab value="timeline">Timeline</Tab>
               <Tab value="fulfillment">Fulfillment</Tab>
@@ -235,25 +233,25 @@ export default function OrderDetailPage() {
             <TabPanels className="mt-6">
               <TabPanel value="details">
                 <div className="space-y-6">
-                  <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 overflow-hidden">
-                    <div className="px-4 py-3 border-b border-[var(--color-border)]/10">
-                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
+                  <div className="bzr-card overflow-hidden">
+                    <div className="px-4 py-3 border-b border-[var(--grey-200)]/10">
+                      <h3 className="text-sm font-semibold text-[var(--grey-900)]">
                         Items ({order.items.length})
                       </h3>
                     </div>
                     <table className="w-full">
                       <thead>
-                        <tr className="border-b border-[var(--color-border)]/10">
-                          <th className="text-left px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
+                        <tr className="border-b border-[var(--grey-200)]/10">
+                          <th className="text-left px-4 py-2 text-xs font-medium text-[var(--grey-400)]">
                             Product
                           </th>
-                          <th className="text-center px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
+                          <th className="text-center px-4 py-2 text-xs font-medium text-[var(--grey-400)]">
                             Qty
                           </th>
-                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
+                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--grey-400)]">
                             Price
                           </th>
-                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--color-text-muted)]">
+                          <th className="text-right px-4 py-2 text-xs font-medium text-[var(--grey-400)]">
                             Total
                           </th>
                         </tr>
@@ -262,12 +260,12 @@ export default function OrderDetailPage() {
                         {order.items.map((item, i) => (
                           <tr
                             key={i}
-                            className="border-b border-[var(--color-border)]/10 last:border-0"
+                            className="border-b border-[var(--grey-200)]/10 last:border-0"
                           >
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-3">
                                 {item.image && (
-                                  <div className="w-10 h-10 rounded-lg bg-[var(--color-surface)] overflow-hidden flex-shrink-0">
+                                  <div className="w-10 h-10 rounded-lg bg-[var(--grey-100)] overflow-hidden flex-shrink-0">
                                     <img
                                       src={item.image}
                                       alt={item.name}
@@ -276,133 +274,117 @@ export default function OrderDetailPage() {
                                   </div>
                                 )}
                                 <div>
-                                  <p className="text-sm font-medium text-[var(--color-text-primary)]">
+                                  <p className="text-sm font-medium text-[var(--grey-900)]">
                                     {item.name}
                                   </p>
                                   {item.sku && (
-                                    <p className="text-xs text-[var(--color-text-muted)]">
+                                    <p className="text-xs text-[var(--grey-400)]">
                                       SKU: {item.sku}
                                     </p>
                                   )}
                                 </div>
                               </div>
                             </td>
-                            <td className="px-4 py-3 text-center text-sm text-[var(--color-text-primary)]">
+                            <td className="px-4 py-3 text-center text-sm text-[var(--grey-900)]">
                               {item.quantity}
                             </td>
-                            <td className="px-4 py-3 text-right text-sm text-[var(--color-text-secondary)]">
+                            <td className="px-4 py-3 text-right text-sm text-[var(--grey-500)]">
                               {formatPrice(item.price)}
                             </td>
-                            <td className="px-4 py-3 text-right text-sm font-medium text-[var(--color-text-primary)]">
+                            <td className="px-4 py-3 text-right text-sm font-medium text-[var(--grey-900)]">
                               {formatPrice(item.total)}
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-                    <div className="px-4 py-3 bg-[var(--color-surface)]/50 space-y-1.5">
+                    <div className="px-4 py-3 bg-[var(--grey-100)]/50 space-y-1.5">
                       <div className="flex justify-between text-sm">
-                        <span className="text-[var(--color-text-secondary)]">Subtotal</span>
-                        <span className="text-[var(--color-text-primary)]">
+                        <span className="text-[var(--grey-500)]">Subtotal</span>
+                        <span className="text-[var(--grey-900)]">
                           {formatPrice(order.subtotal)}
                         </span>
                       </div>
                       {order.discount > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-[var(--color-text-secondary)]">Discount</span>
+                          <span className="text-[var(--grey-500)]">Discount</span>
                           <span className="text-green-600">-{formatPrice(order.discount)}</span>
                         </div>
                       )}
                       {order.shippingCost > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-[var(--color-text-secondary)]">Shipping</span>
-                          <span className="text-[var(--color-text-primary)]">
+                          <span className="text-[var(--grey-500)]">Shipping</span>
+                          <span className="text-[var(--grey-900)]">
                             {formatPrice(order.shippingCost)}
                           </span>
                         </div>
                       )}
                       {order.tax > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-[var(--color-text-secondary)]">Tax</span>
-                          <span className="text-[var(--color-text-primary)]">
-                            {formatPrice(order.tax)}
-                          </span>
+                          <span className="text-[var(--grey-500)]">Tax</span>
+                          <span className="text-[var(--grey-900)]">{formatPrice(order.tax)}</span>
                         </div>
                       )}
-                      <div className="flex justify-between text-sm font-semibold pt-1.5 border-t border-[var(--color-border)]/20">
-                        <span className="text-[var(--color-text-primary)]">Total</span>
-                        <span className="text-[var(--color-text-primary)]">
-                          {formatPrice(order.total)}
-                        </span>
+                      <div className="flex justify-between text-sm font-semibold pt-1.5 border-t border-[var(--grey-200)]/20">
+                        <span className="text-[var(--grey-900)]">Total</span>
+                        <span className="text-[var(--grey-900)]">{formatPrice(order.total)}</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4">
-                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-3">
+                    <div className="bzr-card p-4">
+                      <h3 className="text-sm font-semibold text-[var(--grey-900)] mb-3">
                         Shipping Address
                       </h3>
                       <div className="space-y-1 text-sm">
-                        <p className="font-medium text-[var(--color-text-primary)]">
-                          {order.shipping.name}
-                        </p>
-                        <p className="text-[var(--color-text-secondary)]">
-                          {order.shipping.address}
-                        </p>
-                        <p className="text-[var(--color-text-secondary)]">
+                        <p className="font-medium text-[var(--grey-900)]">{order.shipping.name}</p>
+                        <p className="text-[var(--grey-500)]">{order.shipping.address}</p>
+                        <p className="text-[var(--grey-500)]">
                           {order.shipping.city}
                           {order.shipping.state && `, ${order.shipping.state}`}
                           {order.shipping.postalCode && ` ${order.shipping.postalCode}`}
                         </p>
-                        <p className="text-[var(--color-text-secondary)]">
-                          {order.shipping.country}
-                        </p>
-                        <p className="text-[var(--color-text-secondary)] pt-1">
-                          {order.shipping.phone}
-                        </p>
+                        <p className="text-[var(--grey-500)]">{order.shipping.country}</p>
+                        <p className="text-[var(--grey-500)] pt-1">{order.shipping.phone}</p>
                         {order.shipping.email && (
-                          <p className="text-[var(--color-text-secondary)]">
-                            {order.shipping.email}
-                          </p>
+                          <p className="text-[var(--grey-500)]">{order.shipping.email}</p>
                         )}
                         {order.shipping.notes && (
-                          <p className="text-[var(--color-text-muted)] italic pt-1">
+                          <p className="text-[var(--grey-400)] italic pt-1">
                             Note: {order.shipping.notes}
                           </p>
                         )}
                       </div>
                     </div>
 
-                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4">
-                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-3">
+                    <div className="bzr-card p-4">
+                      <h3 className="text-sm font-semibold text-[var(--grey-900)] mb-3">
                         Payment Details
                       </h3>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
-                          <span className="text-[var(--color-text-secondary)]">Method</span>
-                          <span className="text-[var(--color-text-primary)]">
+                          <span className="text-[var(--grey-500)]">Method</span>
+                          <span className="text-[var(--grey-900)]">
                             {formatPaymentMethod(order.paymentMethod)}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-[var(--color-text-secondary)]">Status</span>
+                          <span className="text-[var(--grey-500)]">Status</span>
                           <PaymentStatusBadge status={order.paymentStatus} />
                         </div>
                         {order.paymentDetails?.transactionId && (
                           <div className="flex justify-between">
-                            <span className="text-[var(--color-text-secondary)]">
-                              Transaction ID
-                            </span>
-                            <span className="text-[var(--color-text-primary)] font-mono text-xs">
+                            <span className="text-[var(--grey-500)]">Transaction ID</span>
+                            <span className="text-[var(--grey-900)] font-mono text-xs">
                               {order.paymentDetails.transactionId}
                             </span>
                           </div>
                         )}
                         {order.paymentDetails?.paidAt && (
                           <div className="flex justify-between">
-                            <span className="text-[var(--color-text-secondary)]">Paid At</span>
-                            <span className="text-[var(--color-text-primary)]">
+                            <span className="text-[var(--grey-500)]">Paid At</span>
+                            <span className="text-[var(--grey-900)]">
                               {formatDate(order.paymentDetails.paidAt)}
                             </span>
                           </div>
@@ -412,11 +394,9 @@ export default function OrderDetailPage() {
                   </div>
 
                   {order.notes && (
-                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4">
-                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-2">
-                        Notes
-                      </h3>
-                      <p className="text-sm text-[var(--color-text-secondary)]">{order.notes}</p>
+                    <div className="bzr-card p-4">
+                      <h3 className="text-sm font-semibold text-[var(--grey-900)] mb-2">Notes</h3>
+                      <p className="text-sm text-[var(--grey-500)]">{order.notes}</p>
                     </div>
                   )}
 
@@ -432,8 +412,8 @@ export default function OrderDetailPage() {
               </TabPanel>
 
               <TabPanel value="timeline">
-                <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6">
-                  <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
+                <div className="bzr-card p-6">
+                  <h3 className="text-sm font-semibold text-[var(--grey-900)] mb-4">
                     Status History
                   </h3>
                   <OrderTimeline history={order.statusHistory} />
@@ -445,8 +425,8 @@ export default function OrderDetailPage() {
                   <ShipmentTracking orderId={orderId} />
 
                   {['confirmed', 'processing', 'ready_for_pickup'].includes(order.status) && (
-                    <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6">
-                      <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
+                    <div className="bzr-card p-6">
+                      <h3 className="text-sm font-semibold text-[var(--grey-900)] mb-4">
                         Ship Order
                       </h3>
                       <ShipOrderDialog
@@ -459,8 +439,8 @@ export default function OrderDetailPage() {
                     </div>
                   )}
 
-                  <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-6">
-                    <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">
+                  <div className="bzr-card p-6">
+                    <h3 className="text-sm font-semibold text-[var(--grey-900)] mb-4">
                       Manual Fulfillment
                     </h3>
                     <div className="space-y-4">
@@ -498,12 +478,12 @@ export default function OrderDetailPage() {
                         {fulfillmentSaving ? 'Saving...' : 'Update Fulfillment'}
                       </Button>
                       {order.fulfillment?.shippedAt && (
-                        <p className="text-xs text-[var(--color-text-muted)]">
+                        <p className="text-xs text-[var(--grey-400)]">
                           Shipped on {formatDate(order.fulfillment.shippedAt)}
                         </p>
                       )}
                       {order.fulfillment?.deliveredAt && (
-                        <p className="text-xs text-[var(--color-text-muted)]">
+                        <p className="text-xs text-[var(--grey-400)]">
                           Delivered on {formatDate(order.fulfillment.deliveredAt)}
                         </p>
                       )}
@@ -516,8 +496,8 @@ export default function OrderDetailPage() {
         </div>
 
         <div className="lg:w-72 flex-shrink-0">
-          <div className="bg-[var(--color-background)] rounded-xl border border-[var(--color-border)]/20 p-4 sticky top-6">
-            <h3 className="text-sm font-semibold text-[var(--color-text-primary)] mb-4">Actions</h3>
+          <div className="bzr-card p-4 sticky top-6">
+            <h3 className="text-sm font-semibold text-[var(--grey-900)] mb-4">Actions</h3>
             <OrderActions
               orderId={orderId}
               currentStatus={order.status}

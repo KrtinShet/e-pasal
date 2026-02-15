@@ -1,21 +1,28 @@
 'use client';
 
 import { useMemo, useState, useEffect, useCallback } from 'react';
-import { X, Home, Plus, Layers, FileText, Sparkles } from 'lucide-react';
+import { X, Home, Plus, Layers, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   getSection,
   PageRenderer,
   type PageConfig,
   type SectionConfig,
   type LandingPagesConfig,
+  type ElementStyleOverride,
 } from '@baazarify/storefront-builder';
 
 import { apiRequest } from '@/lib/api';
 
 import { AIChat } from './ai-chat';
-import { DraggableSectionList } from './draggable-section-list';
-import { AddSectionModal } from './add-section-modal';
+import { Canvas } from './canvas';
+import { Toolbar } from './toolbar';
+import { useHistory } from './use-history';
+import type { DeviceMode } from './canvas';
 import { AIGenerateModal } from './ai-generate-modal';
+import { AddSectionPanel } from './add-section-panel';
+import { PropertiesPanel } from './properties-panel';
+import { DraggableSectionList } from './draggable-section-list';
 
 interface PageEditorProps {
   initialConfig?: LandingPagesConfig;
@@ -101,7 +108,7 @@ function toDraftConfig(pages: PageConfig[], homePageId?: string): LandingPagesCo
 
 export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEditorProps) {
   const initialPages = initialConfig?.pages?.length ? initialConfig.pages : [defaultPage];
-  const [pages, setPages] = useState<PageConfig[]>(initialPages);
+  const history = useHistory<PageConfig[]>(initialPages);
   const [homePageId, setHomePageId] = useState<string | undefined>(
     initialConfig?.homePageId ||
       initialPages.find((page) => page.slug === '/')?.id ||
@@ -112,7 +119,8 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
   );
   const [activePageIndex, setActivePageIndex] = useState(0);
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedElementPath, setSelectedElementPath] = useState<string | null>(null);
+  const [showAddPanel, setShowAddPanel] = useState(false);
   const [showAIModal, setShowAIModal] = useState(false);
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
@@ -122,7 +130,10 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
   const [newPageSlug, setNewPageSlug] = useState('');
   const [deletingPageIndex, setDeletingPageIndex] = useState<number | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const [device, setDevice] = useState<DeviceMode>('desktop');
+  const [zoom, setZoom] = useState(100);
 
+  const pages = history.current;
   const config = pages[activePageIndex] || pages[0];
   const [pageTitleInput, setPageTitleInput] = useState(config?.title || '');
   const [pageSlugInput, setPageSlugInput] = useState(config?.slug || '/');
@@ -149,6 +160,21 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
     setPageTitleInput(config.title);
     setPageSlugInput(config.slug);
   }, [config?.id, config?.slug, config?.title]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
+        e.preventDefault();
+        if (e.shiftKey) {
+          history.redo();
+        } else {
+          history.undo();
+        }
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [history]);
 
   const showMessageToast = useCallback((type: 'success' | 'error', text: string) => {
     setMessage({ type, text });
@@ -198,11 +224,9 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
 
   const updateActivePage = useCallback(
     (updater: (page: PageConfig) => PageConfig) => {
-      setPages((prev) =>
-        prev.map((page, index) => (index === activePageIndex ? updater(page) : page))
-      );
+      history.set(pages.map((page, index) => (index === activePageIndex ? updater(page) : page)));
     },
-    [activePageIndex]
+    [activePageIndex, pages, history]
   );
 
   const updateSections = useCallback(
@@ -233,41 +257,24 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
   const handleDeleteSection = useCallback(
     (id: string) => {
       updateSections((sections) => sections.filter((section) => section.id !== id));
-      if (selectedSectionId === id) setSelectedSectionId(null);
+      if (selectedSectionId === id) {
+        setSelectedSectionId(null);
+        setSelectedElementPath(null);
+      }
     },
     [selectedSectionId, updateSections]
-  );
-
-  const handleMoveSection = useCallback(
-    (id: string, direction: 'up' | 'down') => {
-      updateSections((sections) => {
-        const index = sections.findIndex((section) => section.id === id);
-        if (index === -1) return sections;
-
-        const nextIndex = direction === 'up' ? index - 1 : index + 1;
-        if (nextIndex < 0 || nextIndex >= sections.length) return sections;
-
-        const updated = [...sections];
-        [updated[index], updated[nextIndex]] = [updated[nextIndex], updated[index]];
-        return updated;
-      });
-    },
-    [updateSections]
   );
 
   const handleReorderSections = useCallback(
     (activeId: string, overId: string) => {
       updateSections((sections) => {
-        const activeIndex = sections.findIndex((s) => s.id === activeId);
-        const overIndex = sections.findIndex((s) => s.id === overId);
-
-        if (activeIndex === -1 || overIndex === -1) return sections;
-
-        // Use array move from dnd-kit to maintain proper ordering
-        const newSections = [...sections];
-        const [movedSection] = newSections.splice(activeIndex, 1);
-        newSections.splice(overIndex, 0, movedSection);
-        return newSections;
+        const oldIndex = sections.findIndex((s) => s.id === activeId);
+        const newIndex = sections.findIndex((s) => s.id === overId);
+        if (oldIndex === -1 || newIndex === -1) return sections;
+        const updated = [...sections];
+        const [moved] = updated.splice(oldIndex, 1);
+        updated.splice(newIndex, 0, moved);
+        return updated;
       });
     },
     [updateSections]
@@ -288,6 +295,24 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
     (id: string, props: Record<string, unknown>) => {
       updateSections((sections) =>
         sections.map((section) => (section.id === id ? { ...section, props } : section))
+      );
+    },
+    [updateSections]
+  );
+
+  const handleElementStyleChange = useCallback(
+    (sectionId: string, elementPath: string, styles: Partial<ElementStyleOverride>) => {
+      updateSections((sections) =>
+        sections.map((s) => {
+          if (s.id !== sectionId) return s;
+          return {
+            ...s,
+            elementStyles: {
+              ...s.elementStyles,
+              [elementPath]: { ...s.elementStyles?.[elementPath], ...styles },
+            },
+          };
+        })
       );
     },
     [updateSections]
@@ -341,16 +366,17 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
       seo: {},
     };
 
-    setPages((prev) => [...prev, newPage]);
+    history.set([...pages, newPage]);
     if (slug === '/') {
       setHomePageId(pageId);
     }
     setActivePageIndex(pages.length);
     setSelectedSectionId(null);
+    setSelectedElementPath(null);
     setNewPageTitle('');
     setNewPageSlug('');
     setShowNewPageForm(false);
-  }, [newPageSlug, newPageTitle, pages, showMessageToast]);
+  }, [newPageSlug, newPageTitle, pages, showMessageToast, history]);
 
   const handleDeletePage = useCallback(
     async (index: number) => {
@@ -373,10 +399,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
           });
         }
 
-        setPages((prev) => {
-          const next = prev.filter((_, i) => i !== index);
-          return next;
-        });
+        history.set(pages.filter((_, i) => i !== index));
 
         if (homePageId === target.id) {
           const nextHomePage = pages.filter((_, i) => i !== index)[0]?.id;
@@ -388,6 +411,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
         }
 
         setSelectedSectionId(null);
+        setSelectedElementPath(null);
         setDeletingPageIndex(null);
         showMessageToast('success', `Deleted "${target.title}"`);
       } catch {
@@ -396,12 +420,13 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
         setPublishing(false);
       }
     },
-    [activePageIndex, homePageId, pages, publishedPageIds, showMessageToast]
+    [activePageIndex, homePageId, pages, publishedPageIds, showMessageToast, history]
   );
 
   const handlePageSwitch = useCallback((index: number) => {
     setActivePageIndex(index);
     setSelectedSectionId(null);
+    setSelectedElementPath(null);
   }, []);
 
   const handlePageTitleCommit = useCallback(() => {
@@ -451,6 +476,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
         title: page.title,
       }));
       setSelectedSectionId(null);
+      setSelectedElementPath(null);
     },
     [updateActivePage]
   );
@@ -461,11 +487,40 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
     return `Saved at ${lastSavedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   }, [hasUnsavedChanges, lastSavedAt]);
 
+  const selectedSection = useMemo(
+    () => config?.sections.find((s) => s.id === selectedSectionId) || null,
+    [config?.sections, selectedSectionId]
+  );
+
+  const handlePropertiesPanelClose = useCallback(() => {
+    setSelectedSectionId(null);
+    setSelectedElementPath(null);
+  }, []);
+
+  const handleSectionPropsChangeWrapper = useCallback(
+    (props: Record<string, unknown>) => {
+      if (selectedSectionId) {
+        handleSectionPropsChange(selectedSectionId, props);
+      }
+    },
+    [selectedSectionId, handleSectionPropsChange]
+  );
+
+  const handleElementStyleChangeWrapper = useCallback(
+    (path: string, styles: ElementStyleOverride) => {
+      if (selectedSectionId) {
+        handleElementStyleChange(selectedSectionId, path, styles);
+      }
+    },
+    [selectedSectionId, handleElementStyleChange]
+  );
+
   if (!config) return null;
 
   return (
-    <div className="flex h-[calc(100vh-120px)] flex-col overflow-hidden rounded-[20px] border border-[var(--grey-200)] bg-white shadow-[0_1px_3px_-1px_rgba(26,26,26,0.04),0_4px_12px_-4px_rgba(26,26,26,0.03)]">
-      <div className="flex items-center border-b border-[var(--grey-200)] bg-[var(--grey-50)]">
+    <div className="flex h-screen flex-col overflow-hidden bg-[var(--grey-50)]">
+      {/* Page Tabs */}
+      <div className="flex items-center border-b border-[var(--grey-200)] bg-white shadow-sm">
         <div className="flex flex-1 items-center overflow-x-auto thin-scroll">
           {pages.map((page, index) => {
             const isActive = index === activePageIndex;
@@ -478,7 +533,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
                 className={`group relative flex items-center gap-1.5 border-b-2 px-4 py-3 text-[0.8125rem] transition-all ${
                   isActive
                     ? 'border-[var(--primary-main)] bg-white font-bold text-[var(--primary-main)]'
-                    : 'border-transparent font-medium text-[var(--grey-500)] hover:bg-white/60 hover:text-[var(--grey-700)]'
+                    : 'border-transparent font-medium text-[var(--grey-500)] hover:bg-[var(--grey-50)] hover:text-[var(--grey-700)]'
                 }`}
               >
                 <FileText size={14} className="flex-shrink-0 opacity-60" />
@@ -581,7 +636,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
           <button
             type="button"
             onClick={() => setShowNewPageForm(true)}
-            className="flex items-center gap-1.5 border-l border-dashed border-[var(--grey-200)] px-4 py-3 text-[0.75rem] font-semibold text-[var(--grey-400)] transition-colors hover:bg-white/60 hover:text-[var(--primary-main)]"
+            className="flex items-center gap-1.5 border-l border-dashed border-[var(--grey-200)] px-4 py-3 text-[0.75rem] font-semibold text-[var(--grey-400)] transition-colors hover:bg-[var(--grey-50)] hover:text-[var(--primary-main)]"
           >
             <Plus size={14} />
             New Page
@@ -589,8 +644,29 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
         )}
       </div>
 
+      {/* Toolbar */}
+      <Toolbar
+        device={device}
+        zoom={zoom}
+        canUndo={history.canUndo}
+        canRedo={history.canRedo}
+        saving={saving}
+        publishing={publishing}
+        hasUnsavedChanges={hasUnsavedChanges}
+        savedText={savedText}
+        onDeviceChange={setDevice}
+        onZoomChange={setZoom}
+        onUndo={history.undo}
+        onRedo={history.redo}
+        onSave={() => void handleSaveDraft()}
+        onPublish={() => void handlePublish()}
+        onAIGenerate={() => setShowAIModal(true)}
+      />
+
+      {/* 3-Panel Body */}
       <div className="flex flex-1 overflow-hidden">
-        <div className="flex w-60 flex-shrink-0 flex-col border-r border-[var(--grey-200)] bg-[var(--grey-50)]">
+        {/* Left Panel: Section Layers */}
+        <div className="flex w-60 flex-shrink-0 flex-col border-r border-[var(--grey-200)] bg-white">
           <div className="flex items-center justify-between border-b border-[var(--grey-200)] px-4 py-3.5">
             <div className="flex items-center gap-2">
               <Layers size={14} className="text-[var(--grey-500)]" />
@@ -598,7 +674,7 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
             </div>
             <button
               type="button"
-              onClick={() => setShowAddModal(true)}
+              onClick={() => setShowAddPanel(true)}
               className="rounded-[10px] bg-[var(--primary-main)] px-2.5 py-1 text-[0.6875rem] font-bold text-white transition-all hover:bg-[var(--primary-dark)] active:scale-95"
             >
               + Add
@@ -626,146 +702,82 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col overflow-hidden bg-[var(--grey-50)]">
-          <div className="flex items-center justify-between border-b border-[var(--grey-200)] bg-white px-5 py-3">
-            <div className="min-w-0">
-              <h3 className="text-[0.8125rem] font-bold text-[var(--grey-800)]">Preview</h3>
-              <p className="text-[0.6875rem] text-[var(--grey-500)]">{savedText}</p>
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                <label className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-2.5 py-1.5 text-[0.6875rem] font-semibold text-[var(--grey-500)]">
-                  Title
-                  <input
-                    type="text"
-                    value={pageTitleInput}
-                    onChange={(event) => setPageTitleInput(event.target.value)}
-                    onBlur={handlePageTitleCommit}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter') {
-                        event.preventDefault();
-                        handlePageTitleCommit();
-                      }
-                      if (event.key === 'Escape') {
-                        setPageTitleInput(config.title);
-                      }
-                    }}
-                    className="min-w-32 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--primary-main)] focus:outline-none"
-                  />
-                </label>
-                <label className="inline-flex items-center gap-2 rounded-[10px] border border-[var(--grey-200)] bg-[var(--grey-50)] px-2.5 py-1.5 text-[0.6875rem] font-semibold text-[var(--grey-500)]">
-                  URL
-                  <input
-                    type="text"
-                    value={pageSlugInput}
-                    onChange={(event) => setPageSlugInput(event.target.value)}
-                    onBlur={handlePageSlugCommit}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter') {
-                        event.preventDefault();
-                        handlePageSlugCommit();
-                      }
-                      if (event.key === 'Escape') {
-                        setPageSlugInput(config.slug);
-                      }
-                    }}
-                    className="min-w-36 rounded-md border border-[var(--grey-200)] bg-white px-2 py-1 text-[0.75rem] font-medium text-[var(--grey-800)] focus:border-[var(--primary-main)] focus:outline-none"
-                    placeholder="/about-us"
-                  />
-                </label>
+        {/* Center Panel: Canvas */}
+        <Canvas device={device} zoom={zoom} onZoomChange={setZoom}>
+          {config.sections.length > 0 ? (
+            <PageRenderer
+              config={config}
+              editMode
+              selectedSectionId={selectedSectionId}
+              onSectionSelect={setSelectedSectionId}
+              onSectionPropsChange={handleSectionPropsChange}
+            />
+          ) : (
+            <div className="flex h-96 flex-col items-center justify-center gap-3 bg-white">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--grey-100)]">
+                <FileText size={28} className="text-[var(--grey-300)]" />
               </div>
+              <p className="text-[0.9375rem] font-medium text-[var(--grey-500)]">
+                Your page is empty
+              </p>
+              <p className="text-[0.75rem] text-[var(--grey-400)]">
+                Add sections or use AI to generate a page
+              </p>
             </div>
-            <div className="flex items-center gap-2">
-              {message && (
-                <span
-                  className={`animate-slide-up text-[0.75rem] font-semibold ${
-                    message.type === 'success'
-                      ? 'text-[var(--success-main)]'
-                      : 'text-[var(--error-main)]'
-                  }`}
-                >
-                  {message.text}
-                </span>
-              )}
+          )}
+        </Canvas>
 
-              <button
-                type="button"
-                onClick={() => setShowAIModal(true)}
-                className="inline-flex items-center gap-1.5 rounded-[10px] bg-gradient-to-r from-[var(--primary-main)] to-[var(--warning-main)] px-3.5 py-1.5 text-[0.75rem] font-bold text-white shadow-sm transition-all hover:shadow-md active:scale-[0.97]"
-              >
-                <Sparkles size={12} />
-                AI Generate
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setHomePageId(config.id);
-                  showMessageToast('success', `"${config.title}" set as home page`);
-                }}
-                className="rounded-[10px] border border-[var(--grey-200)] px-3 py-1.5 text-[0.75rem] font-semibold text-[var(--grey-700)] transition-all hover:bg-[var(--grey-50)]"
-              >
-                Set as Home
-              </button>
-              <button
-                type="button"
-                onClick={() => void handleSaveDraft()}
-                disabled={saving || publishing}
-                className="rounded-[10px] border border-[var(--grey-200)] px-3.5 py-1.5 text-[0.75rem] font-semibold text-[var(--grey-700)] transition-all hover:border-[var(--grey-300)] hover:bg-[var(--grey-50)] disabled:opacity-40"
-              >
-                {saving ? 'Saving...' : 'Save Draft'}
-              </button>
-              <button
-                type="button"
-                onClick={() => void handlePublish()}
-                disabled={publishing}
-                className="rounded-[10px] bg-[var(--success-main)] px-3.5 py-1.5 text-[0.75rem] font-bold text-white shadow-sm transition-all hover:bg-[var(--success-dark)] disabled:opacity-40 active:scale-[0.97]"
-              >
-                {publishing ? 'Publishing...' : 'Publish Current'}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto thin-scroll">
-            <div className="min-h-[400px]">
-              {config.sections.length > 0 ? (
-                <PageRenderer
-                  config={config}
-                  editMode
-                  selectedSectionId={selectedSectionId}
-                  onSectionSelect={setSelectedSectionId}
-                  onSectionMove={handleMoveSection}
-                  onSectionDelete={handleDeleteSection}
-                  onSectionPropsChange={handleSectionPropsChange}
-                />
-              ) : (
-                <div className="flex h-96 flex-col items-center justify-center gap-3">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--grey-100)]">
-                    <FileText size={28} className="text-[var(--grey-300)]" />
-                  </div>
-                  <p className="text-[0.9375rem] font-medium text-[var(--grey-500)]">
-                    Your page is empty
-                  </p>
-                  <p className="text-[0.75rem] text-[var(--grey-400)]">
-                    Add sections or use AI to generate a page
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        {/* Right Panel: Properties */}
+        <PropertiesPanel
+          selectedSection={selectedSection}
+          selectedElementPath={selectedElementPath}
+          elementStyles={selectedSection?.elementStyles}
+          onSectionPropsChange={handleSectionPropsChangeWrapper}
+          onElementStyleChange={handleElementStyleChangeWrapper}
+          onClose={handlePropertiesPanelClose}
+        />
       </div>
 
-      <AIChat onGenerated={handleAIGenerated} />
+      {/* AI Chat */}
+      <AIChat
+        onGenerated={handleAIGenerated}
+        selectedSectionId={selectedSectionId}
+        selectedSectionType={selectedSection?.type}
+      />
 
-      <AddSectionModal
-        open={showAddModal}
-        onClose={() => setShowAddModal(false)}
+      {/* Add Section Panel */}
+      <AddSectionPanel
+        open={showAddPanel}
+        onClose={() => setShowAddPanel(false)}
         onAdd={handleAddSection}
       />
 
+      {/* AI Generate Modal */}
       <AIGenerateModal
         open={showAIModal}
         onClose={() => setShowAIModal(false)}
         onGenerated={handleAIGenerated}
       />
+
+      {/* Toast Messages */}
+      <AnimatePresence>
+        {message && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-6 right-6 z-50 rounded-xl bg-white px-4 py-3 shadow-lg"
+          >
+            <span
+              className={`text-sm font-semibold ${
+                message.type === 'success' ? 'text-[var(--success-main)]' : 'text-[var(--error-main)]'
+              }`}
+            >
+              {message.text}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

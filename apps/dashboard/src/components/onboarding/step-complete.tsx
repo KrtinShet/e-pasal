@@ -25,16 +25,14 @@ export function StepComplete({ subdomain }: StepCompleteProps) {
       </div>
 
       <div>
-        <h3 className="text-2xl font-bold text-[var(--color-text-primary)]">
-          Your store is ready!
-        </h3>
-        <p className="mt-2 text-[var(--color-text-secondary)]">
+        <h3 className="text-2xl font-bold text-[var(--grey-900)]">Your store is ready!</h3>
+        <p className="mt-2 text-[var(--grey-500)]">
           Your store is live at{' '}
           <a
             href={storeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--color-primary)] font-medium hover:underline"
+            className="text-[var(--primary-main)] font-medium hover:underline"
           >
             {storeUrl}
           </a>

@@ -64,10 +64,8 @@ export function StepStoreBasics({ data, updateField }: StepStoreBasicsProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-1">
-          Name your store
-        </h3>
-        <p className="text-sm text-[var(--color-text-secondary)]">
+        <h3 className="text-xl font-semibold text-[var(--grey-900)] mb-1">Name your store</h3>
+        <p className="text-sm text-[var(--grey-500)]">
           Choose a name and URL for your online store.
         </p>
       </div>

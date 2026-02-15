@@ -32,15 +32,15 @@ export default function ForgotPasswordPage() {
     return (
       <div className="text-center">
         <div className="flex justify-center mb-6">
-          <div className="w-24 h-24 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center">
-            <KeyRound className="w-12 h-12 text-[var(--color-primary)]" />
+          <div className="w-24 h-24 rounded-full bg-[var(--primary-main)]/10 flex items-center justify-center">
+            <KeyRound className="w-12 h-12 text-[var(--primary-main)]" />
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">
+        <h1 className="text-2xl font-bold text-[var(--grey-900)] mb-2">
           Request sent successfully!
         </h1>
-        <p className="text-sm text-[var(--color-text-secondary)] mb-8">
+        <p className="text-sm text-[var(--grey-500)] mb-8">
           We&apos;ve sent a password reset link to your email.
           <br />
           Please check your inbox and follow the link to reset your password.
@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
 
         <Link
           href="/login"
-          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-text-primary)] hover:text-[var(--color-primary)]"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--grey-900)] hover:text-[var(--primary-main)]"
         >
           <ArrowLeft className="w-4 h-4" />
           Return to sign in
@@ -60,16 +60,14 @@ export default function ForgotPasswordPage() {
   return (
     <>
       <div className="flex justify-center mb-6">
-        <div className="w-24 h-24 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center">
-          <KeyRound className="w-12 h-12 text-[var(--color-primary)]" />
+        <div className="w-24 h-24 rounded-full bg-[var(--primary-main)]/10 flex items-center justify-center">
+          <KeyRound className="w-12 h-12 text-[var(--primary-main)]" />
         </div>
       </div>
 
       <div className="mb-10">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
-          Forgot your password?
-        </h1>
-        <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+        <h1 className="text-2xl font-bold text-[var(--grey-900)]">Forgot your password?</h1>
+        <p className="mt-2 text-sm text-[var(--grey-500)]">
           Please enter the email address associated with your account and we&apos;ll email you a
           link to reset your password.
         </p>
@@ -100,7 +98,7 @@ export default function ForgotPasswordPage() {
       <div className="mt-6 text-center">
         <Link
           href="/login"
-          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-text-primary)] hover:text-[var(--color-primary)]"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--grey-900)] hover:text-[var(--primary-main)]"
         >
           <ArrowLeft className="w-4 h-4" />
           Return to sign in

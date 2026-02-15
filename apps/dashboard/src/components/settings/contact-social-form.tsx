@@ -83,17 +83,17 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
-      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[white] rounded-xl border border-[var(--grey-200)]/20 p-6 space-y-5">
         <div>
-          <h3 className="text-base font-semibold text-[var(--charcoal)]">Contact Information</h3>
-          <p className="text-sm text-[var(--slate)] mt-0.5">How customers can reach you</p>
+          <h3 className="text-base font-semibold text-[var(--grey-900)]">Contact Information</h3>
+          <p className="text-sm text-[var(--grey-600)] mt-0.5">How customers can reach you</p>
         </div>
 
         <div className="space-y-4">
           <div>
             <label
               htmlFor="contact-email"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Email
             </label>
@@ -102,7 +102,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="store@example.com"
             />
           </div>
@@ -110,7 +110,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="contact-phone"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Phone
             </label>
@@ -119,7 +119,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="+977-9800000000"
             />
           </div>
@@ -127,7 +127,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="contact-address"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Address
             </label>
@@ -136,24 +136,26 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               rows={2}
-              className="w-full rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 py-2 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all resize-none"
+              className="w-full rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 py-2 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all resize-none"
               placeholder="Kathmandu, Nepal"
             />
           </div>
         </div>
       </div>
 
-      <div className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-6 space-y-5">
+      <div className="bg-[white] rounded-xl border border-[var(--grey-200)]/20 p-6 space-y-5">
         <div>
-          <h3 className="text-base font-semibold text-[var(--charcoal)]">Social Media</h3>
-          <p className="text-sm text-[var(--slate)] mt-0.5">Connect your social media accounts</p>
+          <h3 className="text-base font-semibold text-[var(--grey-900)]">Social Media</h3>
+          <p className="text-sm text-[var(--grey-600)] mt-0.5">
+            Connect your social media accounts
+          </p>
         </div>
 
         <div className="space-y-4">
           <div>
             <label
               htmlFor="social-facebook"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Facebook
             </label>
@@ -162,7 +164,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="url"
               value={facebook}
               onChange={(e) => setFacebook(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="https://facebook.com/yourstore"
             />
           </div>
@@ -170,7 +172,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="social-instagram"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               Instagram
             </label>
@@ -179,7 +181,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="url"
               value={instagram}
               onChange={(e) => setInstagram(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="https://instagram.com/yourstore"
             />
           </div>
@@ -187,7 +189,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
           <div>
             <label
               htmlFor="social-tiktok"
-              className="block text-sm font-medium text-[var(--charcoal)] mb-1.5"
+              className="block text-sm font-medium text-[var(--grey-900)] mb-1.5"
             >
               TikTok
             </label>
@@ -196,7 +198,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
               type="url"
               value={tiktok}
               onChange={(e) => setTiktok(e.target.value)}
-              className="w-full h-10 rounded-lg border border-[var(--mist)]/30 bg-[var(--ivory)] px-3 text-sm text-[var(--charcoal)] placeholder:text-[var(--stone)] focus:outline-none focus:ring-2 focus:ring-[var(--coral)]/30 focus:border-[var(--coral)] transition-all"
+              className="w-full h-10 rounded-lg border border-[var(--grey-200)]/30 bg-[white] px-3 text-sm text-[var(--grey-900)] placeholder:text-[var(--grey-500)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-main)]/30 focus:border-[var(--primary-main)] transition-all"
               placeholder="https://tiktok.com/@yourstore"
             />
           </div>
@@ -218,7 +220,7 @@ export function ContactSocialForm({ store, onUpdate }: Props) {
         <button
           type="submit"
           disabled={saving}
-          className="px-5 py-2.5 text-sm font-medium text-white bg-[var(--charcoal)] rounded-lg hover:bg-[var(--charcoal-light)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-5 py-2.5 text-sm font-medium text-white bg-[var(--grey-900)] rounded-lg hover:bg-[var(--grey-800)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {saving ? 'Saving...' : 'Save Changes'}
         </button>

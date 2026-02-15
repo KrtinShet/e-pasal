@@ -39,14 +39,12 @@ export default function LoginPage() {
   return (
     <>
       <div className="mb-10">
-        <h1 className="text-[1.75rem] font-bold text-[var(--color-text-primary)]">
-          Sign in to Baazarify
-        </h1>
+        <h1 className="text-[1.75rem] font-bold text-[var(--grey-900)]">Sign in to Baazarify</h1>
         <div className="mt-3 flex items-center gap-1.5">
-          <span className="text-sm text-[var(--color-text-secondary)]">New user?</span>
+          <span className="text-sm text-[var(--grey-500)]">New user?</span>
           <Link
             href="/register"
-            className="text-sm font-semibold text-[var(--color-primary)] hover:underline"
+            className="text-sm font-semibold text-[var(--primary-main)] hover:underline"
           >
             Create an account
           </Link>
@@ -83,7 +81,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-[38px] text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
+            className="absolute right-3 top-[38px] text-[var(--grey-400)] hover:text-[var(--grey-500)] transition-colors"
           >
             {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
           </button>
@@ -92,7 +90,7 @@ export default function LoginPage() {
         <div className="flex justify-end">
           <Link
             href="/forgot-password"
-            className="text-sm text-[var(--color-text-primary)] underline hover:text-[var(--color-primary)]"
+            className="text-sm text-[var(--grey-900)] underline hover:text-[var(--primary-main)]"
           >
             Forgot password?
           </Link>

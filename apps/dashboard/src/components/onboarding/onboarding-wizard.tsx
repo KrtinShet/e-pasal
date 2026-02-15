@@ -66,10 +66,10 @@ export function OnboardingWizard() {
       {step < 3 && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+            <h2 className="text-lg font-semibold text-[var(--grey-900)]">
               Step {step + 1} of 3: {STEPS[step]}
             </h2>
-            <span className="text-sm text-[var(--color-text-muted)]">{Math.round(progress)}%</span>
+            <span className="text-sm text-[var(--grey-400)]">{Math.round(progress)}%</span>
           </div>
           <Progress value={progress} size="sm" />
         </div>

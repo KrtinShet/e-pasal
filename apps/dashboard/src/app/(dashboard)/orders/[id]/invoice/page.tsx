@@ -121,7 +121,7 @@ export default function InvoicePage() {
   if (loading) {
     return (
       <div className="p-6 lg:p-8">
-        <div className="h-96 w-full bg-[var(--cream-dark)] rounded-lg animate-pulse" />
+        <div className="h-96 w-full skel rounded-lg" />
       </div>
     );
   }
@@ -133,7 +133,7 @@ export default function InvoicePage() {
           <p className="text-red-600">Failed to load invoice</p>
           <Link
             href={`/orders/${orderId}`}
-            className="mt-4 inline-block text-sm text-[var(--coral)]"
+            className="mt-4 inline-block text-sm text-[var(--primary-main)]"
           >
             Back to Order
           </Link>
@@ -148,14 +148,14 @@ export default function InvoicePage() {
         <div className="flex items-center gap-3">
           <Link
             href={`/orders/${orderId}`}
-            className="text-sm text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+            className="text-sm text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
           >
             Back to Order
           </Link>
         </div>
         <button
           onClick={() => window.print()}
-          className="px-4 py-2 text-sm font-medium text-white bg-[var(--charcoal)] rounded-lg hover:bg-[var(--charcoal-light)] transition-colors"
+          className="px-4 py-2 text-sm font-medium text-white bg-[var(--grey-900)] rounded-lg hover:bg-[var(--grey-800)] transition-colors"
         >
           Print Invoice
         </button>
@@ -163,55 +163,55 @@ export default function InvoicePage() {
 
       <div
         id="invoice-content"
-        className="bg-[var(--ivory)] rounded-xl border border-[var(--mist)]/20 p-8 max-w-3xl mx-auto"
+        className="bg-white rounded-xl border border-[var(--grey-200)]/20 p-8 max-w-3xl mx-auto"
       >
         <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-[var(--charcoal)]">{store.name}</h1>
+            <h1 className="text-2xl font-bold text-[var(--grey-900)]">{store.name}</h1>
             {store.contact.address && (
-              <p className="text-sm text-[var(--slate)] mt-1">{store.contact.address}</p>
+              <p className="text-sm text-[var(--grey-600)] mt-1">{store.contact.address}</p>
             )}
             {store.contact.email && (
-              <p className="text-sm text-[var(--slate)]">{store.contact.email}</p>
+              <p className="text-sm text-[var(--grey-600)]">{store.contact.email}</p>
             )}
             {store.contact.phone && (
-              <p className="text-sm text-[var(--slate)]">{store.contact.phone}</p>
+              <p className="text-sm text-[var(--grey-600)]">{store.contact.phone}</p>
             )}
           </div>
           <div className="text-right">
-            <h2 className="text-xl font-bold text-[var(--charcoal)]">INVOICE</h2>
-            <p className="text-sm text-[var(--slate)] mt-1">#{order.orderNumber}</p>
-            <p className="text-sm text-[var(--slate)]">{formatDate(order.createdAt)}</p>
+            <h2 className="text-xl font-bold text-[var(--grey-900)]">INVOICE</h2>
+            <p className="text-sm text-[var(--grey-600)] mt-1">#{order.orderNumber}</p>
+            <p className="text-sm text-[var(--grey-600)]">{formatDate(order.createdAt)}</p>
           </div>
         </div>
 
-        <div className="border-t border-[var(--mist)]/20 pt-6 mb-6">
+        <div className="border-t border-[var(--grey-200)]/20 pt-6 mb-6">
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <p className="text-xs font-medium text-[var(--stone)] uppercase tracking-wider mb-2">
+              <p className="text-xs font-medium text-[var(--grey-500)] uppercase tracking-wider mb-2">
                 Bill To
               </p>
-              <p className="text-sm font-medium text-[var(--charcoal)]">{order.shipping.name}</p>
-              <p className="text-sm text-[var(--slate)]">{order.shipping.address}</p>
-              <p className="text-sm text-[var(--slate)]">
+              <p className="text-sm font-medium text-[var(--grey-900)]">{order.shipping.name}</p>
+              <p className="text-sm text-[var(--grey-600)]">{order.shipping.address}</p>
+              <p className="text-sm text-[var(--grey-600)]">
                 {order.shipping.city}
                 {order.shipping.state && `, ${order.shipping.state}`}
                 {order.shipping.postalCode && ` ${order.shipping.postalCode}`}
               </p>
-              <p className="text-sm text-[var(--slate)]">{order.shipping.country}</p>
-              <p className="text-sm text-[var(--slate)] mt-1">{order.shipping.phone}</p>
+              <p className="text-sm text-[var(--grey-600)]">{order.shipping.country}</p>
+              <p className="text-sm text-[var(--grey-600)] mt-1">{order.shipping.phone}</p>
               {order.shipping.email && (
-                <p className="text-sm text-[var(--slate)]">{order.shipping.email}</p>
+                <p className="text-sm text-[var(--grey-600)]">{order.shipping.email}</p>
               )}
             </div>
             <div className="text-right">
-              <p className="text-xs font-medium text-[var(--stone)] uppercase tracking-wider mb-2">
+              <p className="text-xs font-medium text-[var(--grey-500)] uppercase tracking-wider mb-2">
                 Payment
               </p>
-              <p className="text-sm text-[var(--charcoal)]">
+              <p className="text-sm text-[var(--grey-900)]">
                 {formatPaymentMethod(order.paymentMethod)}
               </p>
-              <p className="text-sm text-[var(--slate)] capitalize">
+              <p className="text-sm text-[var(--grey-600)] capitalize">
                 Status: {order.paymentStatus}
               </p>
             </div>
@@ -220,35 +220,35 @@ export default function InvoicePage() {
 
         <table className="w-full mb-6">
           <thead>
-            <tr className="border-b-2 border-[var(--charcoal)]">
-              <th className="text-left py-2 text-xs font-semibold text-[var(--charcoal)] uppercase">
+            <tr className="border-b-2 border-[var(--grey-900)]">
+              <th className="text-left py-2 text-xs font-semibold text-[var(--grey-900)] uppercase">
                 Item
               </th>
-              <th className="text-center py-2 text-xs font-semibold text-[var(--charcoal)] uppercase">
+              <th className="text-center py-2 text-xs font-semibold text-[var(--grey-900)] uppercase">
                 Qty
               </th>
-              <th className="text-right py-2 text-xs font-semibold text-[var(--charcoal)] uppercase">
+              <th className="text-right py-2 text-xs font-semibold text-[var(--grey-900)] uppercase">
                 Price
               </th>
-              <th className="text-right py-2 text-xs font-semibold text-[var(--charcoal)] uppercase">
+              <th className="text-right py-2 text-xs font-semibold text-[var(--grey-900)] uppercase">
                 Total
               </th>
             </tr>
           </thead>
           <tbody>
             {order.items.map((item, i) => (
-              <tr key={i} className="border-b border-[var(--mist)]/20">
-                <td className="py-3 text-sm text-[var(--charcoal)]">
+              <tr key={i} className="border-b border-[var(--grey-200)]/20">
+                <td className="py-3 text-sm text-[var(--grey-900)]">
                   {item.name}
                   {item.sku && (
-                    <span className="text-xs text-[var(--stone)] ml-2">({item.sku})</span>
+                    <span className="text-xs text-[var(--grey-500)] ml-2">({item.sku})</span>
                   )}
                 </td>
-                <td className="py-3 text-sm text-center text-[var(--charcoal)]">{item.quantity}</td>
-                <td className="py-3 text-sm text-right text-[var(--slate)]">
+                <td className="py-3 text-sm text-center text-[var(--grey-900)]">{item.quantity}</td>
+                <td className="py-3 text-sm text-right text-[var(--grey-600)]">
                   {formatPrice(item.price)}
                 </td>
-                <td className="py-3 text-sm text-right font-medium text-[var(--charcoal)]">
+                <td className="py-3 text-sm text-right font-medium text-[var(--grey-900)]">
                   {formatPrice(item.total)}
                 </td>
               </tr>
@@ -259,37 +259,37 @@ export default function InvoicePage() {
         <div className="flex justify-end">
           <div className="w-64 space-y-1.5">
             <div className="flex justify-between text-sm">
-              <span className="text-[var(--slate)]">Subtotal</span>
-              <span className="text-[var(--charcoal)]">{formatPrice(order.subtotal)}</span>
+              <span className="text-[var(--grey-600)]">Subtotal</span>
+              <span className="text-[var(--grey-900)]">{formatPrice(order.subtotal)}</span>
             </div>
             {order.discount > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-[var(--slate)]">Discount</span>
+                <span className="text-[var(--grey-600)]">Discount</span>
                 <span className="text-green-600">-{formatPrice(order.discount)}</span>
               </div>
             )}
             {order.shippingCost > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-[var(--slate)]">Shipping</span>
-                <span className="text-[var(--charcoal)]">{formatPrice(order.shippingCost)}</span>
+                <span className="text-[var(--grey-600)]">Shipping</span>
+                <span className="text-[var(--grey-900)]">{formatPrice(order.shippingCost)}</span>
               </div>
             )}
             {order.tax > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-[var(--slate)]">Tax</span>
-                <span className="text-[var(--charcoal)]">{formatPrice(order.tax)}</span>
+                <span className="text-[var(--grey-600)]">Tax</span>
+                <span className="text-[var(--grey-900)]">{formatPrice(order.tax)}</span>
               </div>
             )}
-            <div className="flex justify-between text-base font-bold pt-2 border-t-2 border-[var(--charcoal)]">
-              <span className="text-[var(--charcoal)]">Total</span>
-              <span className="text-[var(--charcoal)]">{formatPrice(order.total)}</span>
+            <div className="flex justify-between text-base font-bold pt-2 border-t-2 border-[var(--grey-900)]">
+              <span className="text-[var(--grey-900)]">Total</span>
+              <span className="text-[var(--grey-900)]">{formatPrice(order.total)}</span>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-[var(--mist)]/20 text-center">
-          <p className="text-xs text-[var(--stone)]">Thank you for your business!</p>
-          <p className="text-xs text-[var(--stone)] mt-1">
+        <div className="mt-12 pt-6 border-t border-[var(--grey-200)]/20 text-center">
+          <p className="text-xs text-[var(--grey-500)]">Thank you for your business!</p>
+          <p className="text-xs text-[var(--grey-500)] mt-1">
             {store.name} - {store.subdomain}.baazarify.com
           </p>
         </div>

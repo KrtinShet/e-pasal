@@ -17,14 +17,14 @@ export function LandingHeader() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-500 ${
         scrolled
-          ? 'bg-[var(--cream)]/95 backdrop-blur-md shadow-[var(--shadow-sm)]'
+          ? 'bg-[var(--grey-50)]/95 backdrop-blur-md shadow-[var(--shadow-sm)]'
           : 'bg-transparent'
       }`}
     >
       <div className="container-main">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-display font-bold text-[var(--charcoal)]">
+            <span className="text-2xl font-display font-bold text-[var(--grey-900)]">
               Baazarify
             </span>
           </Link>
@@ -32,25 +32,25 @@ export function LandingHeader() {
           <nav className="hidden md:flex items-center gap-8">
             <a
               href="#features"
-              className="text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+              className="text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
             >
               Features
             </a>
             <a
               href="#how-it-works"
-              className="text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+              className="text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
             >
               How It Works
             </a>
             <a
               href="#pricing"
-              className="text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+              className="text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
             >
               Pricing
             </a>
             <a
               href="#testimonials"
-              className="text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] transition-colors"
+              className="text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] transition-colors"
             >
               Testimonials
             </a>
@@ -59,7 +59,7 @@ export function LandingHeader() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/login"
-              className="px-5 py-2.5 text-body-sm font-medium text-[var(--charcoal)] hover:text-[var(--coral)] transition-colors"
+              className="px-5 py-2.5 text-body-sm font-medium text-[var(--grey-900)] hover:text-[var(--primary-main)] transition-colors"
             >
               Log In
             </Link>
@@ -100,32 +100,32 @@ export function LandingHeader() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden pb-6 border-t border-[var(--mist)]/20">
+          <div className="md:hidden pb-6 border-t border-[var(--grey-200)]/20">
             <nav className="flex flex-col gap-1 pt-4">
               <a
                 href="#features"
-                className="px-4 py-2.5 text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
+                className="px-4 py-2.5 text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Features
               </a>
               <a
                 href="#how-it-works"
-                className="px-4 py-2.5 text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
+                className="px-4 py-2.5 text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 How It Works
               </a>
               <a
                 href="#pricing"
-                className="px-4 py-2.5 text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
+                className="px-4 py-2.5 text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Pricing
               </a>
               <a
                 href="#testimonials"
-                className="px-4 py-2.5 text-body-sm font-medium text-[var(--slate)] hover:text-[var(--charcoal)] hover:bg-[var(--cream-dark)] rounded-lg transition-colors"
+                className="px-4 py-2.5 text-body-sm font-medium text-[var(--grey-600)] hover:text-[var(--grey-900)] hover:bg-[var(--grey-100)] rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Testimonials

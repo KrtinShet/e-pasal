@@ -80,7 +80,7 @@ export function RecentOrdersTable({ orders }: { orders: RecentOrder[] }) {
                 <td>
                   <Link
                     href={`/orders/${order._id}`}
-                    className="text-[0.875rem] font-bold text-[var(--grey-900)] hover:text-[var(--color-primary)] transition-colors link-underline"
+                    className="text-[0.875rem] font-bold text-[var(--grey-900)] hover:text-[var(--primary-main)] transition-colors link-underline"
                   >
                     {order.orderNumber}
                   </Link>

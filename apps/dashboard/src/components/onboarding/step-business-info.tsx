@@ -13,10 +13,8 @@ export function StepBusinessInfo({ data, updateField }: StepBusinessInfoProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mb-1">
-          Business information
-        </h3>
-        <p className="text-sm text-[var(--color-text-secondary)]">
+        <h3 className="text-xl font-semibold text-[var(--grey-900)] mb-1">Business information</h3>
+        <p className="text-sm text-[var(--grey-500)]">
           Add your contact details so customers can reach you. You can skip this for now.
         </p>
       </div>

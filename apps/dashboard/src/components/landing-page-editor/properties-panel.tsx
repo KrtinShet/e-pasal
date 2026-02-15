@@ -1,10 +1,9 @@
 'use client';
 
 import { motion, AnimatePresence } from 'motion/react';
-import { X, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
-
-import type { SectionConfig, ElementStyleOverride } from '@baazarify/storefront-builder';
 import { getSection } from '@baazarify/storefront-builder';
+import { X, AlignLeft, AlignRight, AlignCenter } from 'lucide-react';
+import type { SectionConfig, ElementStyleOverride } from '@baazarify/storefront-builder';
 
 interface PropertiesPanelProps {
   selectedSection: SectionConfig | null;
@@ -33,7 +32,7 @@ function SectionProperties({
   if (!definition) return null;
 
   const editableEntries = Object.entries(section.props).filter(
-    ([key]) => key !== 'className' && key !== 'variant',
+    ([key]) => key !== 'className' && key !== 'variant'
   );
 
   const handleVariantChange = (variant: string) => {
@@ -274,7 +273,9 @@ export function PropertiesPanel({
   onClose,
 }: PropertiesPanelProps) {
   const isOpen = selectedSection !== null || selectedElementPath !== null;
-  const currentElementStyles = selectedElementPath ? elementStyles?.[selectedElementPath] || {} : {};
+  const currentElementStyles = selectedElementPath
+    ? elementStyles?.[selectedElementPath] || {}
+    : {};
 
   return (
     <AnimatePresence>
