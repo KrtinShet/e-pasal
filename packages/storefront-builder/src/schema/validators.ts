@@ -5,16 +5,21 @@ export const sectionConfigSchema = z.object({
   type: z.string().min(1),
   props: z.record(z.unknown()),
   visible: z.boolean(),
-  elementStyles: z.record(z.string(), z.object({
-    fontSize: z.string().optional(),
-    fontWeight: z.string().optional(),
-    color: z.string().optional(),
-    textAlign: z.string().optional(),
-    padding: z.string().optional(),
-    margin: z.string().optional(),
-    borderRadius: z.string().optional(),
-    lineHeight: z.string().optional(),
-  })).optional(),
+  elementStyles: z
+    .record(
+      z.string(),
+      z.object({
+        fontSize: z.string().optional(),
+        fontWeight: z.string().optional(),
+        color: z.string().optional(),
+        textAlign: z.string().optional(),
+        padding: z.string().optional(),
+        margin: z.string().optional(),
+        borderRadius: z.string().optional(),
+        lineHeight: z.string().optional(),
+      })
+    )
+    .optional(),
 });
 
 export const pageSeoSchema = z.object({

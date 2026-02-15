@@ -11,10 +11,10 @@ export {
   InlineSelect,
   InlineToggle,
   InlineNumber,
+  EditableElement,
   useSectionEditor,
   PageEditProvider,
   InlineItemActions,
   InlineListToolbar,
   SectionEditProvider,
-  EditableElement,
 } from './edit-context';

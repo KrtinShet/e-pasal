@@ -2,8 +2,8 @@
 
 import { cn } from '@baazarify/ui';
 import { useState, type ReactNode } from 'react';
-import { Trash2, ChevronUp, ChevronDown, GripVertical } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Trash2, ChevronUp, ChevronDown, GripVertical } from 'lucide-react';
 
 import { getSection } from '../schema/section-registry';
 

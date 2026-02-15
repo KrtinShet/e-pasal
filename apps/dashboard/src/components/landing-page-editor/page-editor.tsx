@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useState, useEffect, useCallback } from 'react';
-import { X, Home, Plus, Layers, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { X, Home, Plus, Layers, FileText } from 'lucide-react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import {
   getSection,
   PageRenderer,
@@ -14,14 +14,14 @@ import {
 
 import { apiRequest } from '@/lib/api';
 
-import { AIChat } from './ai-chat';
 import { Canvas } from './canvas';
+import { AIChat } from './ai-chat';
 import { Toolbar } from './toolbar';
 import { useHistory } from './use-history';
 import type { DeviceMode } from './canvas';
+import { PropertiesPanel } from './properties-panel';
 import { AIGenerateModal } from './ai-generate-modal';
 import { AddSectionPanel } from './add-section-panel';
-import { PropertiesPanel } from './properties-panel';
 import { DraggableSectionList } from './draggable-section-list';
 
 interface PageEditorProps {
@@ -770,7 +770,9 @@ export function PageEditor({ initialConfig, initialPublishedPageIds }: PageEdito
           >
             <span
               className={`text-sm font-semibold ${
-                message.type === 'success' ? 'text-[var(--success-main)]' : 'text-[var(--error-main)]'
+                message.type === 'success'
+                  ? 'text-[var(--success-main)]'
+                  : 'text-[var(--error-main)]'
               }`}
             >
               {message.text}

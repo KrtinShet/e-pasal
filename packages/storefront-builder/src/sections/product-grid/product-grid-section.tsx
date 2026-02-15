@@ -7,10 +7,10 @@ import {
   InlineText,
   InlineImage,
   InlineNumber,
+  EditableElement,
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
-  EditableElement,
 } from '../../renderer';
 
 export interface ProductItem {

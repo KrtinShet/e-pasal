@@ -90,7 +90,14 @@ export function PageEditProvider({
       onElementSelect,
       onElementStyleChange,
     }),
-    [editMode, selectedElementPath, onSectionSelect, onSectionPropsChange, onElementSelect, onElementStyleChange]
+    [
+      editMode,
+      selectedElementPath,
+      onSectionSelect,
+      onSectionPropsChange,
+      onElementSelect,
+      onElementStyleChange,
+    ]
   );
 
   return <PageEditContext.Provider value={value}>{children}</PageEditContext.Provider>;
@@ -157,9 +164,7 @@ export function SectionEditProvider({ children, section }: SectionEditProviderPr
   }, [page, section.id]);
 
   const getElementStyle = useCallback(
-    (path: string) => {
-      return section.elementStyles?.[path];
-    },
+    (path: string) => section.elementStyles?.[path],
     [section.elementStyles]
   );
 

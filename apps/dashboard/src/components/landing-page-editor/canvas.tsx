@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useCallback, type ReactNode } from 'react';
 import { motion } from 'motion/react';
+import { useRef, useCallback, type ReactNode } from 'react';
 
 export type DeviceMode = 'desktop' | 'tablet' | 'mobile';
 
@@ -49,8 +49,8 @@ export function Canvas({ children, device, zoom, onZoomChange }: CanvasProps) {
         <motion.div
           className="bg-white shadow-2xl rounded-lg overflow-hidden origin-top"
           animate={{
-            width: width,
-            scale: scale,
+            width,
+            scale,
           }}
           transition={{ type: 'spring', stiffness: 200, damping: 25 }}
           style={{ transformOrigin: 'top center' }}

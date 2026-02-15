@@ -3,7 +3,11 @@
 import { X, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { getAllSections, type SectionDefinition, type SectionCategory } from '@baazarify/storefront-builder';
+import {
+  getAllSections,
+  type SectionCategory,
+  type SectionDefinition,
+} from '@baazarify/storefront-builder';
 
 interface AddSectionPanelProps {
   open: boolean;
@@ -39,16 +43,20 @@ export function AddSectionPanel({ open, onClose, onAdd }: AddSectionPanelProps) 
 
   const sections = useMemo(() => getAllSections(), []);
 
-  const filteredSections = useMemo(() => sections.filter((section) => {
-      const matchesSearch =
-        searchQuery === '' ||
-        section.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        section.description.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredSections = useMemo(
+    () =>
+      sections.filter((section) => {
+        const matchesSearch =
+          searchQuery === '' ||
+          section.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          section.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesCategory = selectedCategory === 'all' || section.category === selectedCategory;
+        const matchesCategory = selectedCategory === 'all' || section.category === selectedCategory;
 
-      return matchesSearch && matchesCategory;
-    }), [sections, searchQuery, selectedCategory]);
+        return matchesSearch && matchesCategory;
+      }),
+    [sections, searchQuery, selectedCategory]
+  );
 
   const handleAddSection = (type: string) => {
     onAdd(type);

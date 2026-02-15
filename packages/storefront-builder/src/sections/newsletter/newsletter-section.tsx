@@ -3,7 +3,7 @@
 import { cn } from '@baazarify/ui';
 
 import type { BaseSectionProps } from '../types';
-import { InlineText, useSectionEditor, EditableElement } from '../../renderer';
+import { InlineText, EditableElement, useSectionEditor } from '../../renderer';
 
 export interface NewsletterSectionProps extends BaseSectionProps {
   title?: string;

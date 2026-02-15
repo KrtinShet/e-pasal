@@ -7,10 +7,10 @@ import {
   InlineText,
   InlineImage,
   InlineSelect,
+  EditableElement,
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
-  EditableElement,
 } from '../../renderer';
 
 export type GalleryVariant = 'grid' | 'masonry' | 'carousel';

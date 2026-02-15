@@ -5,10 +5,10 @@ import { cn } from '@baazarify/ui';
 import type { BaseSectionProps } from '../types';
 import {
   InlineText,
+  EditableElement,
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
-  EditableElement,
 } from '../../renderer';
 
 export interface StatItem {

@@ -8,10 +8,10 @@ import {
   InlineImage,
   InlineSelect,
   InlineNumber,
+  EditableElement,
   useSectionEditor,
   InlineItemActions,
   InlineListToolbar,
-  EditableElement,
 } from '../../renderer';
 
 export type TestimonialsVariant = 'carousel' | 'grid';
